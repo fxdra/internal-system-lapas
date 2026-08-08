@@ -33,8 +33,6 @@ class AdminController extends Controller
             ->with('success', 'Berhasil logout');
     }
 
-
-
     public function submitFormAdmin(Request $request)
     {
         $request->validate([
@@ -59,7 +57,7 @@ class AdminController extends Controller
 
         return redirect()->back()
             ->withErrors([
-                'nip' => 'NIP tidak terdaftar, password salah, atau role tidak sesuai.',
+                'nip' => 'NIP atau password tidak sesuai.',
             ])
             ->withInput();
     }

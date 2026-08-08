@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 class ManajemenPenggunaController extends Controller
 {
-    /**
+    /*
      * Batas maksimal akun aktif setiap role.
      * Superadmin tidak dibatasi.
      */
@@ -30,7 +30,12 @@ class ManajemenPenggunaController extends Controller
     {
         $users = Admin::orderBy('role')
             ->orderBy('nama')
-            ->get();
+            ->get()
+            ->map(function ($user) {
+                $user->role_label = $this->getRoleLabel($user->role);
+
+                return $user;
+            });
 
         return view('admin-banceuy.manajemen-pengguna', compact('users'));
     }

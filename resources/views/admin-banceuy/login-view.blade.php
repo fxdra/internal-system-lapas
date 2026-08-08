@@ -30,6 +30,26 @@
    <script src="https:oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
    <script src="https:oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
+    <style>
+        .login-error {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 20px;
+
+            color: #dc3545;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .login-error i {
+            flex-shrink: 0;
+            font-size: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -47,15 +67,29 @@
                                 <img src="../../../assets/images/logo-abbr.png" alt="" class="img-fluid">
                             </div>
                             <div class="creative-card-body card-body p-sm-5">
-                                <h2 class="fs-20 fw-bolder mb-4">Admin Panel</h2>
-                                <h4 class="fs-13 fw-bold mb-2">Login ke Aplikasi Admin Panel</h4>
-                                <p class="fs-12 fw-medium text-muted">Semoga Kegiatan Hari Ini dilancarkan Aammiinnn....!!</p>
+                                <h2 class="fs-20 fw-bolder mb-4">Internal System Lapas Banceuy</h2>
+
+                                <h4 class="fs-13 fw-bold mb-2">
+                                    Selamat Datang di Sistem Informasi Internal
+                                </h4>
+
+                                <p class="fs-12 fw-medium text-muted">
+                                    Silakan masuk menggunakan NIP dan password Anda untuk mengakses sistem.
+                                </p>
                                 <form action="/admin-login" method="POST" class="w-100 mt-4 pt-2">
                                     @csrf
 
+                                    @if ($errors->any())
+                                        <div class="login-error mb-4">
+                                            <i class="feather-alert-circle"></i>
+                                            <span>{{ $errors->first() }}</span>
+                                        </div>
+                                    @endif
+
                                     <div class="mb-4">
                                         <input type="text" name="nip" class="form-control"
-                                            placeholder="Input Nomor Induk Pegawai" required>
+                                            placeholder="Input Nomor Induk Pegawai" value="{{ old('nip') }}"
+                                            required>
                                     </div>
 
                                     <div class="mb-3">

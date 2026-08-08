@@ -10,12 +10,12 @@ class PetugasKplpController extends Controller
 {
     public function index()
     {
-       $petugas = Admin::whereIn('role', [
+        $petugas = Admin::whereIn('role', [
             'kplp',
             'ka. kplp'
         ])
-        ->latest()
-        ->get();
+            ->latest()
+            ->get();
 
         return view('admin-banceuy.petugas-kplp', compact('petugas'));
     }
@@ -26,7 +26,7 @@ class PetugasKplpController extends Controller
 
         $rules = [
             'nama' => 'required|max:255',
-            'nip' => 'required|max:255|unique:admins,nip,',
+            'nip' => 'required|max:255|unique:admins,nip,' . $id,
         ];
 
         // password wajib saat create
