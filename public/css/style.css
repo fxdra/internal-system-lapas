@@ -1,0 +1,604 @@
+ :root {
+            --primary: {{ $setting->warna_utama ?? '#0d6efd' }};
+            --glass: rgba(20, 19, 19, 0.08);
+            --glass-border: rgba(0, 0, 0, 0.418);
+            --muted: rgba(7, 1, 1, 0.75);
+        }
+
+        html,
+        body {
+           background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(255, 255, 255, 0.25), transparent 55%),
+    radial-gradient(900px 500px at 90% 20%, rgba(255, 255, 255, 0.18), transparent 60%),
+    #f8f9fa; /* background dasar putih lembut */
+
+            overflow-x: hidden;
+            padding-top: 80px;
+
+        }
+
+        .button-custom {
+            background: rgba(13, 110, 253, .18);
+            border: 1px solid rgba(13, 110, 253, .35);
+        }
+
+        .button-custom:hover {
+            background: rgba(13, 110, 253, .18);
+            border: 1px solid rgba(13, 110, 253, .35);
+            color: gold;
+        }
+
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .btn-primary {
+            background: var(--glass) !important;
+            border-color: var(--glass) !important;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+
+        /* ================== TOPBAR (STICKY + GLASS) ================== */
+
+        .top-bar {
+            height: 38px;
+            display: flex;
+            align-items: center;
+            z-index: 1055;
+
+            background: transparent;
+            backdrop-filter: blur(10px);
+            transition: background .3s ease, box-shadow .3s ease;
+        }
+
+
+        /* ================== NAVBAR (STICKY + GLASS) ================== */
+        .navbar-glass {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1050;
+
+            background: transparent;
+            backdrop-filter: blur(10px);
+            transition: background .3s ease, box-shadow .3s ease;
+        }
+        
+        
+        
+
+        .main-navbar .navbar-nav > li > a {
+            color: #384959; /* warna teks menu utama */
+            transition: color 0.3s;
+        }
+
+        .navbar-glass.scrolled .navbar-nav > li > a {
+            color: #fff; /* teks menu putih saat scroll */
+        }
+
+
+        /* Default: belum scroll */
+        .top-bar .jam {
+            color: #384959; /* gelap */
+            transition: color 0.3s; /* smooth perubahan warna */
+        }
+
+        /* Saat scroll: navbar dan top-bar mendapat class scrolled */
+        .top-bar.scrolled .jam {
+            color: #fff; /* putih saat scroll */
+        }
+
+
+
+        .main-navbar .navbar-nav > li > a:hover,
+        .main-navbar .navbar-nav > li > a:focus {
+            color: #dfca12; /* warna saat hover/focus */
+        }
+
+        .main-navbar .dropdown-menu-dark .dropdown-item {
+            color: rgb(182, 173, 145); /* teks dropdown */
+        }
+
+
+
+        .text-wrap{
+            color: #ddd7c3;
+        }
+
+        .navbar-glass.scrolled {
+            background: #384959;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .45);
+        }
+
+
+        /* saat scroll */
+        .navbar-glass.scrolled {
+            background: #384959;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .45);
+        }
+
+        .navbar-blur {
+            background: rgba(0, 0, 0, .45);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(12, 12, 12, 0.06);
+        }
+
+        .brand-logo {
+            height: 42px;
+            width: 42px;
+            object-fit: contain;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: gold;
+        }
+
+        /* ================== HERO RESPONSIVE FIX ================== */
+        .hero-slide {
+            position: relative;
+            border-radius: 22px;
+            overflow: clip;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.02);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg,
+                    rgba(0, 0, 0, .88) 0%,
+                    rgba(0, 0, 0, .60) 55%,
+                    rgba(0, 0, 0, .30) 100%);
+        }
+
+        .hero-title {
+            font-size: clamp(1.35rem, 3.4vw, 3rem);
+            line-height: 1.15;
+            letter-spacing: .2px;
+        }
+
+        .hero-desc {
+            font-size: clamp(.95rem, 1.2vw, 1.15rem);
+            line-height: 1.6;
+            max-width: 60ch;
+            color: rgba(255, 255, 255, .78);
+        }
+
+        .badge-soft {
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid rgba(12, 12, 12, 0.06);
+            color: #fff;
+            backdrop-filter: blur(10px);
+        }
+
+        .glass-card {
+            background: rgba(12, 12, 12, 0.06);
+            border: 1px solid rgba(12, 12, 12, 0.06);
+            border-radius: 18px;
+            backdrop-filter: blur(14px);
+            color: #fff;
+        }
+
+        .mini-box {
+            border-radius: 16px;
+            background: rgba(0, 0, 0, .25);
+            border: 1px solid rgba(12, 12, 12, 0.06);
+            transition: .2s ease;
+        }
+
+        .mini-box:hover {
+            transform: translateY(-2px);
+        }
+
+        /* marquee */
+        .marquee-wrap {
+            border-radius: 16px;
+            background: rgb(105, 119, 126);
+            border: 1px solid rgba(12, 12, 12, 0.06);
+            overflow: hidden;
+        }
+
+        .marquee {
+            white-space: nowrap;
+            display: inline-block;
+            animation: scroll 16s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* ================== MENU CARDS ================== */
+        .menu-card {
+            border-radius: 22px;
+            background: rgb(105, 119, 126);
+            border: 1px solid rgba(22, 22, 22, 0.288);
+            transition: .25s ease;
+            height: 100%;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, .18);
+            color: rgba(255, 217, 0, 0.795);
+            box-shadow: 0 15px 15px rgb(22, 22, 22);
+        }
+
+        .menu-icon {
+            height: 54px;
+            width: 54px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: rgba(13, 110, 253, .18);
+            border: 1px solid rgba(13, 110, 253, .35);
+        }
+
+        .menu-icon i {
+            font-size: 1.4rem;
+        }
+
+        /* ================== INFO SECTION ================== */
+        .info-card {
+            border-radius: 22px;
+               background: rgb(105, 119, 126);
+            border: 1px solid rgba(12, 12, 12, 0.06);
+        }
+
+        /* ================== FOOTER ================== */
+        footer {
+            border-top: 1px solid rgba(12, 12, 12, 0.06);
+            background: #384959;
+        }
+
+
+        .header-text-1,
+        .header-text-2 {
+            font-size: 14px;
+            line-height: 1.1;
+            color: darkgoldenrod;
+        }
+
+
+
+
+        @media (max-width: 1399px) {
+            .navbar-nav .nav-link {
+                font-size: 0.9rem;
+                /* lebih kecil, rapi */
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                letter-spacing: 0.3px;
+            }
+
+            .navbar-nav .dropdown-menu .dropdown-item {
+                font-size: 0.9rem;
+            }
+        }
+
+
+        @media (max-width: 1199px) {
+            .navbar-nav .nav-link {
+                font-size: 0.6rem;
+                /* lebih kecil, rapi */
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                letter-spacing: 0.3px;
+            }
+
+            .navbar-nav .dropdown-menu .dropdown-item {
+                font-size: 0.85rem;
+            }
+        }
+
+
+
+
+        /* hide footer logo on HP */
+        @media (max-width: 576px) {
+            #image-footer-skuy {
+                display: none !important;
+            }
+
+            .hero-slide {
+                min-height: 520px;
+                align-items: flex-end;
+            }
+
+            .hero-title {
+                font-size: 1.25rem;
+            }
+
+            .hero-desc {
+                font-size: .95rem;
+                max-width: 100%;
+            }
+
+            .hero-btn-wrap {
+                display: grid;
+                gap: 10px;
+            }
+
+            .glass-card {
+                padding: 14px !important;
+            }
+
+
+            .header-text-1,
+            .header-text-2 {
+                font-size: 13px;
+                line-height: 1.25;
+                color: white;
+            }
+
+            .kegiatan-footer {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+
+
+            .kegiatan-footer p {
+                font-size: 12px;
+            }
+
+            .navbar-glass {
+                display: none;
+            }
+
+
+
+            html,
+            body {
+                padding-top: 35px;
+            }
+        }
+
+        /* tablet: status kanan hide */
+        @media (min-width: 577px) and (max-width: 991px) {
+            .hero-slide {
+                min-height: 480px;
+            }
+
+            .hero-status-col {
+                display: none !important;
+            }
+
+            .hero-desc {
+                max-width: 65ch;
+            }
+        }
+
+
+        /* ================== TAMBAHAN (MOBILE HEADER + OFFCANVAS NYATU SAMA BODY) ================== */
+        /* ================== MOBILE HEADER + OFFCANVAS FULL FIXED ================== */
+
+
+/* Hamburger sebelum scroll (warna gelap #384959) */
+.navbar-mobile-glass .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23384959' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    transition: background-image 0.3s ease;
+}
+
+/* Hamburger saat scroll (putih) */
+.navbar-mobile-glass.scrolled .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Offcanvas Glass */
+.offcanvas-glass {
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(13, 110, 253, .18), transparent 55%),
+                radial-gradient(900px 500px at 90% 20%, rgba(32, 201, 151, .12), transparent 60%),
+                rgba(33, 43, 63, 0.92);
+    backdrop-filter: blur(14px);
+    border-left: 1px solid rgba(255, 255, 255, .10);
+}
+
+/* Header offcanvas */
+.offcanvas-glass .offcanvas-header {
+    background: rgba(0, 0, 0, .25);
+    backdrop-filter: blur(12px);
+}
+
+/* Nav-link offcanvas */
+.offcanvas-glass .nav-link {
+    border-radius: 14px;
+    padding: 10px 12px;
+    color: #384959; /* gelap normal */
+    transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover nav-link */
+.offcanvas-glass .nav-link:hover {
+    background: rgba(255, 255, 255, .08);
+    color: #fff; /* teks hover putih agar kontras */
+    transform: translateX(2px);
+}
+
+
+         /* ================= MENU ANIMATION (SLOW & SMOOTH) ================= */
+
+        .menu-card {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: transform .6s ease, box-shadow .6s ease;
+        }
+
+        /* Saat muncul (lebih lambat & elegan) */
+        .menu-card.show {
+            opacity: 1;
+            transform: translateY(0);
+            transition:
+                opacity 1.2s ease,
+                transform 1.2s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        /* Hover animation lebih hidup */
+        .menu-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Tambahan animasi icon saat hover */
+        .menu-card:hover .menu-icon {
+            transform: scale(1.12) translateY(-3px);
+        }
+
+        .menu-icon {
+            transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+        }
+
+
+        /* ================= INFORMASI ANIMATION FIX ================= */
+        /* ================= TITLE GOLD HOVER ================= */
+
+        .info-card h4 {
+            transition: all .4s ease;
+        }
+
+        /* Saat card di-hover → title jadi emas */
+        .info-card:hover h4 {
+            background: linear-gradient(90deg, #d4af37, #ffd700, #f5d76e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-card {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        /* Muncul */
+        .info-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover tetap smooth */
+        .info-card:hover {
+            transform: translateY(-8px);
+            transition: transform .4s ease, box-shadow .4s ease;
+        }
+
+
+        /* ================= BERITA ANIMATION FIX ================= */
+
+        .berita-card {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(.22, 1, .36, 1);
+            will-change: transform, opacity;
+        }
+
+        .berita-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover */
+        .berita-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Zoom gambar */
+        .berita-card img {
+            transition: transform .8s ease;
+        }
+
+        .berita-card:hover img {
+            transform: scale(1.08);
+        }
+
+
+        /* ================== BERITA CARD HOVER ================== */
+
+        .berita-card {
+            transition: transform .25s ease, box-shadow .25s ease, border .25s ease;
+            border: 1px solid rgba(12, 12, 12, 0.06);
+        }
+
+
+
+        /* pastikan image tidak keluar card */
+        .berita-card {
+            overflow: hidden;
+        }
+
+        .berita-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
+            border-color: rgba(12, 12, 12, 0.06);
+            /* gold border */
+        }
+
+
+
+        /* warna default */
+        .berita-card .berita-date,
+        .berita-card .berita-excerpt {
+            transition: color .25s ease;
+        }
+
+        .berita-card .berita-title {
+            transition: color .25s ease;
+        }
+
+        /* hover → gold */
+        .berita-card:hover .berita-title,
+        .berita-card:hover .berita-excerpt,
+        .berita-card:hover .berita-date {
+            color: #d4af37 !important;
+            /* gold */
+        }
+
+        /* Slick dots rapih */
+        .berita-slick .slick-dots {
+            bottom: -35px;
+        }
+
+        .berita-slick .slick-dots li button:before {
+            font-size: 10px;
+            opacity: .5;
+            color: white;
+        }
+
+        .berita-slick .slick-dots li.slick-active button:before {
+            opacity: 1;
+            color: white;
+        }
+
+        @media (max-width: 1397px) {
+            .vavbar .collapse ul li a {
+                font-size: 0.5em;
+            }
+        }
+
+        @media (max-width: 579px) {
+            .mobile-card {
+                padding-inline: 40px;
+                border-radius: 16px;
+            }
+        }
