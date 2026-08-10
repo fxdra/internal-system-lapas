@@ -35,9 +35,9 @@ Route::post('/register-backoffice', [AuthController::class, 'register'])->name('
 
 
 
- // notifikasi
-    Route::get('/bon/latest', [BonWbpController::class, 'latest']);
-    
+// notifikasi
+Route::get('/bon/latest', [BonWbpController::class, 'latest']);
+
 
 Route::post(
     '/tracking/upload',
@@ -48,33 +48,29 @@ Route::post(
 );
 
 
-
-
-
-
 // Semua route berikut hanya bisa diakses setelah login (token valid)
 // 🔐 PROTECTED
 Route::middleware('auth:sanctum')->group(function () {
-    
+
     Route::post('/fcm-token', [FcmController::class, 'store']);
     // Bon wbp
     Route::post('/wbps/bon', [DataWbpController::class, 'bonWbp']);
-    
-    
+
+
     // close bonWbp
     Route::post('/close-bon/{id}', [BonWbpController::class, 'closeBon']);
-    
-    
-    // tracking 
+
+
+    // tracking
     Route::post('/tracking/store', [BonWbpController::class, 'storeTracking']);
-    
-    
-    
-     // LIST APPROVAL
+
+
+
+    // LIST APPROVAL
     Route::get('/bon-approval', [BonWbpController::class, 'approvalList']);
 
     Route::get('/bon-aktif', [BonWbpController::class, 'getApproveBon']);
-    
+
     Route::get('/bon-cancel', [BonWbpController::class, 'getCancelBon']);
 
     // APPROVE
@@ -82,13 +78,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // REJECT
     Route::post('/bon/{id}/reject', [BonWbpController::class, 'reject']);
-    
+
     // semua log (latest 100)
     Route::get('/bon-logs', [BonWbpController::class, 'getLogBon']);
 
     // log per BON
     Route::get('/bon-logs/{bonWbpId}', [BonWbpController::class, 'showDataLog']);
-    
+
     Route::get('/data-kamar', [LaporanController::class, 'dataKamar']);
     Route::get('/statistik-data', [LaporanController::class, 'dataStatistikWbp']);
     Route::post('/refresh-token', [LaporanController::class, 'refreshToken']);
@@ -103,24 +99,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/mutasi/store', [MutasiController::class, 'store']);
     Route::post('/mutasi/update-kamar', [MutasiController::class, 'updateKamar']);
     Route::post('/mutasi/update-alasan', [MutasiController::class, 'updateAlasan']);
-    
+
     Route::post('/wbp/upload-foto', [LaporanController::class, 'uploadFotoWbp']);
-    
-    
+
+
     Route::post('/scenario/simulate', [MutasiScenarioController::class, 'simulate']);
     Route::get('/scenario/{id}', [MutasiScenarioController::class, 'result']);
-    
-    
-    
+
+
+
     // ================= PETUGAS =================
     Route::get('/bon', [BonWbpController::class, 'index']);
     Route::post('/bon', [BonWbpController::class, 'store']);
     Route::get('/bon/{id}', [BonWbpController::class, 'show']);
     Route::post('/bon/{id}/tracking', [BonWbpController::class, 'tracking']);
     Route::post('/bon/{id}/selesai', [KomandanJagaController::class, 'selesai']);
-  
-  
-    
 });
 
 

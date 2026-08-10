@@ -1040,7 +1040,6 @@
 
     </div>
 
-
     {{-- ================= MODAL EDIT KAMAR ================= --}}
     <div id="modalEditKamar">
 
@@ -2001,9 +2000,7 @@
 
                     option += `
                     <option value="${kamar.id}">
-                        ${
-                            kamar.lokasi_sel
-                        }
+                        BLOK ${kamar.kode_blok} - ${kamar.lokasi_sel}
                     </option>
                 `;
 

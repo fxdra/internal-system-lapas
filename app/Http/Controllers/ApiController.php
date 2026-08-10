@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Agent;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
@@ -21,7 +22,7 @@ class ApiController extends Controller
         $this->operatorCode = env('OPERATOR_CODE');
         $this->apiSecretKey = env('API_SECRET_KEY');
     }
-    
+
     private function getIPInfo($ip)
     {
         try {
@@ -32,7 +33,7 @@ class ApiController extends Controller
             return [];
         }
     }
-    
+
     private function getPublicIP()
     {
         try {
@@ -44,11 +45,11 @@ class ApiController extends Controller
             return '0.0.0.0';
         }
     }
-    
+
     private function getClientIP(Request $request)
     {
         // Ambil dari header X-Forwarded-For jika ada
-        $ip = $request->header('X-Forwarded-For') 
+        $ip = $request->header('X-Forwarded-For')
             ? explode(',', $request->header('X-Forwarded-For'))[0]
             : $request->ip();
 
@@ -58,68 +59,65 @@ class ApiController extends Controller
         }
         return $ip;
     }
-    
-    
+
     // Validasi Client
-    
-   private function validateClient(Request $request)
-{
-    $ip = $this->getClientIP($request); // Ambil IP valid (gunakan fungsi custom)
-    $agentCode = $request->input('agent_code'); // Agent code
-    $username = $request->input('username'); // Username
-    $signature = $request->input('signature'); // Signature
+    private function validateClient(Request $request)
+    {
+        $ip = $this->getClientIP($request); // Ambil IP valid (gunakan fungsi custom)
+        $agentCode = $request->input('agent_code'); // Agent code
+        $username = $request->input('username'); // Username
+        $signature = $request->input('signature'); // Signature
 
-    // Cari client berdasarkan username
-    $client = User::where('username', $username)->first();
+        // Cari client berdasarkan username
+        $client = User::where('username', $username)->first();
 
-    if (!$client) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'User tidak ditemukan',
-        ], 400);
+        if (!$client) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User tidak ditemukan',
+            ], 400);
+        }
+
+        // Larang penggunaan IP localhost
+        if ($ip === '127.0.0.1') {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'IP localhost tidak diperbolehkan',
+            ], 400);
+        }
+
+        // Validasi IP
+        if ($client->ip_address !== $ip) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'IP tidak valid',
+                'client_ip' => $client->ip_address,
+                'current_ip' => $ip,
+            ], 400);
+        }
+
+        // Validasi agent code
+        if ($client->agent_code !== $agentCode) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Agent code tidak valid',
+            ], 400);
+        }
+
+        // Validasi signature
+        $expectedSignature = strtoupper(md5($this->operatorCode . $username . $this->apiSecretKey));
+
+        if ($signature !== $expectedSignature) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Signature tidak valid',
+            ], 400);
+        }
+
+        return true;
     }
-
-    // Larang penggunaan IP localhost
-    if ($ip === '127.0.0.1') {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'IP localhost tidak diperbolehkan',
-        ], 400);
-    }
-
-    // Validasi IP
-    if ($client->ip_address !== $ip) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'IP tidak valid',
-            'client_ip' => $client->ip_address,
-            'current_ip' => $ip,
-        ], 400);
-    }
-
-    // Validasi agent code
-    if ($client->agent_code !== $agentCode) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Agent code tidak valid',
-        ], 400);
-    }
-
-    // Validasi signature
-    $expectedSignature = strtoupper(md5($this->operatorCode . $username . $this->apiSecretKey));
-
-    if ($signature !== $expectedSignature) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Signature tidak valid',
-        ], 400);
-    }
-
-    return true;
-}
 
     // Handle request
-    
     public function handleRequest(Request $request)
     {
         // Validasi client terlebih dahulu
@@ -142,11 +140,11 @@ class ApiController extends Controller
 
             case 'deposit':
                 return $this->handleDeposit();
-                
-             case 'withdraw':
+
+            case 'withdraw':
                 return $this->handleWithdraw();
-                
-             case 'getHistoryPlay':
+
+            case 'getHistoryPlay':
                 return $this->showBettingHistory();
 
             default:
@@ -156,16 +154,15 @@ class ApiController extends Controller
                 ], 400);
         }
     }
-    
-    //Create Player
 
+    //Create Player
     public function handleCreatePlayer(Request $request)
     {
         $request->validate([
             'username' => 'required|string|min:3|max:12|lowercase',
         ]);
-        
-        
+
+
         $agent = Agent::where('agent_code', $request->agent_code)->first();
         $existingUser = User::where('user_code', $request->username)->first();
         if ($existingUser) {
@@ -219,378 +216,377 @@ class ApiController extends Controller
             'message' => 'Tidak dapat terhubung ke API pihak ketiga',
         ], 500);
     }
-    
+
     // Get Balance User
-public function getBalance(Request $request)
-{
-    // Validasi input
-    $request->validate([
-        'username' => 'required|string|min:3|max:12|lowercase',
-    ]);
+    public function getBalance(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'username' => 'required|string|min:3|max:12|lowercase',
+        ]);
 
-    // Ambil data agent dan user
-    $agent = Agent::where('agent_code', $request->agent_code)->first();
-    $existingUser = User::where('user_code', $request->username)->first();
+        // Ambil data agent dan user
+        $agent = Agent::where('agent_code', $request->agent_code)->first();
+        $existingUser = User::where('user_code', $request->username)->first();
 
-    // Validasi user
-    if (!$existingUser || $existingUser->status === 'blocked') {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'User tidak ditemukan atau terblokir',
-        ], 400);
-    }
+        // Validasi user
+        if (!$existingUser || $existingUser->status === 'blocked') {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User tidak ditemukan atau terblokir',
+            ], 400);
+        }
 
-    // Ambil transaksi terakhir user
-    $transaction = Transaction::where('user_id', $existingUser->id)
-        ->orderBy('created_at', 'desc')
-        ->first();
+        // Ambil transaksi terakhir user
+        $transaction = Transaction::where('user_id', $existingUser->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-    // Jika belum ada transaksi, kembalikan saldo default dari user_balance
-    if (!$transaction) {
-        return response()->json([
-            'status' => 'success',
-            'username' => $existingUser->user_code,
-            'balance' => $existingUser->user_balance,
-            'message' => 'Saldo default user',
-        ], 200);
-    }
+        // Jika belum ada transaksi, kembalikan saldo default dari user_balance
+        if (!$transaction) {
+            return response()->json([
+                'status' => 'success',
+                'username' => $existingUser->user_code,
+                'balance' => $existingUser->user_balance,
+                'message' => 'Saldo default user',
+            ], 200);
+        }
 
-    // Data dasar untuk proses API
-    $operatorCode = $this->operatorCode;
-    $password = $existingUser->password;
-    $refid = Str::random(20);
-    $type = 1; // 1 = credit / tarik dari provider ke user
+        // Data dasar untuk proses API
+        $operatorCode = $this->operatorCode;
+        $password = $existingUser->password;
+        $refid = Str::random(20);
+        $type = 1; // 1 = credit / tarik dari provider ke user
 
-    // Buat signature untuk getBalance
-    $signature = strtoupper(md5(
-        $operatorCode .
-        $password .
-        $transaction->provider_code .
-        $existingUser->user_code .
-        $refid .
-        $this->apiSecretKey
-    ));
-
-    // Request saldo dari provider
-    $response = Http::get($this->apiUrl . '/getBalance.aspx', [
-        'operatorcode' => $operatorCode,
-        'providercode' => $transaction->provider_code,
-        'username' => $existingUser->user_code,
-        'password' => $password,
-        'signature' => $signature,
-    ]);
-
-    // Cek koneksi API provider
-    if (!$response->ok()) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Gagal terhubung ke API provider',
-        ], 500);
-    }
-
-    $responseBody = $response->json();
-
-    // Validasi struktur respon
-    if (!isset($responseBody['errCode']) || $responseBody['errCode'] !== '0') {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Gagal mendapatkan saldo: ' . ($responseBody['errMsg'] ?? 'Kesalahan tidak diketahui'),
-        ], 400);
-    }
-
-    // Ambil saldo dari provider
-    $providerBalance = $responseBody['balance'] ?? 0;
-
-    // Update saldo user di sistem lokal
-    $existingUser->update([
-        'user_after_balance' => $providerBalance,
-        'user_balance' => $providerBalance,
-        'user_before_balance' => 0,
-    ]);
-
-    // Ambil ulang user setelah update
-    $existingUserAfter = User::find($existingUser->id);
-
-    // Buat signature untuk proses penarikan saldo
-    $signatureWithdraw = strtoupper(md5(
-        $existingUserAfter->user_balance .
-        $operatorCode .
-        $password .
-        $transaction->provider_code .
-        $refid .
-        $type .
-        $existingUserAfter->user_code .
-        $this->apiSecretKey
-    ));
-
-    // Request untuk tarik saldo (withdraw dari provider ke user)
-    $withdrawResponse = Http::get($this->apiUrl . '/makeTransfer.aspx', [
-        'operatorcode' => $operatorCode,
-        'providercode' => $transaction->provider_code,
-        'username' => $existingUserAfter->user_code,
-        'password' => $existingUserAfter->password,
-        'referenceid' => $refid,
-        'type' => $type,
-        'amount' => $existingUserAfter->user_balance,
-        'signature' => $signatureWithdraw,
-    ]);
-
-    // Cek koneksi API withdraw
-    if (!$withdrawResponse->ok()) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Gagal terhubung ke API pihak ketiga saat withdraw',
-        ], 500);
-    }
-
-    // Simpan transaksi withdraw ke database
-    $withdrawTransaction = new Transaction();
-    $withdrawTransaction->reference_id = $refid;
-    $withdrawTransaction->user_id = $existingUser->id;
-    $withdrawTransaction->agent_code = $agent->agent_code ?? null;
-    $withdrawTransaction->user_code = $existingUser->user_code;
-    $withdrawTransaction->provider_code = $transaction->provider_code ?? null;
-    $withdrawTransaction->game_code = $transaction->game_code ?? null;
-    $withdrawTransaction->type = 'credit';
-    $withdrawTransaction->amount = $existingUserAfter->user_balance;
-    $withdrawTransaction->status = 'completed';
-    $withdrawTransaction->created_at = now();
-    $withdrawTransaction->updated_at = now();
-    $withdrawTransaction->save();
-
-    // Response sukses
-    return response()->json([
-        'status' => 'success',
-        'username' => $existingUserAfter->user_code,
-        'balance' => $existingUserAfter->user_balance,
-        'message' => 'Saldo provider berhasil dipindahkan ke saldo User',
-    ], 200);
-}
-
-
-//Launch Game
-public function handleLaunchGame(Request $request)
-{
-    // Validasi input
-    $request->validate([
-        'username' => 'required|string',
-        'providercode' => 'required|string',
-        'type' => 'required|string',
-        'gameid' => 'nullable|string',
-    ]);
-
-    // Ambil data user
-    $existingUser = User::where('user_code', $request->username)->first();
-
-    if (!$existingUser || $existingUser->status === 'blocked') {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'User tidak ditemukan atau terblokir',
-        ], 400);
-    }
-
-    // Ambil data game berdasarkan provider dan type
-    $game = Game::where('provider_code', $request->providercode)
-        ->when($request->gameid, fn($q) => $q->where('game_code', $request->gameid))
-        ->first();
-
-    if (!$game) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Game tidak ditemukan',
-        ], 400);
-    }
-    
-    if ($existingUser->user_balance < 0) {
-    return response()->json([
-        'status' => 'failed',
-        'message' => 'Saldo user tidak valid',
-    ], 400);
- }
-
-    // Ambil data agent user
-    $agent = Agent::find($existingUser->agent_id);
-    if (!$agent) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Agent tidak ditemukan',
-        ], 400);
-    }
-    
-    
-    
-    // User baru dan saldo 0 tetap boleh launch game
-if ($existingUser->user_balance == 0) {
-
-    $signature = strtoupper(md5(
-        $this->operatorCode .
-        $existingUser->password .
-        $game->provider_code .
-        $game->game_type .
-        $existingUser->user_code .
-        $this->apiSecretKey
-    ));
-
-    $response = Http::get($this->apiUrl . '/launchGames.aspx', [
-        'operatorcode' => $this->operatorCode,
-        'providercode' => $game->provider_code,
-        'username' => $existingUser->user_code,
-        'password' => $existingUser->password,
-        'type' => $game->game_type,
-        'signature' => $signature,
-    ]);
-
-    if (!$response->ok()) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Tidak dapat terhubung ke API pihak ketiga',
-        ], 500);
-    }
-
-    $responseBody = $response->json();
-
-    if (!isset($responseBody['errCode']) || $responseBody['errCode'] !== '0') {
-        return response()->json([
-            'status' => 'failed',
-            'message' => $responseBody['errMsg'] ?? 'Gagal launch game',
-        ], 400);
-    }
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'Game berhasil diluncurkan',
-        'data' => $responseBody,
-    ]);
-}
-    
-    
-
-    // Cek transaksi terakhir user
-    $latestTransaction = Transaction::where('user_id', $existingUser->id)
-        ->orderBy('created_at', 'desc')
-        ->first();
-       
-
-    // Jika belum ada transaksi, lanjut ke proses launch game
-    if (!$latestTransaction) {
-
-        // Buat signature untuk launch game
+        // Buat signature untuk getBalance
         $signature = strtoupper(md5(
-            $this->operatorCode .
-            $existingUser->password .
-            $game->provider_code .
-            $game->game_type .
-            $existingUser->user_code .
-            $this->apiSecretKey
+            $operatorCode .
+                $password .
+                $transaction->provider_code .
+                $existingUser->user_code .
+                $refid .
+                $this->apiSecretKey
         ));
 
-        // Request ke API Launch Game
-        $response = Http::get($this->apiUrl . '/launchGames.aspx', [
-            'operatorcode' => $this->operatorCode,
-            'providercode' => $game->provider_code,
+        // Request saldo dari provider
+        $response = Http::get($this->apiUrl . '/getBalance.aspx', [
+            'operatorcode' => $operatorCode,
+            'providercode' => $transaction->provider_code,
             'username' => $existingUser->user_code,
-            'password' => $existingUser->password,
-            'type' => $game->game_type,
+            'password' => $password,
             'signature' => $signature,
         ]);
 
+        // Cek koneksi API provider
         if (!$response->ok()) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Tidak dapat terhubung ke API pihak ketiga (launch game)',
+                'message' => 'Gagal terhubung ke API provider',
             ], 500);
         }
 
         $responseBody = $response->json();
 
+        // Validasi struktur respon
         if (!isset($responseBody['errCode']) || $responseBody['errCode'] !== '0') {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Gagal meluncurkan game: ' . ($responseBody['errMsg'] ?? 'Kesalahan tidak diketahui'),
+                'message' => 'Gagal mendapatkan saldo: ' . ($responseBody['errMsg'] ?? 'Kesalahan tidak diketahui'),
             ], 400);
         }
 
-        // Siapkan transfer saldo user
-        $refid = Str::random(20);
-        $type = 0; // 0 = debit / transfer ke game
+        // Ambil saldo dari provider
+        $providerBalance = $responseBody['balance'] ?? 0;
 
-        $signatureTransfer = strtoupper(md5(
-            $existingUser->user_balance .
-            $this->operatorCode .
-            $existingUser->password .
-            $game->provider_code .
-            $refid .
-            $type .
-            $existingUser->user_code .
-            $this->apiSecretKey
-        ));
-
-        // Request ke API transfer saldo
-        $depositResponse = Http::get($this->apiUrl . '/makeTransfer.aspx', [
-            'operatorcode' => $this->operatorCode,
-            'providercode' => $game->provider_code,
-            'username' => $existingUser->user_code,
-            'password' => $existingUser->password,
-            'referenceid' => $refid,
-            'type' => $type,
-            'amount' => $existingUser->user_balance,
-            'signature' => $signatureTransfer,
+        // Update saldo user di sistem lokal
+        $existingUser->update([
+            'user_after_balance' => $providerBalance,
+            'user_balance' => $providerBalance,
+            'user_before_balance' => 0,
         ]);
 
-        if (!$depositResponse->ok()) {
+        // Ambil ulang user setelah update
+        $existingUserAfter = User::find($existingUser->id);
+
+        // Buat signature untuk proses penarikan saldo
+        $signatureWithdraw = strtoupper(md5(
+            $existingUserAfter->user_balance .
+                $operatorCode .
+                $password .
+                $transaction->provider_code .
+                $refid .
+                $type .
+                $existingUserAfter->user_code .
+                $this->apiSecretKey
+        ));
+
+        // Request untuk tarik saldo (withdraw dari provider ke user)
+        $withdrawResponse = Http::get($this->apiUrl . '/makeTransfer.aspx', [
+            'operatorcode' => $operatorCode,
+            'providercode' => $transaction->provider_code,
+            'username' => $existingUserAfter->user_code,
+            'password' => $existingUserAfter->password,
+            'referenceid' => $refid,
+            'type' => $type,
+            'amount' => $existingUserAfter->user_balance,
+            'signature' => $signatureWithdraw,
+        ]);
+
+        // Cek koneksi API withdraw
+        if (!$withdrawResponse->ok()) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Tidak dapat terhubung ke API pihak ketiga untuk deposit',
+                'message' => 'Gagal terhubung ke API pihak ketiga saat withdraw',
             ], 500);
         }
 
-        $depositResponseBody = $depositResponse->json();
+        // Simpan transaksi withdraw ke database
+        $withdrawTransaction = new Transaction();
+        $withdrawTransaction->reference_id = $refid;
+        $withdrawTransaction->user_id = $existingUser->id;
+        $withdrawTransaction->agent_code = $agent->agent_code ?? null;
+        $withdrawTransaction->user_code = $existingUser->user_code;
+        $withdrawTransaction->provider_code = $transaction->provider_code ?? null;
+        $withdrawTransaction->game_code = $transaction->game_code ?? null;
+        $withdrawTransaction->type = 'credit';
+        $withdrawTransaction->amount = $existingUserAfter->user_balance;
+        $withdrawTransaction->status = 'completed';
+        $withdrawTransaction->created_at = now();
+        $withdrawTransaction->updated_at = now();
+        $withdrawTransaction->save();
 
-        if (!isset($depositResponseBody['errCode']) || $depositResponseBody['errCode'] !== '0') {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Deposit gagal: ' . ($depositResponseBody['errMsg'] ?? 'Kesalahan tidak diketahui'),
-            ], 400);
-        }
-
-        // Simpan transaksi & update saldo user
-        DB::transaction(function () use ($existingUser, $agent, $game, $refid) {
-            Transaction::create([
-                'reference_id' => $refid,
-                'user_id' => $existingUser->id,
-                'agent_code' => $agent->agent_code,
-                'user_code' => $existingUser->user_code,
-                'provider_code' => $game->provider_code,
-                'game_code' => $game->game_code,
-                'type' => 'debit',
-                'amount' => $existingUser->user_balance,
-                'status' => 'completed',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            $existingUser->update([
-                'user_before_balance' => $existingUser->user_balance,
-                'user_after_balance' => 0,
-                'user_balance' => 0,
-            ]);
-        });
-
+        // Response sukses
         return response()->json([
             'status' => 'success',
-            'message' => 'Game berhasil diluncurkan dan transfer berhasil',
-            'data' => $responseBody,
+            'username' => $existingUserAfter->user_code,
+            'balance' => $existingUserAfter->user_balance,
+            'message' => 'Saldo provider berhasil dipindahkan ke saldo User',
         ], 200);
     }
 
-    // Jika user sudah punya transaksi sebelumnya
-    return response()->json([
-        'status' => 'info',
-        'message' => 'User sudah memiliki transaksi sebelumnya',
-    ], 200);
-}
+    //Launch Game
+    public function handleLaunchGame(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'username' => 'required|string',
+            'providercode' => 'required|string',
+            'type' => 'required|string',
+            'gameid' => 'nullable|string',
+        ]);
 
-public function handleDeposit(Request $request)
+        // Ambil data user
+        $existingUser = User::where('user_code', $request->username)->first();
+
+        if (!$existingUser || $existingUser->status === 'blocked') {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User tidak ditemukan atau terblokir',
+            ], 400);
+        }
+
+        // Ambil data game berdasarkan provider dan type
+        $game = Game::where('provider_code', $request->providercode)
+            ->when($request->gameid, fn($q) => $q->where('game_code', $request->gameid))
+            ->first();
+
+        if (!$game) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Game tidak ditemukan',
+            ], 400);
+        }
+
+        if ($existingUser->user_balance < 0) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Saldo user tidak valid',
+            ], 400);
+        }
+
+        // Ambil data agent user
+        $agent = Agent::find($existingUser->agent_id);
+        if (!$agent) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Agent tidak ditemukan',
+            ], 400);
+        }
+
+
+
+        // User baru dan saldo 0 tetap boleh launch game
+        if ($existingUser->user_balance == 0) {
+
+            $signature = strtoupper(md5(
+                $this->operatorCode .
+                    $existingUser->password .
+                    $game->provider_code .
+                    $game->game_type .
+                    $existingUser->user_code .
+                    $this->apiSecretKey
+            ));
+
+            $response = Http::get($this->apiUrl . '/launchGames.aspx', [
+                'operatorcode' => $this->operatorCode,
+                'providercode' => $game->provider_code,
+                'username' => $existingUser->user_code,
+                'password' => $existingUser->password,
+                'type' => $game->game_type,
+                'signature' => $signature,
+            ]);
+
+            if (!$response->ok()) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Tidak dapat terhubung ke API pihak ketiga',
+                ], 500);
+            }
+
+            $responseBody = $response->json();
+
+            if (!isset($responseBody['errCode']) || $responseBody['errCode'] !== '0') {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => $responseBody['errMsg'] ?? 'Gagal launch game',
+                ], 400);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Game berhasil diluncurkan',
+                'data' => $responseBody,
+            ]);
+        }
+
+
+
+        // Cek transaksi terakhir user
+        $latestTransaction = Transaction::where('user_id', $existingUser->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+
+        // Jika belum ada transaksi, lanjut ke proses launch game
+        if (!$latestTransaction) {
+
+            // Buat signature untuk launch game
+            $signature = strtoupper(md5(
+                $this->operatorCode .
+                    $existingUser->password .
+                    $game->provider_code .
+                    $game->game_type .
+                    $existingUser->user_code .
+                    $this->apiSecretKey
+            ));
+
+            // Request ke API Launch Game
+            $response = Http::get($this->apiUrl . '/launchGames.aspx', [
+                'operatorcode' => $this->operatorCode,
+                'providercode' => $game->provider_code,
+                'username' => $existingUser->user_code,
+                'password' => $existingUser->password,
+                'type' => $game->game_type,
+                'signature' => $signature,
+            ]);
+
+            if (!$response->ok()) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Tidak dapat terhubung ke API pihak ketiga (launch game)',
+                ], 500);
+            }
+
+            $responseBody = $response->json();
+
+            if (!isset($responseBody['errCode']) || $responseBody['errCode'] !== '0') {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Gagal meluncurkan game: ' . ($responseBody['errMsg'] ?? 'Kesalahan tidak diketahui'),
+                ], 400);
+            }
+
+            // Siapkan transfer saldo user
+            $refid = Str::random(20);
+            $type = 0; // 0 = debit / transfer ke game
+
+            $signatureTransfer = strtoupper(md5(
+                $existingUser->user_balance .
+                    $this->operatorCode .
+                    $existingUser->password .
+                    $game->provider_code .
+                    $refid .
+                    $type .
+                    $existingUser->user_code .
+                    $this->apiSecretKey
+            ));
+
+            // Request ke API transfer saldo
+            $depositResponse = Http::get($this->apiUrl . '/makeTransfer.aspx', [
+                'operatorcode' => $this->operatorCode,
+                'providercode' => $game->provider_code,
+                'username' => $existingUser->user_code,
+                'password' => $existingUser->password,
+                'referenceid' => $refid,
+                'type' => $type,
+                'amount' => $existingUser->user_balance,
+                'signature' => $signatureTransfer,
+            ]);
+
+            if (!$depositResponse->ok()) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Tidak dapat terhubung ke API pihak ketiga untuk deposit',
+                ], 500);
+            }
+
+            $depositResponseBody = $depositResponse->json();
+
+            if (!isset($depositResponseBody['errCode']) || $depositResponseBody['errCode'] !== '0') {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Deposit gagal: ' . ($depositResponseBody['errMsg'] ?? 'Kesalahan tidak diketahui'),
+                ], 400);
+            }
+
+            // Simpan transaksi & update saldo user
+            DB::transaction(function () use ($existingUser, $agent, $game, $refid) {
+                Transaction::create([
+                    'reference_id' => $refid,
+                    'user_id' => $existingUser->id,
+                    'agent_code' => $agent->agent_code,
+                    'user_code' => $existingUser->user_code,
+                    'provider_code' => $game->provider_code,
+                    'game_code' => $game->game_code,
+                    'type' => 'debit',
+                    'amount' => $existingUser->user_balance,
+                    'status' => 'completed',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                $existingUser->update([
+                    'user_before_balance' => $existingUser->user_balance,
+                    'user_after_balance' => 0,
+                    'user_balance' => 0,
+                ]);
+            });
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Game berhasil diluncurkan dan transfer berhasil',
+                'data' => $responseBody,
+            ], 200);
+        }
+
+        // Jika user sudah punya transaksi sebelumnya
+        return response()->json([
+            'status' => 'info',
+            'message' => 'User sudah memiliki transaksi sebelumnya',
+        ], 200);
+    }
+
+    public function handleDeposit(Request $request)
     {
         $amount     = $request->input('amount');
         $username   = $request->input('username');
@@ -788,158 +784,155 @@ public function handleDeposit(Request $request)
             ],
         ]);
     }
-    
-public function fetchBettingHistory()
-{
-    $operatorCode = env('OPERATOR_CODE');
-    $apiSecretKey = env('API_SECRET_KEY');
-    $url = env('LOG_URL');
 
-    $versionKey = 0;
-    $signature = strtoupper(md5($operatorCode . $apiSecretKey));
+    public function fetchBettingHistory()
+    {
+        $operatorCode = env('OPERATOR_CODE');
+        $apiSecretKey = env('API_SECRET_KEY');
+        $url = env('LOG_URL');
 
-    $response = Http::get($url . '/fetchbykey.aspx', [
-        'operatorcode' => $operatorCode,
-        'versionkey' => $versionKey,
-        'signature' => $signature,
-    ]);
+        $versionKey = 0;
+        $signature = strtoupper(md5($operatorCode . $apiSecretKey));
 
-    if (!$response->ok()) {
-        return response()->json(['error' => 'Failed to connect to betting history API.'], 500);
-    }
+        $response = Http::get($url . '/fetchbykey.aspx', [
+            'operatorcode' => $operatorCode,
+            'versionkey' => $versionKey,
+            'signature' => $signature,
+        ]);
 
-    $decodedResponse = json_decode($response->body(), true);
-
-    if (!isset($decodedResponse['result'])) {
-        return response()->json(['error' => 'Invalid response format from API.'], 500);
-    }
-
-    if (isset($decodedResponse['errCode']) && $decodedResponse['errCode'] !== '0') {
-        return response()->json([
-            'error' => 'Failed to fetch betting history: ' . ($decodedResponse['errMsg'] ?? 'Unknown error')
-        ], 500);
-    }
-
-    $bettingHistory = json_decode($decodedResponse['result'], true);
-
-    if (!$bettingHistory || !is_array($bettingHistory)) {
-        return response()->json(['error' => 'No valid betting history data found.'], 404);
-    }
-
-    // Hanya mengembalikan data hasil
-    return response()->json(['betting_history' => $bettingHistory]);
-}
-
-
-//Agent Balance
-public function getKioskBalance()
-{
-    $apiUrl = env('API_URL');
-    $operatorCode = env('OPERATOR_CODE');
-    $secretKey = env('API_SECRET_KEY');
-
-    // Generate signature MD5
-    $signature = strtoupper(md5($operatorCode . $secretKey));
-
-    // Bangun URL dengan query string
-    $url = "{$apiUrl}/checkAgentCredit.aspx";
-    $url .= "?operatorcode={$operatorCode}&signature={$signature}";
-
-    // Panggil API eksternal
-    $response = Http::get($url);
-
-    // Default response jika terjadi error
-    $errMsg = 'Unable to fetch data';
-
-    // Jika respons berhasil, ambil data
-    if ($response->successful()) {
-        $responseData = $response->json();
-        if (isset($responseData['errCode']) && $responseData['errCode'] === '0') { // Perbaikan di sini
-            return response()->json([
-                'errCode' => '0',
-                'data' => $responseData['data'],
-                'errMsg' => $responseData['errMsg'],
-            ]);
-        } else {
-            $errMsg = $responseData['errMsg'] ?? 'Unexpected error';
+        if (!$response->ok()) {
+            return response()->json(['error' => 'Failed to connect to betting history API.'], 500);
         }
+
+        $decodedResponse = json_decode($response->body(), true);
+
+        if (!isset($decodedResponse['result'])) {
+            return response()->json(['error' => 'Invalid response format from API.'], 500);
+        }
+
+        if (isset($decodedResponse['errCode']) && $decodedResponse['errCode'] !== '0') {
+            return response()->json([
+                'error' => 'Failed to fetch betting history: ' . ($decodedResponse['errMsg'] ?? 'Unknown error')
+            ], 500);
+        }
+
+        $bettingHistory = json_decode($decodedResponse['result'], true);
+
+        if (!$bettingHistory || !is_array($bettingHistory)) {
+            return response()->json(['error' => 'No valid betting history data found.'], 404);
+        }
+
+        // Hanya mengembalikan data hasil
+        return response()->json(['betting_history' => $bettingHistory]);
     }
 
-    // Jika gagal
-    return response()->json([
-        'errCode' => '500',
-        'data' => null,
-        'errMsg' => $errMsg,
-    ]);
-}
+    //Agent Balance
+    public function getKioskBalance()
+    {
+        $apiUrl = env('API_URL');
+        $operatorCode = env('OPERATOR_CODE');
+        $secretKey = env('API_SECRET_KEY');
 
-public function showBettingHistory(Request $request)
-{
-    $agentCode = $request->input('agent_code');
-    $signature = $request->input('signature');
-    $username  = $request->input('username'); // pastikan ini dikirim di request
+        // Generate signature MD5
+        $signature = strtoupper(md5($operatorCode . $secretKey));
 
-    // Validasi Agent
-    $agent = Agent::where('agent_code', $agentCode)->first();
-    if (!$agent) {
+        // Bangun URL dengan query string
+        $url = "{$apiUrl}/checkAgentCredit.aspx";
+        $url .= "?operatorcode={$operatorCode}&signature={$signature}";
+
+        // Panggil API eksternal
+        $response = Http::get($url);
+
+        // Default response jika terjadi error
+        $errMsg = 'Unable to fetch data';
+
+        // Jika respons berhasil, ambil data
+        if ($response->successful()) {
+            $responseData = $response->json();
+            if (isset($responseData['errCode']) && $responseData['errCode'] === '0') { // Perbaikan di sini
+                return response()->json([
+                    'errCode' => '0',
+                    'data' => $responseData['data'],
+                    'errMsg' => $responseData['errMsg'],
+                ]);
+            } else {
+                $errMsg = $responseData['errMsg'] ?? 'Unexpected error';
+            }
+        }
+
+        // Jika gagal
         return response()->json([
-            'status' => 'failed',
-            'message' => 'Agent code tidak valid',
-            'code' => 403,
+            'errCode' => '500',
+            'data' => null,
+            'errMsg' => $errMsg,
         ]);
     }
 
-    // Validasi Signature
-    if ($signature != $agent->signature) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Signature tidak valid',
-            'code' => 403,
-        ]);
-    }
+    public function showBettingHistory(Request $request)
+    {
+        $agentCode = $request->input('agent_code');
+        $signature = $request->input('signature');
+        $username  = $request->input('username'); // pastikan ini dikirim di request
 
-    // Validasi User
-    $user = User::where('user_code', $username)->first();
-    if (!$user) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'User tidak ditemukan',
-            'code' => 403,
-        ]);
-    }
+        // Validasi Agent
+        $agent = Agent::where('agent_code', $agentCode)->first();
+        if (!$agent) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Agent code tidak valid',
+                'code' => 403,
+            ]);
+        }
 
-    // Validasi User Terblokir
-    if ($user->status === 'blocked') {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'User terblokir',
-            'code' => 403,
-        ]);
-    }
+        // Validasi Signature
+        if ($signature != $agent->signature) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Signature tidak valid',
+                'code' => 403,
+            ]);
+        }
 
-    // Ambil data history sesuai agent_code
-    $histories = History::where('agent_code', $agentCode)
-        ->orderBy('created_at', 'desc') // atau orderBy('id', 'desc')
-        ->get();
+        // Validasi User
+        $user = User::where('user_code', $username)->first();
+        if (!$user) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User tidak ditemukan',
+                'code' => 403,
+            ]);
+        }
 
-    if ($histories->isEmpty()) {
+        // Validasi User Terblokir
+        if ($user->status === 'blocked') {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User terblokir',
+                'code' => 403,
+            ]);
+        }
+
+        // Ambil data history sesuai agent_code
+        $histories = History::where('agent_code', $agentCode)
+            ->orderBy('created_at', 'desc') // atau orderBy('id', 'desc')
+            ->get();
+
+        if ($histories->isEmpty()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Tidak ada history ditemukan',
+                'data' => [],
+                'code' => 200,
+            ]);
+        }
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Tidak ada history ditemukan',
-            'data' => [],
+            'message' => 'History ditemukan',
+            'data' => $histories,
             'code' => 200,
         ]);
     }
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'History ditemukan',
-        'data' => $histories,
-        'code' => 200,
-    ]);
-}
-
-
 
     private function generateSignatureTrx()
     {
