@@ -31,7 +31,7 @@ class ImportFileController extends Controller
 
         $mode = $request->input('import_mode', 'append');
 
-        $start = 2;
+        $start = 1;
         $maxData = 2000;
 
         $inserted = 0;
@@ -462,12 +462,13 @@ class ImportFileController extends Controller
 
         $mode = $request->input('import_mode');
 
-        // Mulai dari baris ke-3 (index 2)
-        $start = 2;
+        // Header ada di index 0, data mulai dari index 1
+        $start = 1;
 
         $total   = 0;
         $insert  = 0;
         $update  = 0;
+        $skip    = 0;
         $invalid = 0;
 
         for ($i = $start; $i < count($rows); $i++) {
@@ -486,7 +487,16 @@ class ImportFileController extends Controller
 
                 if ($mode === 'append') {
 
-                    $insert++;
+                    $exists = Wbp::where(
+                        'no_reg_instansi',
+                        $noReg
+                    )->exists();
+
+                    if ($exists) {
+                        $skip++;
+                    } else {
+                        $insert++;
+                    }
                 } elseif ($mode === 'update') {
 
                     $exists = Wbp::where(
@@ -495,10 +505,8 @@ class ImportFileController extends Controller
                     )->exists();
 
                     if ($exists) {
-
                         $update++;
                     } else {
-
                         $insert++;
                     }
                 }
@@ -515,6 +523,7 @@ class ImportFileController extends Controller
             'total'   => $total,
             'insert'  => $insert,
             'update'  => $update,
+            'skip' => $skip,
             'invalid' => $invalid
         ]);
     }

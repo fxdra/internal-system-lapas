@@ -1251,6 +1251,7 @@
             @endforeach
 
             {{-- ================= LUAR TEMBOK ================= --}}
+
             <div id="section-detail-rs">
 
                 <div class="card shadow-sm mb-3">
@@ -1263,10 +1264,8 @@
                                 RUMAH SAKIT
                             </h6>
 
-                            <span class="badge bg-light text-danger fs-6 px-3 py-2">
-
+                            <span class="badge bg-light text-danger">
                                 {{ $wbpRs->count() }} WBP
-
                             </span>
 
                         </div>
@@ -1307,15 +1306,110 @@
                                             <tr>
 
                                                 <td class="fw-semibold">
-
                                                     {{ $wbp['nama'] }}
-
                                                 </td>
 
                                                 <td>
-
                                                     {{ $wbp['jenis_kejahatan'] }}
+                                                </td>
 
+                                                <td class="text-center">
+
+                                                    <button type="button" class="btn btn-warning btn-sm fw-semibold"
+                                                        onclick="bukaModalPindah(
+                                                        this,
+                                                        '{{ $wbp['kamar_id'] }}',
+                                                        '{{ $wbp['lokasi_blok'] }}',
+                                                        '{{ $wbp['lokasi_sel'] }}'
+                                                    )">
+
+                                                        <i class="bi bi-arrow-left-right me-1"></i>
+                                                        Pindahkan
+
+                                                    </button>
+
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        @else
+                            <div class="text-center text-muted py-3">
+                                Tidak ada WBP di Rumah Sakit.
+                            </div>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="section-detail-bon">
+
+                <div class="card shadow-sm mb-3">
+
+                    <div class="card-header bg-primary text-white">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <h6 class="fw-bold mb-0">
+                                BON
+                            </h6>
+
+                            <span class="badge bg-light text-primary">
+                                {{ $wbpBon->count() }} WBP
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-body p-0">
+
+                        @if ($wbpBon->count())
+
+                            <div class="table-responsive">
+
+                                <table class="table table-sm mb-0 align-middle">
+
+                                    <thead class="table-light">
+
+                                        <tr>
+
+                                            <th style="width:45%;">
+                                                Nama WBP
+                                            </th>
+
+                                            <th>
+                                                Perkara
+                                            </th>
+
+                                            <th class="text-center" style="width:160px;">
+                                                Aksi
+                                            </th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        @foreach ($wbpBon as $wbp)
+                                            <tr>
+
+                                                <td class="fw-semibold">
+                                                    {{ $wbp['nama'] }}
+                                                </td>
+
+                                                <td>
+                                                    {{ $wbp['jenis_kejahatan'] }}
                                                 </td>
 
                                                 <td class="text-center">
@@ -1345,9 +1439,7 @@
                             </div>
                         @else
                             <div class="text-center text-muted py-3">
-
-                                Tidak ada WBP di Rumah Sakit.
-
+                                Tidak ada WBP BON.
                             </div>
 
                         @endif
@@ -1358,20 +1450,7 @@
 
             </div>
 
-            <div class="card-body p-0">
-
-                {{-- tabel RS yang tadi kita bahas --}}
-
-            </div>
-
         </div>
-
-    </div>
-
-    <div id="section-detail-bon">
-
-
-    </div>
 
     </div>
 
@@ -1436,7 +1515,8 @@
 
     <div id="quickDock" class="no-print">
 
-        {{-- ================= DALAM TEMBOK ================= --}}
+        ================= DALAM TEMBOK =================.
+
         <div class="dock-section">
 
             <div class="dock-title">
@@ -1731,9 +1811,12 @@
 
                 if (data.success) {
                     alert(data.message);
+
                     bootstrap.Modal
                         .getInstance(document.getElementById("modalPindah"))
                         .hide();
+
+                    sessionStorage.setItem('scrollToTopAfterReload', '1');
 
                     location.reload();
 
@@ -1747,6 +1830,22 @@
             }
 
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            if (sessionStorage.getItem('scrollToTopAfterReload') === '1') {
+
+                sessionStorage.removeItem('scrollToTopAfterReload');
+
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'instant'
+                });
+
+            }
+
+        });
 
         // =====================
         // SEARCH BLOK / KAMAR
