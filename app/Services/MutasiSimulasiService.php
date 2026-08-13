@@ -133,7 +133,6 @@ class MutasiSimulasiService
                 'scenario_id' => $scenario->id,
                 'message' => 'SIMULASI STABLE + NO DOUBLE CALC'
             ];
-
         } catch (\Throwable $e) {
             DB::rollBack();
             throw $e;
