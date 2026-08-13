@@ -1593,25 +1593,45 @@
 
         if (btnCardView && btnDetailView && cardView && detailView) {
 
+            function setView(mode) {
+
+                if (mode === "detail") {
+
+                    cardView.style.display = "none";
+                    detailView.style.display = "";
+
+                    btnDetailView.classList.add("active");
+                    btnCardView.classList.remove("active");
+
+                } else {
+
+                    cardView.style.display = "";
+                    detailView.style.display = "none";
+
+                    btnCardView.classList.add("active");
+                    btnDetailView.classList.remove("active");
+
+                }
+            }
+
             btnCardView.addEventListener("click", function() {
-
-                cardView.style.display = "";
-                detailView.style.display = "none";
-
-                btnCardView.classList.add("active");
-                btnDetailView.classList.remove("active");
-
+                setView("card");
             });
 
             btnDetailView.addEventListener("click", function() {
-
-                cardView.style.display = "none";
-                detailView.style.display = "";
-
-                btnDetailView.classList.add("active");
-                btnCardView.classList.remove("active");
-
+                setView("detail");
             });
+
+            // =========================
+            // RESTORE SETELAH RELOAD
+            // =========================
+
+            const savedView = sessionStorage.getItem("mutasiViewMode");
+
+            if (savedView) {
+                setView(savedView);
+                sessionStorage.removeItem("mutasiViewMode");
+            }
 
         }
 
@@ -1816,7 +1836,25 @@
                         .getInstance(document.getElementById("modalPindah"))
                         .hide();
 
-                    sessionStorage.setItem('scrollToTopAfterReload', '1');
+                    // =========================
+                    // SIMPAN STATE SEBELUM RELOAD
+                    // =========================
+
+                    // Simpan view yang sedang aktif
+                    const currentView = detailView.style.display !== "none" ?
+                        "detail" :
+                        "card";
+
+                    sessionStorage.setItem(
+                        "mutasiViewMode",
+                        currentView
+                    );
+
+                    // Simpan posisi scroll
+                    sessionStorage.setItem(
+                        "mutasiScrollY",
+                        window.scrollY
+                    );
 
                     location.reload();
 
@@ -1830,22 +1868,6 @@
             }
 
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-
-            if (sessionStorage.getItem('scrollToTopAfterReload') === '1') {
-
-                sessionStorage.removeItem('scrollToTopAfterReload');
-
-                window.scrollTo({
-                    top: 0,
-                    left: 0,
-                    behavior: 'instant'
-                });
-
-            }
-
-        });
 
         // =====================
         // SEARCH BLOK / KAMAR
