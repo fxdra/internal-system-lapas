@@ -321,7 +321,7 @@
                             </option>
 
                             <option value="custom" {{ $filter == 'custom' ? 'selected' : '' }}>
-                                Pilih Tanggal
+                                Pilih Rentang Tanggal
                             </option>
 
                         </select>
@@ -357,14 +357,24 @@
 
                     </div>
 
-                    <div class="col-md-3 custom-date" style="{{ $filter == 'custom' ? '' : 'display:none' }}">
+                    <div class="col-md-2 custom-range" style="{{ $filter == 'custom' ? '' : 'display:none' }}">
 
                         <label class="form-label">
-                            Tanggal
+                            Dari Tanggal
                         </label>
 
-                        <input type="date" name="selected_date" class="form-control"
-                            value="{{ request('selected_date') }}">
+                        <input type="date" name="start_date" class="form-control"
+                            value="{{ request('start_date') }}">
+
+                    </div>
+
+                    <div class="col-md-2 custom-range" style="{{ $filter == 'custom' ? '' : 'display:none' }}">
+
+                        <label class="form-label">
+                            Sampai Tanggal
+                        </label>
+
+                        <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
 
                     </div>
 
@@ -783,7 +793,7 @@
                 const show = filter.value === 'custom';
 
                 document
-                    .querySelectorAll('.custom-date')
+                    .querySelectorAll('.custom-range')
                     .forEach(el => {
                         el.style.display = show ? '' : 'none';
                     });

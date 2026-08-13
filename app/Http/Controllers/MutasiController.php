@@ -406,9 +406,10 @@ class MutasiController extends Controller
     public function dataMutasi(Request $request)
     {
         $request->validate([
-            'filter'        => 'nullable|in:today,yesterday,3days,7days,1month,custom',
-            'selected_date' => 'nullable|date|date_format:Y-m-d',
-            'search'        => 'nullable|string|max:255',
+            'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
+            'start_date' => 'nullable|date|date_format:Y-m-d',
+            'end_date'   => 'nullable|date|date_format:Y-m-d|after_or_equal:start_date',
+            'search'     => 'nullable|string|max:255',
         ]);
 
         $filter = $request->get('filter', 'today');
@@ -445,19 +446,18 @@ class MutasiController extends Controller
 
             case 'custom':
 
-                if (!$request->filled('selected_date')) {
-
+                if (
+                    !$request->filled('start_date') ||
+                    !$request->filled('end_date')
+                ) {
                     return redirect()
                         ->back()
                         ->withInput()
-                        ->with('error', 'Tanggal wajib dipilih');
+                        ->with('error', 'Rentang tanggal wajib dipilih');
                 }
 
-                $startDate =
-                    Carbon::parse($request->selected_date);
-
-                $endDate =
-                    Carbon::parse($request->selected_date);
+                $startDate = Carbon::parse($request->start_date);
+                $endDate   = Carbon::parse($request->end_date);
 
                 break;
         }

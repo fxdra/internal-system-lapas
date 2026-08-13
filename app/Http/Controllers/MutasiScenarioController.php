@@ -73,60 +73,91 @@ class MutasiScenarioController extends Controller
     public function snapshot(Request $request)
     {
         /*
-        |--------------------------------------------------------------------------
-        | FILTER
-        |--------------------------------------------------------------------------
-        */
+|--------------------------------------------------------------------------
+| FILTER
+|--------------------------------------------------------------------------
+*/
+
         $request->validate([
-            'filter' => 'nullable|in:today,yesterday,custom',
-            'selected_date' => 'nullable|date_format:Y-m-d',
+            'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
+            'start_date' => 'nullable|date|date_format:Y-m-d',
+            'end_date'   => 'nullable|date|date_format:Y-m-d|after_or_equal:start_date',
         ]);
 
-        $filter = $request->filter ?? 'today';
+        $filter = $request->get('filter', 'today');
 
         switch ($filter) {
 
+            case 'today':
+
+                $startDate = Carbon::today();
+                $endDate   = Carbon::today();
+
+                break;
+
             case 'yesterday':
 
-                $startDate = Carbon::yesterday()->startOfDay();
-                $endDate   = Carbon::yesterday()->endOfDay();
+                $startDate = Carbon::yesterday();
+                $endDate   = Carbon::yesterday();
+
+                break;
+
+            case '3days':
+
+                $startDate = Carbon::today()->subDays(2);
+                $endDate   = Carbon::today();
+
+                break;
+
+            case '7days':
+
+                $startDate = Carbon::today()->subDays(6);
+                $endDate   = Carbon::today();
+
+                break;
+
+            case '1month':
+
+                $startDate = Carbon::today()->subMonth();
+                $endDate   = Carbon::today();
 
                 break;
 
             case 'custom':
 
-                if (!$request->selected_date) {
+                if (
+                    !$request->filled('start_date') ||
+                    !$request->filled('end_date')
+                ) {
 
-                    return back()->with(
-                        'error',
-                        'Tanggal wajib dipilih'
-                    );
+                    return back()
+                        ->withInput()
+                        ->with(
+                            'error',
+                            'Rentang tanggal wajib dipilih'
+                        );
                 }
 
-                $startDate =
-                    Carbon::parse(
-                        $request->selected_date
-                    )->startOfDay();
+                $startDate = Carbon::parse(
+                    $request->start_date
+                );
 
-                $endDate =
-                    Carbon::parse(
-                        $request->selected_date
-                    )->endOfDay();
+                $endDate = Carbon::parse(
+                    $request->end_date
+                );
 
                 break;
 
             default:
 
-                $startDate =
-                    Carbon::today()
-                    ->startOfDay();
-
-                $endDate =
-                    Carbon::today()
-                    ->endOfDay();
+                $startDate = Carbon::today();
+                $endDate   = Carbon::today();
 
                 break;
         }
+
+        $startDate = $startDate->copy()->startOfDay();
+        $endDate   = $endDate->copy()->endOfDay();
 
 
 
@@ -173,8 +204,6 @@ class MutasiScenarioController extends Controller
                 'kamar_id'
             );
 
-
-
         /*
         |--------------------------------------------------------------------------
         | MUTASI SESUAI TANGGAL
@@ -197,47 +226,51 @@ class MutasiScenarioController extends Controller
             )
             ->get();
 
+        /*
+        |--------------------------------------------------------------------------
+        | MUTASI SETELAH PERIODE
+        |--------------------------------------------------------------------------
+        |
+        | Digunakan untuk mengembalikan kondisi WBP sekarang
+        | menjadi kondisi pada akhir periode yang dipilih.
+        |
+        */
+
+        $mutasisSetelah =
+            DB::table('mutasis')
+            ->where(
+                'created_at',
+                '>',
+                $endDate
+            )
+            ->orderBy('created_at')
+            ->get();
 
 
         /*
         |--------------------------------------------------------------------------
-        | ANTI DOUBLE COUNT
+        | HITUNG PERGERAKAN SETELAH PERIODE
         |--------------------------------------------------------------------------
         */
 
-        $mutasis =
-            $mutasis
-            ->groupBy(
-                function (
-                    $row
-                ) {
+        $masukSetelah = [];
 
-                    return
-                        $row->wbp_id
-                        . '|'
-                        .
-                        Carbon::parse(
-                            $row->created_at
-                        )
-                        ->toDateString();
-                }
-            )
-            ->map(
-                function (
-                    $rows
-                ) {
+        $keluarSetelah = [];
 
-                    return
-                        $rows
-                        ->sortByDesc(
-                            'created_at'
-                        )
-                        ->first();
-                }
-            )
-            ->values();
+        foreach ($mutasisSetelah as $trx) {
 
+            if ($trx->kamar_asal_id) {
 
+                $keluarSetelah[$trx->kamar_asal_id] =
+                    ($keluarSetelah[$trx->kamar_asal_id] ?? 0) + 1;
+            }
+
+            if ($trx->kamar_tujuan_id) {
+
+                $masukSetelah[$trx->kamar_tujuan_id] =
+                    ($masukSetelah[$trx->kamar_tujuan_id] ?? 0) + 1;
+            }
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -283,8 +316,6 @@ class MutasiScenarioController extends Controller
             }
         }
 
-
-
         /*
         |--------------------------------------------------------------------------
         | BUILD DATA
@@ -300,20 +331,59 @@ class MutasiScenarioController extends Controller
                 use (
                     $currentPerKamar,
                     $masuk,
-                    $keluar
+                    $keluar,
+                    $masukSetelah,
+                    $keluarSetelah
                 ) {
 
-                    $sesudah =
+                    // =========================
+                    // KONDISI SEKARANG
+                    // =========================
+
+                    $sekarang =
                         $currentPerKamar[$kamar->id]
                         ??
                         0;
 
 
+                    // =========================
+                    // MUTASI SETELAH PERIODE
+                    // =========================
+
+                    $jMasukSetelah =
+                        $masukSetelah[$kamar->id]
+                        ??
+                        0;
+
+                    $jKeluarSetelah =
+                        $keluarSetelah[$kamar->id]
+                        ??
+                        0;
+
+
+                    // =========================
+                    // HSL AKHIR PERIODE
+                    // =========================
+
+                    $sesudah =
+                        max(
+                            0,
+                            $sekarang
+                                -
+                                $jMasukSetelah
+                                +
+                                $jKeluarSetelah
+                        );
+
+
+                    // =========================
+                    // MUTASI DALAM PERIODE
+                    // =========================
+
                     $jMasuk =
                         $masuk[$kamar->id]
                         ??
                         0;
-
 
                     $jKeluar =
                         $keluar[$kamar->id]
@@ -321,18 +391,16 @@ class MutasiScenarioController extends Controller
                         0;
 
 
-                    $sebelum =
-                        max(
-                            0,
-                            (
-                                $sesudah
-                                -
-                                $jMasuk
-                                +
-                                $jKeluar
-                            )
-                        );
+                    // =========================
+                    // JML AWAL PERIODE
+                    // =========================
 
+                    $sebelum =
+                        $sesudah
+                        -
+                        $jMasuk
+                        +
+                        $jKeluar;
 
                     return (object)[
 
@@ -354,11 +422,9 @@ class MutasiScenarioController extends Controller
 
                         'no_kamar'
                         =>
-                        $this
-                            ->extractNoKamar(
-                                $kamar
-                                    ->lokasi_sel
-                            ),
+                        $this->extractNoKamar(
+                            $kamar->lokasi_sel
+                        ),
 
                         'nama_kamar'
                         =>
@@ -663,57 +729,91 @@ class MutasiScenarioController extends Controller
             |--------------------------------------------------------------------------
             */
         $request->validate([
-            'filter' => 'nullable|in:today,yesterday,custom',
-            'selected_date' => 'nullable|date_format:Y-m-d',
+            'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
+            'start_date' => 'nullable|date|date_format:Y-m-d',
+            'end_date'   => 'nullable|date|date_format:Y-m-d|after_or_equal:start_date',
         ]);
 
-        $filter = $request->filter ?? 'today';
+        $filter = $request->get('filter', 'today');
 
         switch ($filter) {
 
+            case 'today':
+
+                $startDate = Carbon::today();
+                $endDate   = Carbon::today();
+
+                break;
+
             case 'yesterday':
 
-                $startDate = Carbon::yesterday()->startOfDay();
-                $endDate   = Carbon::yesterday()->endOfDay();
+                $startDate = Carbon::yesterday();
+                $endDate   = Carbon::yesterday();
+
+                break;
+
+            case '3days':
+
+                $startDate = Carbon::today()->subDays(2);
+                $endDate   = Carbon::today();
+
+                break;
+
+            case '7days':
+
+                $startDate = Carbon::today()->subDays(6);
+                $endDate   = Carbon::today();
+
+                break;
+
+            case '1month':
+
+                $startDate = Carbon::today()->subMonth();
+                $endDate   = Carbon::today();
 
                 break;
 
             case 'custom':
 
-                if (!$request->selected_date) {
+                if (
+                    !$request->filled('start_date') ||
+                    !$request->filled('end_date')
+                ) {
 
-                    return back()->with(
-                        'error',
-                        'Tanggal wajib dipilih'
-                    );
+                    return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with(
+                            'error',
+                            'Rentang tanggal wajib dipilih'
+                        );
                 }
 
-                $startDate =
-                    Carbon::parse(
-                        $request->selected_date
-                    )->startOfDay();
+                $startDate = Carbon::parse(
+                    $request->start_date
+                );
 
-                $endDate =
-                    Carbon::parse(
-                        $request->selected_date
-                    )->endOfDay();
+                $endDate = Carbon::parse(
+                    $request->end_date
+                );
 
                 break;
 
             default:
 
-                $startDate =
-                    Carbon::today()
-                    ->startOfDay();
-
-                $endDate =
-                    Carbon::today()
-                    ->endOfDay();
+                $startDate = Carbon::today();
+                $endDate   = Carbon::today();
 
                 break;
         }
 
+        $startDate = $startDate
+            ->copy()
+            ->startOfDay();
 
+        $endDate = $endDate
+            ->copy()
+            ->endOfDay();
 
         /*
             |--------------------------------------------------------------------------
@@ -781,7 +881,6 @@ class MutasiScenarioController extends Controller
                 'created_at'
             )
             ->get();
-
 
 
         /*

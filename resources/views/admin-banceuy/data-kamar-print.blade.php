@@ -1515,8 +1515,6 @@
 
     <div id="quickDock" class="no-print">
 
-        ================= DALAM TEMBOK =================.
-
         <div class="dock-section">
 
             <div class="dock-title">
@@ -1634,6 +1632,32 @@
             }
 
         }
+
+        // =========================
+        // RESTORE POSISI SCROLL
+        // =========================
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const savedScroll = sessionStorage.getItem("mutasiScrollY");
+
+            if (savedScroll !== null) {
+
+                sessionStorage.removeItem("mutasiScrollY");
+
+                requestAnimationFrame(function() {
+
+                    window.scrollTo({
+                        top: parseInt(savedScroll, 10),
+                        left: 0,
+                        behavior: "instant"
+                    });
+
+                });
+
+            }
+
+        });
 
         let currentCard = null;
 

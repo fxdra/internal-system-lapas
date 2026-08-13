@@ -459,13 +459,14 @@
 
                     <div class="row g-3 align-items-end">
 
-                        <div class="col-md-4">
+                        {{-- FILTER --}}
+                        <div class="col-md-3">
 
                             <label class="form-label">
-                                Filter Data
+                                Filter
                             </label>
 
-                            <select name="filter" id="filterSelect" class="form-select">
+                            <select name="filter" id="filter" class="form-select">
 
                                 <option value="today" {{ request('filter', 'today') == 'today' ? 'selected' : '' }}>
                                     Hari Ini
@@ -475,8 +476,20 @@
                                     Kemarin
                                 </option>
 
+                                <option value="3days" {{ request('filter') == '3days' ? 'selected' : '' }}>
+                                    3 Hari Terakhir
+                                </option>
+
+                                <option value="7days" {{ request('filter') == '7days' ? 'selected' : '' }}>
+                                    7 Hari Terakhir
+                                </option>
+
+                                <option value="1month" {{ request('filter') == '1month' ? 'selected' : '' }}>
+                                    1 Bulan Terakhir
+                                </option>
+
                                 <option value="custom" {{ request('filter') == 'custom' ? 'selected' : '' }}>
-                                    Pilih Tanggal
+                                    Pilih Rentang Tanggal
                                 </option>
 
                             </select>
@@ -484,24 +497,41 @@
                         </div>
 
 
-                        <!-- CUSTOM SINGLE DATE -->
-                        <div class="col-md-4 custom-range"
+                        {{-- DARI TANGGAL --}}
+                        <div class="col-md-3 custom-range"
                             style="{{ request('filter') == 'custom' ? '' : 'display:none' }}">
 
                             <label class="form-label">
-                                Tanggal
+                                Dari Tanggal
                             </label>
 
-                            <input type="date" name="selected_date" class="form-control"
-                                value="{{ request('selected_date') }}">
+                            <input type="date" name="start_date" class="form-control"
+                                value="{{ request('start_date') }}">
 
                         </div>
 
 
+                        {{-- SAMPAI TANGGAL --}}
+                        <div class="col-md-3 custom-range"
+                            style="{{ request('filter') == 'custom' ? '' : 'display:none' }}">
+
+                            <label class="form-label">
+                                Sampai Tanggal
+                            </label>
+
+                            <input type="date" name="end_date" class="form-control"
+                                value="{{ request('end_date') }}">
+
+                        </div>
+
+
+                        {{-- BUTTON --}}
                         <div class="col-md-2">
 
-                            <button class="btn btn-primary w-100">
+                            <button type="submit" class="btn btn-primary w-100">
+
                                 Terapkan
+
                             </button>
 
                         </div>
@@ -514,8 +544,7 @@
 
         </div>
 
-
-
+        {{-- ALERT --}}
         @if ($grouped->flatten()->count() == 0)
             <div class="alert alert-warning">
                 Tidak ada data mutasi pada periode ini.
@@ -708,7 +737,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            const filter = document.getElementById('filterSelect');
+            const filter = document.getElementById('filter');
 
             function toggleCustomDate() {
 
@@ -735,7 +764,9 @@
             toggleCustomDate();
 
 
+            // =========================
             // MOBILE EXPAND ROW
+            // =========================
             document
                 .querySelectorAll('.mobile-row')
                 .forEach(function(row) {
