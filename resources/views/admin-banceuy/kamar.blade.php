@@ -202,28 +202,30 @@ border-radius:8px;
     </div>
 
     {{-- ================= MODAL UPDATE STATUS KAMAR================= --}}
-    <div id="modalStatus" style="
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.5);
-z-index:9999;
-">
+    <div id="modalStatus"
+        style="
+            display:none;
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.5);
+            z-index:9999;
+            ">
 
-        <div style="
-background:#fff;
-max-width:400px;
-margin:8% auto;
-padding:20px;
-border-radius:10px;
-">
+        <div
+            style="
+            background:#fff;
+            max-width:400px;
+            margin:8% auto;
+            padding:20px;
+            border-radius:10px;
+            ">
 
             <h5>Ubah Status Kamar</h5>
 
-            {{-- PILIH KAMAR --}}
             <select id="kamarSelect" class="form-control mt-2">
                 <option value="">Pilih Kamar</option>
-                @foreach ($kamar as $k)
+
+                @foreach ($kamarUntukSelect as $k)
                     <option value="{{ $k->id }}">
                         BLOK {{ $k->kode_blok }} - {{ $k->lokasi_sel }}
                     </option>

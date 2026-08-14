@@ -306,7 +306,7 @@
 
         .stat-breakdown-closed .stat-breakdown-item {
             display: grid;
-            grid-template-columns: 1fr 10px auto;
+            grid-template-columns: 90px 10px minmax(0, 1fr);
             align-items: center;
             gap: 4px;
             width: 100%;
@@ -315,8 +315,6 @@
 
         .stat-breakdown-closed .stat-breakdown-item span {
             min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
             white-space: nowrap;
         }
 
@@ -326,12 +324,16 @@
             font-style: normal;
             color: #adb5bd;
             line-height: 1;
+            transform: translateY(-2px);
         }
 
         .stat-breakdown-closed .stat-breakdown-item strong {
-            min-width: 65px;
+            min-width: 0;
             text-align: left;
-            white-space: nowrap;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+            line-height: 1.4;
         }
 
         /* ===================== PERHATIAN OPERASIONAL ===================== */
@@ -605,10 +607,16 @@
                                 <i class="stat-breakdown-dot">•</i>
 
                                 <strong>
-                                    @if ($group['nama'] === 'SEL ISOLASI')
-                                        {{ $group['kamar']->count() }} KAMAR
+                                    @if (in_array($group['nama'], ['MAXIMUM', 'SEL ISOLASI']))
+                                        {{ $group['kamar']->map(function ($kamar) {
+                                                preg_match('/(\d+)/', $kamar->lokasi_sel ?? '', $match);
+                                                return $match[1] ?? '-';
+                                            })->implode(', ') }}
                                     @else
-                                        {{ $group['kamar']->map(fn($kamar) => $kamar->lokasi_sel)->implode(', ') }}
+                                        {{ $group['kamar']->map(function ($kamar) {
+                                                preg_match('/(\d+)/', $kamar->lokasi_sel ?? '', $match);
+                                                return ($kamar->kode_blok ?? '-') . '-' . ($match[1] ?? '-');
+                                            })->implode(', ') }}
                                     @endif
                                 </strong>
 

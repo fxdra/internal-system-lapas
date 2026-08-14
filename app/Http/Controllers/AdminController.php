@@ -102,9 +102,14 @@ class AdminController extends Controller
 
         $totalKamarTertutup = Kamar::where('status_kamar', 'Tertutup')->count();
 
-        // ===================== BREAKDOWN KAMAR TERTUTUP =====================
+        // ===================== BREAKDOWN KAMAR TERTUTUP =====================.
 
         $kamarTertutup = Kamar::where('status_kamar', 'Tertutup')
+            ->orderBy('kode_blok')
+            ->orderBy('lokasi_sel')
+            ->get();
+
+        $kamarBerisi = Kamar::whereHas('wbpsAktif')
             ->orderBy('kode_blok')
             ->orderBy('lokasi_sel')
             ->get();
@@ -114,10 +119,23 @@ class AdminController extends Controller
             // ===================== MAPENALING =====================
             [
                 'nama' => 'MAPENALING',
-                'kamar' => $kamarTertutup
+                'kamar' => $kamarBerisi
                     ->filter(function ($kamar) {
-                        return strtoupper($kamar->kode_blok ?? '') === 'B'
-                            && strtoupper($kamar->lokasi_sel ?? '') === 'KAMAR 1';
+
+                        if (strtoupper($kamar->kode_blok ?? '') !== 'B') {
+                            return false;
+                        }
+
+                        preg_match(
+                            '/(\d+)/',
+                            $kamar->lokasi_sel ?? '',
+                            $match
+                        );
+
+                        $nomorKamar = (int) ($match[1] ?? 0);
+
+                        return $nomorKamar >= 1
+                            && $nomorKamar <= 6;
                     })
                     ->values(),
             ],
@@ -127,8 +145,30 @@ class AdminController extends Controller
                 'nama' => 'MAXIMUM',
                 'kamar' => $kamarTertutup
                     ->filter(function ($kamar) {
-                        return strtoupper($kamar->kode_blok ?? '') === 'B'
-                            && strtoupper($kamar->lokasi_sel ?? '') === 'KAMAR 7';
+
+                        if (strtoupper($kamar->kode_blok ?? '') !== 'B') {
+                            return false;
+                        }
+
+                        preg_match(
+                            '/(\d+)/',
+                            $kamar->lokasi_sel ?? '',
+                            $match
+                        );
+
+                        $nomorKamar = (int) ($match[1] ?? 0);
+
+                        return $nomorKamar >= 7
+                            && $nomorKamar <= 12;
+                    })
+                    ->sortBy(function ($kamar) {
+                        preg_match(
+                            '/(\d+)/',
+                            $kamar->lokasi_sel ?? '',
+                            $match
+                        );
+
+                        return (int) ($match[1] ?? 0);
                     })
                     ->values(),
             ],
@@ -140,10 +180,20 @@ class AdminController extends Controller
                     ->filter(function ($kamar) {
                         return strtoupper($kamar->kode_blok ?? '') === 'ISOLASI';
                     })
+                    ->sortBy(function ($kamar) {
+                        preg_match(
+                            '/(\d+)/',
+                            $kamar->lokasi_sel ?? '',
+                            $match
+                        );
+
+                        return (int) ($match[1] ?? 0);
+                    })
                     ->values(),
             ],
 
         ])->filter(function ($item) {
+
             return $item['kamar']->isNotEmpty();
         })->values();
 

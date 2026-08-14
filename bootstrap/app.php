@@ -31,7 +31,13 @@ return Application::configure(basePath: dirname(__DIR__))
     // 🔥 INI YANG PENTING UNTUK COMMAND KUSTOM
     ->withCommands([
         App\Console\Commands\DownloadWbpFoto::class,
+        App\Console\Commands\UpdateSelMaksimumStatus::class,
     ])
+
+    ->withSchedule(function ($schedule): void {
+        $schedule->command('kamar:update-sel-maksimum')
+            ->dailyAt('00:01');
+    })
 
     ->withExceptions(function (Exceptions $exceptions): void {
         //
