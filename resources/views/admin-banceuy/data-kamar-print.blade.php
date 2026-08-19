@@ -345,7 +345,7 @@
         @media print {
 
             @page {
-                size: A4;
+                size: 297mm 210mm;
                 margin: 12mm;
             }
 
@@ -353,175 +353,292 @@
                 background: #fff !important;
             }
 
-            /*=========================
-              SEMBUNYIKAN KOMPONEN UI
-            ========================== */
+            /* =========================
+            PRINT GRID
+            ========================= */
+
+            .container-fluid.py-3 {
+                display: flex !important;
+                flex-wrap: wrap !important;
+
+                width: 264mm !important;
+                max-width: 264mm !important;
+
+                column-gap: 8mm !important;
+                row-gap: 8mm !important;
+
+                margin: 0 !important;
+                padding: 0 !important;
+
+                align-items: flex-start !important;
+                align-content: flex-start !important;
+            }
+
+            /* =========================
+            SEMBUNYIKAN UI
+            ========================= */
+
             .no-print,
             .btn-all,
             .btn-batal,
             .btn-pindah,
-            .wbp-check {
-                display: none !important;
-            }
-
+            .wbp-check,
+            .toolbar-select,
+            .quick-dock,
+            #quickDock,
             .screen-only {
                 display: none !important;
             }
 
-            .print-only {
-                display: block !important;
+            /* =========================
+            SEMBUNYIKAN SEMUA HEADER CARD
+            ========================= */
+
+            .card-header {
+                display: none !important;
             }
 
             /* =========================
-                    HEADER BLOK
-            ========================== */
+            SEMBUNYIKAN PESAN KAMAR KOSONG
+            ========================= */
 
-            .card.shadow-sm {
-                border: none !important;
-                box-shadow: none !important;
+            .kamar-card .alert {
+                display: none !important;
+            }
+
+
+            /* =========================
+            CONTAINER BLOK
+            ========================= */
+
+            .blok-card {
+                display: contents !important;
+            }
+
+            .blok-card>.card-body {
+                padding: 0 !important;
                 margin: 0 !important;
             }
 
-            .card-header.bg-dark {
+
+            /* =========================
+            CONTAINER KAMAR
+            ========================= */
+
+            .kamar-card {
+                display: contents !important;
+            }
+
+            .kamar-card>.card-body {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            /* =========================
+            HEADER KAMAR TERPILIH
+            ========================= */
+
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header {
+                display: block !important;
+
+                width: 264mm !important;
+                max-width: 264mm !important;
+
+                flex: 0 0 264mm !important;
+
+                margin: 0 0 4mm 0 !important;
+                padding: 0 0 3mm 0 !important;
+
+                border: none !important;
+                border-bottom: 1px solid #000 !important;
+
                 background: #fff !important;
                 color: #000 !important;
-                border: none !important;
-                padding: 0 0 8px 0 !important;
+            }
+
+
+            /* =========================
+            JUDUL KAMAR
+            ========================= */
+
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header h5 {
+                font-size: 11pt !important;
+                margin: 0 !important;
+                color: #000 !important;
+            }
+
+
+            /* =========================
+            SEMBUNYIKAN KAMAR + KAPASITAS
+            ========================= */
+
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .text-muted {
+                display: none !important;
+            }
+
+
+            /* =========================
+            SEMBUNYIKAN BAGIAN KANAN
+            Dipilih + jumlah WBP + tombol
+            ========================= */
+
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .d-flex.flex-column.align-items-end {
+                display: none !important;
             }
 
             /* =========================
-             SETIAP KAMAR = 1 HALAMAN
-            ========================== */
+            RUMAH SAKIT & BON
+            DEFAULT HILANG
+            ========================= */
 
-            .card.border-primary {
-                border: none !important;
-                page-break-after: always;
-                break-after: page;
-                margin-bottom: 0 !important;
+            #section-rs,
+            #section-bon {
+                display: none !important;
             }
 
-            .card.border-primary:last-child {
-                page-break-after: auto;
-            }
 
             /* =========================
-                    GRID LABEL
-            ========================== */
+                TAMPILKAN HANYA JIKA
+                ADA WBP YANG DIPILIH
+                ========================= */
 
-            .row.g-3 {
-                display: flex !important;
-                flex-wrap: wrap !important;
+            #section-rs:has(.print-card:not([style*="display: none"])),
+            #section-bon:has(.print-card:not([style*="display: none"])) {
+                display: contents !important;
+            }
 
-                row-gap: 8mm;
-                column-gap: 8mm;
 
+            /* =========================
+            BODY SECTION JADI TRANSPARAN
+            ========================= */
+
+            #section-rs>.card-body,
+            #section-bon>.card-body {
+                display: contents !important;
+            }
+
+
+            /* =========================
+            ROW JADI TRANSPARAN
+            ========================= */
+
+            #section-rs .row.g-3,
+            #section-bon .row.g-3 {
+                display: contents !important;
+            }
+
+
+            /* =========================
+            ROW
+            ========================= */
+
+            .kamar-card .row.g-3 {
                 margin: 0 !important;
             }
 
-            .row.g-3>div {
+            /* =========================
+            SETIAP WBP
+            ========================= */
 
-                width: calc(50% - 4mm) !important;
-                max-width: calc(50% - 4mm) !important;
-                flex: 0 0 calc(50% - 4mm) !important;
+            .print-card {
+                width: 128mm !important;
+                max-width: 128mm !important;
+
+                flex: 0 0 128mm !important;
 
                 padding: 0 !important;
                 margin: 0 !important;
 
-                break-inside: avoid;
-                page-break-inside: avoid;
-
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
             }
 
             /* =========================
-                        LABEL
-            ========================== */
+            STEREK
+            ========================= */
 
             .wbp-item {
+                width: 128mm !important;
+                height: 34mm !important;
+
+                box-sizing: border-box !important;
 
                 border: 1px solid #000 !important;
                 border-radius: 0 !important;
                 box-shadow: none !important;
+
                 background: #fff !important;
 
-                height: 3.4cm;
+                overflow: hidden !important;
 
-                overflow: hidden;
-
+                margin: 0 !important;
             }
+
 
             .wbp-item.selected {
-
                 background: #fff !important;
                 border: 1px solid #000 !important;
-
             }
+
+            /* =========================
+            ISI STEREK
+            ========================= */
 
             .wbp-item .card-body {
-
                 padding: 5px 6px !important;
-
             }
 
             /* =========================
-                        FOTO
-            ========================== */
+            FOTO
+            ========================= */
 
             .foto-wbp {
+                width: 22mm !important;
+                height: 28mm !important;
 
-                width: 2.2cm !important;
-                height: 2.8cm !important;
-
-                object-fit: cover;
-
+                object-fit: cover !important;
             }
 
             /* =========================
-                        NAMA
-            ========================== */
+            NAMA
+            ========================= */
 
             .nama-wbp {
-
                 font-size: 10pt !important;
-                font-weight: 700;
-                line-height: 1.15;
+                font-weight: 700 !important;
+                line-height: 1.15 !important;
 
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
             }
 
             /* =========================
-                    DETAIL PRINT
-            ========================== */
+            DATA WBP
+            ========================= */
 
             .print-only {
-                margin-top: 3px;
+                display: block !important;
+
+                margin-top: 3px !important;
+
                 font-size: 8pt !important;
-                line-height: 1.2;
+                line-height: 1.2 !important;
             }
 
             .print-only div {
-                margin-bottom: 1px;
+                margin-bottom: 1px !important;
 
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
             }
+
 
             .print-only strong {
-                display: inline-block;
-                width: 65px;
+                display: inline-block !important;
+                width: 65px !important;
             }
-
-            /* =========================
-                        TEXT
-            ========================== */
-
-            .screen-only.text-muted {
-                color: #000 !important;
-            }
-
         }
 
         .screen-only {
