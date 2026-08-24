@@ -6,6 +6,7 @@ use App\Models\Wbp;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\WbpHelper;
 use App\Models\Kamar;
 use App\Services\KamarService;
 use Illuminate\Support\Facades\Log;
@@ -37,7 +38,10 @@ class ImportFileController extends Controller
         $inserted = 0;
         $updated = 0;
         $skipped = 0;
+        $notFound = 0;
         $errors = [];
+
+        $notFoundRows = [];
 
         $excelNoRegs = [];
 
@@ -47,7 +51,10 @@ class ImportFileController extends Controller
 
             for ($i = $start; $i < count($rows); $i++) {
 
-                if (($inserted + $updated + $skipped) >= $maxData) {
+                if (
+                    ($inserted + $updated + $skipped + $notFound)
+                    >= $maxData
+                ) {
                     break;
                 }
 
@@ -55,13 +62,12 @@ class ImportFileController extends Controller
 
                     $noReg = trim((string) ($rows[$i][1] ?? ''));
 
-                    if ($noReg !== '') {
+                    if ($noReg !== null) {
                         $excelNoRegs[] = $noReg;
                     }
 
                     $result = $this->importRow(
                         $rows[$i],
-                        $i,
                         $mode
                     );
 
@@ -77,6 +83,17 @@ class ImportFileController extends Controller
 
                         case 'skipped':
                             $skipped++;
+                            break;
+
+                        case 'not_found':
+                            $notFound++;
+
+                            $notFoundRows[] = [
+                                'row' => $i + 1,
+                                'no_reg_instansi' => $noReg,
+                                'nama' => trim((string) ($rows[$i][2] ?? '')),
+                            ];
+
                             break;
                     }
                 } catch (\Exception $e) {
@@ -102,9 +119,13 @@ class ImportFileController extends Controller
                 $missing = Wbp::select(
                     'id',
                     'no_reg_instansi',
-                    'nama'
+                    'nama',
+                    'status_wbp'
                 )
-                    ->whereNotIn('no_reg_instansi', $excelNoRegs)
+                    ->whereNotIn(
+                        'no_reg_instansi',
+                        $excelNoRegs
+                    )
                     ->orderBy('nama')
                     ->get();
             }
@@ -120,7 +141,9 @@ class ImportFileController extends Controller
         }
 
         return response()->json([
+
             'status' => true,
+
             'message' => 'Import data WBP berhasil.',
 
             'mode' => strtoupper($mode),
@@ -128,27 +151,35 @@ class ImportFileController extends Controller
             'inserted' => $inserted,
             'updated' => $updated,
             'skipped' => $skipped,
+            'not_found' => $notFound,
 
-            'total_processed' => $inserted + $updated + $skipped,
+            'total_processed' =>
+            $inserted
+                + $updated
+                + $skipped
+                + $notFound,
 
             'error_count' => count($errors),
             'errors' => $errors,
 
+            'not_found_count' => count($notFoundRows),
+            'not_found_rows' => $notFoundRows,
+
             'missing_count' => $missing->count(),
 
             'missing' => $missing->map(function ($item) {
-
                 return [
                     'id' => $item->id,
                     'no_reg_instansi' => $item->no_reg_instansi,
                     'nama' => $item->nama,
+                    'status_wbp' => $item->status_wbp,
                 ];
             })->values(),
 
         ]);
     }
 
-    private function importRow(array $row, int $index, string $mode): string
+    private function importRow(array $row, string $mode): string
     {
         $val = function ($v) {
 
@@ -161,6 +192,35 @@ class ImportFileController extends Controller
             return $v === ''
                 ? null
                 : $v;
+        };
+
+        $parseDate = function ($value) {
+
+            if ($value === null || trim((string) $value) === '') {
+                return null;
+            }
+
+            try {
+
+                if (is_numeric($value)) {
+                    return \PhpOffice\PhpSpreadsheet\Shared\Date
+                        ::excelToDateTimeObject($value)
+                        ->format('Y-m-d');
+                }
+
+                $ts = strtotime($value);
+
+                if ($ts === false) {
+                    throw new \Exception();
+                }
+
+                return date('Y-m-d', $ts);
+            } catch (\Exception $e) {
+
+                throw new \Exception(
+                    "Format tanggal tidak valid: {$value}"
+                );
+            }
         };
 
         // =========================
@@ -180,119 +240,80 @@ class ImportFileController extends Controller
         }
 
         $negara = $val($row[3] ?? null);
-        $agama = $val($row[4] ?? null);
+        $agama  = $val($row[4] ?? null);
 
-        $putusan = $val($row[5] ?? null);
-        $putusan_bulan = $val($row[6] ?? null);
-        if ($putusan_bulan !== null && !ctype_digit((string) $putusan_bulan)) {
-            throw new \Exception("Putusan (bulan) harus berupa angka. Nilai: {$putusan_bulan}.");
+        $jenis_kejahatan = $val($row[5] ?? null);
+
+        $putusan = $val($row[6] ?? null);
+
+        $putusan_bulan = $val($row[7] ?? null);
+
+        if (
+            $putusan_bulan !== null &&
+            !ctype_digit((string) $putusan_bulan)
+        ) {
+            throw new \Exception(
+                "Putusan (bulan) harus berupa angka. Nilai: {$putusan_bulan}."
+            );
         }
-        $jenis_kejahatan = $val($row[7] ?? null);
 
         // =========================
         // EKSPIRASI
         // =========================
 
-        $ekspirasi = null;
-
-        if (!empty($row[8])) {
-
-            try {
-
-                if (is_numeric($row[8])) {
-
-                    $ekspirasi =
-                        \PhpOffice\PhpSpreadsheet\Shared\Date
-                        ::excelToDateTimeObject($row[8])
-                        ->format('Y-m-d');
-                } else {
-
-                    $ts = strtotime($row[8]);
-
-                    if ($ts) {
-                        $ekspirasi = date('Y-m-d', $ts);
-                    }
-                }
-            } catch (\Exception $e) {
-                $ekspirasi = null;
-            }
-        }
+        $ekspirasi = $parseDate($row[8] ?? null);
 
         // =========================
         // MASA PIDANA
         // =========================
 
-        $masa_1_3 = $val($row[14] ?? null);
-        $masa_1_2 = $val($row[15] ?? null);
-        $masa_2_3 = $val($row[16] ?? null);
-
-        // =========================
-        // LOKASI
-        // =========================
-
-        // Ambil nilai dari file Excel SDP
-        $lokasi_blok = strtoupper(trim($val($row[9] ?? null) ?? ''));
-        $lokasi_sel  = strtoupper(trim($val($row[10] ?? null) ?? ''));
-
-        $tidakAdaKamar = $lokasi_blok === '' || $lokasi_sel === '';
-
-        if (!$tidakAdaKamar) {
-
-            // Konversi format SDP -> format database
-            $room = KamarService::convertSdpRoom(
-                $lokasi_blok,
-                $lokasi_sel
-            );
-
-            $lokasi_blok = $room['kode_blok'];
-            $lokasi_sel  = $room['lokasi_sel'];
-        }
-
-        $kamar = null;
-
-        if ($lokasi_blok !== '' && $lokasi_sel !== '') {
-
-            try {
-
-                $kamar = Kamar::where('kode_blok', $lokasi_blok)
-                    ->where('lokasi_sel', $lokasi_sel)
-                    ->sole();
-            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-
-                throw new \Exception(
-                    "Master kamar tidak ditemukan (Blok: {$lokasi_blok}, Sel: {$lokasi_sel})."
-                );
-            } catch (\Illuminate\Database\MultipleRecordsFoundException $e) {
-
-                throw new \Exception(
-                    "Master kamar ganda (Blok: {$lokasi_blok}, Sel: {$lokasi_sel}). Hubungi Administrator."
-                );
-            }
-        }
-
-        // =========================
-        // STATUS WBP
-        // =========================
-
-        $status_wbp = $this->resolveInitialStatus($row);
+        $masa_1_3 = $parseDate($row[9] ?? null);
+        $masa_1_2 = $parseDate($row[10] ?? null);
+        $masa_2_3 = $parseDate($row[11] ?? null);
 
         // =========================
         // REMISI
         // =========================
-        $total_bulan_remisi = $val($row[17] ?? null);
-        $total_hari_remisi  = $val($row[18] ?? null);
+
+        $total_bulan_remisi = $val($row[12] ?? null);
+        $total_hari_remisi  = $val($row[13] ?? null);
 
         // =========================
-        // FOTO
+        // PASAL & SUBSIDER
         // =========================
-        $foto = $val($row[23] ?? null);
 
-        if ($foto) {
+        $pasal = $val($row[14] ?? null);
 
-            $filename = basename($foto);
+        $denda_subsider = $val($row[15] ?? null);
 
-            $foto = 'storage/foto_wbp/' . $filename;
+        if ($denda_subsider !== null) {
+
+            // Hilangkan prefix Rupiah
+            $denda_subsider = str_replace(
+                ['Rp.', 'Rp', 'rp.', 'rp'],
+                '',
+                $denda_subsider
+            );
+
+            // Hilangkan spasi
+            $denda_subsider = trim($denda_subsider);
+
+            // Hilangkan pemisah ribuan
+            $denda_subsider = str_replace(',', '', $denda_subsider);
+
+            // Validasi harus angka
+            if (!is_numeric($denda_subsider)) {
+                throw new \Exception(
+                    "Denda subsider harus berupa nominal angka. Nilai: {$row[15]}"
+                );
+            }
+
+            $denda_subsider = (int) $denda_subsider;
         }
+
+        $subsider_tahun = $val($row[16] ?? null);
+        $subsider_bulan = $val($row[17] ?? null);
+        $subsider_hari  = $val($row[18] ?? null);
 
         // =========================
         // MASTER DATA (SDP)
@@ -317,23 +338,13 @@ class ImportFileController extends Controller
             'total_bulan_remisi'  => $total_bulan_remisi,
             'total_hari_remisi'   => $total_hari_remisi,
 
-            'foto_wbp'            => $foto,
-        ];
+            'pasal'              => $pasal,
 
-        $operasionalDefault = [
+            'denda_subsider'     => $denda_subsider,
+            'subsider_tahun'     => $subsider_tahun,
+            'subsider_bulan'     => $subsider_bulan,
+            'subsider_hari'      => $subsider_hari,
 
-            // Status awal WBP
-            'status_wbp' => $status_wbp,
-
-            // Lokasi awal dari SDP
-            'lokasi_blok' => $lokasi_blok ?: null,
-            'lokasi_sel'  => $lokasi_sel ?: null,
-
-            // Relasi ke tabel kamar
-            'kamar_id' => $kamar?->id,
-
-            // Status kamar mengikuti master kamar
-            'status_kamar' => $kamar?->status_kamar ?? 'Terbuka',
         ];
 
         // =========================
@@ -350,7 +361,6 @@ class ImportFileController extends Controller
                 [
                     'no_reg_instansi' => $no_reg,
                 ],
-                $operasionalDefault,
                 $masterData,
             ));
 
@@ -367,47 +377,9 @@ class ImportFileController extends Controller
                 $no_reg
             )->first();
 
-            // Belum ada -> insert baru
             if (!$existing) {
-
-                Wbp::create(array_merge(
-                    [
-                        'no_reg_instansi' => $no_reg,
-                    ],
-                    $operasionalDefault,
-                    $masterData,
-                ));
-
-                return 'inserted';
+                return 'not_found';
             }
-
-            /*
-            |--------------------------------------------------------------------------
-            | Update Data Master SDP
-            |--------------------------------------------------------------------------
-            | Yang diambil dari SDP:
-            | - nama
-            | - negara
-            | - agama
-            | - jenis_kejahatan
-            | - putusan
-            | - putusan_bulan
-            | - ekspirasi
-            | - masa pidana
-            | - remisi
-            | - lokasi_blok
-            | - lokasi_sel
-            |
-            | Yang TIDAK diubah:
-            | - kamar_id
-            | - status_kamar
-            | - status_wbp
-            | - foto_wbp
-            | - keperluan
-            | - tanggal
-            | - keterangan
-            |--------------------------------------------------------------------------
-            */
 
             $existing->update([
 
@@ -430,10 +402,12 @@ class ImportFileController extends Controller
                 'total_bulan_remisi' => $total_bulan_remisi,
                 'total_hari_remisi'  => $total_hari_remisi,
 
-                // Update penempatan sesuai SDP
-                'lokasi_blok'        => $lokasi_blok ?: null,
-                'lokasi_sel'         => $lokasi_sel ?: null,
-
+                // Data pidana tambahan
+                'pasal'              => $pasal,
+                'denda_subsider'     => $denda_subsider,
+                'subsider_tahun'     => $subsider_tahun,
+                'subsider_bulan'     => $subsider_bulan,
+                'subsider_hari'      => $subsider_hari,
             ]);
 
             return 'updated';
@@ -465,11 +439,15 @@ class ImportFileController extends Controller
         // Header ada di index 0, data mulai dari index 1
         $start = 1;
 
-        $total   = 0;
-        $insert  = 0;
-        $update  = 0;
-        $skip    = 0;
-        $invalid = 0;
+        $total    = 0;
+        $insert   = 0;
+        $update   = 0;
+        $skip     = 0;
+        $notFound = 0;
+        $invalid  = 0;
+
+        // Detail No. Registrasi yang tidak ditemukan
+        $notFoundRows = [];
 
         for ($i = $start; $i < count($rows); $i++) {
 
@@ -478,19 +456,21 @@ class ImportFileController extends Controller
 
             try {
 
-                $noReg = trim($rows[$i][1] ?? '');
+                $noReg = WbpHelper::normalizeNoReg(
+                    (string) ($rows[$i][1] ?? '')
+                );
 
                 if ($noReg === '') {
                     $invalid++;
                     continue;
                 }
 
-                if ($mode === 'append') {
+                $exists = Wbp::where(
+                    'no_reg_instansi',
+                    $noReg
+                )->exists();
 
-                    $exists = Wbp::where(
-                        'no_reg_instansi',
-                        $noReg
-                    )->exists();
+                if ($mode === 'append') {
 
                     if ($exists) {
                         $skip++;
@@ -499,15 +479,21 @@ class ImportFileController extends Controller
                     }
                 } elseif ($mode === 'update') {
 
-                    $exists = Wbp::where(
-                        'no_reg_instansi',
-                        $noReg
-                    )->exists();
-
                     if ($exists) {
+
                         $update++;
                     } else {
-                        $insert++;
+
+                        $notFound++;
+
+                        // Simpan detail baris Excel
+                        $notFoundRows[] = [
+                            'row' => $i + 1,
+                            'no_reg_instansi' => $noReg,
+                            'nama' => trim(
+                                (string) ($rows[$i][2] ?? '')
+                            ),
+                        ];
                     }
                 }
             } catch (\Throwable $e) {
@@ -520,11 +506,19 @@ class ImportFileController extends Controller
 
             'status'  => true,
             'mode'    => strtoupper($mode),
+
             'total'   => $total,
+
             'insert'  => $insert,
             'update'  => $update,
-            'skip' => $skip,
-            'invalid' => $invalid
+            'skip'    => $skip,
+            'not_found' => $notFound,
+
+            'invalid' => $invalid,
+
+            // Detail data yang tidak ditemukan
+            'not_found_rows' => $notFoundRows,
+
         ]);
     }
 

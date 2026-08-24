@@ -1002,9 +1002,19 @@
                     Detail WBP
                 </h5>
 
-                <button id="closeModal" class="btn btn-sm btn-danger">
-                    ✕
-                </button>
+                <div class="d-flex gap-2">
+
+                    @if ($permissions['fullAccess'])
+                        <button id="btnEditDetail" class="btn btn-sm btn-warning">
+                            ✏️ Edit
+                        </button>
+                    @endif
+
+                    <button id="closeModal" class="btn btn-sm btn-danger">
+                        ✕
+                    </button>
+
+                </div>
 
             </div>
 
@@ -1154,8 +1164,8 @@
                                     <strong>Perbarui Data WBP</strong>
                                     <br>
                                     <small class="text-muted">
-                                        Memperbarui data wbp berdasarkan No Registrasi Instansi.
-                                        Jika belum ada, data WBP akan dibuat sebagai data baru.
+                                        Memperbarui data WBP berdasarkan No Registrasi Instansi.
+                                        Jika No Registrasi tidak ditemukan di database, data tidak akan diubah.
                                     </small>
                                 </label>
                             </div>
@@ -1200,6 +1210,16 @@
                                 </tr>
 
                                 <tr>
+                                    <th>Data Dilewati</th>
+                                    <td class="text-warning fw-bold" id="previewSkip">0</td>
+                                </tr>
+
+                                <tr>
+                                    <th>No. Reg. Tidak Ditemukan</th>
+                                    <td class="text-danger fw-bold" id="previewNotFound">0</td>
+                                </tr>
+
+                                <tr>
                                     <th>Data Tidak Valid</th>
                                     <td class="text-danger fw-bold" id="previewInvalid">0</td>
                                 </tr>
@@ -1209,6 +1229,42 @@
                         </div>
 
                     </div>
+
+                    {{-- HASIL DETAIL IMPORT --}}
+                    <div id="importDetailResult" class="card border-warning mt-4 shadow-sm" style="display:none;">
+
+                        <div class="card-header bg-warning fw-bold">
+                            ⚠️ DATA TIDAK DITEMUKAN
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="text-secondary mb-3">
+                                Data berikut terdapat di file Excel tetapi
+                                No Registrasi Instansinya tidak ditemukan di database.
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered align-middle mb-0">
+
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th width="15%">Baris Excel</th>
+                                            <th width="30%">No Registrasi</th>
+                                            <th>Nama WBP</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="notFoundRowsBody">
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
 
             </div>
 
@@ -1223,8 +1279,6 @@
                 </button>
 
             </div>
-
-            </form>
 
         </div>
 
@@ -1926,6 +1980,12 @@
                <div class="mt-4 text-end d-flex gap-2 justify-content-end">
 
                     <button
+                        class="btn btn-primary btn-edit-wbp"
+                        data-id="${res.id ?? ''}">
+                        Edit Data WBP
+                    </button>
+
+                    <button
                         class="btn btn-info btn-edit-status"
                         data-id="${res.id ?? ''}"
                         data-nama="${nama}"
@@ -1957,6 +2017,23 @@
             });
 
         });
+
+        // ================= OPEN EDIT DATA WBP =================
+$(document).on('click', '.btn-edit-wbp', function() {
+
+    let wbpId = $(this).data('id');
+    let nama = $(this).data('nama');
+
+    if (!wbpId) {
+        alert('WBP ID tidak ditemukan');
+        return;
+    }
+
+    console.log('Edit WBP:', wbpId, nama);
+
+    // sementara
+    alert('Edit Data WBP ID: ' + wbpId);
+});
 
         // ================= OPEN EDIT KAMAR =================
         $(document).on('click', '.btn-edit-kamar', function() {
@@ -2185,7 +2262,6 @@
                 $('#modalEditStatus').fadeOut(200);
             }
         });
-
 
         $(document).on(
             'click',
@@ -2525,6 +2601,7 @@
         });
     </script>
 
+    <!--Tambah wbp script-->
     <script>
         $(function() {
 
@@ -2545,6 +2622,7 @@
         });
     </script>
 
+    <!--Route Import-->
     <script>
         const previewImportUrl = "{{ route('wbp.import.preview') }}";
         const importUrl = "{{ route('wbp.import') }}";
@@ -2603,6 +2681,8 @@
                         $('#previewTotal').text(res.total);
                         $('#previewInsert').text(res.insert);
                         $('#previewUpdate').text(res.update);
+                        $('#previewSkip').text(res.skip);
+                        $('#previewNotFound').text(res.not_found);
                         $('#previewInvalid').text(res.invalid);
 
                         $('#previewResult').fadeIn(200);
@@ -2620,6 +2700,15 @@
                     }
 
                 });
+
+            });
+
+            // ================= RESET PREVIEW SAAT FILE / MODE BERUBAH =================
+            $('#fileExcel, input[name="import_mode"]').on('change', function() {
+
+                $('#previewResult').hide();
+
+                $('#btnImportNow').hide();
 
             });
 
@@ -2676,13 +2765,50 @@
                         alert(
                             res.message +
                             '\n\n' +
-                            'Data Baru : ' + res.inserted +
-                            '\nUpdate : ' + res.updated +
-                            '\nDilewati : ' + res.skipped
+                            'Data Baru       : ' + res.inserted +
+                            '\nUpdate          : ' + res.updated +
+                            '\nDilewati        : ' + res.skipped +
+                            '\nTidak Ditemukan : ' + res.not_found +
+                            '\nError           : ' + res.error_count
                         );
 
-                        resetImportModal();
+                        // ================= DETAIL NOT FOUND =================
 
+                        let tbody = $('#notFoundRowsBody');
+
+                        tbody.empty();
+
+                        if (res.not_found_rows && res.not_found_rows.length > 0) {
+
+                            $.each(res.not_found_rows, function(index, item) {
+
+                                tbody.append(`
+                                <tr>
+                                    <td class="fw-bold text-center">
+                                        ${item.row}
+                                    </td>
+
+                                    <td>
+                                        ${item.no_reg_instansi}
+                                    </td>
+
+                                    <td>
+                                        ${item.nama}
+                                    </td>
+                                </tr>
+                            `);
+
+                            });
+
+                            $('#importDetailResult').fadeIn(200);
+
+                        } else {
+
+                            $('#importDetailResult').hide();
+
+                        }
+
+                        // REFRESH DATA TABEL UTAMA
                         loadStatus(currentStatus, currentPage);
 
                     },
@@ -2734,12 +2860,17 @@
 
                 $('#previewResult').hide();
 
+                $('#importDetailResult').hide();
+                $('#notFoundRowsBody').empty();
+
                 $('#btnImportNow').hide();
 
                 $('#previewMode').text('-');
                 $('#previewTotal').text('0');
                 $('#previewInsert').text('0');
                 $('#previewUpdate').text('0');
+                $('#previewSkip').text('0');
+                $('#previewNotFound').text('0');
                 $('#previewInvalid').text('0');
 
                 $('#importExcelModal').removeClass('active');
