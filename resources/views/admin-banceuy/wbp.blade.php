@@ -22,32 +22,25 @@
 
 @section('content')
     <style>
+        /* ================= CUSTOM MODAL ================= */
         .custom-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, .45);
 
             display: flex;
             justify-content: center;
             align-items: center;
 
+            background: rgba(0, 0, 0, .45);
+
             opacity: 0;
             visibility: hidden;
 
-            transition: .25s;
+            transition: opacity .25s ease, visibility .25s ease;
+
             z-index: 99999;
-        }
 
-        .custom-modal-content form {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            min-height: 0;
-        }
-
-        .modal-header-custom,
-        .modal-footer-custom {
-            flex-shrink: 0;
+            padding: 20px;
         }
 
         /* SHOW */
@@ -56,7 +49,8 @@
             visibility: visible;
         }
 
-        /* BOX */
+        /* ================= MODAL CONTENT ================= */
+
         .custom-modal-content {
             width: 1100px;
             max-width: 95%;
@@ -66,121 +60,202 @@
             flex-direction: column;
 
             background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
-            transform: translateY(-20px);
-            transition: .25s ease;
 
-        }
-
-        .custom-modal-content {
             border-radius: 16px;
-        }
+            overflow: hidden;
 
-        .modal-body-custom {
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
+
+            transform: translateY(-20px);
+            transition: transform .25s ease;
         }
 
         .custom-modal.show .custom-modal-content {
             transform: translateY(0);
         }
 
-        /* HEADER */
-        .modal-header-custom {
+        /* ================= HEADER ================= */
+
+        .custom-modal-header {
+            flex-shrink: 0;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             padding: 18px 25px;
+
             border-bottom: 1px solid #ececec;
+
             background: #f8f9fa;
         }
 
-        .modal-header-custom h4 {
+        .custom-modal-header h5 {
             margin: 0;
+
             font-size: 20px;
             font-weight: 600;
+
+            color: #212529;
         }
 
-        /* CLOSE */
-        .close-modal {
+        /* ================= CLOSE BUTTON ================= */
+
+        .btn-close-modal {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             border: none;
-            background: none;
+            background: transparent;
+
             font-size: 30px;
-            cursor: pointer;
+            line-height: 1;
+
             color: #777;
-            transition: .2s;
 
+            cursor: pointer;
+
+            border-radius: 8px;
+
+            transition: .2s ease;
         }
 
-        .close-modal:hover {
-            color: red;
-            transform: scale(1.1);
+        .btn-close-modal:hover {
+            background: #e9ecef;
+            color: #dc3545;
+
+            transform: scale(1.05);
         }
 
-        /* BODY */
-        .modal-body-custom {
+        /* ================= BODY ================= */
+
+        .custom-modal-body {
             flex: 1;
             min-height: 0;
+
             overflow-y: auto;
+
             padding: 24px;
         }
 
-        .audit-toolbar {
-            flex-shrink: 0;
+        /* Scrollbar */
+        .custom-modal-body::-webkit-scrollbar {
+            width: 7px;
         }
 
-        .audit-toolbar .badge {
-            font-size: .75rem;
-            font-weight: 600;
+        .custom-modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
 
-        .audit-filter.active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
-            outline: 2px solid rgba(255, 255, 255, .6);
-            filter: brightness(1.08);
+        .custom-modal-body::-webkit-scrollbar-thumb {
+            background: #c7c7c7;
+            border-radius: 10px;
         }
 
-        .form-group {
-            margin-bottom: 18px;
+        .custom-modal-body::-webkit-scrollbar-thumb:hover {
+            background: #999;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 600;
-        }
+        /* ================= FORM ================= */
 
-        .form-control {
+        .custom-modal-body form {
             width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #ddd;
+        }
+
+        /* Label */
+        .custom-modal-body .form-label {
+            margin-bottom: 7px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #343a40;
+        }
+
+        /* Input */
+        .custom-modal-body .form-control,
+        .custom-modal-body .form-select {
+            width: 100%;
+
+            min-height: 42px;
+
+            border: 1px solid #dee2e6;
             border-radius: 8px;
-            outline: none;
-            transition: .2s;
+
+            padding: 9px 12px;
+
+            font-size: 14px;
+
+            transition: .2s ease;
         }
 
-        .form-control:focus {
+        .custom-modal-body .form-control:focus,
+        .custom-modal-body .form-select:focus {
             border-color: #0d6efd;
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, .15);
+
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, .12);
         }
 
-        /* FOOTER */
-        .modal-footer-custom {
-            padding: 18px 25px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            border-top: 1px solid #eee;
-            background: #fafafa;
+        /* Textarea */
+        .custom-modal-body textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
         }
 
-        /* RESPONSIVE */
-        @media(max-width:576px) {
+        /* Section title */
+        .custom-modal-body h6 {
+            font-size: 16px;
+            color: #212529;
+        }
+
+        /* Divider */
+        .custom-modal-body hr {
+            margin-top: 24px;
+            margin-bottom: 24px;
+
+            border-color: #e9ecef;
+            opacity: 1;
+        }
+
+        /* ================= BUTTON AREA ================= */
+
+        .custom-modal-body form>.mt-4 {
+            padding-top: 8px;
+            padding-bottom: 4px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 768px) {
+
+            .custom-modal {
+                padding: 10px;
+                align-items: center;
+            }
+
             .custom-modal-content {
-                width: 95%;
+                width: 100%;
+                max-width: 100%;
+
+                height: 92vh;
+
+                border-radius: 14px;
+            }
+
+            .custom-modal-header {
+                padding: 15px 18px;
+            }
+
+            .custom-modal-header h5 {
+                font-size: 18px;
+            }
+
+            .custom-modal-body {
+                padding: 18px;
             }
 
         }
@@ -704,6 +779,408 @@
         }
     </style>
 
+    <style>
+        /* =========================================================
+                                                                               MODAL EDIT DATA WBP
+                                                                               ========================================================= */
+
+        #modalEditWbp {
+            position: fixed;
+            inset: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            background: rgba(0, 0, 0, .45);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity .25s ease,
+                visibility .25s ease;
+
+            z-index: 99999;
+        }
+
+        /* OPEN */
+        #modalEditWbp.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* =========================================================
+                                                                               CONTENT
+                                                                               ========================================================= */
+
+        #modalEditWbp .custom-modal-content {
+            width: 1100px;
+            max-width: 95%;
+            height: 85vh;
+
+            display: flex;
+            flex-direction: column;
+
+            background: #fff;
+
+            border-radius: 16px;
+            overflow: hidden;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
+
+            transform: translateY(-20px);
+            transition: transform .25s ease;
+        }
+
+        #modalEditWbp.show .custom-modal-content {
+            transform: translateY(0);
+        }
+
+        /* =========================================================
+                                                                               HEADER
+                                                                               ========================================================= */
+
+        #modalEditWbp .custom-modal-header {
+            flex-shrink: 0;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 18px 25px;
+
+            border-bottom: 1px solid #ececec;
+
+            background: #f8f9fa;
+        }
+
+        #modalEditWbp .custom-modal-header h5 {
+            margin: 0;
+
+            font-size: 20px;
+            font-weight: 700;
+
+            color: #212529;
+        }
+
+        /* =========================================================
+                                                                CLOSE
+                                            ========================================================= */
+
+        #modalEditWbp .btn-close-modal {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+
+            border: none;
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: #777;
+
+            font-size: 30px;
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition: .2s ease;
+        }
+
+        #modalEditWbp .btn-close-modal:hover {
+            background: #e9ecef;
+            color: #dc3545;
+
+            transform: scale(1.05);
+        }
+
+        /* =========================================================
+                                        BODY
+                                        ========================================================= */
+
+        #modalEditWbp .custom-modal-body {
+            flex: 1;
+            min-height: 0;
+
+            overflow-y: auto;
+
+            padding: 24px;
+        }
+
+        /* Scrollbar */
+        #modalEditWbp .custom-modal-body::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        #modalEditWbp .custom-modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #modalEditWbp .custom-modal-body::-webkit-scrollbar-thumb {
+            background: #c7c7c7;
+            border-radius: 10px;
+        }
+
+        /* =========================================================
+                                                                               FORM
+                                                                               ========================================================= */
+
+        #modalEditWbp .custom-modal-body .form-label {
+            margin-bottom: 7px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #343a40;
+        }
+
+        #modalEditWbp .custom-modal-body .form-control,
+        #modalEditWbp .custom-modal-body .form-select {
+            width: 100%;
+
+            min-height: 42px;
+
+            padding: 9px 12px;
+
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            transition: .2s ease;
+        }
+
+        #modalEditWbp .custom-modal-body .form-control:focus,
+        #modalEditWbp .custom-modal-body .form-select:focus {
+            border-color: #0d6efd;
+
+            box-shadow:
+                0 0 0 3px rgba(13, 110, 253, .12);
+        }
+
+        #modalEditWbp .custom-modal-body textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* =========================================================
+                                                                               SECTION
+                                                                               ========================================================= */
+
+        #modalEditWbp .custom-modal-body h6 {
+            font-size: 16px;
+            font-weight: 700;
+
+            color: #212529;
+        }
+
+        #modalEditWbp .custom-modal-body hr {
+            margin-top: 24px;
+            margin-bottom: 24px;
+
+            border-color: #e9ecef;
+
+            opacity: 1;
+        }
+
+        /* =========================================================
+                                                                               BUTTON
+                                                                               ========================================================= */
+
+        #modalEditWbp #cancelEditWbp,
+        #modalEditWbp button[type="submit"] {
+            min-width: 130px;
+
+            height: 42px;
+
+            border-radius: 8px;
+
+            font-weight: 600;
+        }
+
+        /* =========================================================
+                                                                               MOBILE
+                                                                               ========================================================= */
+
+        @media (max-width: 768px) {
+
+            #modalEditWbp {
+                padding: 10px;
+            }
+
+            #modalEditWbp .custom-modal-content {
+                width: 100%;
+                max-width: 100%;
+
+                height: 92vh;
+
+                border-radius: 14px;
+            }
+
+            #modalEditWbp .custom-modal-header {
+                padding: 15px 18px;
+            }
+
+            #modalEditWbp .custom-modal-header h5 {
+                font-size: 18px;
+            }
+
+            #modalEditWbp .custom-modal-body {
+                padding: 18px;
+            }
+
+            #modalEditWbp #cancelEditWbp,
+            #modalEditWbp button[type="submit"] {
+                min-width: 110px;
+            }
+        }
+
+        /* =========================================================
+                           MODAL KONFIRMASI PERUBAHAN WBP
+                           ========================================================= */
+
+        #modalKonfirmasiEditWbp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* CARD MODAL */
+        #modalKonfirmasiEditWbp .modal-konfirmasi-wbp {
+            width: 100%;
+            max-width: 460px;
+            height: auto;
+            min-height: 0;
+
+            margin: 0;
+            padding: 0;
+
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+        }
+
+        /* HEADER */
+        #modalKonfirmasiEditWbp .custom-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 17px 20px;
+
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        /* BODY */
+        #modalKonfirmasiEditWbp .modal-konfirmasi-body {
+            padding: 25px 25px 8px;
+            text-align: center;
+        }
+
+        /* ICON */
+        #modalKonfirmasiEditWbp .modal-konfirmasi-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 58px;
+            height: 58px;
+
+            margin: 0 auto 16px;
+
+            font-size: 32px;
+            line-height: 1;
+
+            background: #fff3cd;
+            border-radius: 50%;
+        }
+
+        /* JUDUL */
+        #modalKonfirmasiEditWbp .modal-konfirmasi-title {
+            margin: 0 0 7px;
+
+            font-size: 17px;
+            font-weight: 700;
+
+            color: #26364a;
+        }
+
+        /* DESKRIPSI */
+        #modalKonfirmasiEditWbp .modal-konfirmasi-text {
+            max-width: 380px;
+
+            margin: 0 auto;
+
+            font-size: 13.5px;
+            line-height: 1.5;
+
+            color: #6c757d;
+        }
+
+        /* FOOTER */
+        #modalKonfirmasiEditWbp .modal-konfirmasi-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            padding: 18px 25px 22px;
+        }
+
+        /* BUTTON */
+        #modalKonfirmasiEditWbp .modal-konfirmasi-footer .btn {
+            height: 38px;
+            padding: 0 18px;
+
+            border-radius: 5px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* BATAL */
+        #modalKonfirmasiEditWbp #batalKonfirmasiEditWbp {
+            min-width: 80px;
+        }
+
+        /* SIMPAN */
+        #modalKonfirmasiEditWbp #lanjutSimpanEditWbp {
+            min-width: 190px;
+            white-space: nowrap;
+        }
+
+        /* CLOSE BUTTON */
+        #modalKonfirmasiEditWbp .btn-close-modal {
+            font-size: 25px;
+            line-height: 1;
+
+            color: #6c757d;
+
+            opacity: 0.9;
+
+            padding: 0;
+        }
+
+        #modalKonfirmasiEditWbp .btn-close-modal:hover {
+            color: #212529;
+        }
+    </style>
+
     <div class="container-fluid my-3">
 
         {{-- ================= HEADER ================= --}}
@@ -992,6 +1469,7 @@
     </div>
 
     {{-- ================= MODAL DETAIL ================= --}}
+
     <div id="modalDetail">
 
         <div class="detail-card">
@@ -1003,12 +1481,6 @@
                 </h5>
 
                 <div class="d-flex gap-2">
-
-                    @if ($permissions['fullAccess'])
-                        <button id="btnEditDetail" class="btn btn-sm btn-warning">
-                            ✏️ Edit
-                        </button>
-                    @endif
 
                     <button id="closeModal" class="btn btn-sm btn-danger">
                         ✕
@@ -1026,8 +1498,356 @@
 
     </div>
 
-    {{-- ================= MODAL EDIT STATUS ================= --}}
+    {{-- ================= MODAL EDIT DATA WBP ================= --}}
+    <div class="custom-modal" id="modalEditWbp">
 
+        <div class="custom-modal-content" style="max-width:1100px; width:95%;">
+
+            <div class="custom-modal-header">
+
+                <h5 class="fw-bold mb-0">
+                    Edit Data WBP
+                </h5>
+
+                <button type="button" class="btn-close-modal" id="closeModalEditWbp">
+                    &times;
+                </button>
+
+            </div>
+
+            <div class="custom-modal-body">
+
+                <form id="formEditWbp">
+
+                    <input type="hidden" id="full_edit_wbp_id" name="id">
+
+                    {{-- ================= IDENTITAS ================= --}}
+                    <h6 class="fw-bold mb-3">
+                        Identitas WBP
+                    </h6>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                No. Reg. Instansi
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_no_reg_instansi" name="no_reg_instansi">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Nama
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_nama" name="nama">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Negara
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_negara" name="negara">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Agama
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_agama" name="agama">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Klasifikasi WBP
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_klasifikasi_wbp" name="klasifikasi_wbp">
+                        </div>
+
+                    </div>
+
+
+                    {{-- ================= PERKARA ================= --}}
+                    <hr class="my-4">
+
+                    <h6 class="fw-bold mb-3">
+                        Perkara & Putusan
+                    </h6>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Jenis Kejahatan
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_jenis_kejahatan" name="jenis_kejahatan">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Pasal
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_pasal" name="pasal">
+                        </div>
+
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold">
+                                Putusan
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_putusan" name="putusan">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Putusan Bulan
+                            </label>
+
+                            <input type="number" class="form-control" id="edit_putusan_bulan" name="putusan_bulan"
+                                min="0">
+                        </div>
+
+                    </div>
+
+
+                    {{-- ================= SUBSIDER ================= --}}
+                    <hr class="my-4">
+
+                    <h6 class="fw-bold mb-3">
+                        Subsider
+                    </h6>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Subsider Tahun
+                            </label>
+
+                            <input type="number" class="form-control" id="edit_subsider_tahun" name="subsider_tahun"
+                                min="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Subsider Bulan
+                            </label>
+
+                            <input type="number" class="form-control" id="edit_subsider_bulan" name="subsider_bulan"
+                                min="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Subsider Hari
+                            </label>
+
+                            <input type="number" class="form-control" id="edit_subsider_hari" name="subsider_hari"
+                                min="0">
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">
+                                Denda Subsider
+                            </label>
+
+                            <input type="number" class="form-control" id="edit_denda_subsider" name="denda_subsider"
+                                min="0">
+                        </div>
+
+                    </div>
+
+                    {{-- ================= MASA & REMISI ================= --}}
+                    <hr class="my-4">
+
+                    <h6 class="fw-bold mb-3">
+                        Masa & Remisi
+                    </h6>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Ekspirasi
+                            </label>
+
+                            <input type="date" class="form-control" id="edit_ekspirasi" name="ekspirasi">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Masa 1/3
+                            </label>
+
+                            <input type="date" class="form-control" id="edit_masa_1_3" name="masa_1_3">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Masa 1/2
+                            </label>
+
+                            <input type="date" class="form-control" id="edit_masa_1_2" name="masa_1_2">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Masa 2/3
+                            </label>
+
+                            <input type="date" class="form-control" id="edit_masa_2_3" name="masa_2_3">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Total Bulan Remisi
+                            </label>
+
+                            <input type="number" class="form-control" id="edit_total_bulan_remisi"
+                                name="total_bulan_remisi" min="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">
+                                Total Hari Remisi
+                            </label>
+
+                            <input type="number" class="form-control" id="edit_total_hari_remisi"
+                                name="total_hari_remisi" min="0">
+                        </div>
+
+                    </div>
+
+                    {{-- ================= DATA TAMBAHAN ================= --}}
+                    <hr class="my-4">
+
+                    <h6 class="fw-bold mb-3">
+                        Data Tambahan
+                    </h6>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Keperluan
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_keperluan" name="keperluan">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Tanggal Bon
+                            </label>
+
+                            <input type="date" class="form-control" id="edit_tanggal_bon" name="tanggal_bon">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Tanggal
+                            </label>
+
+                            <input type="datetime-local" class="form-control" id="edit_tanggal" name="tanggal">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Foto WBP
+                            </label>
+
+                            <input type="text" class="form-control" id="edit_foto_wbp" name="foto_wbp">
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">
+                                Keterangan
+                            </label>
+
+                            <textarea class="form-control" id="edit_keterangan" name="keterangan" rows="4"></textarea>
+                        </div>
+
+                    </div>
+
+
+                    {{-- ================= BUTTON ================= --}}
+                    <div class="mt-4 d-flex justify-content-end gap-2">
+
+                        <button type="button" class="btn btn-secondary" id="cancelEditWbp">
+                            Batal
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            Simpan Perubahan
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- ================= MODAL KONFIRMASI PERUBAHAN WBP ================= --}}
+    <div class="custom-modal" id="modalKonfirmasiEditWbp">
+
+        <div class="custom-modal-content modal-konfirmasi-wbp">
+
+            <div class="custom-modal-header">
+
+                <h5 class="fw-bold mb-0">
+                    Konfirmasi Perubahan
+                </h5>
+
+                <button type="button" class="btn-close-modal" id="closeModalKonfirmasiEditWbp">
+                    &times;
+                </button>
+
+            </div>
+
+            <div class="modal-konfirmasi-body">
+
+                <div class="modal-konfirmasi-icon">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+
+                <h5 class="modal-konfirmasi-title">
+                    Simpan perubahan data?
+                </h5>
+
+                <p class="modal-konfirmasi-text">
+                    Pastikan seluruh data WBP yang diubah sudah benar
+                    sebelum melanjutkan.
+                </p>
+
+            </div>
+
+            <div class="modal-konfirmasi-footer">
+
+                <button type="button" class="btn btn-secondary" id="batalKonfirmasiEditWbp">
+                    Batal
+                </button>
+
+                <button type="button" class="btn btn-primary" id="lanjutSimpanEditWbp">
+                    Ya, Simpan Perubahan
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- ================= MODAL EDIT STATUS ================= --}}
     <div id="modalEditStatus">
 
         <div class="edit-card">
@@ -1981,7 +2801,8 @@
 
                     <button
                         class="btn btn-primary btn-edit-wbp"
-                        data-id="${res.id ?? ''}">
+                        data-id="${res.id ?? ''}"
+                        data-nama="${nama}">
                         Edit Data WBP
                     </button>
 
@@ -2019,21 +2840,235 @@
         });
 
         // ================= OPEN EDIT DATA WBP =================
-$(document).on('click', '.btn-edit-wbp', function() {
+        $(document).on('click', '.btn-edit-wbp', function() {
 
-    let wbpId = $(this).data('id');
-    let nama = $(this).data('nama');
+            let wbpId = $(this).data('id');
 
-    if (!wbpId) {
-        alert('WBP ID tidak ditemukan');
-        return;
-    }
+            if (!wbpId) {
+                alert('WBP ID tidak ditemukan');
+                return;
+            }
 
-    console.log('Edit WBP:', wbpId, nama);
+            console.log('Edit WBP:', wbpId);
 
-    // sementara
-    alert('Edit Data WBP ID: ' + wbpId);
-});
+            // ================= BUKA MODAL =================
+            $('#modalEditWbp').addClass('show');
+
+            // ================= AMBIL DATA =================
+            $.get('/admin-banceuy/wbp/' + wbpId + '/edit', function(res) {
+
+                console.log('Data Edit WBP:', res);
+
+                // ================= IDENTITAS =================
+                $('#full_edit_wbp_id').val(res.id);
+                $('#edit_no_reg_instansi').val(res.no_reg_instansi ?? '');
+                $('#edit_nama').val(res.nama ?? '');
+                $('#edit_negara').val(res.negara ?? '');
+                $('#edit_agama').val(res.agama ?? '');
+                $('#edit_klasifikasi_wbp').val(res.klasifikasi_wbp ?? '');
+
+                // ================= PERKARA =================
+                $('#edit_jenis_kejahatan').val(res.jenis_kejahatan ?? '');
+                $('#edit_pasal').val(res.pasal ?? '');
+                $('#edit_putusan').val(res.putusan ?? '');
+                $('#edit_putusan_bulan').val(res.putusan_bulan ?? '');
+
+                // ================= SUBSIDER =================
+                $('#edit_subsider_tahun').val(res.subsider_tahun ?? '');
+                $('#edit_subsider_bulan').val(res.subsider_bulan ?? '');
+                $('#edit_subsider_hari').val(res.subsider_hari ?? '');
+                $('#edit_denda_subsider').val(res.denda_subsider ?? '');
+
+                // ================= MASA & REMISI =================
+                $('#edit_ekspirasi').val(res.ekspirasi ?? '');
+                $('#edit_masa_1_3').val(res.masa_1_3 ?? '');
+                $('#edit_masa_1_2').val(res.masa_1_2 ?? '');
+                $('#edit_masa_2_3').val(res.masa_2_3 ?? '');
+
+                $('#edit_total_bulan_remisi').val(
+                    res.total_bulan_remisi ?? ''
+                );
+
+                $('#edit_total_hari_remisi').val(
+                    res.total_hari_remisi ?? ''
+                );
+
+                // ================= LOKASI =================
+                $('#edit_lokasi_blok').val(res.lokasi_blok ?? '');
+                $('#edit_lokasi_sel').val(res.lokasi_sel ?? '');
+                $('#edit_kamar_id').val(res.kamar_id ?? '');
+
+                // ================= STATUS =================
+                $('#edit_status_kamar').val(res.status_kamar ?? '');
+                $('#edit_status_wbp').val(res.status_wbp ?? '');
+
+                // ================= DATA TAMBAHAN =================
+                $('#edit_keperluan').val(res.keperluan ?? '');
+                $('#edit_tanggal_bon').val(res.tanggal_bon ?? '');
+
+                if (res.tanggal) {
+                    $('#edit_tanggal').val(
+                        res.tanggal.substring(0, 16).replace(' ', 'T')
+                    );
+                } else {
+                    $('#edit_tanggal').val('');
+                }
+
+                $('#edit_foto_wbp').val(res.foto_wbp ?? '');
+                $('#edit_keterangan').val(res.keterangan ?? '');
+
+            }).fail(function(xhr) {
+
+                console.error('Gagal mengambil data WBP:', xhr);
+
+                $('#modalEditWbp').removeClass('show');
+
+                alert('Gagal mengambil data WBP.');
+
+            });
+
+        });
+
+        // ================= SUBMIT EDIT DATA WBP =================
+        $(document).on('submit', '#formEditWbp', function(e) {
+
+            e.preventDefault();
+
+            const form = $(this);
+            const wbpId = $('#full_edit_wbp_id').val();
+
+            if (!wbpId) {
+                alert('ID WBP tidak ditemukan.');
+                return;
+            }
+
+            // ================= TAMPILKAN KONFIRMASI =================
+            $('#modalKonfirmasiEditWbp').addClass('show');
+
+        });
+
+
+        // ================= BATAL KONFIRMASI =================
+        $(document).on(
+            'click',
+            '#closeModalKonfirmasiEditWbp, #batalKonfirmasiEditWbp',
+            function() {
+
+                $('#modalKonfirmasiEditWbp').removeClass('show');
+
+            }
+        );
+
+
+        // ================= LANJUT SIMPAN =================
+        $(document).on('click', '#lanjutSimpanEditWbp', function() {
+
+            const form = $('#formEditWbp');
+            const wbpId = $('#full_edit_wbp_id').val();
+
+            if (!wbpId) {
+                alert('ID WBP tidak ditemukan.');
+                return;
+            }
+
+            const submitButton = form.find('button[type="submit"]');
+
+            // ================= TUTUP KONFIRMASI =================
+            $('#modalKonfirmasiEditWbp').removeClass('show');
+
+            // ================= LOADING =================
+            submitButton
+                .prop('disabled', true)
+                .html('Menyimpan...');
+
+            $.ajax({
+
+                url: '/admin-banceuy/wbp/' + wbpId,
+
+                type: 'PUT',
+
+                data: form.serialize(),
+
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                success: function(res) {
+
+                    console.log('Update WBP berhasil:', res);
+
+                    // ================= TUTUP MODAL EDIT =================
+                    $('#modalEditWbp').removeClass('show');
+
+                    // ================= RESET BUTTON =================
+                    submitButton
+                        .prop('disabled', false)
+                        .html('Simpan Perubahan');
+
+                    // ================= NOTIFIKASI =================
+                    alert(
+                        res.message ??
+                        'Data WBP berhasil diperbarui.'
+                    );
+
+                    // ================= REFRESH DATA =================
+                    refreshWbpData();
+
+                },
+
+                error: function(xhr) {
+
+                    console.error(
+                        'Gagal update WBP:',
+                        xhr.responseJSON || xhr.responseText
+                    );
+
+                    // ================= RESET BUTTON =================
+                    submitButton
+                        .prop('disabled', false)
+                        .html('Simpan Perubahan');
+
+                    // ================= VALIDATION ERROR =================
+                    if (xhr.status === 422) {
+
+                        let message = 'Data tidak valid.';
+
+                        if (xhr.responseJSON?.errors) {
+
+                            const errors = xhr.responseJSON.errors;
+
+                            message = Object.values(errors)
+                                .flat()
+                                .join('\n');
+                        }
+
+                        alert(message);
+
+                        return;
+                    }
+
+                    alert(
+                        xhr.responseJSON?.message ??
+                        'Terjadi kesalahan saat memperbarui Data WBP.'
+                    );
+
+                }
+
+            });
+
+        });
+
+
+        // ================= CLOSE EDIT WBP =================
+        $(document).on(
+            'click',
+            '#closeModalEditWbp, #cancelEditWbp',
+            function() {
+
+                $('#modalEditWbp').removeClass('show');
+
+            }
+        );
 
         // ================= OPEN EDIT KAMAR =================
         $(document).on('click', '.btn-edit-kamar', function() {

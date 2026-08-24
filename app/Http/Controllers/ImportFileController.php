@@ -456,9 +456,7 @@ class ImportFileController extends Controller
 
             try {
 
-                $noReg = WbpHelper::normalizeNoReg(
-                    (string) ($rows[$i][1] ?? '')
-                );
+                $noReg = trim((string) ($rows[$i][1] ?? ''));
 
                 if ($noReg === '') {
                     $invalid++;

@@ -121,6 +121,8 @@ Route::middleware('admin')->group(function () {
         Route::post('/admin-banceuy/wbp/update-keterangan', [DataWbpController::class, 'updateKeterangan']);
         Route::post('/admin-banceuy/wbp/update-status', [DataWbpController::class, 'updateStatus']);
         Route::post('/admin-banceuy/wbp/update-kamar', [DataWbpController::class, 'wbpKamarUpdate']);
+        Route::get('/admin-banceuy/wbp/{id}/edit', [DataWbpController::class, 'edit'])->name('wbp.edit');
+        Route::put('/admin-banceuy/wbp/{id}', [DataWbpController::class, 'update'])->name('admin-banceuy.wbp.update');
         Route::post('/wbp/update-status-multiple', [DataWbpController::class, 'updateStatusMultiple'])->name('wbp.updateStatusMultiple');
         Route::delete('/admin-banceuy/wbp/{id}', [DataWbpController::class, 'destroy']);
         Route::get('/wbp/export', [DataWbpController::class, 'export'])->name('wbp.export');

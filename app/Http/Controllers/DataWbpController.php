@@ -509,6 +509,116 @@ class DataWbpController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $wbp = Wbp::findOrFail($id);
+
+        return response()->json($wbp);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $wbp = Wbp::findOrFail($id);
+
+        $request->validate([
+            'no_reg_instansi' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('wbps')
+                    ->where(fn($q) => $q->where('nama', $request->nama))
+                    ->ignore($wbp->id),
+            ],
+
+            'nama' => 'required|string|max:100',
+            'negara' => 'nullable|string|max:50',
+            'agama' => 'nullable|string|max:30',
+            'klasifikasi_wbp' => 'nullable|string|max:100',
+
+            'jenis_kejahatan' => 'nullable|string|max:100',
+            'pasal' => 'nullable|string|max:255',
+            'putusan' => 'nullable|string|max:255',
+            'putusan_bulan' => 'nullable|integer|min:0',
+
+            'subsider_tahun' => 'nullable|integer|min:0',
+            'subsider_bulan' => 'nullable|integer|min:0',
+            'subsider_hari' => 'nullable|integer|min:0',
+            'denda_subsider' => 'nullable|numeric|min:0',
+
+            'ekspirasi' => 'nullable|date',
+            'masa_1_3' => 'nullable|date',
+            'masa_1_2' => 'nullable|date',
+            'masa_2_3' => 'nullable|date',
+
+            'total_bulan_remisi' => 'nullable|integer|min:0',
+            'total_hari_remisi' => 'nullable|integer|min:0',
+
+            'keperluan' => 'nullable|string|max:255',
+            'tanggal_bon' => 'nullable|date',
+            'tanggal' => 'nullable|date',
+            'foto_wbp' => 'nullable|string|max:255',
+            'keterangan' => 'nullable|string|max:5000',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+
+            $wbp->update([
+                'no_reg_instansi' => $request->no_reg_instansi,
+                'nama' => $request->nama,
+                'negara' => $request->negara,
+                'agama' => $request->agama,
+                'klasifikasi_wbp' => $request->klasifikasi_wbp,
+
+                'jenis_kejahatan' => $request->jenis_kejahatan,
+                'pasal' => $request->pasal,
+                'putusan' => $request->putusan,
+                'putusan_bulan' => $request->putusan_bulan,
+
+                'subsider_tahun' => $request->subsider_tahun,
+                'subsider_bulan' => $request->subsider_bulan,
+                'subsider_hari' => $request->subsider_hari,
+                'denda_subsider' => $request->denda_subsider,
+
+                'ekspirasi' => $request->ekspirasi,
+                'masa_1_3' => $request->masa_1_3,
+                'masa_1_2' => $request->masa_1_2,
+                'masa_2_3' => $request->masa_2_3,
+
+                'total_bulan_remisi' => $request->total_bulan_remisi,
+                'total_hari_remisi' => $request->total_hari_remisi,
+
+                'keperluan' => $request->keperluan,
+                'tanggal_bon' => $request->tanggal_bon,
+                'tanggal' => $request->tanggal,
+                'foto_wbp' => $request->foto_wbp,
+                'keterangan' => $request->keterangan,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data WBP berhasil diperbarui.',
+                'data' => $wbp->fresh()
+            ]);
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            Log::error('Update Data WBP gagal', [
+                'wbp_id' => $id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui Data WBP.'
+            ], 500);
+        }
+    }
+
     public function destroy(Request $request, $id)
     {
         $user = Auth::guard('admin')->user();
