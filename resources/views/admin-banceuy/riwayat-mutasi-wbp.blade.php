@@ -551,12 +551,11 @@
                                 <tr>
 
                                     <th class="col-nama text-center">Nama</th>
-                                    <th class="col-negara">Negara</th>
+                                    <th class="col-kamar">Kamar Tujuan</th>
                                     <th class="col-agama">Agama</th>
-                                    <th class="col-putusan">Putusan</th>
+                                    <th class="col-putusan">Pidana</th>
                                     <th class="col-ekspirasi">Ekspirasi</th>
                                     <th class="col-kejahatan">Jenis Kejahatan</th>
-                                    <th class="col-kamar">Kamar Tujuan</th>
                                     <th class="col-alasan text-center">Ket</th>
                                     <th class="col-tanggal">Tanggal</th>
                                     <th class="col-action text-center">Action</th>
@@ -575,9 +574,10 @@
                                             </div>
                                         </td>
 
-                                        <td class="col-negara">
-                                            <div class="text-truncate" title="{{ $row->negara }}">
-                                                {{ $row->negara }}
+                                        <td class="col-kamar">
+                                            <div class="text-truncate" title="{{ $row->kamar_tujuan_nama }}">
+                                                BLOK {{ $row->kamarTujuan->kode_blok ?? '-' }} -
+                                                {{ $row->kamarTujuan->lokasi_sel ?? '-' }}
                                             </div>
                                         </td>
 
@@ -588,8 +588,9 @@
                                         </td>
 
                                         <td class="col-putusan">
-                                            <div class="text-truncate" title="{{ $row->putusan }}">
-                                                {{ $row->putusan }}
+                                            <div class="text-truncate">
+                                                {{ $row->putusan ? $row->putusan . ' Tahun' : '' }}
+                                                {{ $row->putusan_bulan ? $row->putusan_bulan . ' Bulan' : '' }}
                                             </div>
                                         </td>
 
@@ -605,12 +606,6 @@
                                             </div>
                                         </td>
 
-                                        <td class="col-kamar">
-                                            <div class="text-truncate" title="{{ $row->kamar_tujuan_nama }}">
-                                                BLOK {{ $row->kamarTujuan->kode_blok ?? '-' }} -
-                                                {{ $row->kamarTujuan->lokasi_sel ?? '-' }}
-                                            </div>
-                                        </td>
 
                                         <td class="col-alasan">
                                             <div class="text-truncate" title="{{ $row->alasan }}">

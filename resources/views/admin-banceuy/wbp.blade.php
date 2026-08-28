@@ -262,6 +262,164 @@
     </style>
 
     <style>
+        /* ================= MODAL TAMBAH WBP ================= */
+        #modalTambahWbp .custom-modal-content {
+            width: 1100px;
+            max-width: 95%;
+            height: 85vh;
+
+            display: flex;
+            flex-direction: column;
+
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
+
+            transform: translateY(-20px);
+            transition: transform .25s ease;
+        }
+
+        #modalTambahWbp.show .custom-modal-content {
+            transform: translateY(0);
+        }
+
+        /* HEADER */
+        #modalTambahWbp .modal-header-custom {
+            flex-shrink: 0;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 18px 25px;
+
+            border-bottom: 1px solid #ececec;
+
+            background: #f8f9fa;
+        }
+
+        #modalTambahWbp .modal-header-custom h4 {
+            margin: 0;
+
+            font-size: 20px;
+            font-weight: 600;
+
+            color: #212529;
+        }
+
+        /* CLOSE */
+        #modalTambahWbp .close-modal {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: none;
+            background: transparent;
+
+            font-size: 30px;
+            line-height: 1;
+
+            color: #777;
+
+            cursor: pointer;
+            border-radius: 8px;
+
+            transition: .2s ease;
+        }
+
+        #modalTambahWbp .close-modal:hover {
+            background: #e9ecef;
+            color: #dc3545;
+
+            transform: scale(1.05);
+        }
+
+        /* BODY */
+        #modalTambahWbp .modal-body-custom {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 24px;
+        }
+
+        /* FORM */
+        #modalTambahWbp .custom-modal-content form {
+            flex: 1;
+            min-height: 0;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FORM INPUT*/
+        #modalTambahWbp .modal-body-custom .form-control,
+        #modalTambahWbp .modal-body-custom .form-select {
+            width: 100%;
+
+            min-height: 42px;
+
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+
+            padding: 9px 12px;
+
+            font-size: 14px;
+
+            transition: .2s ease;
+        }
+
+        #modalTambahWbp .modal-body-custom .form-control:focus,
+        #modalTambahWbp .modal-body-custom .form-select:focus {
+            border-color: #0d6efd;
+
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, .12);
+        }
+
+        /* LABEL */
+        #modalTambahWbp .modal-body-custom label {
+            margin-bottom: 7px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #343a40;
+        }
+
+        /* FOOTER */
+        #modalTambahWbp .modal-footer-custom {
+            flex-shrink: 0;
+
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 18px 25px;
+
+            border-top: 1px solid #ececec;
+
+            background: #fff;
+        }
+
+        /* FOOTER BUTTON */
+        #modalTambahWbp .modal-footer-custom .btn {
+            min-height: 40px;
+
+            padding: 8px 18px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
         /* ================= EDIT MODAL ================= */
         #modalEditKamar {
             display: none;
@@ -377,6 +535,27 @@
             padding: 22px;
             border-radius: 18px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .detail-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 24px;
+        }
+
+        .detail-info-item {
+            margin: 0;
+        }
+
+        .detail-info-item b {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 500px) {
+            .detail-info-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ================= IMPORT MODAL ================= */
@@ -781,8 +960,8 @@
 
     <style>
         /* =========================================================
-                                                                               MODAL EDIT DATA WBP
-                                                                               ========================================================= */
+                                                                                                        MODAL EDIT DATA WBP
+                                                                                                    ========================================================= */
 
         #modalEditWbp {
             position: fixed;
@@ -813,8 +992,8 @@
         }
 
         /* =========================================================
-                                                                               CONTENT
-                                                                               ========================================================= */
+                                                                                                                                                                                                                                                           CONTENT
+                                                                                                                                                                                                                                                           ========================================================= */
 
         #modalEditWbp .custom-modal-content {
             width: 1100px;
@@ -840,8 +1019,8 @@
         }
 
         /* =========================================================
-                                                                               HEADER
-                                                                               ========================================================= */
+                                                                                                                                                                                                                                                           HEADER
+                                                                                                                                                                                                                                                           ========================================================= */
 
         #modalEditWbp .custom-modal-header {
             flex-shrink: 0;
@@ -867,8 +1046,8 @@
         }
 
         /* =========================================================
-                                                                CLOSE
-                                            ========================================================= */
+                                                                                                                                                                                                                                            CLOSE
+                                                                                                                                                                                                                        ========================================================= */
 
         #modalEditWbp .btn-close-modal {
             width: 38px;
@@ -903,8 +1082,8 @@
         }
 
         /* =========================================================
-                                        BODY
-                                        ========================================================= */
+                                                                                                                                                                                                                    BODY
+                                                                                                                                                                                                                    ========================================================= */
 
         #modalEditWbp .custom-modal-body {
             flex: 1;
@@ -930,8 +1109,8 @@
         }
 
         /* =========================================================
-                                                                               FORM
-                                                                               ========================================================= */
+                                                                                                                                                                                                                                                           FORM
+                                                                                                                                                                                                                                                           ========================================================= */
 
         #modalEditWbp .custom-modal-body .form-label {
             margin-bottom: 7px;
@@ -972,8 +1151,8 @@
         }
 
         /* =========================================================
-                                                                               SECTION
-                                                                               ========================================================= */
+                                                                                                                                                                                                                                                           SECTION
+                                                                                                                                                                                                                                                           ========================================================= */
 
         #modalEditWbp .custom-modal-body h6 {
             font-size: 16px;
@@ -992,8 +1171,8 @@
         }
 
         /* =========================================================
-                                                                               BUTTON
-                                                                               ========================================================= */
+                                                                                                                                                                                                                                                           BUTTON
+                                                                                                                                                                                                                                                           ========================================================= */
 
         #modalEditWbp #cancelEditWbp,
         #modalEditWbp button[type="submit"] {
@@ -1007,8 +1186,8 @@
         }
 
         /* =========================================================
-                                                                               MOBILE
-                                                                               ========================================================= */
+                                                                                                                                                                                                                                                           MOBILE
+                                                                                                                                                                                                                                                           ========================================================= */
 
         @media (max-width: 768px) {
 
@@ -1044,8 +1223,8 @@
         }
 
         /* =========================================================
-                           MODAL KONFIRMASI PERUBAHAN WBP
-                           ========================================================= */
+                                                                                                                                                                                                       MODAL KONFIRMASI PERUBAHAN WBP
+                                                                                                                                                                                                       ========================================================= */
 
         #modalKonfirmasiEditWbp {
             display: flex;
@@ -1160,7 +1339,7 @@
 
         /* SIMPAN */
         #modalKonfirmasiEditWbp #lanjutSimpanEditWbp {
-            min-width: 190px;
+            min-width: 70px;
             white-space: nowrap;
         }
 
@@ -1498,7 +1677,7 @@
 
     </div>
 
-    {{-- ================= MODAL EDIT DATA WBP ================= --}}
+    {{-- ================= MODAL EDIT WBP ================= --}}
     <div class="custom-modal" id="modalEditWbp">
 
         <div class="custom-modal-content" style="max-width:1100px; width:95%;">
@@ -1657,8 +1836,8 @@
                                 Denda Subsider
                             </label>
 
-                            <input type="number" class="form-control" id="edit_denda_subsider" name="denda_subsider"
-                                min="0">
+                            <input type="text" class="form-control" id="edit_denda_subsider" name="denda_subsider"
+                                inputmode="numeric" autocomplete="off" placeholder="Contoh: 1.000.000">
                         </div>
 
                     </div>
@@ -1667,7 +1846,7 @@
                     <hr class="my-4">
 
                     <h6 class="fw-bold mb-3">
-                        Masa & Remisi
+                        Masa Pidana & Remisi
                     </h6>
 
                     <div class="row g-3">
@@ -1838,7 +2017,7 @@
                 </button>
 
                 <button type="button" class="btn btn-primary" id="lanjutSimpanEditWbp">
-                    Ya, Simpan Perubahan
+                    Ya
                 </button>
 
             </div>
@@ -2108,10 +2287,12 @@
     <div class="custom-modal" id="modalTambahWbp">
 
         <div class="custom-modal-content">
+
+            <!-- ================= HEADER ================= -->
             <div class="modal-header-custom">
 
                 <h4>
-                    ➕ Tambah WBP
+                    Tambah WBP
                 </h4>
 
                 <button type="button" class="close-modal" id="closeTambahModal">
@@ -2120,73 +2301,245 @@
 
             </div>
 
+
+            <!-- ================= FORM ================= -->
             <form action="{{ route('wbp.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="modal-body-custom">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label>No Register Instansi</label>
+
+                    <div class="row g-3">
+
+                        <!-- ================= IDENTITAS ================= -->
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-1">
+                                Identitas WBP
+                            </h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                No. Register Instansi
+                            </label>
+
                             <input type="text" name="no_reg_instansi" class="form-control" required>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Nama WBP</label>
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                Nama WBP
+                            </label>
+
                             <input type="text" name="nama" class="form-control" required>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Negara</label>
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Negara
+                            </label>
+
                             <input type="text" name="negara" class="form-control">
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Agama</label>
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Agama
+                            </label>
+
                             <select name="agama" class="form-select">
                                 <option value="">Pilih Agama</option>
-                                <option>Islam</option>
-                                <option>Kristen</option>
-                                <option>Katolik</option>
-                                <option>Hindu</option>
-                                <option>Buddha</option>
-                                <option>Konghucu</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Buddha">Buddha</option>
+                                <option value="Konghucu">Konghucu</option>
                             </select>
                         </div>
 
-                        <div class="col-md-12 mb-3">
-                            <label>Jenis Kejahatan</label>
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Klasifikasi WBP
+                            </label>
+
+                            <input type="text" name="klasifikasi_wbp" class="form-control">
+                        </div>
+
+
+                        <!-- ================= PERKARA & PUTUSAN ================= -->
+                        <div class="col-12">
+                            <hr class="my-3">
+
+                            <h6 class="fw-bold mb-1">
+                                Perkara & Pidana
+                            </h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                Jenis Kejahatan
+                            </label>
+
                             <input type="text" name="jenis_kejahatan" class="form-control">
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Putusan (Tahun)</label>
-                            <input type="number" name="putusan" class="form-control">
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                Pasal
+                            </label>
+
+                            <input type="text" name="pasal" class="form-control">
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Putusan (Bulan)</label>
+                        <div class="col-md-8">
+                            <label class="form-label">
+                                Pidana (Tahun)
+                            </label>
+
+                            <input type="number" name="putusan" class="form-control" min="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Pidana (Bulan)
+                            </label>
+
                             <input type="number" name="putusan_bulan" class="form-control" min="0"
                                 max="11" value="0">
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Ekspirasi</label>
+
+                        <!-- ================= SUBSIDER ================= -->
+                        <div class="col-12">
+                            <hr class="my-3">
+
+                            <h6 class="fw-bold mb-1">
+                                Subsider
+                            </h6>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Subsider Tahun
+                            </label>
+
+                            <input type="number" name="subsider_tahun" class="form-control" min="0"
+                                value="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Subsider Bulan
+                            </label>
+
+                            <input type="number" name="subsider_bulan" class="form-control" min="0"
+                                max="11" value="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Subsider Hari
+                            </label>
+
+                            <input type="number" name="subsider_hari" class="form-control" min="0"
+                                value="0">
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label">
+                                Denda Subsider
+                            </label>
+
+                            <input type="text" name="denda_subsider" id="tambah_denda_subsider" class="form-control"
+                                inputmode="numeric" autocomplete="off" placeholder="Contoh: 1.000.000">
+                        </div>
+
+
+                        <!-- ================= MASA & REMISI ================= -->
+                        <div class="col-12">
+                            <hr class="my-3">
+
+                            <h6 class="fw-bold mb-1">
+                                Masa Pidana & Remisi
+                            </h6>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Ekspirasi
+                            </label>
+
                             <input type="date" name="ekspirasi" class="form-control">
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Kamar</label>
-                            <select name="kamar_id" class="form-control">
-                                <option value="">Pilih Kamar</option>
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Masa 1/3
+                            </label>
+
+                            <input type="date" name="masa_1_3" class="form-control">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Masa 1/2
+                            </label>
+
+                            <input type="date" name="masa_1_2" class="form-control">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Masa 2/3
+                            </label>
+
+                            <input type="date" name="masa_2_3" class="form-control">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Total Bulan Remisi
+                            </label>
+
+                            <input type="number" name="total_bulan_remisi" class="form-control" min="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Total Hari Remisi
+                            </label>
+
+                            <input type="number" name="total_hari_remisi" class="form-control" min="0">
+                        </div>
+
+
+                        <!-- ================= KAMAR & STATUS ================= -->
+                        <div class="col-12">
+                            <hr class="my-3">
+
+                            <h6 class="fw-bold mb-1">
+                                Kamar & Status
+                            </h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                Kamar
+                            </label>
+
+                            <select name="kamar_id" class="form-select">
+                                <option value="">
+                                    Pilih Kamar
+                                </option>
 
                                 @foreach ($kamars as $kamar)
                                     <option value="{{ $kamar->id }}"
                                         data-search="
-                                                {{ $kamar->kode_blok }}{{ preg_replace('/\D/', '', $kamar->lokasi_sel) }}
-                                                {{ $kamar->kode_blok }} {{ preg_replace('/\D/', '', $kamar->lokasi_sel) }}
-                                                Blok {{ $kamar->kode_blok }}
-                                                {{ formatNamaBlok($kamar->kode_blok, $kamar->lokasi_sel) }}
-                                            ">
+                                        {{ $kamar->kode_blok }}{{ preg_replace('/\D/', '', $kamar->lokasi_sel) }}
+                                        {{ $kamar->kode_blok }} {{ preg_replace('/\D/', '', $kamar->lokasi_sel) }}
+                                        Blok {{ $kamar->kode_blok }}
+                                        {{ formatNamaBlok($kamar->kode_blok, $kamar->lokasi_sel) }}
+                                    ">
                                         {{ formatNamaBlok($kamar->kode_blok, $kamar->lokasi_sel) }}
                                     </option>
                                 @endforeach
@@ -2194,52 +2547,62 @@
                             </select>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Status WBP</label>
-                            <select name="status_wbp" class="form-control">
-                                <option value="AKTIF">AKTIF</option>
-                                <option value="BON">BON</option>
-                                <option value="SAKIT">SAKIT</option>
-                                <option value="PINDAH UPT">PINDAH UPT</option>
-                                <option value="PULANG">PULANG</option>
-                                <option value="MENINGGAL">MENINGGAL</option>
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                Status WBP
+                            </label>
+
+                            <select name="status_wbp" class="form-select">
+                                <option value="AKTIF">
+                                    AKTIF
+                                </option>
+
+                                <option value="BON">
+                                    BON
+                                </option>
+
+                                <option value="SAKIT">
+                                    SAKIT
+                                </option>
+
+                                <option value="PINDAH UPT">
+                                    PINDAH UPT
+                                </option>
+
+                                <option value="PULANG">
+                                    PULANG
+                                </option>
+
+                                <option value="MENINGGAL">
+                                    MENINGGAL
+                                </option>
                             </select>
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label>Masa 1/3</label>
-                            <input type="date" name="masa_1_3" class="form-control">
+
+                        <!-- ================= FOTO ================= -->
+                        <div class="col-12">
+                            <hr class="my-3">
+
+                            <h6 class="fw-bold mb-1">
+                                Foto WBP
+                            </h6>
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label>Masa 1/2</label>
-                            <input type="date" name="masa_1_2" class="form-control">
-                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">
+                                Foto WBP
+                            </label>
 
-                        <div class="col-md-4 mb-3">
-                            <label>Masa 2/3</label>
-                            <input type="date" name="masa_2_3" class="form-control">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label>Total Bulan Remisi</label>
-                            <input type="number" name="total_bulan_remisi" class="form-control" min="0">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label>Total Hari Remisi</label>
-                            <input type="number" name="total_hari_remisi" class="form-control" min="0">
-                        </div>
-
-                        <div class="col-md-12 mb-3">
-                            <label>Foto WBP</label>
-                            <input type="file" name="foto_wbp" class="form-control" accept="image/*">
+                            <input type="file" name="foto_wbp" class="form-control" required>
                         </div>
 
                     </div>
 
                 </div>
 
+
+                <!-- ================= FOOTER ================= -->
                 <div class="modal-footer-custom">
 
                     <button type="button" class="btn btn-secondary" id="btnBatalTambah">
@@ -2666,6 +3029,36 @@
                 let jenis_kejahatan = res.jenis_kejahatan ?? '';
                 let bulanRemisi = res.total_bulan_remisi ?? '-';
                 let hariRemisi = res.total_hari_remisi ?? '-';
+                let pasal = res.pasal ?? '';
+                let putusan = res.putusan ?? '';
+                let putusanBulan = res.putusan_bulan ?? 0;
+                let subsiderTahun = res.subsider_tahun ?? 0;
+                let subsiderBulan = res.subsider_bulan ?? 0;
+                let subsiderHari = res.subsider_hari ?? 0;
+                let dendaSubsider = res.denda_subsider ?? null;
+
+                let subsiderParts = [];
+
+                if (Number(subsiderTahun) > 0) {
+                    subsiderParts.push(`${subsiderTahun} Tahun`);
+                }
+
+                if (Number(subsiderBulan) > 0) {
+                    subsiderParts.push(`${subsiderBulan} Bulan`);
+                }
+
+                if (Number(subsiderHari) > 0) {
+                    subsiderParts.push(`${subsiderHari} Hari`);
+                }
+
+                let pidanaSubsider = subsiderParts.length ?
+                    subsiderParts.join(' ') :
+                    '-';
+
+                let dendaSubsiderFormatted =
+                    dendaSubsider !== null && Number(dendaSubsider) > 0 ?
+                    Number(dendaSubsider).toLocaleString('id-ID') :
+                    '-';
 
                 let statusBadge = '';
 
@@ -2725,26 +3118,57 @@
 
                 <hr>
 
-                <p>
-                    <b>No Reg:</b><br>
-                    ${noReg}
-                </p>
+                <div class="detail-info-grid">
 
-                <p>
-                    <b>Total Remisi:</b><br>
-                    ${bulanRemisi} Bulan ${hariRemisi} Hari
-                </p>
+                    <div class="detail-info-item">
+                        <b>No Reg:</b>
+                        <span>${noReg}</span>
+                    </div>
 
-                <p>
-                    <b>Jenis Kejahatan:</b><br>
-                    ${jenis_kejahatan}
-                </p>
+                    <div class="detail-info-item">
+                        <b>Total Remisi:</b>
+                        <span>${bulanRemisi} Bulan ${hariRemisi} Hari</span>
+                    </div>
 
-                <p>
-                    <b>Status:</b><br>
-                    ${statusBadge}
-                </p>
+                    <div class="detail-info-item">
+                        <b>Pasal:</b>
+                        <span>${pasal || '-'}</span>
+                    </div>
 
+                    <div class="detail-info-item">
+                        <b>Pidana:</b>
+                        <span>
+                            ${putusan
+                                ? `${putusan} Tahun ${putusanBulan ? putusanBulan + ' Bulan' : ''}`
+                                : '-'}
+                        </span>
+                    </div>
+
+                    <div class="detail-info-item">
+                        <b>Pidana Subsider:</b>
+                        <span>${pidanaSubsider}</span>
+                    </div>
+
+                    <div class="detail-info-item">
+                        <b>Denda Subsider:</b>
+                        <span>
+                            ${dendaSubsiderFormatted !== '-'
+                                ? `Rp ${dendaSubsiderFormatted}`
+                                : '-'}
+                        </span>
+                    </div>
+
+                    <div class="detail-info-item">
+                        <b>Jenis Kejahatan:</b>
+                        <span>${jenis_kejahatan || '-'}</span>
+                    </div>
+
+                    <div class="detail-info-item">
+                        <b>Status:</b>
+                        <span>${statusBadge}</span>
+                    </div>
+
+                </div>
 
                 <div class="mt-3">
 
@@ -2877,7 +3301,11 @@
                 $('#edit_subsider_tahun').val(res.subsider_tahun ?? '');
                 $('#edit_subsider_bulan').val(res.subsider_bulan ?? '');
                 $('#edit_subsider_hari').val(res.subsider_hari ?? '');
-                $('#edit_denda_subsider').val(res.denda_subsider ?? '');
+                $('#edit_denda_subsider').val(
+                    res.denda_subsider ?
+                    new Intl.NumberFormat('id-ID').format(res.denda_subsider) :
+                    ''
+                );
 
                 // ================= MASA & REMISI =================
                 $('#edit_ekspirasi').val(res.ekspirasi ?? '');
@@ -2929,6 +3357,25 @@
 
         });
 
+        // ================= FORMAT DENDA SUBSIDER =================
+        function formatRupiahInput(input) {
+            let value = input.value.replace(/\D/g, '');
+
+            if (value) {
+                input.value = new Intl.NumberFormat('id-ID').format(value);
+            } else {
+                input.value = '';
+            }
+        }
+
+        $(document).on(
+            'input',
+            '#tambah_denda_subsider, #edit_denda_subsider',
+            function() {
+                formatRupiahInput(this);
+            }
+        );
+
         // ================= SUBMIT EDIT DATA WBP =================
         $(document).on('submit', '#formEditWbp', function(e) {
 
@@ -2959,7 +3406,6 @@
             }
         );
 
-
         // ================= LANJUT SIMPAN =================
         $(document).on('click', '#lanjutSimpanEditWbp', function() {
 
@@ -2981,13 +3427,22 @@
                 .prop('disabled', true)
                 .html('Menyimpan...');
 
+            // ================= BERSIHKAN FORMAT DENDA SUBSIDER =================
+            const formData = form.serializeArray();
+
+            formData.forEach(function(item) {
+                if (item.name === 'denda_subsider') {
+                    item.value = item.value.replace(/\./g, '');
+                }
+            });
+
             $.ajax({
 
                 url: '/admin-banceuy/wbp/' + wbpId,
 
                 type: 'PUT',
 
-                data: form.serialize(),
+                data: $.param(formData),
 
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
