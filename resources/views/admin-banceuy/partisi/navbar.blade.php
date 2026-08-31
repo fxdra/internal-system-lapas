@@ -336,6 +336,68 @@
                 @endif
             </ul>
 
+            {{-- MANAJEMEN KLINIK --}}
+            @if (in_array($role, ['superadmin', 'admin', 'klinik']))
+                <li class="nxl-item nxl-hasmenu">
+
+                    <a href="javascript:void(0);" class="nxl-link">
+
+                        <span class="nxl-micon">
+                            <i class="feather-heart"></i>
+                        </span>
+
+                        <span class="nxl-mtext">
+                            Manajemen Klinik
+                        </span>
+
+                        <span class="nxl-arrow">
+                            <i class="feather-chevron-right"></i>
+                        </span>
+
+                    </a>
+
+                    <ul class="nxl-submenu">
+
+                        {{-- DATA WBP KLINIK --}}
+                        <li class="nxl-item">
+                            <a class="nxl-link" href="/admin-banceuy/klinik/wbp">
+                                Data WBP Klinik
+                            </a>
+                        </li>
+
+                        {{-- PEMERIKSAAN --}}
+                        <li class="nxl-item">
+                            <a class="nxl-link" href="/admin-banceuy/klinik/pemeriksaan">
+                                Pemeriksaan
+                            </a>
+                        </li>
+
+                        {{-- DIAGNOSIS --}}
+                        <li class="nxl-item">
+                            <a class="nxl-link" href="/admin-banceuy/klinik/diagnosis">
+                                Diagnosis
+                            </a>
+                        </li>
+
+                        {{-- THERAPY --}}
+                        <li class="nxl-item">
+                            <a class="nxl-link" href="/admin-banceuy/klinik/therapy">
+                                Therapy
+                            </a>
+                        </li>
+
+                        {{-- LAPORAN KLINIK --}}
+                        <li class="nxl-item">
+                            <a class="nxl-link" href="/admin-banceuy/klinik/laporan">
+                                Laporan Klinik
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+            @endif
+
         </div>
     </div>
 </nav>
