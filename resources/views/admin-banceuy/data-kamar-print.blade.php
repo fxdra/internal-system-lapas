@@ -1,3 +1,27 @@
+@php
+
+    $role = Auth::guard('admin')->user()?->role;
+
+    $permissions = [
+        // Full Access
+        'fullAccess' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp']),
+
+        // Bidang
+        'registrasi' => $role === 'registrasi',
+        'binadik' => $role === 'binadik',
+        'giatja' => $role === 'giatja',
+        'klinik' => $role === 'klinik',
+        'kamtib' => $role === 'kamtib',
+
+        // Data Hunian
+        'dataHunian' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp', 'registrasi', 'binadik']),
+
+        // Print Sterek
+        'printSterek' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp', 'registrasi', 'binadik']),
+    ];
+
+@endphp
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -834,19 +858,21 @@
                                                     Batal
                                                 </button>
 
-                                                <button type="button"
-                                                    class="btn btn-warning btn-sm fw-semibold btn-pindah"
-                                                    onclick="bukaModalPindah(
-                                                        this,
-                                                        '{{ $kamar->kamar_id }}',
-                                                        '{{ ucfirst(strtolower(explode('-', $kamar->kode_blok)[0])) }}',
-                                                        '{{ $kamar->lokasi_sel }}'
-                                                    )">
+                                                @if ($permissions['fullAccess'])
+                                                    <button type="button"
+                                                        class="btn btn-warning btn-sm fw-semibold btn-pindah"
+                                                        onclick="bukaModalPindah(
+                                                            this,
+                                                            '{{ $kamar->kamar_id }}',
+                                                            '{{ ucfirst(strtolower(explode('-', $kamar->kode_blok)[0])) }}',
+                                                            '{{ $kamar->lokasi_sel }}'
+                                                        )">
 
-                                                    <i class="bi bi-arrow-left-right me-1"></i>
-                                                    Pindahkan
+                                                        <i class="bi bi-arrow-left-right me-1"></i>
+                                                        Pindahkan
 
-                                                </button>
+                                                    </button>
+                                                @endif
 
                                             </div>
 

@@ -1,3 +1,27 @@
+@php
+
+    $role = Auth::guard('admin')->user()?->role;
+
+    $permissions = [
+        // Full Access
+        'fullAccess' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp']),
+
+        // Bidang
+        'registrasi' => $role === 'registrasi',
+        'binadik' => $role === 'binadik',
+        'giatja' => $role === 'giatja',
+        'klinik' => $role === 'klinik',
+        'kamtib' => $role === 'kamtib',
+
+        // Data Hunian
+        'dataHunian' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp', 'registrasi', 'binadik']),
+
+        // Print Sterek
+        'printSterek' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp', 'registrasi', 'binadik']),
+    ];
+
+@endphp
+
 @extends('admin-banceuy.partisi.main')
 
 @section('content')
@@ -79,20 +103,24 @@
 
         <div class="d-flex flex-wrap gap-2 mb-3">
 
-            <button class="btn btn-primary" id="openStatusModal">
-                <i class="bi bi-pencil-square me-1"></i>
-                Ubah Status Kamar
-            </button>
+            @if ($permissions['fullAccess'])
+                <button class="btn btn-primary" id="openStatusModal">
+                    <i class="bi bi-pencil-square me-1"></i>
+                    Ubah Status Kamar
+                </button>
 
-            <a href="{{ url('/admin-banceuy/kamar/print') }}" target="_blank" class="btn btn-dark">
-                <i class="bi bi-printer me-1"></i>
-                Print Barcode Semua Kamar
-            </a>
+                <a href="{{ url('/admin-banceuy/kamar/print') }}" target="_blank" class="btn btn-dark">
+                    <i class="bi bi-printer me-1"></i>
+                    Print Barcode Semua Kamar
+                </a>
+            @endif
 
-            <a href="{{ url('/kamar-with-wbps') }}" class="btn btn-success">
-                <i class="bi bi-building me-1"></i>
-                Data Hunian Kamar
-            </a>
+            @if ($permissions['dataHunian'])
+                <a href="{{ url('/kamar-with-wbps') }}" class="btn btn-success">
+                    <i class="bi bi-building me-1"></i>
+                    Data Hunian Kamar
+                </a>
+            @endif
 
         </div>
 

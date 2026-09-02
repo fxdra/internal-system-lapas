@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{BukuController, AdminController, AntrianController, BeritaController, BulettinController, DataKritikController, DataKunjunganController, DataProfileController, DataWbpController, HomeController, ImportFileController, InformasiLayananController, KegiatanController, KritikController, OcrController, PengunjungController, SettingController, TitipanController, ConverterController, KamarController, HpGasbanController, ManajemenPenggunaController, MutasiController, MutasiScenarioController, ProdukController, PetugasKplpController, RaziaController, RaziaGabunganController, PenerimaanWBPController, PemindahanWBPController, TrackingPhotoController, KomjaController};
+use App\Http\Controllers\{BukuController, AdminController, AntrianController, BeritaController, BulettinController, DataKritikController, DataKunjunganController, DataProfileController, DataWbpController, HomeController, ImportFileController, InformasiLayananController, KegiatanController, KritikController, OcrController, PengunjungController, SettingController, TitipanController, ConverterController, KamarController, HpGasbanController, ManajemenPenggunaController, MutasiController, MutasiScenarioController, ProdukController, PetugasKplpController, RaziaController, RaziaGabunganController, PenerimaanWBPController, PemindahanWBPController, TrackingPhotoController, KomjaController, WbpKlinikController,};
 use App\Http\Controllers\Api\LaporanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PengunjungPerpustakaanController;
@@ -97,6 +97,36 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin-banceuy/wbp/filter', [DataWbpController::class, 'filter']);
     Route::get('/admin-banceuy/wbp/{id}/detail', [DataWbpController::class, 'detail']);
 
+    // Klinik
+    Route::middleware('role:superadmin,admin,kplp,ka_kplp,klinik')
+        ->prefix('admin-banceuy/klinik')
+        ->group(function () {
+
+            Route::get('/wbp', [WbpKlinikController::class, 'index'])->name('klinik.wbp.index');
+            Route::get('/wbp/{wbpKlinik}', [WbpKlinikController::class, 'show'])->name('klinik.wbp.show');
+            Route::get('/wbp/{wbpKlinik}/edit', [WbpKlinikController::class, 'edit'])->name('klinik.wbp.edit');
+            Route::put('/wbp/{wbpKlinik}', [WbpKlinikController::class, 'update'])->name('klinik.wbp.update');
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATA KAMAR / HUNIAN
+    |--------------------------------------------------------------------------
+    |
+    | Modul yang dapat diakses oleh:
+    | superadmin, admin, kplp, ka_kplp, registrasi, binadik
+    |
+    | Hanya untuk melihat data hunian dan mencetak sterek.
+    |
+    */
+    Route::middleware('role:superadmin,admin,kplp,ka_kplp,registrasi,binadik')->group(function () {
+        Route::get('/admin-banceuy/laporan-data-kamar', [KamarController::class, 'index']);
+        Route::get('/admin-banceuy/kamar/search', [KamarController::class, 'search']);
+        Route::get('/admin-banceuy/kamar/{id}/detail', [KamarController::class, 'detail']);
+        Route::get('/admin-banceuy/kamar/print', [KamarController::class, 'print']);
+        Route::get('/kamar-with-wbps', [KamarController::class, 'kamarWithWbps']);
+    });
+
     /*
     |--------------------------------------------------------------------------
     | FULL ACCESS
@@ -128,13 +158,9 @@ Route::middleware('admin')->group(function () {
         Route::get('/wbp/export', [DataWbpController::class, 'export'])->name('wbp.export');
         Route::post('/admin-banceuy/wbp/import/import-wbp', [ImportFileController::class, 'import'])->name('wbp.import');
         Route::post('/admin-banceuy/wbp/import/preview', [ImportFileController::class, 'preview'])->name('wbp.import.preview');
-        Route::get('/admin-banceuy/laporan-data-kamar', [KamarController::class, 'index']);
-        Route::get('/admin-banceuy/kamar/search', [KamarController::class, 'search']);
-        Route::get('/admin-banceuy/kamar/{id}/detail', [KamarController::class, 'detail']);
         Route::post('/admin-banceuy/kamar/update-status', [KamarController::class, 'updateStatusKamar']);
         Route::post('/admin-banceuy/kamar/upload-pdf', [KamarController::class, 'uploadPdf']);
-        Route::get('/admin-banceuy/kamar/print', [KamarController::class, 'print']);
-        Route::get('/kamar-with-wbps', [KamarController::class, 'kamarWithWbps']);
+
         //Komandan Jaga
         Route::get('/komandan-jaga/filter', [KomjaController::class, 'filter'])->name('komandan-jaga.filter');
         Route::get('/admin-banceuy/komandan-jaga', [KomjaController::class, 'index'])->name('komandan-jaga.index');

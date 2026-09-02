@@ -1,6 +1,7 @@
 @php
 
     $role = Auth::guard('admin')->user()?->role;
+
     $permissions = [
         // Full Access
         'fullAccess' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp']),
@@ -11,66 +12,114 @@
         'giatja' => $role === 'giatja',
         'klinik' => $role === 'klinik',
         'kamtib' => $role === 'kamtib',
+
+        // Data Hunian
+        'dataHunian' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp', 'registrasi', 'binadik']),
+
+        // Print Sterek
+        'printSterek' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp', 'registrasi', 'binadik']),
     ];
 
 @endphp
 
 <nav class="nxl-navigation">
+
     <div class="navbar-wrapper">
+
         <div class="m-header">
+
             <a href="/" class="b-brand d-flex align-items-center">
 
                 <div class="brand-text">
+
                     <div class="fw-bold text-uppercase" style="font-size: 14px; line-height: 1.2;">
                         LEMBAGA PEMASYARAKATAN
                     </div>
+
                     <div class="fw-bold text-uppercase" style="font-size: 14px; opacity: .85; line-height: 1.2;">
                         KELAS IIA BANCEUY BANDUNG
                     </div>
+
                 </div>
 
             </a>
+
         </div>
+
         <div class="navbar-content">
+
             <ul class="nxl-navbar">
+
                 <li class="nxl-item nxl-caption">
                     <label>MENU</label>
                 </li>
 
-                {{-- DASHBOARD --}}
+
+                {{-- ============================================================
+                   DASHBOARD
+                ============================================================ --}}
+
                 <li class="nxl-item">
+
                     <a href="/admin-banceuy" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-home"></i></span>
-                        <span class="nxl-mtext">Dashboard</span>
+
+                        <span class="nxl-micon">
+                            <i class="feather-home"></i>
+                        </span>
+
+                        <span class="nxl-mtext">
+                            Dashboard
+                        </span>
+
                     </a>
+
                 </li>
 
-                {{-- MANAJEMEN PENGGUNA --}}
+                {{-- ============================================================
+                   MANAJEMEN PENGGUNA
+                ============================================================ --}}
+
                 @if (in_array($role, ['superadmin', 'admin']))
                     <li class="nxl-item">
+
                         <a href="{{ route('manajemen-pengguna.index') }}" class="nxl-link">
+
                             <span class="nxl-micon">
                                 <i class="feather-shield"></i>
                             </span>
-                            <span class="nxl-mtext">Manajemen Pengguna</span>
+
+                            <span class="nxl-mtext">
+                                Manajemen Pengguna
+                            </span>
+
                         </a>
+
                     </li>
                 @endif
 
 
-                {{-- MANAJEMEN KOMJA --}}
+                {{-- ============================================================
+                   MANAJEMEN PETUGAS
+                ============================================================ --}}
+
                 @if ($permissions['fullAccess'])
                     <li class="nxl-item nxl-hasmenu">
+
                         <a href="javascript:void(0);" class="nxl-link">
+
                             <span class="nxl-micon">
                                 <i class="feather-briefcase"></i>
                             </span>
-                            <span class="nxl-mtext">Manajemen Petugas</span>
+
+                            <span class="nxl-mtext">
+                                Manajemen Petugas
+                            </span>
+
                             <span class="nxl-arrow">
                                 <i class="feather-chevron-right"></i>
                             </span>
-                        </a>
 
+                        </a>
 
                         <ul class="nxl-submenu">
 
@@ -85,6 +134,7 @@
                                     Data Hp Petugas
                                 </a>
                             </li>
+
                             <li class="nxl-item">
                                 <a class="nxl-link" href="#">
                                     Data Komandan Jaga
@@ -110,14 +160,31 @@
                             </li>
 
                         </ul>
+
                     </li>
                 @endif
 
+
+                {{-- ============================================================
+                   MANAJEMEN WBP
+                ============================================================ --}}
+
                 <li class="nxl-item nxl-hasmenu">
+
                     <a href="javascript:void(0);" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-users"></i></span>
-                        <span class="nxl-mtext">Manajemen WBP</span>
-                        <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+
+                        <span class="nxl-micon">
+                            <i class="feather-users"></i>
+                        </span>
+
+                        <span class="nxl-mtext">
+                            Manajemen WBP
+                        </span>
+
+                        <span class="nxl-arrow">
+                            <i class="feather-chevron-right"></i>
+                        </span>
+
                     </a>
 
                     <ul class="nxl-submenu">
@@ -134,13 +201,15 @@
                             </a>
                         </li>
 
-                        @if ($permissions['fullAccess'])
+                        @if ($permissions['dataHunian'])
                             <li class="nxl-item">
                                 <a class="nxl-link" href="/admin-banceuy/laporan-data-kamar">
                                     Data Kamar
                                 </a>
                             </li>
+                        @endif
 
+                        @if ($permissions['fullAccess'])
                             <li class="nxl-item">
                                 <a class="nxl-link" href="/admin-banceuy/riwayat-mutasi">
                                     Riwayat Mutasi Wbp
@@ -161,15 +230,31 @@
                         @endif
 
                     </ul>
+
                 </li>
 
-                {{-- MANAJEMEN KONTEN --}}
+
+                {{-- ============================================================
+                   MANAJEMEN KONTEN
+                ============================================================ --}}
+
                 @if ($permissions['fullAccess'])
                     <li class="nxl-item nxl-hasmenu">
+
                         <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-file-text"></i></span>
-                            <span class="nxl-mtext">Manajemen Konten</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+
+                            <span class="nxl-micon">
+                                <i class="feather-file-text"></i>
+                            </span>
+
+                            <span class="nxl-mtext">
+                                Manajemen Konten
+                            </span>
+
+                            <span class="nxl-arrow">
+                                <i class="feather-chevron-right"></i>
+                            </span>
+
                         </a>
 
                         <ul class="nxl-submenu">
@@ -198,13 +283,11 @@
                                 </a>
                             </li>
 
-
                             <li class="nxl-item">
                                 <a class="nxl-link" href="/admin-banceuy/profile">
                                     Profile
                                 </a>
                             </li>
-
 
                             <li class="nxl-item">
                                 <a class="nxl-link" href="/admin-banceuy/produk">
@@ -213,15 +296,32 @@
                             </li>
 
                         </ul>
+
                     </li>
                 @endif
 
+
+                {{-- ============================================================
+                   PERPUSTAKAAN
+                ============================================================ --}}
+
                 @if ($permissions['fullAccess'])
                     <li class="nxl-item nxl-hasmenu">
+
                         <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-book"></i></span>
-                            <span class="nxl-mtext">Perpustakaan</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+
+                            <span class="nxl-micon">
+                                <i class="feather-book"></i>
+                            </span>
+
+                            <span class="nxl-mtext">
+                                Perpustakaan
+                            </span>
+
+                            <span class="nxl-arrow">
+                                <i class="feather-chevron-right"></i>
+                            </span>
+
                         </a>
 
                         <ul class="nxl-submenu">
@@ -269,19 +369,32 @@
                             </li>
 
                         </ul>
+
                     </li>
                 @endif
 
+
+                {{-- ============================================================
+                   LAPORAN KUNJUNGAN
+                ============================================================ --}}
+
                 @if ($permissions['fullAccess'])
                     <li class="nxl-item nxl-hasmenu">
+
                         <a href="javascript:void(0);" class="nxl-link">
+
                             <span class="nxl-micon">
                                 <i class="feather-cast"></i>
                             </span>
-                            <span class="nxl-mtext">Laporan Kunjungan</span>
+
+                            <span class="nxl-mtext">
+                                Laporan Kunjungan
+                            </span>
+
                             <span class="nxl-arrow">
                                 <i class="feather-chevron-right"></i>
                             </span>
+
                         </a>
 
                         <ul class="nxl-submenu">
@@ -311,93 +424,135 @@
                             </li>
 
                         </ul>
+
                     </li>
                 @endif
 
+
+                {{-- ===================
+                   LIVE TRACKING
+                ======================== --}}
+
                 @if ($permissions['fullAccess'])
                     <li class="nxl-item">
+
                         <a class="nxl-link" href="/admin/tracking">
-                            <span class="nxl-micon"><i class="feather-map-pin"></i></span>
-                            <span class="nxl-mtext">Live Tracking</span>
+
+                            <span class="nxl-micon">
+                                <i class="feather-map-pin"></i>
+                            </span>
+
+                            <span class="nxl-mtext">
+                                Live Tracking
+                            </span>
+
                         </a>
+
                     </li>
                 @endif
+
+
+                {{-- ======================
+                   MANAJEMEN KLINIK
+                =========================== --}}
+
+                @if (in_array($role, ['superadmin', 'admin', 'klinik', 'kplp', 'ka_kplp']))
+                    <li class="nxl-item nxl-hasmenu">
+
+                        <a href="javascript:void(0);" class="nxl-link">
+
+                            <span class="nxl-micon">
+                                <i class="feather-heart"></i>
+                            </span>
+
+                            <span class="nxl-mtext">
+                                Manajemen Klinik
+                            </span>
+
+                            <span class="nxl-arrow">
+                                <i class="feather-chevron-right"></i>
+                            </span>
+
+                        </a>
+
+                        <ul class="nxl-submenu">
+
+                            <li class="nxl-item">
+
+                                <a class="nxl-link" href="{{ route('klinik.wbp.index') }}">
+                                    Data WBP Klinik
+                                </a>
+
+                            </li>
+
+                            <li class="nxl-item">
+
+                                <a class="nxl-link" href="/admin-banceuy/klinik/pemeriksaan">
+                                    Pemeriksaan
+                                </a>
+
+                            </li>
+
+                            <li class="nxl-item">
+
+                                <a class="nxl-link" href="/admin-banceuy/klinik/diagnosis">
+                                    Diagnosis
+                                </a>
+
+                            </li>
+
+                            <li class="nxl-item">
+
+                                <a class="nxl-link" href="/admin-banceuy/klinik/therapy">
+                                    Therapy
+                                </a>
+
+                            </li>
+
+                            <li class="nxl-item">
+
+                                <a class="nxl-link" href="/admin-banceuy/klinik/laporan">
+                                    Laporan Klinik
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+                @endif
+
             </ul>
+
+
+            {{-- ============================================================
+               GENERATE REPORT
+            ============================================================ --}}
 
             <ul>
-                {{-- GENERATE REPORT --}}
+
                 @if ($permissions['fullAccess'])
                     <li class="nxl-item">
+
                         <a class="nxl-link" href="{{ route('sistemlaporan') }}">
-                            <span class="nxl-micon"><i class="feather-file"></i></span>
-                            <span class="nxl-mtext">Manajemen Laporan</span>
+
+                            <span class="nxl-micon">
+                                <i class="feather-file"></i>
+                            </span>
+
+                            <span class="nxl-mtext">
+                                Manajemen Laporan
+                            </span>
+
                         </a>
+
                     </li>
                 @endif
+
             </ul>
 
-            {{-- MANAJEMEN KLINIK --}}
-            @if (in_array($role, ['superadmin', 'admin', 'klinik']))
-                <li class="nxl-item nxl-hasmenu">
-
-                    <a href="javascript:void(0);" class="nxl-link">
-
-                        <span class="nxl-micon">
-                            <i class="feather-heart"></i>
-                        </span>
-
-                        <span class="nxl-mtext">
-                            Manajemen Klinik
-                        </span>
-
-                        <span class="nxl-arrow">
-                            <i class="feather-chevron-right"></i>
-                        </span>
-
-                    </a>
-
-                    <ul class="nxl-submenu">
-
-                        {{-- DATA WBP KLINIK --}}
-                        <li class="nxl-item">
-                            <a class="nxl-link" href="/admin-banceuy/klinik/wbp">
-                                Data WBP Klinik
-                            </a>
-                        </li>
-
-                        {{-- PEMERIKSAAN --}}
-                        <li class="nxl-item">
-                            <a class="nxl-link" href="/admin-banceuy/klinik/pemeriksaan">
-                                Pemeriksaan
-                            </a>
-                        </li>
-
-                        {{-- DIAGNOSIS --}}
-                        <li class="nxl-item">
-                            <a class="nxl-link" href="/admin-banceuy/klinik/diagnosis">
-                                Diagnosis
-                            </a>
-                        </li>
-
-                        {{-- THERAPY --}}
-                        <li class="nxl-item">
-                            <a class="nxl-link" href="/admin-banceuy/klinik/therapy">
-                                Therapy
-                            </a>
-                        </li>
-
-                        {{-- LAPORAN KLINIK --}}
-                        <li class="nxl-item">
-                            <a class="nxl-link" href="/admin-banceuy/klinik/laporan">
-                                Laporan Klinik
-                            </a>
-                        </li>
-
-                    </ul>
-
-                </li>
-            @endif
-
         </div>
+
     </div>
+
 </nav>
