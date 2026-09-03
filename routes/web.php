@@ -103,9 +103,11 @@ Route::middleware('admin')->group(function () {
         ->group(function () {
 
             Route::get('/wbp', [WbpKlinikController::class, 'index'])->name('klinik.wbp.index');
+            Route::get('/wbp/filter', [WbpKlinikController::class, 'filter'])->name('klinik.wbp.filter');
             Route::get('/wbp/{wbpKlinik}', [WbpKlinikController::class, 'show'])->name('klinik.wbp.show');
             Route::get('/wbp/{wbpKlinik}/edit', [WbpKlinikController::class, 'edit'])->name('klinik.wbp.edit');
             Route::put('/wbp/{wbpKlinik}', [WbpKlinikController::class, 'update'])->name('klinik.wbp.update');
+            Route::get('/wbp/search', [WbpKlinikController::class, 'search'])->name('klinik.wbp.search');
         });
 
     /*

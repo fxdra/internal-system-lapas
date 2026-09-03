@@ -535,8 +535,40 @@
             padding: 22px;
             border-radius: 18px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-40px);
         }
 
+        /* LOKASI + STATUS */
+        .detail-location-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .detail-location-row>p {
+            margin: 0;
+            flex: 1;
+        }
+
+        .detail-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .detail-status b {
+            color: #6c757d;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .detail-status span {
+            white-space: nowrap;
+        }
+
+        /* DETAIL INFO */
         .detail-info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -960,8 +992,8 @@
 
     <style>
         /* =========================================================
-                                                                                                            MODAL EDIT DATA WBP
-                                                                                                        ========================================================= */
+                                                                                                                                                                MODAL EDIT DATA WBP
+                                                                                                                                                            ========================================================= */
 
         #modalEditWbp {
             position: fixed;
@@ -992,8 +1024,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                                                                               CONTENT
-                                                                                                                                                                                                                                                               ========================================================= */
+                                                                                                                                                                                                                                                                                                                   CONTENT
+                                                                                                                                                                                                                                                                                                                   ========================================================= */
 
         #modalEditWbp .custom-modal-content {
             width: 1100px;
@@ -1019,8 +1051,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                                                                               HEADER
-                                                                                                                                                                                                                                                               ========================================================= */
+                                                                                                                                                                                                                                                                                                                   HEADER
+                                                                                                                                                                                                                                                                                                                   ========================================================= */
 
         #modalEditWbp .custom-modal-header {
             flex-shrink: 0;
@@ -1046,8 +1078,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                                                                CLOSE
-                                                                                                                                                                                                                            ========================================================= */
+                                                                                                                                                                                                                                                                                                    CLOSE
+                                                                                                                                                                                                                                                                                ========================================================= */
 
         #modalEditWbp .btn-close-modal {
             width: 38px;
@@ -1082,8 +1114,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                                        BODY
-                                                                                                                                                                                                                        ========================================================= */
+                                                                                                                                                                                                                                                                            BODY
+                                                                                                                                                                                                                                                                            ========================================================= */
 
         #modalEditWbp .custom-modal-body {
             flex: 1;
@@ -1109,8 +1141,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                                                                               FORM
-                                                                                                                                                                                                                                                               ========================================================= */
+                                                                                                                                                                                                                                                                                                                   FORM
+                                                                                                                                                                                                                                                                                                                   ========================================================= */
 
         #modalEditWbp .custom-modal-body .form-label {
             margin-bottom: 7px;
@@ -1151,8 +1183,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                                                                               SECTION
-                                                                                                                                                                                                                                                               ========================================================= */
+                                                                                                                                                                                                                                                                                                                   SECTION
+                                                                                                                                                                                                                                                                                                                   ========================================================= */
 
         #modalEditWbp .custom-modal-body h6 {
             font-size: 16px;
@@ -1171,8 +1203,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                                                                               BUTTON
-                                                                                                                                                                                                                                                               ========================================================= */
+                                                                                                                                                                                                                                                                                                                   BUTTON
+                                                                                                                                                                                                                                                                                                                   ========================================================= */
 
         #modalEditWbp #cancelEditWbp,
         #modalEditWbp button[type="submit"] {
@@ -1186,8 +1218,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                                                                               MOBILE
-                                                                                                                                                                                                                                                               ========================================================= */
+                                                                                                                                                                                                                                                                                                                   MOBILE
+                                                                                                                                                                                                                                                                                                                   ========================================================= */
 
         @media (max-width: 768px) {
 
@@ -1223,8 +1255,8 @@
         }
 
         /* =========================================================
-                                                                                                                                                                                                           MODAL KONFIRMASI PERUBAHAN WBP
-                                                                                                                                                                                                           ========================================================= */
+                                                                                                                                                                                                                                                               MODAL KONFIRMASI PERUBAHAN WBP
+                                                                                                                                                                                                                                                               ========================================================= */
 
         #modalKonfirmasiEditWbp {
             display: flex;
@@ -1379,17 +1411,21 @@
             </div>
 
             <div class="d-flex gap-2">
+
                 @if ($permissions['fullAccess'])
                     <button id="btnImportExcel" class="btn btn-success btn-import shadow-sm">
-                        📥 Import Excel
+                        <i class="bi bi-file-earmark-excel me-1"></i>
+                        Import Excel
                     </button>
                 @endif
 
                 @if ($permissions['fullAccess'])
                     <button id="btnTambahWbp" class="btn btn-primary btn-import shadow-sm">
-                        ➕ Tambah WBP
+                        <i class="bi bi-person-plus me-1"></i>
+                        Tambah WBP
                     </button>
                 @endif
+
             </div>
 
         </div>
@@ -1648,7 +1684,6 @@
     </div>
 
     {{-- ================= MODAL DETAIL ================= --}}
-
     <div id="modalDetail">
 
         <div class="detail-card">
@@ -2300,7 +2335,6 @@
                 </button>
 
             </div>
-
 
             <!-- ================= FORM ================= -->
             <form action="{{ route('wbp.store') }}" method="POST" enctype="multipart/form-data">
@@ -3037,6 +3071,37 @@
                 let subsiderHari = res.subsider_hari ?? 0;
                 let dendaSubsider = res.denda_subsider ?? null;
 
+                let ekspirasi = res.ekspirasi ?
+                    formatTanggalIndonesia(res.ekspirasi) :
+                    '-';
+
+                // FORMAT TANGGAL
+                function formatTanggalIndonesia(value) {
+
+                    if (!value) {
+                        return '-';
+                    }
+
+                    const dateOnly = String(value).substring(0, 10);
+                    const parts = dateOnly.split('-');
+
+                    if (parts.length !== 3) {
+                        return value;
+                    }
+
+                    const year = parseInt(parts[0]);
+                    const month = parseInt(parts[1]) - 1;
+                    const day = parseInt(parts[2]);
+
+                    const date = new Date(year, month, day);
+
+                    return new Intl.DateTimeFormat('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                    }).format(date);
+                }
+
                 let subsiderParts = [];
 
                 if (Number(subsiderTahun) > 0) {
@@ -3112,9 +3177,17 @@
                     ${nama}
                 </h5>
 
-                <p class="fw-bold">
-                    BLOK ${blok} - ${sel}
-                </p>
+                <div class="detail-location-row">
+
+                    <p class="fw-bold mb-0">
+                        BLOK ${blok} - ${sel}
+                    </p>
+
+                    <div class="detail-status">
+                        <b>Status:</b> ${statusBadge}
+                    </div>
+
+                </div>
 
                 <hr>
 
@@ -3164,8 +3237,8 @@
                     </div>
 
                     <div class="detail-info-item">
-                        <b>Status:</b>
-                        <span>${statusBadge}</span>
+                        <b>Ekspirasi:</b>
+                        <span>${ekspirasi}</span>
                     </div>
 
                 </div>

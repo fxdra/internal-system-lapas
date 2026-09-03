@@ -2,11 +2,7 @@
 
 @section('content')
     <style>
-        /* =========================================================
-                                                                                                DATA WBP KLINIK
-                                                                                                ========================================================= */
-
-        /* HEADER */
+        /* HEADER DATA WBP KLINIK */
         .klinik-header {
             padding-bottom: 4px;
         }
@@ -36,10 +32,7 @@
             font-weight: 600;
         }
 
-        /* =========================================================
-                                                                                                STAT CARD
-                                                                                                ========================================================= */
-
+        /* STAT CARD */
         .klinik-stat-card {
             height: 100%;
 
@@ -103,31 +96,36 @@
             color: #d99a00;
         }
 
-        /* =========================================================
-                                            SEARCH
-                                            ========================================================= */
-
+        /* SEARCH */
         .klinik-search {
-            margin-bottom: 18px;
+            width: 100%;
+            margin-bottom: 16px;
         }
 
         .klinik-search .form-control {
-            min-height: 44px;
+            width: 100%;
+            height: 46px;
 
-            border: 1px solid #dee2e6;
-            border-radius: 10px 0 0 10px;
+            border: 1px solid #d9dee7;
+            border-radius: 10px;
+
+            padding: 0 15px;
 
             font-size: 13px;
 
-            box-shadow: none;
-
-            transition: all .2s ease;
+            background-color: #fff;
         }
 
         .klinik-search .form-control:focus {
             border-color: #3454d1;
 
-            box-shadow: 0 0 0 3px rgba(52, 84, 209, .10);
+            box-shadow: 0 0 0 3px rgba(52, 84, 209, 0.08);
+
+            outline: none;
+        }
+
+        .klinik-search .form-control::placeholder {
+            color: #98a2b3;
         }
 
         .klinik-search .btn-primary {
@@ -145,10 +143,31 @@
             border-radius: 10px;
         }
 
-        /* =========================================================
-                                            TABLE
-                                            ========================================================= */
+        .klinik-filter-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
+            margin-top: 12px;
+            margin-bottom: 16px;
+
+            padding: 10px 14px;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+
+            background: #f8f9fa;
+
+            font-size: 12px;
+            color: #667085;
+        }
+
+        .klinik-filter-info .btn {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* TABLE */
         .klinik-table-card {
             background: #ffffff;
 
@@ -170,24 +189,21 @@
             table-layout: fixed;
         }
 
-        /* =========================================================
-                                            COLUMN WIDTH
-                                            ===================================================== */
-
-        .klinik-table .col-no {
-            width: 4%;
+        /* COLUMN WIDTH */
+        .klinik-table .col-rekam-medis {
+            width: 14%;
         }
 
-        .klinik-table .col-rekam-medis {
-            width: 12%;
+        .klinik-table .col-nik {
+            width: 17%;
         }
 
         .klinik-table .col-nama {
-            width: 52%;
+            width: 41%;
         }
 
         .klinik-table .col-tanggal-masuk {
-            width: 24%;
+            width: 20%;
         }
 
         .klinik-table .col-aksi {
@@ -224,30 +240,18 @@
             vertical-align: middle;
         }
 
-        .klinik-table tbody tr {
-            transition: background-color .15s ease;
-        }
-
-        .klinik-table tbody tr:hover {
-            background: #fafbff;
-        }
-
-        .klinik-table tbody tr:last-child td {
-            border-bottom: 0;
-        }
-
-        /* =========================================================
-                                                        NAMA WBP
-                                                        ========================================================= */
-
+        /* NAMA WBP */
         .klinik-wbp-name {
             color: #283144;
+
             font-size: 13px;
             font-weight: 650;
+
             line-height: 1.4;
 
-            white-space: normal;
-            word-break: break-word;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .klinik-wbp-reg {
@@ -260,10 +264,7 @@
             margin-top: 3px;
         }
 
-        /* =========================================================
-                                                    NO REKAM MEDIS
-                                                    ========================================================= */
-
+        /* NO. REKAM MEDIS */
         .klinik-rekam-medis {
             display: inline-flex;
             align-items: center;
@@ -288,15 +289,30 @@
 
         .klinik-rekam-kosong {
             color: #a0a7b1;
-
             font-size: 12px;
         }
 
+        /* NIK */
+        .klinik-nik {
+            display: block;
 
-        /* =========================================================
-                                                STATUS
-                                                ========================================================= */
+            color: #3f4857;
 
+            font-size: 12px;
+            font-weight: 500;
+
+            white-space: nowrap;
+        }
+
+        .klinik-nik-kosong {
+            color: #a0a7b1;
+
+            font-size: 12px;
+
+            white-space: nowrap;
+        }
+
+        /* STATUS */
         .klinik-status {
             display: inline-flex;
             align-items: center;
@@ -324,10 +340,7 @@
         }
 
 
-        /* =========================================================
-                                                ACTION
-                                                ========================================================= */
-
+        /* ACTION */
         .klinik-action {
             display: inline-flex;
             align-items: center;
@@ -376,10 +389,7 @@
         }
 
 
-        /* =========================================================
-                                                EMPTY STATE
-                                                ========================================================= */
-
+        /* EMPTY STATE */
         .klinik-empty {
             padding: 60px 20px !important;
 
@@ -389,10 +399,7 @@
         }
 
 
-        /* =========================================================
-                                                PAGINATION
-                                                ========================================================= */
-
+        /* PAGINATION */
         .klinik-pagination {
             padding: 16px 20px;
 
@@ -410,10 +417,7 @@
         }
 
 
-        /* =========================================================
-                                                RESPONSIVE
-                                                ========================================================= */
-
+        /* RESPONSIVE */
         @media (max-width: 767.98px) {
 
             .klinik-stat-value {
@@ -440,10 +444,7 @@
             }
         }
 
-        /* =========================================================
-                                                MODAL EDIT WBP KLINIK
-                                                ========================================================= */
-
+        /* MODAL EDIT WBP KLINIK */
         .klinik-modal-overlay {
             position: fixed;
             inset: 0;
@@ -491,7 +492,6 @@
 
 
         /* HEADER */
-
         .klinik-modal-header {
             display: flex;
             align-items: center;
@@ -519,7 +519,6 @@
 
 
         /* CLOSE */
-
         .klinik-modal-close {
             width: 36px;
             height: 36px;
@@ -546,14 +545,12 @@
 
 
         /* BODY */
-
         .klinik-modal-body {
             padding: 24px;
         }
 
 
         /* IDENTITY */
-
         .klinik-modal-identity {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -593,7 +590,6 @@
 
 
         /* FORM */
-
         .klinik-form-group label {
             display: block;
 
@@ -631,7 +627,6 @@
 
 
         /* FOOTER */
-
         .klinik-modal-footer {
             display: flex;
             justify-content: flex-end;
@@ -656,7 +651,6 @@
 
 
         /* MOBILE */
-
         @media (max-width: 600px) {
 
             .klinik-modal-overlay {
@@ -677,10 +671,7 @@
 
         }
 
-        /* =========================================================
-                                                                                                   MODAL KONFIRMASI KLINIK
-                                                                                                ========================================================= */
-
+        /* MODAL KONFIRMASI KLINIK */
         .klinik-confirm-overlay {
             position: fixed;
             inset: 0;
@@ -730,7 +721,6 @@
 
 
         /* HEADER */
-
         .klinik-confirm-header {
             display: flex;
             justify-content: space-between;
@@ -783,7 +773,6 @@
 
 
         /* BODY */
-
         .klinik-confirm-body {
             padding: 24px;
             text-align: center;
@@ -823,7 +812,6 @@
 
 
         /* WBP */
-
         .klinik-confirm-wbp {
             padding: 12px 15px;
 
@@ -858,7 +846,6 @@
 
 
         /* CHANGE */
-
         .klinik-change-box {
             display: flex;
             align-items: center;
@@ -906,7 +893,6 @@
 
 
         /* WARNING */
-
         .klinik-confirm-warning {
             display: flex;
             align-items: flex-start;
@@ -932,7 +918,6 @@
 
 
         /* FOOTER */
-
         .klinik-confirm-footer {
             display: flex;
             justify-content: flex-end;
@@ -957,7 +942,6 @@
 
 
         /* MOBILE */
-
         @media (max-width: 600px) {
 
             .klinik-confirm-overlay {
@@ -1079,42 +1063,23 @@
         {{-- ================= SEARCH ================= --}}
         <div class="klinik-search">
 
-            <form method="GET" action="{{ route('klinik.wbp.index') }}">
-
-                <div class="input-group">
-
-                    <input type="text" name="search" class="form-control"
-                        placeholder="Cari nama WBP atau nomor rekam medis..." value="{{ request('search') }}">
-
-                    <button type="submit" class="btn btn-primary">
-                        🔍 Cari
-                    </button>
-
-                    @if (request('search'))
-                        <a href="{{ route('klinik.wbp.index') }}" class="btn btn-outline-secondary">
-
-                            Reset
-
-                        </a>
-                    @endif
-
-                </div>
-
-            </form>
+            <input type="text" id="searchKlinik" name="search" class="form-control"
+                placeholder="Cari nama WBP, No. Reg, atau nomor rekam medis..." value="{{ request('search') }}"
+                autocomplete="off">
 
         </div>
 
         @if (request('status') === 'tanpa_rekam_medis')
-            <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="klinik-filter-info">
 
                 <div>
-                    <small class="text-secondary ms-2">
-                        Menampilkan WBP yang belum memiliki nomor rekam medis
-                    </small>
+                    <i class="bi bi-funnel me-1"></i>
+                    Menampilkan WBP yang belum memiliki nomor rekam medis
                 </div>
 
                 <a href="{{ route('klinik.wbp.index') }}" class="btn btn-sm btn-outline-secondary">
-                    ← Tampilkan Semua
+                    <i class="bi bi-x-lg me-1"></i>
+                    Kembali ke Semua Data
                 </a>
 
             </div>
@@ -1122,529 +1087,1128 @@
 
 
         {{-- ================= TABLE ================= --}}
-        <div class="klinik-table-card">
+        <div id="klinikTableWrapper">
 
-            <div class="card-body">
+            <div class="klinik-table-card">
 
-                <div class="table-responsive">
+                <div class="card-body">
 
-                    <table class="table klinik-table align-middle">
+                    <div class="table-responsive">
 
-                        <thead>
-                            <tr>
-                                <th class="col-no">No</th>
-                                <th class="col-rekam-medis">No. Rekam Medis</th>
-                                <th class="col-nama">Nama WBP</th>
-                                <th class="col-tanggal-masuk">Tanggal Masuk Lapas</th>
-                                <th class="col-aksi">Aksi</th>
-                            </tr>
-                        </thead>
+                        <table class="table klinik-table align-middle">
 
-                        <tbody>
-
-                            @forelse($data as $item)
+                            <thead>
                                 <tr>
+                                    <th class="col-rekam-medis">No. Rekam Medis</th>
+                                    <th class="col-nik">NIK</th>
+                                    <th class="col-nama">Nama WBP</th>
+                                    <th class="col-tanggal-masuk">Tanggal Masuk Lapas</th>
+                                    <th class="col-aksi">Aksi</th>
+                                </tr>
+                            </thead>
 
-                                    {{-- NO --}}
-                                    <td class="klinik-row-number">
-                                        {{ $data->firstItem() + $loop->index }}
-                                    </td>
+                            <tbody>
+
+                                @forelse($data as $item)
+                                    <tr>
+
+                                        {{-- NO REKAM MEDIS --}}
+                                        <td>
+
+                                            @if ($item->no_rekam_medis)
+                                                <span class="klinik-rekam-medis">
+                                                    {{ $item->no_rekam_medis }}
+                                                </span>
+                                            @else
+                                                <span class="klinik-rekam-kosong">
+                                                    Belum tersedia
+                                                </span>
+                                            @endif
+
+                                        </td>
+
+                                        {{-- NIK --}}
+                                        <td>
+
+                                            @if ($item->wbp?->nik)
+                                                <span class="klinik-nik">
+                                                    {{ $item->wbp->nik }}
+                                                </span>
+                                            @else
+                                                <span class="klinik-nik-kosong">
+                                                    Belum tersedia
+                                                </span>
+                                            @endif
+
+                                        </td>
+
+                                        {{-- NAMA WBP --}}
+                                        <td>
+
+                                            @if ($item->wbp)
+                                                <div class="klinik-wbp-name">
+                                                    {{ $item->wbp->nama }}
+                                                </div>
+
+                                                <span class="klinik-wbp-reg">
+                                                    No. Reg:
+                                                    {{ $item->wbp->no_reg_instansi ?? '-' }}
+                                                </span>
+                                            @else
+                                                <span class="text-danger">
+                                                    Data WBP tidak ditemukan
+                                                </span>
+                                            @endif
+
+                                        </td>
+
+                                        {{-- TANGGAL MASUK LAPAS --}}
+                                        <td>
+
+                                            @if ($item->wbp?->tgl_masuk_lapas)
+                                                <span class="klinik-tanggal-masuk">
+                                                    {{ \Carbon\Carbon::parse($item->wbp->tgl_masuk_lapas)->locale('id')->translatedFormat('d F Y') }}
+                                                </span>
+                                            @else
+                                                <span class="klinik-tanggal-kosong">
+                                                    Belum tersedia
+                                                </span>
+                                            @endif
+
+                                        </td>
+
+                                        {{-- AKSI --}}
+                                        <td>
+
+                                            <div class="d-flex gap-1">
+
+                                                {{-- DETAIL --}}
+                                                <a href="{{ route('klinik.wbp.show', $item->wbp_id) }}"
+                                                    class="klinik-action klinik-action-detail" title="Detail">
+
+                                                    <i class="bi bi-eye"></i>
+
+                                                </a>
 
 
-                                    {{-- NO REKAM MEDIS --}}
-                                    <td>
+                                                {{-- EDIT --}}
+                                                <button type="button"
+                                                    class="klinik-action klinik-action-edit btn-edit-klinik" title="Edit"
+                                                    data-wbp-id="{{ $item->wbp_id }}"
+                                                    data-nama="{{ $item->wbp->nama ?? '-' }}"
+                                                    data-no-reg="{{ $item->wbp->no_reg_instansi ?? '-' }}"
+                                                    data-rekam-medis="{{ $item->no_rekam_medis ?? '' }}"
+                                                    data-update-url="{{ route('klinik.wbp.update', $item->wbp_id) }}">
 
-                                        @if ($item->no_rekam_medis)
-                                            <span class="klinik-rekam-medis">
-                                                {{ $item->no_rekam_medis }}
-                                            </span>
-                                        @else
-                                            <span class="klinik-rekam-kosong">
-                                                Belum tersedia
-                                            </span>
-                                        @endif
+                                                    <i class="bi bi-pencil-square"></i>
 
-                                    </td>
+                                                </button>
 
-                                    {{-- NAMA WBP --}}
-                                    <td>
-
-                                        @if ($item->wbp)
-                                            <div class="klinik-wbp-name">
-                                                {{ $item->wbp->nama }}
                                             </div>
 
-                                            <span class="klinik-wbp-reg">
-                                                No. Reg:
-                                                {{ $item->wbp->no_reg_instansi ?? '-' }}
-                                            </span>
-                                        @else
-                                            <span class="text-danger">
-                                                Data WBP tidak ditemukan
-                                            </span>
-                                        @endif
+                                        </td>
 
-                                    </td>
+                                    </tr>
 
-                                    {{-- TANGGAL MASUK LAPAS --}}
-                                    <td>
+                                @empty
 
-                                        @if ($item->wbp?->tgl_masuk_lapas)
-                                            <span class="klinik-tanggal-masuk">
-                                                {{ \Carbon\Carbon::parse($item->wbp->tgl_masuk_lapas)->locale('id')->translatedFormat('d F Y') }}
-                                            </span>
-                                        @else
-                                            <span class="klinik-tanggal-kosong">
-                                                Belum tersedia
-                                            </span>
-                                        @endif
+                                    <tr>
 
-                                    </td>
+                                        <td colspan="5" class="klinik-empty">
 
-                                    {{-- AKSI --}}
-                                    <td>
+                                            <div class="klinik-empty-title">
+                                                Data WBP klinik tidak ditemukan
+                                            </div>
 
-                                        <div class="d-flex gap-1">
+                                            <div class="klinik-empty-description">
+                                                Tidak ada data yang sesuai dengan pencarian.
+                                            </div>
 
-                                            {{-- DETAIL --}}
-                                            <a href="{{ route('klinik.wbp.show', $item->wbp_id) }}"
-                                                class="klinik-action klinik-action-detail" title="Detail">
+                                        </td>
 
-                                                👁
+                                    </tr>
+                                @endforelse
 
-                                            </a>
+                            </tbody>
 
-
-                                            {{-- EDIT --}}
-                                            <button type="button" class="klinik-action klinik-action-edit btn-edit-klinik"
-                                                title="Edit" data-wbp-id="{{ $item->wbp_id }}"
-                                                data-nama="{{ $item->wbp->nama ?? '-' }}"
-                                                data-no-reg="{{ $item->wbp->no_reg_instansi ?? '-' }}"
-                                                data-rekam-medis="{{ $item->no_rekam_medis ?? '' }}"
-                                                data-update-url="{{ route('klinik.wbp.update', $item->wbp_id) }}">
-
-                                                ✏️
-
-                                            </button>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-                            @empty
-
-                                <tr>
-
-                                    <td colspan="5" class="klinik-empty">
-
-                                        <div class="klinik-empty-title">
-                                            Data WBP klinik tidak ditemukan
-                                        </div>
-
-                                        <div class="klinik-empty-description">
-                                            Tidak ada data yang sesuai dengan pencarian.
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-                            @endforelse
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-
-                {{-- ================= PAGINATION ================= --}}
-                @if ($data->hasPages())
-                    <div class="klinik-pagination d-flex justify-content-between align-items-center flex-wrap gap-2">
-
-                        <div class="klinik-pagination-info">
-
-                            Menampilkan
-                            <strong>{{ $data->firstItem() }}</strong>
-                            -
-                            <strong>{{ $data->lastItem() }}</strong>
-
-                            dari
-
-                            <strong>{{ $data->total() }}</strong>
-                            data
-
-                        </div>
-
-                        <div>
-                            {{ $data->onEachSide(1)->links() }}
-                        </div>
+                        </table>
 
                     </div>
-                @endif
+
+
+                    {{-- ================= PAGINATION ================= --}}
+                    @if ($data->hasPages())
+                        <div class="klinik-pagination d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                            <div class="klinik-pagination-info">
+
+                                Menampilkan
+                                <strong>{{ $data->firstItem() }}</strong>
+                                -
+                                <strong>{{ $data->lastItem() }}</strong>
+
+                                dari
+
+                                <strong>{{ $data->total() }}</strong>
+                                data
+
+                            </div>
+
+                            <div>
+                                {{ $data->onEachSide(1)->links() }}
+                            </div>
+
+                        </div>
+                    @endif
+
+                </div>
 
             </div>
 
         </div>
 
-    </div>
-
-    {{-- =========================================================
+        {{-- =========================================================
      MODAL EDIT WBP KLINIK
     ========================================================= --}}
-    <div id="modalEditWbpKlinik" class="klinik-modal-overlay">
+        <div id="modalEditWbpKlinik" class="klinik-modal-overlay">
 
-        <div class="klinik-modal">
+            <div class="klinik-modal">
 
-            {{-- HEADER --}}
-            <div class="klinik-modal-header">
+                {{-- HEADER --}}
+                <div class="klinik-modal-header">
 
-                <div>
-                    <h5>
-                        Edit Data WBP Klinik
-                    </h5>
-
-                    <small>
-                        Perbarui nomor rekam medis
-                    </small>
-                </div>
-
-                <button type="button" class="klinik-modal-close" id="btnCloseEditKlinik">
-
-                    ×
-
-                </button>
-
-            </div>
-
-
-            {{-- BODY --}}
-            <div class="klinik-modal-body">
-
-                {{-- IDENTITAS --}}
-                <div class="klinik-modal-identity">
-
-                    <div class="klinik-modal-info">
-
-                        <span>
-                            WBP ID
-                        </span>
-
-                        <strong id="editKlinikWbpId">
-                            -
-                        </strong>
-
-                    </div>
-
-
-                    <div class="klinik-modal-info">
-
-                        <span>
-                            Nama WBP
-                        </span>
-
-                        <strong id="editKlinikNama">
-                            -
-                        </strong>
-
-                    </div>
-
-
-                    <div class="klinik-modal-info">
-
-                        <span>
-                            No. Registrasi
-                        </span>
-
-                        <strong id="editKlinikNoReg">
-                            -
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                {{-- FORM --}}
-                <form id="formEditWbpKlinik" method="POST">
-
-                    @csrf
-                    @method('PUT')
-
-                    <div class="klinik-form-group">
-
-                        <label for="editKlinikRekamMedis">
-
-                            No. Rekam Medis
-
-                        </label>
-
-                        <input type="text" id="editKlinikRekamMedis" name="no_rekam_medis" class="form-control"
-                            maxlength="50" placeholder="Contoh: 25/XI/650">
+                    <div>
+                        <h5>
+                            Edit Data WBP Klinik
+                        </h5>
 
                         <small>
-                            Masukkan nomor rekam medis sesuai kartu pasien.
+                            Perbarui data wbp.
                         </small>
+                    </div>
 
-                        <div id="editKlinikError" class="klinik-form-error">
+                    <button type="button" class="klinik-modal-close" id="btnCloseEditKlinik">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                {{-- BODY --}}
+                <div class="klinik-modal-body">
+
+                    {{-- IDENTITAS --}}
+                    <div class="klinik-modal-identity">
+
+                        <div class="klinik-modal-info">
+
+                            <span>
+                                WBP ID
+                            </span>
+
+                            <strong id="editKlinikWbpId">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="klinik-modal-info">
+
+                            <span>
+                                Nama WBP
+                            </span>
+
+                            <strong id="editKlinikNama">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="klinik-modal-info">
+
+                            <span>
+                                No. Registrasi
+                            </span>
+
+                            <strong id="editKlinikNoReg">
+                                -
+                            </strong>
+
                         </div>
 
                     </div>
 
-                </form>
 
-            </div>
+                    {{-- FORM --}}
+                    <form id="formEditWbpKlinik" method="POST">
+
+                        @csrf
+                        @method('PUT')
+
+                        <div class="klinik-form-group">
+
+                            <label for="editKlinikRekamMedis">
+
+                                No. Rekam Medis
+
+                            </label>
+
+                            <input type="text" id="editKlinikRekamMedis" name="no_rekam_medis" class="form-control"
+                                maxlength="50" placeholder="Contoh: 25/XI/650">
+
+                            <small>
+                                Masukkan nomor rekam medis sesuai kartu pasien.
+                            </small>
+
+                            <div id="editKlinikError" class="klinik-form-error">
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
 
 
-            {{-- FOOTER --}}
-            <div class="klinik-modal-footer">
+                {{-- FOOTER --}}
+                <div class="klinik-modal-footer">
 
-                <button type="button" class="btn btn-primary" id="btnSubmitEditKlinik">
+                    <button type="button" class="btn btn-outline-secondary" id="btnCancelEditKlinik">
+                        Batal
+                    </button>
 
-                    💾 Simpan Perubahan
+                    <button type="submit" class="btn btn-primary">
+                        Simpan Perubahan
+                    </button>
 
-                </button>
+                </div>
 
             </div>
 
         </div>
 
-    </div>
-
-    {{-- =========================================================
+        {{-- =========================================================
      MODAL KONFIRMASI EDIT WBP KLINIK
 ========================================================= --}}
 
-    <div id="modalKonfirmasiKlinik" class="klinik-confirm-overlay">
+        <div id="modalKonfirmasiKlinik" class="klinik-confirm-overlay">
 
-        <div class="klinik-confirm-modal">
+            <div class="klinik-confirm-modal">
 
-            {{-- HEADER --}}
-            <div class="klinik-confirm-header">
+                {{-- HEADER --}}
+                <div class="klinik-confirm-header">
 
-                <div>
-                    <h5>
-                        Konfirmasi Perubahan
-                    </h5>
+                    <div>
+                        <h5>
+                            Konfirmasi Perubahan
+                        </h5>
 
-                    <small>
-                        Pastikan data yang dimasukkan sudah benar.
-                    </small>
-                </div>
+                        <small>
+                            Pastikan data yang dimasukkan sudah benar.
+                        </small>
+                    </div>
 
-                <button type="button" class="klinik-confirm-close" id="btnCloseKonfirmasiKlinik">
+                    <button type="button" class="klinik-confirm-close" id="btnCloseKonfirmasiKlinik">
 
-                    ×
+                        ×
 
-                </button>
-
-            </div>
-
-
-            {{-- BODY --}}
-            <div class="klinik-confirm-body">
-
-                <div class="klinik-confirm-icon">
-                    ⚠️
-                </div>
-
-                <h6>
-                    Ubah Nomor Rekam Medis?
-                </h6>
-
-                <p class="text-secondary">
-                    Anda akan mengubah nomor rekam medis WBP berikut:
-                </p>
-
-
-                {{-- NAMA --}}
-                <div class="klinik-confirm-wbp">
-
-                    <span>
-                        WBP
-                    </span>
-
-                    <strong id="confirmKlinikNama">
-                        -
-                    </strong>
+                    </button>
 
                 </div>
 
 
-                {{-- PERUBAHAN --}}
-                <div class="klinik-change-box">
+                {{-- BODY --}}
+                <div class="klinik-confirm-body">
 
-                    <div class="klinik-change-item">
+                    <div class="klinik-confirm-icon">
+                        ⚠️
+                    </div>
+
+                    <h6>
+                        Ubah Nomor Rekam Medis?
+                    </h6>
+
+                    <p class="text-secondary">
+                        Anda akan mengubah data WBP berikut:
+                    </p>
+
+
+                    {{-- NAMA --}}
+                    <div class="klinik-confirm-wbp">
 
                         <span>
-                            Sebelumnya
+                            WBP
                         </span>
 
-                        <strong id="confirmKlinikLama" class="text-secondary">
-
+                        <strong id="confirmKlinikNama">
                             -
-
                         </strong>
 
                     </div>
 
 
-                    <div class="klinik-change-arrow">
-                        →
+                    {{-- PERUBAHAN --}}
+                    <div class="klinik-change-box">
+
+                        <div class="klinik-change-item">
+
+                            <span>
+                                Sebelumnya
+                            </span>
+
+                            <strong id="confirmKlinikLama" class="text-secondary">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="klinik-change-arrow">
+                            →
+                        </div>
+
+
+                        <div class="klinik-change-item">
+
+                            <span>
+                                Menjadi
+                            </span>
+
+                            <strong id="confirmKlinikBaru" class="text-primary">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
                     </div>
 
 
-                    <div class="klinik-change-item">
+                    <div class="klinik-confirm-warning">
+
+                        <span>⚠️</span>
 
                         <span>
-                            Menjadi
+                            Pastikan nomor rekam medis sesuai dengan kartu pasien.
                         </span>
-
-                        <strong id="confirmKlinikBaru" class="text-primary">
-
-                            -
-
-                        </strong>
 
                     </div>
 
                 </div>
 
 
-                <div class="klinik-confirm-warning">
+                {{-- FOOTER --}}
+                <div class="klinik-confirm-footer">
 
-                    <span>⚠️</span>
+                    <button type="button" class="btn btn-outline-secondary" id="btnBatalKonfirmasiKlinik">
 
-                    <span>
-                        Pastikan nomor rekam medis sesuai dengan kartu pasien.
-                    </span>
+                        Batal
+
+                    </button>
+
+                    <button type="button" class="btn btn-primary" id="btnLanjutSimpanKlinik">
+
+                        Ya, Simpan Perubahan
+
+                    </button>
 
                 </div>
-
-            </div>
-
-
-            {{-- FOOTER --}}
-            <div class="klinik-confirm-footer">
-
-                <button type="button" class="btn btn-outline-secondary" id="btnBatalKonfirmasiKlinik">
-
-                    Batal
-
-                </button>
-
-                <button type="button" class="btn btn-primary" id="btnLanjutSimpanKlinik">
-
-                    Ya, Simpan Perubahan
-
-                </button>
 
             </div>
 
         </div>
+    @endsection
 
-    </div>
-@endsection
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+            // ELEMENT — SEARCH TABLE
+            const searchInput = document.getElementById('searchKlinik');
+            const tableWrapper = document.getElementById('klinikTableWrapper');
 
-        const modal = document.getElementById('modalEditWbpKlinik');
+            const filterUrl = @json(route('klinik.wbp.filter'));
+            const wbpBaseUrl = @json(url('/admin-banceuy/klinik/wbp'));
 
-        const form = document.getElementById('formEditWbpKlinik');
+            // STATUS FILTER NOW
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentStatus = urlParams.get('status') || '';
 
-        const wbpId = document.getElementById('editKlinikWbpId');
-        const nama = document.getElementById('editKlinikNama');
-        const noReg = document.getElementById('editKlinikNoReg');
-        const rekamMedis = document.getElementById('editKlinikRekamMedis');
-        const errorBox = document.getElementById('editKlinikError');
+            // ELEMENT — MODAL EDIT WBP KLINIK
+            const modal = document.getElementById('modalEditWbpKlinik');
+            const form = document.getElementById('formEditWbpKlinik');
+            const wbpId = document.getElementById('editKlinikWbpId');
+            const nama = document.getElementById('editKlinikNama');
+            const noReg = document.getElementById('editKlinikNoReg');
+            const rekamMedis = document.getElementById('editKlinikRekamMedis');
+            const errorBox = document.getElementById('editKlinikError');
+            const closeButton = document.getElementById('btnCloseEditKlinik');
+            const cancelButton = document.getElementById('btnCancelEditKlinik');
 
-        const closeButton = document.getElementById('btnCloseEditKlinik');
-        const cancelButton = document.getElementById('btnCancelEditKlinik');
+            // HELPER ESC HTML
+            function escapeHtml(value) {
+
+                if (value === null || value === undefined) {
+                    return '';
+                }
+
+                return String(value)
+                    .replaceAll('&', '&amp;')
+                    .replaceAll('<', '&lt;')
+                    .replaceAll('>', '&gt;')
+                    .replaceAll('"', '&quot;')
+                    .replaceAll("'", '&#039;');
+            }
+
+            // TANGGAL LOCALE ID
+            function formatTanggalIndonesia(value) {
+
+                if (!value) {
+                    return null;
+                }
+
+                const dateOnly = String(value).substring(0, 10);
+                const parts = dateOnly.split('-');
+
+                if (parts.length !== 3) {
+                    return value;
+                }
+
+                const year = parseInt(parts[0]);
+                const month = parseInt(parts[1]) - 1;
+                const day = parseInt(parts[2]);
+
+                const date = new Date(year, month, day);
+
+                return new Intl.DateTimeFormat('id-ID', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                }).format(date);
+            }
 
 
-        /* =========================================================
-           BUKA MODAL
-        ========================================================= */
+            // RENDER TABLE
+            function renderTable(response) {
 
-        document.querySelectorAll('.btn-edit-klinik').forEach(button => {
+                let rows = '';
 
-            button.addEventListener('click', function() {
+                if (!response.data || response.data.length === 0) {
+
+                    rows = `
+                    <tr>
+                        <td colspan="5" class="klinik-empty">
+
+                            <div class="klinik-empty-title">
+                                Data WBP klinik tidak ditemukan
+                            </div>
+
+                            <div class="klinik-empty-description">
+                                Tidak ada data yang sesuai dengan pencarian.
+                            </div>
+
+                        </td>
+                    </tr>
+                `;
+
+                } else {
+
+                    response.data.forEach(function(item, index) {
+
+                        const nomor =
+                            (response.from ?? 1) + index;
+
+                        const namaWbp =
+                            item.wbp?.nama ?? '-';
+
+                        const noRegWbp =
+                            item.wbp?.no_reg_instansi ?? '-';
+
+                        const nik =
+                            item.wbp?.nik ?? '';
+
+                        const tanggalMasuk =
+                            formatTanggalIndonesia(
+                                item.wbp?.tgl_masuk_lapas
+                            );
+
+                        const noRekamMedis =
+                            item.no_rekam_medis ?? '';
+
+                        const showUrl =
+                            `${wbpBaseUrl}/${item.wbp_id}`;
+
+                        const updateUrl =
+                            `${wbpBaseUrl}/${item.wbp_id}`;
+
+                        rows += `
+                            <tr>
+
+                                {{-- NO REKAM MEDIS --}}
+                                <td>
+                                    ${
+                                        noRekamMedis
+                                        ? `
+                                                                    <span class="klinik-rekam-medis">
+                                                                        ${escapeHtml(noRekamMedis)}
+                                                                    </span>
+                                                                `
+                                        : `
+                                                                    <span class="klinik-rekam-kosong">
+                                                                        Belum tersedia
+                                                                    </span>
+                                                                `
+                                    }
+                                </td>
+
+                                {{-- NIK --}}
+                                <td>
+                                    ${
+                                        nik
+                                        ? `
+                                                                    <span class="klinik-nik">
+                                                                        ${escapeHtml(nik)}
+                                                                    </span>
+                                                                `
+                                        : `
+                                                                    <span class="klinik-nik-kosong">
+                                                                        Belum tersedia
+                                                                    </span>
+                                                                `
+                                    }
+                                </td>
+
+                                {{-- NAMA WBP --}}
+                                <td>
+
+                                    ${
+                                        item.wbp
+                                        ? `
+                                                            <div class="klinik-wbp-name">
+                                                                ${escapeHtml(namaWbp)}
+                                                            </div>
+
+                                                                    <span class="klinik-wbp-reg">
+                                                                        No. Reg:
+                                                                        ${escapeHtml(noRegWbp)}
+                                                                    </span>
+                                                                `
+                                        : `
+                                                                    <span class="text-danger">
+                                                                        Data WBP tidak ditemukan
+                                                                    </span>
+                                                                `
+                                    }
+
+                                </td>
+
+                                {{-- TANGGAL MASUK LAPAS --}}
+                                <td>
+
+                                    ${
+                                        tanggalMasuk
+                                        ? `
+                                                                    <span class="klinik-tanggal-masuk">
+                                                                        ${escapeHtml(tanggalMasuk)}
+                                                                    </span>
+                                                                `
+                                        : `
+                                                                    <span class="klinik-tanggal-kosong">
+                                                                        Belum tersedia
+                                                                    </span>
+                                                                `
+                                    }
+
+                                </td>
+
+                                {{-- AKSI --}}
+                                <td>
+
+                                    <div class="d-flex gap-1">
+
+                                        <a href="${showUrl}"
+                                            class="klinik-action klinik-action-detail"
+                                            title="Detail">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </a>
+
+                                        <button type="button"
+                                            class="klinik-action klinik-action-edit btn-edit-klinik"
+                                            title="Edit"
+
+                                            data-wbp-id="${escapeHtml(item.wbp_id)}"
+                                            data-nama="${escapeHtml(namaWbp)}"
+                                            data-no-reg="${escapeHtml(noRegWbp)}"
+                                            data-rekam-medis="${escapeHtml(noRekamMedis)}"
+                                            data-update-url="${updateUrl}">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                        </tr>
+                    `;
+                    });
+
+                }
+
+
+                tableWrapper.innerHTML = `
+                <div class="klinik-table-card">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+
+                            <table class="table klinik-table align-middle">
+
+                                <thead>
+                                    <tr>
+                                        <th class="col-rekam-medis">
+                                            No. Rekam Medis
+                                        </th>
+
+                                        <th class="col-nik">
+                                            NIK
+                                        </th>
+
+                                        <th class="col-nama">
+                                            Nama WBP
+                                        </th>
+
+                                        <th class="col-tanggal-masuk">
+                                            Tanggal Masuk Lapas
+                                        </th>
+
+                                        <th class="col-aksi">
+                                            Aksi
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    ${rows}
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                        ${renderPagination(response)}
+
+                    </div>
+
+                </div>
+            `;
+            }
+
+
+            // RENDER PAGINATION
+            function renderPagination(response) {
+
+                if (
+                    !response.last_page ||
+                    response.last_page <= 1
+                ) {
+                    return '';
+                }
+
+                const currentPage = response.current_page;
+                const lastPage = response.last_page;
+
+                let pagination = '';
+
+                // PREVIOUS
+                pagination += `
+                <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+
+                    <button
+                        type="button"
+                        class="page-link btn-klinik-page"
+                        data-page="${currentPage - 1}"
+                        ${currentPage <= 1 ? 'disabled' : ''}>
+
+                        &lsaquo;
+
+                    </button>
+
+                </li>
+            `;
+
+
+                // NOMOR HALAMAN
+                const startPage =
+                    Math.max(1, currentPage - 2);
+
+                const endPage =
+                    Math.min(lastPage, currentPage + 2);
+
+
+                if (startPage > 1) {
+
+                    pagination += `
+                    <li class="page-item">
+
+                        <button
+                            type="button"
+                            class="page-link btn-klinik-page"
+                            data-page="1">
+
+                            1
+
+                        </button>
+
+                    </li>
+                `;
+
+                    if (startPage > 2) {
+
+                        pagination += `
+                        <li class="page-item disabled">
+                            <span class="page-link">
+                                ...
+                            </span>
+                        </li>
+                    `;
+                    }
+                }
+
+
+                for (
+                    let page = startPage; page <= endPage; page++
+                ) {
+
+                    pagination += `
+                    <li class="page-item ${page === currentPage ? 'active' : ''}">
+
+                        <button
+                            type="button"
+                            class="page-link btn-klinik-page"
+                            data-page="${page}">
+
+                            ${page}
+
+                        </button>
+
+                    </li>
+                `;
+                }
+
+
+                if (endPage < lastPage) {
+
+                    if (endPage < lastPage - 1) {
+
+                        pagination += `
+                        <li class="page-item disabled">
+                            <span class="page-link">
+                                ...
+                            </span>
+                        </li>
+                    `;
+                    }
+
+                    pagination += `
+                    <li class="page-item">
+
+                        <button
+                            type="button"
+                            class="page-link btn-klinik-page"
+                            data-page="${lastPage}">
+
+                            ${lastPage}
+
+                        </button>
+
+                    </li>
+                `;
+                }
+
+
+                // NEXT
+                pagination += `
+                <li class="page-item ${currentPage >= lastPage ? 'disabled' : ''}">
+
+                    <button
+                        type="button"
+                        class="page-link btn-klinik-page"
+                        data-page="${currentPage + 1}"
+                        ${currentPage >= lastPage ? 'disabled' : ''}>
+
+                        &rsaquo;
+
+                    </button>
+
+                </li>
+            `;
+
+
+                return `
+                <div class="klinik-pagination d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                    <div class="klinik-pagination-info">
+
+                        Menampilkan
+
+                        <strong>
+                            ${response.from ?? 0}
+                        </strong>
+
+                        -
+
+                        <strong>
+                            ${response.to ?? 0}
+                        </strong>
+
+                        dari
+
+                        <strong>
+                            ${response.total ?? 0}
+                        </strong>
+
+                        data
+
+                    </div>
+
+                    <nav>
+                        <ul class="pagination mb-0">
+                            ${pagination}
+                        </ul>
+                    </nav>
+
+                </div>
+            `;
+            }
+
+
+            // LOAD DATA AJAX
+            async function loadKlinikData(page = 1) {
+
+                const search =
+                    searchInput.value.trim();
+
+                // LOADING
+
+                tableWrapper.innerHTML = `
+                <div class="klinik-table-card">
+
+                    <div class="card-body text-center py-5">
+
+                        <div
+                            class="spinner-border text-primary mb-3"
+                            role="status">
+                        </div>
+
+                        <div>
+                            Memuat data...
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+
+                // PARAMATER
+                const params = new URLSearchParams();
+
+                params.set('page', page);
+
+                if (search !== '') {
+                    params.set('search', search);
+                }
+
+                if (currentStatus !== '') {
+                    params.set('status', currentStatus);
+                }
+
+
+                try {
+
+                    const response = await fetch(
+                        `${filterUrl}?${params.toString()}`, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        }
+                    );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            `HTTP ${response.status}`
+                        );
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    renderTable(data);
+
+
+                } catch (error) {
+
+                    console.error(
+                        'Gagal memuat WBP Klinik:',
+                        error
+                    );
+
+                    tableWrapper.innerHTML = `
+                    <div class="alert alert-danger">
+
+                        Gagal memuat data WBP Klinik.
+
+                    </div>
+                `;
+                }
+            }
+
+            // LIVE SEARCH
+            let searchTimer = null;
+            searchInput.addEventListener('input', function() {
+
+                const search = this.value.trim();
+
+                clearTimeout(searchTimer);
+
+                searchTimer = setTimeout(function() {
+
+                    loadKlinikData(1);
+
+                }, 300);
+
+            });
+
+            // PAGINATION AJAX
+            tableWrapper.addEventListener('click', function(event) {
+
+                const button =
+                    event.target.closest('.btn-klinik-page');
+
+                if (!button || button.disabled) {
+                    return;
+                }
+
+                const page =
+                    parseInt(button.dataset.page);
+
+                if (!page || page < 1) {
+                    return;
+                }
+
+                loadKlinikData(page);
+
+            });
+
+            // OPEN MODAL EDIT AFTER AJAX LOAD DATA
+            tableWrapper.addEventListener('click', function(event) {
+
+                const button =
+                    event.target.closest('.btn-edit-klinik');
+
+                if (!button) {
+                    return;
+                }
+
 
                 wbpId.textContent =
-                    this.dataset.wbpId || '-';
+                    button.dataset.wbpId || '-';
 
                 nama.textContent =
-                    this.dataset.nama || '-';
+                    button.dataset.nama || '-';
 
                 noReg.textContent =
-                    this.dataset.noReg || '-';
+                    button.dataset.noReg || '-';
 
                 rekamMedis.value =
-                    this.dataset.rekamMedis || '';
+                    button.dataset.rekamMedis || '';
 
                 form.action =
-                    this.dataset.updateUrl;
+                    button.dataset.updateUrl;
 
                 errorBox.textContent = '';
 
                 modal.classList.add('show');
 
-                setTimeout(() => {
+
+                setTimeout(function() {
+
                     rekamMedis.focus();
+
                 }, 200);
 
             });
 
-        });
+            // TUTUP MODAL
+            function closeModal() {
 
+                modal.classList.remove('show');
 
-        /* =========================================================
-           TUTUP MODAL
-        ========================================================= */
-
-        function closeModal() {
-
-            modal.classList.remove('show');
-
-            errorBox.textContent = '';
-
-        }
-
-
-        closeButton.addEventListener('click', closeModal);
-
-        cancelButton.addEventListener('click', closeModal);
-
-
-        /* =========================================================
-           KLIK OVERLAY
-        ========================================================= */
-
-        modal.addEventListener('click', function(event) {
-
-            if (event.target === modal) {
-                closeModal();
-            }
-
-        });
-
-
-        /* =========================================================
-           ESC
-        ========================================================= */
-
-        document.addEventListener('keydown', function(event) {
-
-            if (event.key === 'Escape' &&
-                modal.classList.contains('show')) {
-
-                closeModal();
+                errorBox.textContent = '';
 
             }
 
-        });
+            // BUTTON CLOSE
+            if (closeButton) {
 
-    });
-</script>
+                closeButton.addEventListener(
+                    'click',
+                    closeModal
+                );
+
+            }
+
+            // BUTTON BATAL
+            if (cancelButton) {
+
+                cancelButton.addEventListener(
+                    'click',
+                    closeModal
+                );
+
+            }
+
+            // KLIK OVERLAY
+            modal.addEventListener('click', function(event) {
+
+                if (event.target === modal) {
+
+                    closeModal();
+
+                }
+
+            });
+
+            // ESC
+            document.addEventListener('keydown', function(event) {
+
+                if (
+                    event.key === 'Escape' &&
+                    modal.classList.contains('show')
+                ) {
+
+                    closeModal();
+
+                }
+
+            });
+
+        });
+    </script>

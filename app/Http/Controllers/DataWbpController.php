@@ -365,6 +365,9 @@ class DataWbpController extends Controller
             // denda subsider
             'denda_subsider' => $data->denda_subsider,
 
+            // ekspirasi
+            'ekspirasi' => $data->ekspirasi,
+
             // status WBP
             'status_wbp' => $data->status_wbp,
 
