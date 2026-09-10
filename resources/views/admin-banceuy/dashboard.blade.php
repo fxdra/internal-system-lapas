@@ -505,6 +505,486 @@
                 font-size: 24px;
             }
         }
+
+        /* ===================== SUMMARY KAMAR TERTUTUP ===================== */
+
+        /* Summary running text hanya untuk mobile */
+        .stat-closed-summary {
+            display: none;
+        }
+
+        /* MOBILE DASHBOARD */
+        @media (max-width: 575.98px) {
+
+            /* ================= HEADER ================= */
+            .container-fluid.py-3>.d-flex.justify-content-between.align-items-center {
+                align-items: flex-start !important;
+                gap: 10px;
+
+                margin-bottom: 18px !important;
+            }
+
+            .container-fluid.py-3>.d-flex.justify-content-between.align-items-center>div:first-child {
+                min-width: 0;
+                flex: 1 1 auto;
+            }
+
+            .container-fluid.py-3 h4 {
+                font-size: 18px;
+                line-height: 1.25;
+                margin-bottom: 4px !important;
+            }
+
+            .container-fluid.py-3 .mini-muted {
+                font-size: 11px;
+            }
+
+            /* ================= BUTTON HEADER ================= */
+            .container-fluid.py-3>.d-flex.justify-content-between.align-items-center>.d-flex.gap-2 {
+                flex: 0 0 auto;
+
+                gap: 5px !important;
+            }
+
+            .container-fluid.py-3>.d-flex.justify-content-between.align-items-center>.d-flex.gap-2 .btn {
+                width: 62px;
+                min-width: 62px;
+                height: 34px;
+
+                padding: 5px 6px;
+
+                font-size: 9px;
+                line-height: 1;
+
+                border-radius: 5px;
+            }
+
+            /* ================= STAT GRID ================= */
+            .container-fluid.py-3 .row.row-cols-2 {
+                --bs-gutter-x: 10px;
+                --bs-gutter-y: 10px;
+
+                margin-left: -5px;
+                margin-right: -5px;
+
+                align-items: flex-start;
+            }
+
+            .container-fluid.py-3 .row.row-cols-2>.col {
+                padding-left: 5px;
+                padding-right: 5px;
+
+                align-self: flex-start;
+
+                height: auto;
+            }
+
+            /* ================= STAT CARD ================= */
+            .container-fluid.py-3 .stat-card {
+                height: auto;
+                min-height: 0;
+
+                padding: 12px !important;
+
+                border-radius: 14px;
+            }
+
+            .container-fluid.py-3 .stat-card:hover {
+                transform: none;
+            }
+
+            /* ================= SAMAKAN TINGGI KAMAR ================= */
+
+            .container-fluid.py-3 .row.row-cols-2>.col:nth-child(3),
+            .container-fluid.py-3 .row.row-cols-2>.col:nth-child(4) {
+                align-self: stretch;
+                display: flex;
+            }
+
+            .container-fluid.py-3 .row.row-cols-2>.col:nth-child(3)>.stat-card,
+            .container-fluid.py-3 .row.row-cols-2>.col:nth-child(4)>.stat-card {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* ================= TITLE ================= */
+            .container-fluid.py-3 .stat-title {
+                font-size: 10px;
+
+                letter-spacing: .5px;
+
+                margin-bottom: 6px;
+            }
+
+            /* ================= VALUE ================= */
+            .container-fluid.py-3 .stat-value {
+                font-size: 27px;
+
+                line-height: 1;
+            }
+
+            /* ================= BREAKDOWN UMUM ================= */
+            .container-fluid.py-3 .stat-breakdown {
+                gap: 5px 8px;
+
+                margin-top: 10px;
+                padding-top: 8px;
+
+                font-size: 10px;
+            }
+
+            .container-fluid.py-3 .stat-breakdown-item {
+                gap: 4px;
+
+                font-size: 10px;
+            }
+
+            .container-fluid.py-3 .stat-breakdown-item strong {
+                font-size: 10px;
+            }
+
+            .container-fluid.py-3 .stat-breakdown-divider {
+                height: 12px;
+            }
+
+            /* ================= KAMAR TERTUTUP ================= */
+
+            .container-fluid.py-3 .stat-card-closed {
+                position: relative;
+                cursor: pointer;
+            }
+
+            /* ================= SUMMARY RUNNING TEXT ================= */
+
+            .container-fluid.py-3 .stat-closed-summary {
+                display: block;
+                width: 100%;
+
+                margin-top: 9px;
+                padding-top: 8px;
+
+                border-top: 1px solid rgba(0, 0, 0, .06);
+
+                overflow: hidden;
+            }
+
+            .container-fluid.py-3 .stat-closed-marquee {
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            .container-fluid.py-3 .stat-closed-marquee-track {
+                display: inline-flex;
+                align-items: center;
+
+                width: max-content;
+
+                gap: 5px;
+
+                animation: statClosedMarquee 15s linear infinite;
+            }
+
+            .container-fluid.py-3 .stat-closed-marquee-track span {
+                font-size: 8px;
+                line-height: 1.2;
+
+                color: #6c757d;
+
+                white-space: nowrap;
+            }
+
+            .container-fluid.py-3 .stat-closed-marquee-track i {
+                font-size: 8px;
+                font-style: normal;
+
+                color: #adb5bd;
+            }
+
+            /* ANIMASI RUNNING TEXT */
+
+            @keyframes statClosedMarquee {
+                from {
+                    transform: translateX(0);
+                }
+
+                to {
+                    transform: translateX(-50%);
+                }
+            }
+
+
+            /* ================= DETAIL ================= */
+
+            /* Detail disembunyikan */
+            .container-fluid.py-3 .stat-card-closed .stat-breakdown-closed {
+                display: none;
+            }
+
+            /* Detail saat card dibuka */
+            .container-fluid.py-3 .stat-card-closed.is-open {
+                min-height: 0;
+            }
+
+            .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-closed {
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 5px;
+
+                margin-top: 9px;
+            }
+
+
+            /* ================= ITEM DETAIL ================= */
+
+            .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-item {
+                display: grid;
+
+                grid-template-columns: 62px 6px minmax(0, 1fr);
+
+                align-items: start;
+
+                gap: 2px;
+
+                width: 100%;
+                min-width: 0;
+            }
+
+            .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-item span {
+                min-width: 0;
+
+                font-size: 7.5px;
+                line-height: 1.2;
+
+                white-space: normal;
+                overflow-wrap: anywhere;
+            }
+
+            .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-dot {
+                width: auto;
+
+                font-size: 7px;
+                line-height: 1.2;
+
+                text-align: center;
+
+                transform: none;
+            }
+
+            .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-item strong {
+                min-width: 0;
+
+                font-size: 8.5px;
+                line-height: 1.25;
+
+                text-align: left;
+
+                white-space: normal;
+
+                overflow-wrap: anywhere;
+                word-break: normal;
+            }
+
+            /* ================= OCCUPANCY ================= */
+
+            .container-fluid.py-3 .occupancy-card {
+                padding: 14px;
+                border-radius: 14px;
+                min-width: 0;
+            }
+
+            .container-fluid.py-3 .occupancy-card-header {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                align-items: start;
+                gap: 8px;
+
+                margin-bottom: 12px;
+            }
+
+            /* ================= NAMA BLOK + JUMLAH KAMAR ================= */
+
+            .container-fluid.py-3 .occupancy-block-info {
+                min-width: 0;
+
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                gap: 4px;
+            }
+
+            .container-fluid.py-3 .occupancy-block-name {
+                font-size: 12px;
+                line-height: 1.2;
+
+                letter-spacing: .3px;
+
+                white-space: nowrap;
+            }
+
+            .container-fluid.py-3 .occupancy-room-count {
+                font-size: 9px;
+                line-height: 1.2;
+
+                gap: 5px;
+
+                white-space: nowrap;
+            }
+
+            .container-fluid.py-3 .occupancy-room-count::before {
+                width: 3px;
+                height: 3px;
+            }
+
+            /* ================= STATUS ================= */
+
+            .container-fluid.py-3 .occupancy-status {
+                max-width: 72px;
+
+                padding: 5px 7px;
+
+                font-size: 8px;
+                line-height: 1.15;
+
+                text-align: center;
+
+                white-space: normal;
+                overflow-wrap: anywhere;
+
+                border-radius: 999px;
+            }
+
+            /* ================= VALUE ================= */
+
+            .container-fluid.py-3 .occupancy-value {
+                font-size: 23px;
+                line-height: 1;
+            }
+
+            /* angka kapasitas */
+            .container-fluid.py-3 .occupancy-value span {
+                font-size: 11px;
+            }
+
+            /* ================= PROGRESS ================= */
+
+            .container-fluid.py-3 .occupancy-progress {
+                height: 6px;
+
+                margin: 12px 0 9px;
+            }
+
+            /* ================= META ================= */
+
+            .container-fluid.py-3 .occupancy-meta {
+                gap: 5px;
+
+                font-size: 9px;
+
+                white-space: nowrap;
+            }
+
+            .container-fluid.py-3 .occupancy-meta strong {
+                font-size: 9px;
+            }
+
+
+            /* ================= UNIT KHUSUS ================= */
+            .container-fluid.py-3 .special-unit-card {
+                width: 100%;
+                min-width: 0;
+
+                padding: 14px !important;
+
+                border-radius: 14px;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-card-header {
+                display: grid;
+
+                grid-template-columns: minmax(0, 1fr) auto;
+
+                align-items: start;
+
+                gap: 6px;
+
+                margin-bottom: 12px;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-block-info {
+                min-width: 0;
+
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                gap: 4px;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-block-name {
+                font-size: 11px;
+                line-height: 1.2;
+
+                white-space: nowrap;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-room-count {
+                font-size: 8px;
+                line-height: 1.2;
+
+                white-space: nowrap;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-status {
+                max-width: 65px;
+
+                padding: 5px 6px;
+
+                font-size: 7px;
+                line-height: 1.15;
+
+                text-align: center;
+
+                white-space: normal;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-value {
+                font-size: 22px;
+                line-height: 1;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-value span {
+                font-size: 10px;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-progress {
+                height: 6px;
+
+                margin: 11px 0 8px;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-meta {
+                width: 100%;
+
+                gap: 4px;
+
+                font-size: 8px;
+
+                white-space: nowrap;
+            }
+
+            .container-fluid.py-3 .special-unit-card .occupancy-meta strong {
+                font-size: 8px;
+
+                white-space: nowrap;
+            }
+
+        }
     </style>
 
     <div class="container-fluid py-3">
@@ -584,8 +1064,9 @@
                     </div>
                 </div>
             </div>
+
             <div class="col">
-                <div class="card stat-card p-3">
+                <div class="card stat-card stat-card-closed p-3">
 
                     <div class="stat-title">
                         Kamar Tertutup
@@ -595,6 +1076,44 @@
                         {{ $totalKamarTertutup }}
                     </div>
 
+                    {{-- SUMMARY KHUSUS MOBILE --}}
+                    <div class="stat-closed-summary">
+
+                        <div class="stat-closed-marquee">
+
+                            <div class="stat-closed-marquee-track">
+
+                                {{-- LOOP PERTAMA --}}
+                                @forelse ($kamarTertutupBreakdown as $group)
+                                    <span>
+                                        {{ $group['nama'] }} {{ $group['kamar']->count() }}
+                                    </span>
+
+                                    <i>•</i>
+
+                                @empty
+
+                                    <span>Tidak ada kamar tertutup</span>
+                                @endforelse
+
+
+                                {{-- DUPLIKASI UNTUK RUNNING TEXT --}}
+                                @foreach ($kamarTertutupBreakdown as $group)
+                                    <span>
+                                        {{ $group['nama'] }} {{ $group['kamar']->count() }}
+                                    </span>
+
+                                    <i>•</i>
+                                @endforeach
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- DETAIL BREAKDOWN --}}
                     <div class="stat-breakdown stat-breakdown-closed">
 
                         @forelse ($kamarTertutupBreakdown as $group)
@@ -607,6 +1126,7 @@
                                 <i class="stat-breakdown-dot">•</i>
 
                                 <strong>
+
                                     @if (in_array($group['nama'], ['MAXIMUM', 'SEL ISOLASI']))
                                         {{ $group['kamar']->map(function ($kamar) {
                                                 preg_match('/(\d+)/', $kamar->lokasi_sel ?? '', $match);
@@ -618,6 +1138,7 @@
                                                 return ($kamar->kode_blok ?? '-') . '-' . ($match[1] ?? '-');
                                             })->implode(', ') }}
                                     @endif
+
                                 </strong>
 
                             </div>
@@ -630,6 +1151,7 @@
                         @endforelse
 
                     </div>
+
                 </div>
             </div>
 
@@ -800,7 +1322,7 @@
             <div class="row g-3">
 
                 @foreach ($summaryUnitKhusus as $item)
-                    <div class="col-12 col-md-6">
+                    <div class="col-6 col-md-6">
 
                         <div class="occupancy-card special-unit-card">
 
@@ -808,25 +1330,21 @@
 
                                 <div class="occupancy-block-info">
 
-                                    <div class="occupancy-block-info">
+                                    <div class="occupancy-block-name">
+                                        {{ $item['blok'] }}
+                                    </div>
 
-                                        <div class="occupancy-block-name">
-                                            {{ $item['blok'] }}
-                                        </div>
-
-                                        <div class="occupancy-room-count">
-                                            {{ $item['jumlah_kamar'] }} Kamar
-                                        </div>
-
+                                    <div class="occupancy-room-count">
+                                        {{ $item['jumlah_kamar'] }} Kamar
                                     </div>
 
                                 </div>
 
                                 <span
                                     class="
-                                occupancy-status
-                                occupancy-status-{{ $item['warna'] }}
-                            ">
+                        occupancy-status
+                        occupancy-status-{{ $item['warna'] }}
+                    ">
                                     {{ $item['status'] }}
                                 </span>
 
@@ -840,9 +1358,9 @@
                             <div class="occupancy-progress">
 
                                 <div class="
-                                    occupancy-progress-bar
-                                    occupancy-progress-{{ $item['warna'] }}
-                                "
+                        occupancy-progress-bar
+                        occupancy-progress-{{ $item['warna'] }}
+                    "
                                     style="width: {{ min($item['persen'], 100) }}%">
                                 </div>
 
@@ -1019,6 +1537,70 @@
             });
         </script>
 
+        <script>
+            $(function() {
+
+                $("#tanggalMutasi").datepicker({
+                    dateFormat: "yy-mm-dd",
+                    changeMonth: true,
+                    changeYear: true
+                });
+
+                if ($("#filterMutasi").val() === "date") {
+                    $("#tanggalMutasi").show();
+                }
+
+                $("#filterMutasi").change(function() {
+
+                    let filter = $(this).val();
+
+                    if (filter === "") {
+                        window.location.href = "{{ route('dashboard') }}";
+                    }
+
+                    if (filter === "today") {
+                        window.location.href = "{{ route('dashboard') }}?filter=today";
+                    }
+
+                    if (filter === "yesterday") {
+                        window.location.href = "{{ route('dashboard') }}?filter=yesterday";
+                    }
+
+                    if (filter === "date") {
+                        $("#tanggalMutasi").show().focus();
+                    }
+
+                });
+
+                $("#tanggalMutasi").on("change", function() {
+
+                    let tanggal = $(this).val();
+
+                    if (tanggal !== "") {
+                        window.location.href =
+                            "{{ route('dashboard') }}?filter=date&tanggal=" + tanggal;
+                    }
+
+                });
+
+            });
+        </script>
+
+        {{-- MOBILE KAMAR TERTUTUP --}}
+        <script>
+            document.addEventListener('click', function(e) {
+
+                const card = e.target.closest('.stat-card-closed');
+
+                if (!card) return;
+
+                // Hanya aktif di mobile
+                if (window.innerWidth > 575.98) return;
+
+                card.classList.toggle('is-open');
+
+            });
+        </script>
 
         <script>
             $(function() {

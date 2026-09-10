@@ -462,7 +462,7 @@
                         <a href="javascript:void(0);" class="nxl-link">
 
                             <span class="nxl-micon">
-                                <i class="feather-heart"></i>
+                                <i class="feather-thermometer"></i>
                             </span>
 
                             <span class="nxl-mtext">

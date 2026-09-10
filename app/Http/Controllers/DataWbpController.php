@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use App\Models\WbpKlinik;
 
 class DataWbpController extends Controller
 {
@@ -439,11 +441,39 @@ class DataWbpController extends Controller
 
     public function store(Request $request)
     {
-        $request->merge([
-            'denda_subsider' => str_replace('.', '', $request->denda_subsider),
-        ]);
 
-        $request->validate([
+        $numericFields = [
+            'putusan',
+            'putusan_bulan',
+            'subsider_tahun',
+            'subsider_bulan',
+            'subsider_hari',
+            'denda_subsider',
+            'total_bulan_remisi',
+            'total_hari_remisi',
+        ];
+
+        foreach ($numericFields as $field) {
+            if ($request->input($field) === '') {
+                $request->merge([
+                    $field => null,
+                ]);
+            }
+        }
+
+        // Denda bisa diinput dengan format 1.500.000
+        if ($request->filled('denda_subsider')) {
+            $request->merge([
+                'denda_subsider' => str_replace(
+                    '.',
+                    '',
+                    $request->denda_subsider
+                ),
+            ]);
+        }
+
+        $validated = $request->validate([
+
             // ================= IDENTITAS =================
             'no_reg_instansi' => [
                 'required',
@@ -454,71 +484,248 @@ class DataWbpController extends Controller
                 ),
             ],
 
-            'nama'             => 'required|string|max:100',
-            'negara'           => 'nullable|string|max:50',
-            'agama'            => 'nullable|string|max:30',
-            'klasifikasi_wbp'  => 'nullable|string|max:100',
+            'nama' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+            'negara' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+
+            'agama' => [
+                'nullable',
+                'string',
+                'max:30',
+            ],
+
+            'klasifikasi_wbp' => [
+                'required',
+                'string',
+                'max:100',
+            ],
 
             // ================= PERKARA =================
-            'jenis_kejahatan'  => 'nullable|string|max:100',
-            'pasal'            => 'nullable|string|max:255',
+            'jenis_kejahatan' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
 
-            'putusan'          => 'nullable|integer|min:0|max:255',
-            'putusan_bulan'    => 'nullable|integer|min:0|max:11',
+            'pasal' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'putusan' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'max:255',
+            ],
+
+            'putusan_bulan' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'max:11',
+            ],
 
             // ================= SUBSIDER =================
-            'subsider_tahun'   => 'nullable|integer|min:0',
-            'subsider_bulan'   => 'nullable|integer|min:0|max:11',
-            'subsider_hari'    => 'nullable|integer|min:0|max:30',
+            'subsider_tahun' => [
+                'nullable',
+                'integer',
+                'min:0',
+            ],
 
-            'denda_subsider'   => 'nullable|numeric|min:0',
+            'subsider_bulan' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'max:11',
+            ],
+
+            'subsider_hari' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'max:30',
+            ],
+
+            'denda_subsider' => [
+                'nullable',
+                'integer',
+                'min:0',
+            ],
 
             // ================= MASA =================
-            'ekspirasi'        => 'nullable|date',
-            'masa_1_3'        => 'nullable|date',
-            'masa_1_2'        => 'nullable|date',
-            'masa_2_3'        => 'nullable|date',
+            'ekspirasi' => [
+                'nullable',
+                'date',
+            ],
+
+            'masa_1_3' => [
+                'nullable',
+                'date',
+            ],
+
+            'masa_1_2' => [
+                'nullable',
+                'date',
+            ],
+
+            'masa_2_3' => [
+                'nullable',
+                'date',
+            ],
 
             // ================= REMISI =================
-            'total_bulan_remisi' => 'nullable|integer|min:0',
-            'total_hari_remisi'  => 'nullable|integer|min:0',
+            'total_bulan_remisi' => [
+                'nullable',
+                'integer',
+                'min:0',
+            ],
+
+            'total_hari_remisi' => [
+                'nullable',
+                'integer',
+                'min:0',
+            ],
 
             // ================= LOKASI =================
-            'kamar_id'         => 'nullable|exists:kamars,id',
+            'kamar_id' => [
+                'nullable',
+                'exists:kamars,id',
+            ],
 
             // ================= STATUS =================
-            'status_wbp'       => [
+            'status_wbp' => [
                 'required',
-                'in:AKTIF,PINDAH UPT,BON,SAKIT,PULANG,MENINGGAL'
+                'in:AKTIF,PINDAH UPT,BON,SAKIT,PULANG,MENINGGAL',
             ],
 
             // ================= FOTO =================
             'foto_wbp' => [
                 'required',
                 'image',
-                'mimes:jpg,jpeg,png',
+                'mimes:jpg,jpeg,png,webp',
                 'max:2048',
             ],
-        ]);
+        ], [
 
+            // ================= IDENTITAS =================
+            'no_reg_instansi.required' =>
+            'Nomor Registrasi Instansi wajib diisi.',
+
+            'no_reg_instansi.unique' =>
+            'Nomor Registrasi Instansi tersebut sudah terdaftar untuk nama WBP ini.',
+
+            'nama.required' =>
+            'Nama WBP wajib diisi.',
+
+            'klasifikasi_wbp.required' =>
+            'Klasifikasi WBP wajib dipilih.',
+
+            // ================= PERKARA =================
+            'putusan.integer' =>
+            'Putusan harus berupa angka.',
+
+            'putusan_bulan.integer' =>
+            'Putusan bulan harus berupa angka.',
+
+            'putusan_bulan.max' =>
+            'Putusan bulan maksimal 11.',
+
+            // ================= SUBSIDER =================
+            'subsider_tahun.integer' =>
+            'Subsider tahun harus berupa angka.',
+
+            'subsider_bulan.integer' =>
+            'Subsider bulan harus berupa angka.',
+
+            'subsider_bulan.max' =>
+            'Subsider bulan maksimal 11.',
+
+            'subsider_hari.integer' =>
+            'Subsider hari harus berupa angka.',
+
+            'subsider_hari.max' =>
+            'Subsider hari maksimal 30.',
+
+            'denda_subsider.integer' =>
+            'Denda subsider harus berupa angka.',
+
+            'denda_subsider.min' =>
+            'Denda subsider tidak boleh bernilai negatif.',
+
+            // ================= MASA =================
+            'ekspirasi.date' =>
+            'Format tanggal ekspirasi tidak valid.',
+
+            'masa_1_3.date' =>
+            'Format tanggal masa 1/3 tidak valid.',
+
+            'masa_1_2.date' =>
+            'Format tanggal masa 1/2 tidak valid.',
+
+            'masa_2_3.date' =>
+            'Format tanggal masa 2/3 tidak valid.',
+
+            // ================= REMISI =================
+            'total_bulan_remisi.integer' =>
+            'Total bulan remisi harus berupa angka.',
+
+            'total_hari_remisi.integer' =>
+            'Total hari remisi harus berupa angka.',
+
+            // ================= LOKASI =================
+            'kamar_id.exists' =>
+            'Kamar yang dipilih tidak ditemukan.',
+
+            // ================= STATUS =================
+            'status_wbp.required' =>
+            'Status WBP wajib dipilih.',
+
+            'status_wbp.in' =>
+            'Status WBP yang dipilih tidak valid.',
+
+            // ================= FOTO =================
+            'foto_wbp.required' =>
+            'Foto WBP wajib diunggah.',
+
+            'foto_wbp.image' =>
+            'File foto WBP harus berupa gambar.',
+
+            'foto_wbp.mimes' =>
+            'Format foto harus JPG, JPEG, PNG, atau WEBP.',
+
+            'foto_wbp.max' =>
+            'Ukuran foto maksimal 2 MB.',
+        ]);
 
         DB::beginTransaction();
 
+        $fotoPath = null;
+
         try {
 
-            // ================= KAMAR =================
             $kamar = $request->filled('kamar_id')
                 ? Kamar::findOrFail($request->kamar_id)
                 : null;
 
-
-            // ================= FOTO =================
             $foto = null;
 
             if ($request->hasFile('foto_wbp')) {
+
                 $file = $request->file('foto_wbp');
 
                 $namaFile = $file->getClientOriginalName();
+
+                $fotoPath = 'foto_wbp/' . $namaFile;
 
                 $file->storeAs(
                     'foto_wbp',
@@ -526,73 +733,99 @@ class DataWbpController extends Controller
                     'public'
                 );
 
-                $foto = 'storage/foto_wbp/' . $namaFile;
+                $foto = 'storage/' . $fotoPath;
             }
 
-
-            // ================= SIMPAN WBP =================
-            Wbp::create([
+            $wbp = Wbp::create([
 
                 // ================= IDENTITAS =================
-                'no_reg_instansi'  => $request->no_reg_instansi,
-                'nama'             => $request->nama,
-                'negara'           => $request->negara,
-                'agama'            => $request->agama,
-                'klasifikasi_wbp'  => $request->klasifikasi_wbp,
+                'no_reg_instansi' => $validated['no_reg_instansi'],
+                'nama'            => $validated['nama'],
+                'negara'          => $validated['negara'] ?? null,
+                'agama'           => $validated['agama'] ?? null,
+                'klasifikasi_wbp' => $validated['klasifikasi_wbp'],
 
                 // ================= PERKARA =================
-                'jenis_kejahatan'  => $request->jenis_kejahatan,
-                'pasal'            => $request->pasal,
-
-                'putusan'          => $request->putusan,
-                'putusan_bulan'    => $request->putusan_bulan,
+                'jenis_kejahatan' => $validated['jenis_kejahatan'] ?? null,
+                'pasal'           => $validated['pasal'] ?? null,
+                'putusan'         => $validated['putusan'] ?? null,
+                'putusan_bulan'   => $validated['putusan_bulan'] ?? null,
 
                 // ================= SUBSIDER =================
-                'subsider_tahun'   => $request->subsider_tahun,
-                'subsider_bulan'   => $request->subsider_bulan,
-                'subsider_hari'    => $request->subsider_hari,
-                'denda_subsider'   => $request->denda_subsider,
+                'subsider_tahun'  => $validated['subsider_tahun'] ?? null,
+                'subsider_bulan'  => $validated['subsider_bulan'] ?? null,
+                'subsider_hari'   => $validated['subsider_hari'] ?? null,
+                'denda_subsider'  => $validated['denda_subsider'] ?? null,
 
                 // ================= MASA =================
-                'ekspirasi'        => $request->ekspirasi,
-                'masa_1_3'        => $request->masa_1_3,
-                'masa_1_2'        => $request->masa_1_2,
-                'masa_2_3'        => $request->masa_2_3,
+                'ekspirasi' => $validated['ekspirasi'] ?? null,
+                'masa_1_3'  => $validated['masa_1_3'] ?? null,
+                'masa_1_2'  => $validated['masa_1_2'] ?? null,
+                'masa_2_3'  => $validated['masa_2_3'] ?? null,
 
                 // ================= REMISI =================
-                'total_bulan_remisi' => $request->total_bulan_remisi,
-                'total_hari_remisi'  => $request->total_hari_remisi,
+                'total_bulan_remisi' =>
+                $validated['total_bulan_remisi'] ?? null,
+
+                'total_hari_remisi' =>
+                $validated['total_hari_remisi'] ?? null,
 
                 // ================= LOKASI =================
-                'kamar_id'         => $kamar?->id,
-                'lokasi_blok'      => $kamar?->lokasi_blok,
-                'lokasi_sel'       => $kamar?->lokasi_sel,
+                'kamar_id' =>
+                $kamar?->id,
+
+                'lokasi_blok' =>
+                $kamar?->lokasi_blok,
+
+                'lokasi_sel' =>
+                $kamar?->lokasi_sel,
 
                 // ================= STATUS =================
-                'status_kamar'     => $kamar?->status_kamar ?? 'Terbuka',
-                'status_wbp'       => $request->status_wbp,
+                'status_kamar' =>
+                $kamar?->status_kamar ?? 'Terbuka',
+
+                'status_wbp' =>
+                $validated['status_wbp'],
 
                 // ================= FOTO =================
-                'foto_wbp'         => $foto,
+                'foto_wbp' =>
+                $foto,
             ]);
 
+            WbpKlinik::create([
+                'wbp_id'          => $wbp->id,
+                'no_rekam_medis'  => null,
+            ]);
 
             DB::commit();
 
             return redirect()
                 ->back()
-                ->with('success', 'Data WBP berhasil ditambahkan.');
-        } catch (\Exception $e) {
+                ->with(
+                    'success',
+                    'Data WBP berhasil ditambahkan.'
+                );
+        } catch (\Throwable $e) {
 
             DB::rollBack();
 
+            if ($fotoPath && Storage::disk('public')->exists($fotoPath)) {
+                Storage::disk('public')->delete($fotoPath);
+            }
+
             Log::error('Tambah WBP gagal', [
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
             ]);
 
             return redirect()
                 ->back()
-                ->with('error', 'Gagal menambahkan Data WBP.');
+                ->withInput()
+                ->with(
+                    'error',
+                    'Data WBP gagal disimpan. Silakan periksa kembali data yang diinput.'
+                );
         }
     }
 

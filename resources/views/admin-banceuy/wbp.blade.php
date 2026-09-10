@@ -466,9 +466,41 @@
             display: none;
         }
 
+        /* ================= WBP CARD PHOTO ================= */
+        .wbp-card-photo {
+            flex: 0 0 90px;
+            width: 90px;
+            min-width: 90px;
+        }
+
+        .wbp-card-photo img,
+        .wbp-card-photo-empty {
+            display: block;
+
+            width: 90px;
+            height: 90px;
+
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .wbp-card-photo-empty {
+            background: #e9ecef;
+        }
+
+        /* CONTENT */
+
+        .wbp-card-content {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
         /* ================= CARD ================= */
         .main-row {
-            display: block;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+
             background: #f8f9fa;
             border-radius: 14px;
             padding: 16px;
@@ -477,6 +509,7 @@
             transition: .2s;
             height: 100%;
             position: relative;
+            box-sizing: border-box;
         }
 
         .main-row:hover {
@@ -494,6 +527,23 @@
             font-size: 13px;
             color: #6c757d;
             margin-top: 4px;
+        }
+
+        .wbp-status {
+            display: inline-block;
+
+            margin-top: 6px;
+
+            padding: 4px 8px;
+
+            border-radius: 6px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            line-height: 1.2;
+
+            white-space: nowrap;
         }
 
         /* ================= GRID ================= */
@@ -582,12 +632,6 @@
         .detail-info-item b {
             display: block;
             margin-bottom: 4px;
-        }
-
-        @media (max-width: 500px) {
-            .detail-info-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         /* ================= IMPORT MODAL ================= */
@@ -727,7 +771,6 @@
 
 
         /* ================= STATUS TAB ================= */
-
         #statusTabs {
             gap: 10px;
             flex-wrap: wrap;
@@ -773,10 +816,8 @@
 
         }
 
-
         /* Mobile */
         @media (max-width:768px) {
-
             .action-btn {
                 flex: 1;
                 justify-content: center;
@@ -806,9 +847,9 @@
 
             /* Overlay */
             #modalDetail {
-                padding: 12px;
+                padding: 10px;
                 overflow-y: auto;
-                align-items: flex-start;
+                align-items: center;
             }
 
             /* Card */
@@ -838,19 +879,162 @@
             }
         }
 
-        /* ================= MOBILE ================= */
-        @media (max-width:768px) {
+        /* MOBILE - DATA WBP CARD */
+        @media (max-width: 768px) {
 
+            /* GRID */
             .wbp-grid {
                 grid-template-columns: 1fr;
+                gap: 10px;
             }
 
-            .nama-col {
-                font-size: 15px;
+            /* CARD */
+            .wbp-grid .main-row {
+                width: 100%;
+                min-width: 0;
+
+                padding: 12px;
+
+                margin-bottom: 0;
+
+                border-radius: 12px;
+
+                box-sizing: border-box;
             }
 
-            .detail-card {
-                margin: 20% 14px;
+            /* CONTENT */
+            .wbp-grid .wbp-card-content {
+                flex: 1 1 auto;
+
+                min-width: 0;
+
+                /*
+                                                                 * Sisakan ruang untuk badge
+                                                                 * di pojok kanan atas.
+                                                                 */
+                padding-right: 72px;
+            }
+
+            /* NAMA */
+            .wbp-grid .nama-col {
+                width: 100%;
+                min-width: 0;
+
+                font-size: 13px;
+                line-height: 1.3;
+
+                margin: 0;
+
+                white-space: normal;
+
+                overflow-wrap: anywhere;
+                word-break: normal;
+            }
+
+            /* INFO TAMBAHAN */
+            .wbp-grid .sub-info {
+                width: 100%;
+                min-width: 0;
+
+                font-size: 10px;
+                line-height: 1.3;
+
+                margin-top: 3px;
+
+                white-space: normal;
+
+                overflow-wrap: anywhere;
+            }
+
+            /* STATUS */
+            .wbp-grid .wbp-status {
+                display: inline-block;
+
+                margin-top: 6px !important;
+
+                padding: 4px 8px !important;
+
+                border-radius: 6px !important;
+
+                font-size: 9px !important;
+                line-height: 1.2;
+
+                white-space: nowrap;
+            }
+
+            /* FOTO CONTAINER */
+            .wbp-grid .wbp-card-photo {
+                flex: 0 0 68px;
+
+                width: 68px;
+                min-width: 68px;
+            }
+
+            .wbp-grid .wbp-card-photo img,
+            .wbp-grid .wbp-card-photo-empty {
+                width: 68px;
+                height: 68px;
+
+                object-fit: cover;
+
+                border-radius: 9px;
+            }
+
+            /* BUTTON */
+            .wbp-grid .action-buttons {
+                display: flex !important;
+
+                width: 100%;
+
+                margin-top: 8px !important;
+
+                gap: 7px !important;
+
+                flex-wrap: nowrap;
+            }
+
+            .wbp-grid .action-btn {
+                flex: 1 1 0;
+
+                width: auto;
+                min-width: 0;
+
+                height: 32px;
+
+                padding: 0 6px;
+
+                font-size: 10px;
+
+                border-radius: 7px;
+            }
+
+
+            /* AUDIT BADGE */
+            .wbp-grid .main-row>.position-absolute {
+                top: 8px !important;
+                right: 8px !important;
+
+                margin: 0 !important;
+
+                max-width: 80px;
+
+                z-index: 2;
+            }
+
+            .wbp-grid .main-row>.position-absolute .badge {
+                max-width: 80px;
+
+                padding: 4px 6px;
+
+                font-size: 7px;
+
+                line-height: 1.15;
+
+                text-align: center;
+
+                white-space: normal;
+
+                overflow-wrap: anywhere;
             }
 
         }
@@ -956,7 +1140,6 @@
         }
 
         /* ================= MOBILE ================= */
-
         @media (max-width:768px) {
 
             .delete-modal-overlay {
@@ -991,10 +1174,7 @@
     </style>
 
     <style>
-        /* =========================================================
-                                                                                                                                                                MODAL EDIT DATA WBP
-                                                                                                                                                            ========================================================= */
-
+        /* MODAL EDIT DATA WBP */
         #modalEditWbp {
             position: fixed;
             inset: 0;
@@ -1023,10 +1203,7 @@
             visibility: visible;
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                                                                                   CONTENT
-                                                                                                                                                                                                                                                                                                                   ========================================================= */
-
+        /* CONTENT */
         #modalEditWbp .custom-modal-content {
             width: 1100px;
             max-width: 95%;
@@ -1050,10 +1227,7 @@
             transform: translateY(0);
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                                                                                   HEADER
-                                                                                                                                                                                                                                                                                                                   ========================================================= */
-
+        /* HEADER */
         #modalEditWbp .custom-modal-header {
             flex-shrink: 0;
 
@@ -1077,10 +1251,7 @@
             color: #212529;
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                                                                    CLOSE
-                                                                                                                                                                                                                                                                                ========================================================= */
-
+        /* CLOSE */
         #modalEditWbp .btn-close-modal {
             width: 38px;
             height: 38px;
@@ -1113,10 +1284,7 @@
             transform: scale(1.05);
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                                            BODY
-                                                                                                                                                                                                                                                                            ========================================================= */
-
+        /* BODY */
         #modalEditWbp .custom-modal-body {
             flex: 1;
             min-height: 0;
@@ -1140,10 +1308,7 @@
             border-radius: 10px;
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                                                                                   FORM
-                                                                                                                                                                                                                                                                                                                   ========================================================= */
-
+        /* FORM */
         #modalEditWbp .custom-modal-body .form-label {
             margin-bottom: 7px;
 
@@ -1182,10 +1347,7 @@
             resize: vertical;
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                                                                                   SECTION
-                                                                                                                                                                                                                                                                                                                   ========================================================= */
-
+        /* SECTION */
         #modalEditWbp .custom-modal-body h6 {
             font-size: 16px;
             font-weight: 700;
@@ -1202,10 +1364,7 @@
             opacity: 1;
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                                                                                   BUTTON
-                                                                                                                                                                                                                                                                                                                   ========================================================= */
-
+        /* BUTTON */
         #modalEditWbp #cancelEditWbp,
         #modalEditWbp button[type="submit"] {
             min-width: 130px;
@@ -1217,10 +1376,7 @@
             font-weight: 600;
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                                                                                   MOBILE
-                                                                                                                                                                                                                                                                                                                   ========================================================= */
-
+        /* MOBILE */
         @media (max-width: 768px) {
 
             #modalEditWbp {
@@ -1254,10 +1410,7 @@
             }
         }
 
-        /* =========================================================
-                                                                                                                                                                                                                                                               MODAL KONFIRMASI PERUBAHAN WBP
-                                                                                                                                                                                                                                                               ========================================================= */
-
+        /* MODAL KONFIRMASI PERUBAHAN WBP */
         #modalKonfirmasiEditWbp {
             display: flex;
             align-items: center;
@@ -1585,44 +1738,32 @@
                                 </div>
 
                                 {{-- FOTO --}}
-                                <div style="flex:0 0 90px;">
+                                <div class="wbp-card-photo">
 
                                     @if (!empty($w->foto_wbp))
-                                        <img src="{{ asset($w->foto_wbp) }}"
-                                            style="
-                                            width:90px;
-                                            height:90px;
-                                            object-fit:cover;
-                                            border-radius:12px;
-                                        ">
+                                        <img src="{{ asset($w->foto_wbp) }}" alt="Foto WBP">
                                     @else
-                                        <div
-                                            style="
-                                        width:90px;
-                                        height:90px;
-                                        background:#e9ecef;
-                                        border-radius:12px;
-                                    ">
-                                        </div>
+                                        <div class="wbp-card-photo-empty"></div>
                                     @endif
 
                                 </div>
 
                                 {{-- DATA --}}
-                                <div style="flex:1;">
+                                <div class="wbp-card-content">
 
                                     <div class="nama-col">
                                         {{ $w->nama ?? '-' }}
                                     </div>
 
                                     <div class="sub-info fw-bold">
-                                        BLOK {{ $w->kamar->kode_blok ?? '-' }} - <span
-                                            class="">{{ $w->kamar->lokasi_sel ?? '-' }}</span>
+                                        BLOK {{ $w->kamar->kode_blok ?? '-' }} -
+                                        <span>{{ $w->kamar->lokasi_sel ?? '-' }}</span>
                                     </div>
 
                                     {{-- STATUS --}}
                                     @php
                                         $status = $w->status_kamar ?? '-';
+
                                         $statusStyle = match ($status) {
                                             'Terbuka' => 'background:#28a745;color:#fff;',
                                             'Tertutup' => 'background:#dc3545;color:#fff;',
@@ -1630,15 +1771,7 @@
                                         };
                                     @endphp
 
-                                    <span
-                                        style="
-                                    display:inline-block;
-                                    padding:5px 10px;
-                                    border-radius:8px;
-                                    font-size:12px;
-                                    margin-top:8px;
-                                    {{ $statusStyle }}
-                                ">
+                                    <span class="wbp-status" style="{{ $statusStyle }}">
                                         {{ $status }}
                                     </span>
 
@@ -2318,6 +2451,26 @@
 
     </div>
 
+    {{-- {ERROR SESSION --}}
+    @if (session('error'))
+        <div class="alert alert-danger">
+            <strong>Gagal:</strong>
+            {{ session('error') }}
+        </div>
+    @endif
+
+    {{-- ERROR VALIDASI --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Validasi gagal:</strong>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- ================= MODAL TAMBAH WBP ================= -->
     <div class="custom-modal" id="modalTambahWbp">
 
@@ -2488,7 +2641,6 @@
                                 inputmode="numeric" autocomplete="off" placeholder="Contoh: 1.000.000">
                         </div>
 
-
                         <!-- ================= MASA & REMISI ================= -->
                         <div class="col-12">
                             <hr class="my-3">
@@ -2545,7 +2697,6 @@
 
                             <input type="number" name="total_hari_remisi" class="form-control" min="0">
                         </div>
-
 
                         <!-- ================= KAMAR & STATUS ================= -->
                         <div class="col-12">
@@ -2612,7 +2763,6 @@
                                 </option>
                             </select>
                         </div>
-
 
                         <!-- ================= FOTO ================= -->
                         <div class="col-12">
@@ -2783,26 +2933,14 @@
                             if (w.has_foto) {
 
                                 foto = `
-                                    <img
-                                        src="/${w.foto_wbp}"
-                                        style="
-                                            width:90px;
-                                            height:90px;
-                                            object-fit:cover;
-                                            border-radius:12px;
-                                        ">
-                                `;
+                                    <img src="/${w.foto_wbp}" alt="Foto WBP">
+                                    `;
 
                             } else {
 
                                 foto = `
-                                    <div style="
-                                        width:90px;
-                                        height:90px;
-                                        background:#e9ecef;
-                                        border-radius:12px;
-                                    "></div>
-                                `;
+                                    <div class="wbp-card-photo-empty"></div>
+                                    `;
 
                             }
 
@@ -2876,28 +3014,37 @@
                                 ${auditBadge}
                             </div>
 
-                            <div style="flex:0 0 90px;">
+                            <div class="wbp-card-photo">
                                 ${foto}
                             </div>
 
-                            <div style="flex:1;">
+                            <div class="wbp-card-content">
 
                                 <div class="nama-col">
                                     ${w.nama ?? '-'}
                                 </div>
 
                                 <div class="sub-info fw-bold">
-                                  BLOK ${w.kamar?.kode_blok ?? '-'} - ${
-                                        w.kamar?.lokasi_sel
-                                    }
+                                    BLOK ${w.kamar?.kode_blok ?? '-'} -
+                                    <span>${w.kamar?.lokasi_sel ?? '-'}</span>
                                 </div>
 
                                 ${statusBadge}
 
-                                <div class="mt-2 d-flex gap-2">
+                                <div class="d-flex gap-2 action-buttons">
                                     ${
                                         fullAccess
-                                        ? `<button class="action-btn btn-detail"data-id="${w.id}"> Detail </button> <button class="action-btn btn-delete" data-id="${w.id}"> Hapus </button> ` : '' }
+                                        ? `
+                                                <button class="action-btn btn-detail" data-id="${w.id}">
+                                                    Detail
+                                                </button>
+
+                                                <button class="action-btn btn-delete" data-id="${w.id}">
+                                                    Hapus
+                                                </button>
+                                            `
+                                        : ''
+                                    }
                                 </div>
 
                             </div>

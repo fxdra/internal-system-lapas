@@ -95,6 +95,109 @@
         .kamar-item.open .toggle-btn {
             transform: rotate(180deg);
         }
+
+        /* ================= MOBILE DATA KAMAR ================= */
+        @media (max-width: 768px) {
+
+            /* ================= PAGE TITLE ================= */
+
+            .container-fluid h2,
+            .container-fluid h3,
+            .container-fluid h4 {
+                margin-bottom: 10px;
+            }
+
+            /* ================= ACTION BUTTON ================= */
+
+            .container-fluid .d-flex.flex-wrap.gap-2.mb-3 {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px !important;
+                margin-bottom: 16px !important;
+            }
+
+            .container-fluid .d-flex.flex-wrap.gap-2.mb-3 .btn {
+                width: 100%;
+                min-height: 42px;
+                padding: 9px 8px;
+                font-size: 10px;
+                font-weight: 700;
+                line-height: 1.2;
+                white-space: nowrap;
+            }
+
+            .container-fluid .d-flex.flex-wrap.gap-2.mb-3 .btn-success {
+                grid-column: 1 / -1;
+            }
+
+            /* ================= SEARCH ================= */
+
+            input[placeholder="Cari kamar..."] {
+                height: 44px;
+                padding: 10px 13px;
+                font-size: 13px;
+                border-radius: 10px;
+                margin-bottom: 14px;
+            }
+
+            /* ================= KAMAR GRID ================= */
+
+            .kamar-grid {
+                grid-template-columns: 1fr;
+                gap: 9px;
+            }
+
+            /* ================= KAMAR CARD ================= */
+
+            .main-row {
+                padding: 12px 14px;
+                border-radius: 13px;
+                min-height: 68px;
+                box-shadow: 0 2px 7px rgba(0, 0, 0, .045);
+            }
+
+            /* ================= HEADER KAMAR ================= */
+
+            .dropdown-header {
+                min-height: 44px;
+                gap: 10px;
+            }
+
+            .nama-col {
+                font-size: 15px;
+                line-height: 1.2;
+            }
+
+            .sub-info {
+                margin-top: 4px;
+                font-size: 11px;
+                line-height: 1.2;
+            }
+
+            /* ================= TOGGLE ================= */
+
+            .toggle-btn {
+                flex-shrink: 0;
+                width: 32px;
+                height: 32px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                padding: 0;
+                font-size: 19px;
+                line-height: 1;
+            }
+
+            /* ================= DROPDOWN ================= */
+
+            .kamar-item.open .dropdown-content {
+                max-height: 500px;
+                padding-top: 12px;
+            }
+
+        }
     </style>
 
     <div class="container-fluid my-3">
@@ -126,8 +229,6 @@
 
         <input type="text" id="search" class="form-control mb-3" placeholder="Cari kamar...">
 
-
-
         <div id="tableWrapper">
 
             <div class="kamar-grid">
@@ -155,7 +256,6 @@
 
                         </div>
 
-
                         <div class="dropdown-content">
 
                             <div>
@@ -167,9 +267,9 @@
                                     @if ($k->img_barcode)
                                         <img src="{{ asset('storage/' . $k->img_barcode) }}"
                                             style="
-width:140px;
-border-radius:8px;
-">
+                                            width:140px;
+                                            border-radius:8px;
+                                        ">
                                     @else
                                         Tidak Ada Barcode
                                     @endif
@@ -177,7 +277,6 @@ border-radius:8px;
                                 </div>
 
                             </div>
-
 
                             <div class="mt-3">
 
@@ -227,7 +326,6 @@ border-radius:8px;
         </div>
 
     </div>
-    </div>
 
     {{-- ================= MODAL UPDATE STATUS KAMAR================= --}}
     <div id="modalStatus"
@@ -270,48 +368,6 @@ border-radius:8px;
                 <button id="saveStatus" class="btn btn-success btn-sm">Simpan</button>
                 <button id="closeStatus" class="btn btn-danger btn-sm">Batal</button>
             </div>
-
-        </div>
-    </div>
-
-    {{-- ================= MODAL Import PDF File================= --}}
-    <div id="modalPdf" style="
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.5);
-z-index:9999;
-">
-
-        <div style="
-background:#fff;
-max-width:400px;
-margin:10% auto;
-padding:20px;
-border-radius:10px;
-">
-
-            <h5>Upload PDF Kamar</h5>
-
-            <form id="formPdf" enctype="multipart/form-data">
-
-                <select name="kamar_id" class="form-control mt-2" required>
-                    <option value="">Pilih Kamar</option>
-                    @foreach ($kamar as $k)
-                        <option value="{{ $k->id }}">
-                            BLOK {{ $k->kode_blok }} - {{ $k->lokasi_sel }}
-                        </option>
-                    @endforeach
-                </select>
-
-                <input type="file" name="file_pdf" class="form-control mt-2" accept="application/pdf" required>
-
-                <div class="mt-3 d-flex justify-content-end gap-2">
-                    <button type="submit" class="btn btn-success btn-sm">Upload</button>
-                    <button type="button" id="closePdf" class="btn btn-danger btn-sm">Batal</button>
-                </div>
-
-            </form>
 
         </div>
     </div>

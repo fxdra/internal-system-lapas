@@ -160,11 +160,42 @@
 
             font-size: 12px;
             color: #667085;
+
+            gap: 10px;
         }
 
-        .klinik-filter-info .btn {
-            font-size: 11px;
+        .klinik-filter-info>div {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        /* BUTTON KEMBALI */
+        .klinik-btn-kembali {
+            flex: 0 0 auto;
+
+            min-width: 120px;
+            height: 34px;
+
+            padding: 5px 10px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 3px;
+
+            border-radius: 6px;
+
+            font-size: 10px !important;
             font-weight: 600;
+
+            line-height: 1.15;
+
+            white-space: nowrap;
+        }
+
+        .klinik-btn-kembali i {
+            font-size: 10px;
         }
 
         /* TABLE */
@@ -429,17 +460,12 @@
                 padding: 12px;
             }
 
-            .klinik-wbp-name {
-                min-width: 190px;
-            }
-
             .klinik-table-card {
                 border-radius: 10px;
             }
 
             .klinik-pagination {
                 flex-direction: column;
-
                 align-items: flex-start !important;
             }
         }
@@ -650,23 +676,432 @@
         }
 
 
-        /* MOBILE */
+        /* MOBILE - TABLE DATA WBP KLINIK */
+        @media (max-width: 600px) {
+
+            #klinikTableWrapper {
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            .klinik-table-card {
+                width: 100%;
+                max-width: 100%;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+
+            .klinik-table-card .card-body {
+                padding: 0;
+            }
+
+            .klinik-table-card .table-responsive {
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            /* TABLE */
+            .klinik-table {
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100% !important;
+
+                margin: 0 !important;
+
+                table-layout: fixed !important;
+                border-collapse: collapse;
+            }
+
+
+            /* CELL DASAR */
+            .klinik-table th,
+            .klinik-table td {
+                box-sizing: border-box;
+
+                padding: 8px 4px !important;
+
+                vertical-align: middle;
+
+                white-space: normal !important;
+
+                overflow: hidden;
+            }
+
+            /* LEBAR KOLOM */
+            .klinik-table .col-rekam-medis,
+            .klinik-table td:nth-child(1) {
+                width: 17% !important;
+            }
+
+            .klinik-table .col-nik,
+            .klinik-table td:nth-child(2) {
+                width: 18% !important;
+            }
+
+            .klinik-table .col-nama,
+            .klinik-table td:nth-child(3) {
+                width: 30% !important;
+            }
+
+            .klinik-table .col-tanggal-masuk,
+            .klinik-table td:nth-child(4) {
+                width: 15% !important;
+            }
+
+            .klinik-table .col-aksi,
+            .klinik-table td:nth-child(5) {
+                width: 20% !important;
+            }
+
+            /* HEADER */
+            .klinik-table thead th {
+                padding: 8px 4px !important;
+
+                font-size: 7px !important;
+                line-height: 1.15 !important;
+
+                font-weight: 700;
+
+                letter-spacing: 0;
+
+                white-space: normal !important;
+                word-break: normal !important;
+                overflow-wrap: normal !important;
+
+                text-transform: uppercase;
+            }
+
+            .klinik-table thead .col-aksi {
+                text-align: center;
+            }
+
+            /* NO REKAM MEDIS */
+            .klinik-table .klinik-rekam-medis,
+            .klinik-table .klinik-rekam-kosong {
+                display: block;
+
+                max-width: 100%;
+
+                padding: 4px 5px;
+
+                font-size: 7px;
+                line-height: 1.25;
+
+                white-space: normal;
+
+                overflow-wrap: anywhere;
+                word-break: break-all;
+            }
+
+            .klinik-table .klinik-rekam-medis {
+                border-radius: 6px;
+            }
+
+            /* NIK */
+            .klinik-table .klinik-nik,
+            .klinik-table .klinik-nik-kosong {
+                display: block;
+
+                max-width: 100%;
+
+                font-size: 7px;
+                line-height: 1.25;
+
+                white-space: normal;
+
+                overflow-wrap: anywhere;
+                word-break: break-all;
+            }
+
+            /* NAMA WBP */
+            .klinik-table .klinik-wbp-name {
+                display: block;
+
+                width: 100%;
+                min-width: 0 !important;
+                max-width: 100%;
+
+                font-size: 8px;
+                font-weight: 650;
+
+                line-height: 1.25;
+
+                white-space: normal !important;
+
+                overflow: hidden;
+                text-overflow: clip;
+
+                overflow-wrap: anywhere;
+                word-break: normal;
+            }
+
+            .klinik-table .klinik-wbp-reg {
+                display: block;
+
+                width: 100%;
+                max-width: 100%;
+
+                margin-top: 3px;
+
+                font-size: 6.5px;
+                line-height: 1.2;
+
+                color: #8a94a6;
+
+                white-space: normal;
+
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            /* TANGGAL */
+            .klinik-table .klinik-tanggal-masuk,
+            .klinik-table .klinik-tanggal-kosong {
+                display: block;
+
+                width: 100%;
+                max-width: 100%;
+
+                font-size: 7px;
+                line-height: 1.25;
+
+                white-space: normal;
+
+                overflow-wrap: anywhere;
+                word-break: normal;
+            }
+
+            /* AKSI */
+            .klinik-table td:nth-child(5) {
+                padding-left: 2px !important;
+                padding-right: 2px !important;
+
+                text-align: center;
+                white-space: nowrap !important;
+            }
+
+            .klinik-table td:nth-child(5) .d-flex {
+                display: flex !important;
+
+                width: 100%;
+
+                justify-content: center;
+                align-items: center;
+
+                gap: 3px !important;
+
+                flex-wrap: nowrap !important;
+            }
+
+            .klinik-table .klinik-action {
+                width: 25px;
+                height: 25px;
+
+                min-width: 25px;
+                max-width: 25px;
+
+                min-height: 25px;
+                max-height: 25px;
+
+                padding: 0 !important;
+
+                flex: 0 0 25px;
+
+                display: inline-flex;
+
+                align-items: center;
+                justify-content: center;
+
+                border-radius: 6px;
+            }
+
+            .klinik-table .klinik-action i {
+                font-size: 11px;
+
+                line-height: 1;
+            }
+
+            /* EMPTY STATE */
+            .klinik-table .klinik-empty {
+                padding: 30px 12px !important;
+
+                text-align: center;
+            }
+
+            .klinik-table .klinik-empty-title {
+                font-size: 11px;
+            }
+
+            .klinik-table .klinik-empty-description {
+                font-size: 9px;
+                line-height: 1.4;
+            }
+
+            /* FILTER INFO */
+            .klinik-filter-info {
+                gap: 7px;
+                padding: 8px 10px;
+                font-size: 10px;
+                line-height: 1.45;
+            }
+
+            .klinik-filter-info>div {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+
+            .klinik-btn-kembali {
+                flex: 0 0 120px;
+
+                width: 120px;
+                min-width: 120px;
+                max-width: 120px;
+
+                height: 32px;
+                min-height: 32px;
+
+                padding: 4px 7px;
+
+                border-radius: 5px;
+
+                font-size: 8.5px !important;
+                line-height: 1.1;
+
+                white-space: normal;
+                text-align: center;
+            }
+
+            .klinik-btn-kembali i {
+                font-size: 9px;
+                margin-right: 1px !important;
+            }
+        }
+
+        /* MOBILE - MODAL EDIT */
         @media (max-width: 600px) {
 
             .klinik-modal-overlay {
-                padding: 12px;
+                padding: 10px;
+                align-items: center;
             }
 
+            .klinik-modal {
+                width: 100%;
+                max-width: none;
+                max-height: calc(100vh - 20px);
+
+                border-radius: 14px;
+
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* HEADER */
+            .klinik-modal-header {
+                padding: 15px 16px;
+                flex-shrink: 0;
+            }
+
+            .klinik-modal-header h5 {
+                font-size: 16px;
+                line-height: 1.3;
+            }
+
+            .klinik-modal-header small {
+                font-size: 11px;
+            }
+
+            .klinik-modal-close {
+                width: 34px;
+                height: 34px;
+
+                flex-shrink: 0;
+
+                font-size: 25px;
+            }
+
+            /* BODY */
+            .klinik-modal-body {
+                padding: 16px;
+
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* IDENTITY */
             .klinik-modal-identity {
                 grid-template-columns: 1fr;
+                gap: 8px;
+
+                margin-bottom: 18px;
             }
 
-            .klinik-modal-body {
-                padding: 18px;
+            .klinik-modal-info {
+                padding: 11px 12px;
+                border-radius: 9px;
             }
 
+            .klinik-modal-info span {
+                margin-bottom: 3px;
+                font-size: 10px;
+            }
+
+            .klinik-modal-info strong {
+                font-size: 13px;
+                line-height: 1.4;
+
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            /* FORM */
+            .klinik-form-group {
+                margin-bottom: 16px;
+            }
+
+            .klinik-form-group label {
+                margin-bottom: 6px;
+                font-size: 12px;
+            }
+
+            .klinik-form-group input {
+                width: 100%;
+                height: 43px;
+
+                font-size: 13px;
+                border-radius: 8px;
+            }
+
+            .klinik-form-group small {
+                margin-top: 5px;
+                font-size: 11px;
+                line-height: 1.4;
+            }
+
+            .klinik-form-error {
+                font-size: 11px;
+            }
+
+            /* FOOTER */
             .klinik-modal-footer {
-                padding: 14px 18px;
+                display: flex;
+
+                gap: 8px;
+
+                padding: 12px 16px;
+
+                flex-shrink: 0;
+            }
+
+            .klinik-modal-footer .btn {
+                flex: 1;
+
+                min-width: 0;
+                height: 40px;
+
+                font-size: 12px;
             }
 
         }
@@ -698,7 +1133,6 @@
             visibility: visible;
         }
 
-
         .klinik-confirm-modal {
             width: 100%;
             max-width: 480px;
@@ -718,7 +1152,6 @@
         .klinik-confirm-overlay.show .klinik-confirm-modal {
             transform: translateY(0) scale(1);
         }
-
 
         /* HEADER */
         .klinik-confirm-header {
@@ -748,7 +1181,6 @@
             color: #8a94a6;
         }
 
-
         .klinik-confirm-close {
             width: 36px;
             height: 36px;
@@ -770,7 +1202,6 @@
             background: #e9ecef;
             color: #dc3545;
         }
-
 
         /* BODY */
         .klinik-confirm-body {
@@ -810,7 +1241,6 @@
             font-size: 13px;
         }
 
-
         /* WBP */
         .klinik-confirm-wbp {
             padding: 12px 15px;
@@ -844,15 +1274,9 @@
             color: #283144;
         }
 
-
         /* CHANGE */
         .klinik-change-box {
-            display: flex;
-            align-items: center;
-
-            gap: 10px;
-
-            padding: 14px;
+            padding: 14px 16px;
 
             background: #f8f9fa;
 
@@ -862,35 +1286,63 @@
         }
 
         .klinik-change-item {
-            flex: 1;
+            display: flex;
+            flex-direction: column;
+
+            gap: 6px;
 
             text-align: left;
+        }
+
+        .klinik-change-item+.klinik-change-item {
+            margin-top: 14px;
+
+            padding-top: 14px;
+
+            border-top: 1px solid #e9ecef;
         }
 
         .klinik-change-item span {
             display: block;
 
-            margin-bottom: 5px;
+            margin-bottom: 0;
 
             font-size: 11px;
+
+            font-weight: 600;
 
             color: #8a94a6;
         }
 
-        .klinik-change-item strong {
+        .klinik-change-value {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            min-width: 0;
+        }
+
+        .klinik-change-value strong {
             display: block;
 
             font-size: 13px;
 
+            line-height: 1.4;
+
             word-break: break-word;
+
+            overflow-wrap: anywhere;
         }
 
-        .klinik-change-arrow {
-            font-size: 20px;
+        .klinik-change-value i {
+            flex-shrink: 0;
+
+            font-size: 14px;
 
             color: #8a94a6;
         }
-
 
         /* WARNING */
         .klinik-confirm-warning {
@@ -911,11 +1363,10 @@
 
             text-align: left;
 
-            font-size: 12px;
+            font-size: 15px;
 
             color: #856404;
         }
-
 
         /* FOOTER */
         .klinik-confirm-footer {
@@ -940,35 +1391,163 @@
             font-weight: 600;
         }
 
-
-        /* MOBILE */
+        /* MOBILE - MODAL KONFIRMASI */
         @media (max-width: 600px) {
 
             .klinik-confirm-overlay {
-                padding: 12px;
+                padding: 10px;
             }
 
-            .klinik-confirm-body {
-                padding: 20px;
-            }
+            .klinik-confirm-modal {
+                width: 100%;
+                max-width: none;
+                max-height: calc(100vh - 20px);
 
-            .klinik-change-box {
+                border-radius: 14px;
+
+                display: flex;
                 flex-direction: column;
-                align-items: stretch;
             }
 
-            .klinik-change-arrow {
-                text-align: center;
-                transform: rotate(90deg);
+            /* HEADER */
+            .klinik-confirm-header {
+                padding: 15px 16px;
+                flex-shrink: 0;
             }
 
+            .klinik-confirm-header h5 {
+                font-size: 15px;
+                line-height: 1.3;
+            }
+
+            .klinik-confirm-header small {
+                font-size: 11px;
+            }
+
+            .klinik-confirm-close {
+                width: 34px;
+                height: 34px;
+
+                flex-shrink: 0;
+
+                font-size: 25px;
+            }
+
+            /* BODY */
+            .klinik-confirm-body {
+                padding: 18px 16px;
+
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .klinik-confirm-icon {
+                width: 48px;
+                height: 48px;
+
+                margin-bottom: 12px;
+
+                font-size: 23px;
+            }
+
+            .klinik-confirm-body h6 {
+                margin-bottom: 6px;
+                font-size: 15px;
+            }
+
+            .klinik-confirm-body>p {
+                margin-bottom: 14px;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            /* WBP */
+            .klinik-confirm-wbp {
+                padding: 10px 12px;
+                margin-bottom: 10px;
+
+                border-radius: 9px;
+            }
+
+            .klinik-confirm-wbp span {
+                margin-bottom: 3px;
+                font-size: 10px;
+            }
+
+            .klinik-confirm-wbp strong {
+                font-size: 13px;
+                line-height: 1.4;
+
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            /* CHANGE */
+            .klinik-change-box {
+                padding: 11px 12px;
+                border-radius: 9px;
+            }
+
+            .klinik-change-item {
+                gap: 5px;
+            }
+
+            .klinik-change-item+.klinik-change-item {
+                margin-top: 11px;
+                padding-top: 11px;
+            }
+
+            .klinik-change-item span {
+                font-size: 10px;
+            }
+
+            .klinik-change-value {
+                gap: 7px;
+                align-items: flex-start;
+            }
+
+            .klinik-change-value strong {
+                font-size: 12px;
+                line-height: 1.4;
+
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .klinik-change-value i {
+                font-size: 12px;
+                margin-top: 2px;
+            }
+
+            /* WARNING */
+            .klinik-confirm-warning {
+                gap: 7px;
+
+                margin-top: 12px;
+                padding: 10px 11px;
+
+                font-size: 12px;
+                line-height: 1.45;
+            }
+
+            /* FOOTER */
             .klinik-confirm-footer {
-                padding: 14px 18px;
+                display: flex;
+
+                gap: 8px;
+
+                padding: 12px 16px;
+
+                flex-shrink: 0;
             }
 
             .klinik-confirm-footer .btn {
                 flex: 1;
+
                 min-width: 0;
+                height: 40px;
+
+                font-size: 12px;
             }
 
         }
@@ -996,7 +1575,7 @@
         </div>
 
 
-        {{-- ================= STATISTIK ================= --}}
+        {{-- STATISTIK --}}
         <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
 
             <div class="col">
@@ -1059,8 +1638,7 @@
 
         </div>
 
-
-        {{-- ================= SEARCH ================= --}}
+        {{-- SEARCH --}}
         <div class="klinik-search">
 
             <input type="text" id="searchKlinik" name="search" class="form-control"
@@ -1077,7 +1655,7 @@
                     Menampilkan WBP yang belum memiliki nomor rekam medis
                 </div>
 
-                <a href="{{ route('klinik.wbp.index') }}" class="btn btn-sm btn-outline-secondary">
+                <a href="{{ route('klinik.wbp.index') }}" class="btn btn-sm btn-outline-secondary klinik-btn-kembali">
                     <i class="bi bi-x-lg me-1"></i>
                     Kembali ke Semua Data
                 </a>
@@ -1085,8 +1663,7 @@
             </div>
         @endif
 
-
-        {{-- ================= TABLE ================= --}}
+        {{-- TABLE --}}
         <div id="klinikTableWrapper">
 
             <div class="klinik-table-card">
@@ -1183,13 +1760,12 @@
                                             <div class="d-flex gap-1">
 
                                                 {{-- DETAIL --}}
-                                                <a href="{{ route('klinik.wbp.show', $item->wbp_id) }}"
-                                                    class="klinik-action klinik-action-detail" title="Detail">
-
+                                                <button type="button"
+                                                    class="klinik-action klinik-action-detail btn-detail-klinik"
+                                                    title="Detail"
+                                                    data-detail-url="{{ route('klinik.wbp.show', $item->wbp_id) }}">
                                                     <i class="bi bi-eye"></i>
-
-                                                </a>
-
+                                                </button>
 
                                                 {{-- EDIT --}}
                                                 <button type="button"
@@ -1197,6 +1773,8 @@
                                                     data-wbp-id="{{ $item->wbp_id }}"
                                                     data-nama="{{ $item->wbp->nama ?? '-' }}"
                                                     data-no-reg="{{ $item->wbp->no_reg_instansi ?? '-' }}"
+                                                    data-nik="{{ $item->wbp->nik ?? '' }}"
+                                                    data-tanggal-masuk="{{ $item->wbp->tgl_masuk_lapas ?? '' }}"
                                                     data-rekam-medis="{{ $item->no_rekam_medis ?? '' }}"
                                                     data-update-url="{{ route('klinik.wbp.update', $item->wbp_id) }}">
 
@@ -1267,9 +1845,7 @@
 
         </div>
 
-        {{-- =========================================================
-     MODAL EDIT WBP KLINIK
-    ========================================================= --}}
+        {{-- MODAL EDIT WBP KLINIK --}}
         <div id="modalEditWbpKlinik" class="klinik-modal-overlay">
 
             <div class="klinik-modal">
@@ -1295,66 +1871,76 @@
 
                 </div>
 
-
                 {{-- BODY --}}
                 <div class="klinik-modal-body">
 
-                    {{-- IDENTITAS --}}
-                    <div class="klinik-modal-identity">
-
-                        <div class="klinik-modal-info">
-
-                            <span>
-                                WBP ID
-                            </span>
-
-                            <strong id="editKlinikWbpId">
-                                -
-                            </strong>
-
-                        </div>
-
-
-                        <div class="klinik-modal-info">
-
-                            <span>
-                                Nama WBP
-                            </span>
-
-                            <strong id="editKlinikNama">
-                                -
-                            </strong>
-
-                        </div>
-
-
-                        <div class="klinik-modal-info">
-
-                            <span>
-                                No. Registrasi
-                            </span>
-
-                            <strong id="editKlinikNoReg">
-                                -
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- FORM --}}
                     <form id="formEditWbpKlinik" method="POST">
 
                         @csrf
                         @method('PUT')
 
+                        {{-- IDENTITAS --}}
+                        <div class="klinik-modal-identity">
+
+                            <div class="klinik-modal-info">
+
+                                <span>
+                                    Nama WBP
+                                </span>
+
+                                <strong id="editKlinikNama">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+                            <div class="klinik-modal-info">
+
+                                <span>
+                                    No. Registrasi
+                                </span>
+
+                                <strong id="editKlinikNoReg">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+                            {{-- NIK --}}
+                            <div class="klinik-modal-info">
+
+                                <label for="editKlinikNik">
+                                    NIK
+                                </label>
+
+                                <input type="text" id="editKlinikNik" name="nik" class="form-control" maxlength="30"
+                                    placeholder="Masukkan NIK">
+
+                            </div>
+
+
+                            {{-- TANGGAL MASUK LAPAS --}}
+                            <div class="klinik-modal-info">
+
+                                <label for="editKlinikTanggalMasuk">
+                                    Tanggal Masuk Lapas
+                                </label>
+
+                                <input type="date" id="editKlinikTanggalMasuk" name="tgl_masuk_lapas"
+                                    class="form-control">
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- NO REKAM MEDIS --}}
                         <div class="klinik-form-group">
 
                             <label for="editKlinikRekamMedis">
-
                                 No. Rekam Medis
-
                             </label>
 
                             <input type="text" id="editKlinikRekamMedis" name="no_rekam_medis" class="form-control"
@@ -1373,7 +1959,6 @@
 
                 </div>
 
-
                 {{-- FOOTER --}}
                 <div class="klinik-modal-footer">
 
@@ -1381,7 +1966,7 @@
                         Batal
                     </button>
 
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" form="formEditWbpKlinik" class="btn btn-primary">
                         Simpan Perubahan
                     </button>
 
@@ -1391,10 +1976,7 @@
 
         </div>
 
-        {{-- =========================================================
-     MODAL KONFIRMASI EDIT WBP KLINIK
-========================================================= --}}
-
+        {{-- MODAL KONFIRMASI EDIT WBP KLINIK --}}
         <div id="modalKonfirmasiKlinik" class="klinik-confirm-overlay">
 
             <div class="klinik-confirm-modal">
@@ -1425,11 +2007,11 @@
                 <div class="klinik-confirm-body">
 
                     <div class="klinik-confirm-icon">
-                        ⚠️
+                        <i class="bi bi-exclamation-triangle-fill"></i>
                     </div>
 
                     <h6>
-                        Ubah Nomor Rekam Medis?
+                        Simpan Perubahan Data WBP?
                     </h6>
 
                     <p class="text-secondary">
@@ -1451,49 +2033,71 @@
                     </div>
 
 
-                    {{-- PERUBAHAN --}}
                     <div class="klinik-change-box">
 
                         <div class="klinik-change-item">
 
-                            <span>
-                                Sebelumnya
-                            </span>
+                            <span>NIK</span>
 
-                            <strong id="confirmKlinikLama" class="text-secondary">
+                            <div class="klinik-change-value">
+                                <strong id="confirmKlinikNikLama" class="text-secondary">
+                                    -
+                                </strong>
 
-                                -
+                                <i class="bi bi-arrow-right"></i>
 
-                            </strong>
+                                <strong id="confirmKlinikNikBaru" class="text-primary">
+                                    -
+                                </strong>
+                            </div>
 
-                        </div>
-
-
-                        <div class="klinik-change-arrow">
-                            →
                         </div>
 
 
                         <div class="klinik-change-item">
 
-                            <span>
-                                Menjadi
-                            </span>
+                            <span>Tanggal Masuk Lapas</span>
 
-                            <strong id="confirmKlinikBaru" class="text-primary">
+                            <div class="klinik-change-value">
+                                <strong id="confirmKlinikTanggalLama" class="text-secondary">
+                                    -
+                                </strong>
 
-                                -
+                                <i class="bi bi-arrow-right"></i>
 
-                            </strong>
+                                <strong id="confirmKlinikTanggalBaru" class="text-primary">
+                                    -
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="klinik-change-item">
+
+                            <span>No. Rekam Medis</span>
+
+                            <div class="klinik-change-value">
+                                <strong id="confirmKlinikLama" class="text-secondary">
+                                    -
+                                </strong>
+
+                                <i class="bi bi-arrow-right"></i>
+
+                                <strong id="confirmKlinikBaru" class="text-primary">
+                                    -
+                                </strong>
+                            </div>
 
                         </div>
 
                     </div>
 
-
                     <div class="klinik-confirm-warning">
 
-                        <span>⚠️</span>
+                        <span>
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </span>
 
                         <span>
                             Pastikan nomor rekam medis sesuai dengan kartu pasien.
@@ -1505,17 +2109,15 @@
 
 
                 {{-- FOOTER --}}
-                <div class="klinik-confirm-footer">
+                <div class="klinik-modal-footer">
 
-                    <button type="button" class="btn btn-outline-secondary" id="btnBatalKonfirmasiKlinik">
-
+                    <button type="button" class="btn btn-outline-secondary" id="btnCancelKonfirmasiKlinik">
                         Batal
-
                     </button>
 
-                    <button type="button" class="btn btn-primary" id="btnLanjutSimpanKlinik">
+                    <button type="button" class="btn btn-primary" id="btnConfirmKlinik">
 
-                        Ya, Simpan Perubahan
+                        Simpan Perubahan
 
                     </button>
 
@@ -1543,13 +2145,27 @@
             // ELEMENT — MODAL EDIT WBP KLINIK
             const modal = document.getElementById('modalEditWbpKlinik');
             const form = document.getElementById('formEditWbpKlinik');
-            const wbpId = document.getElementById('editKlinikWbpId');
             const nama = document.getElementById('editKlinikNama');
             const noReg = document.getElementById('editKlinikNoReg');
             const rekamMedis = document.getElementById('editKlinikRekamMedis');
+            const nik = document.getElementById('editKlinikNik');
+            const tanggalMasuk = document.getElementById('editKlinikTanggalMasuk');
             const errorBox = document.getElementById('editKlinikError');
             const closeButton = document.getElementById('btnCloseEditKlinik');
             const cancelButton = document.getElementById('btnCancelEditKlinik');
+
+            // ELEMENT — MODAL KONFIRMASI
+            const confirmModal = document.getElementById('modalKonfirmasiKlinik');
+            const confirmCloseButton = document.getElementById('btnCloseKonfirmasiKlinik');
+            const confirmCancelButton = document.getElementById('btnCancelKonfirmasiKlinik');
+            const confirmButton = document.getElementById('btnConfirmKlinik');
+            const confirmNama = document.getElementById('confirmKlinikNama');
+            const confirmNikLama = document.getElementById('confirmKlinikNikLama');
+            const confirmNikBaru = document.getElementById('confirmKlinikNikBaru');
+            const confirmTanggalLama = document.getElementById('confirmKlinikTanggalLama');
+            const confirmTanggalBaru = document.getElementById('confirmKlinikTanggalBaru');
+            const confirmRekamLama = document.getElementById('confirmKlinikLama');
+            const confirmRekamBaru = document.getElementById('confirmKlinikBaru');
 
             // HELPER ESC HTML
             function escapeHtml(value) {
@@ -1593,7 +2209,6 @@
                 }).format(date);
             }
 
-
             // RENDER TABLE
             function renderTable(response) {
 
@@ -1620,9 +2235,6 @@
                 } else {
 
                     response.data.forEach(function(item, index) {
-
-                        const nomor =
-                            (response.from ?? 1) + index;
 
                         const namaWbp =
                             item.wbp?.nama ?? '-';
@@ -1655,15 +2267,15 @@
                                     ${
                                         noRekamMedis
                                         ? `
-                                                                    <span class="klinik-rekam-medis">
-                                                                        ${escapeHtml(noRekamMedis)}
-                                                                    </span>
-                                                                `
-                                        : `
-                                                                    <span class="klinik-rekam-kosong">
-                                                                        Belum tersedia
-                                                                    </span>
-                                                                `
+                                                                        <span class="klinik-rekam-medis">
+                                                                            ${escapeHtml(noRekamMedis)}
+                                                                        </span>
+                                                                            `
+                                    : `
+                                                                        <span class="klinik-rekam-kosong">
+                                                                            Belum tersedia
+                                                                        </span>
+                                                                            `
                                     }
                                 </td>
 
@@ -1672,15 +2284,15 @@
                                     ${
                                         nik
                                         ? `
-                                                                    <span class="klinik-nik">
-                                                                        ${escapeHtml(nik)}
-                                                                    </span>
-                                                                `
-                                        : `
-                                                                    <span class="klinik-nik-kosong">
-                                                                        Belum tersedia
-                                                                    </span>
-                                                                `
+                                                                        <span class="klinik-nik">
+                                                                                ${escapeHtml(nik)}
+                                                                            </span>
+                                                                            `
+                                                : `
+                                                                        <span class="klinik-nik-kosong">
+                                                                            Belum tersedia
+                                                                        </span>
+                                                                            `
                                     }
                                 </td>
 
@@ -1690,20 +2302,20 @@
                                     ${
                                         item.wbp
                                         ? `
-                                                            <div class="klinik-wbp-name">
-                                                                ${escapeHtml(namaWbp)}
-                                                            </div>
+                                                                        <div class="klinik-wbp-name">
+                                                                            ${escapeHtml(namaWbp)}
+                                                                        </div>
 
-                                                                    <span class="klinik-wbp-reg">
-                                                                        No. Reg:
-                                                                        ${escapeHtml(noRegWbp)}
-                                                                    </span>
-                                                                `
-                                        : `
-                                                                    <span class="text-danger">
-                                                                        Data WBP tidak ditemukan
-                                                                    </span>
-                                                                `
+                                                                            <span class="klinik-wbp-reg">
+                                                                            No. Reg:
+                                                                                ${escapeHtml(noRegWbp)}
+                                                                            </span>
+                                                                            `
+                                            : `
+                                                                        <span class="text-danger">
+                                                                            Data WBP tidak ditemukan
+                                                                        </span>
+                                                                        `
                                     }
 
                                 </td>
@@ -1714,15 +2326,15 @@
                                     ${
                                         tanggalMasuk
                                         ? `
-                                                                    <span class="klinik-tanggal-masuk">
-                                                                        ${escapeHtml(tanggalMasuk)}
-                                                                    </span>
-                                                                `
+                                                                            <span class="klinik-tanggal-masuk">
+                                                                                ${escapeHtml(tanggalMasuk)}
+                                                                            </span>
+                                                                                    `
                                         : `
-                                                                    <span class="klinik-tanggal-kosong">
-                                                                        Belum tersedia
-                                                                    </span>
-                                                                `
+                                                                            <span class="klinik-tanggal-kosong">
+                                                                                Belum tersedia
+                                                                            </span>
+                                                                                    `
                                     }
 
                                 </td>
@@ -1747,6 +2359,8 @@
                                             data-wbp-id="${escapeHtml(item.wbp_id)}"
                                             data-nama="${escapeHtml(namaWbp)}"
                                             data-no-reg="${escapeHtml(noRegWbp)}"
+                                            data-nik="${escapeHtml(nik)}"
+                                            data-tanggal-masuk="${escapeHtml(item.wbp?.tgl_masuk_lapas ?? '')}"
                                             data-rekam-medis="${escapeHtml(noRekamMedis)}"
                                             data-update-url="${updateUrl}">
 
@@ -1763,7 +2377,6 @@
                     });
 
                 }
-
 
                 tableWrapper.innerHTML = `
                 <div class="klinik-table-card">
@@ -1814,7 +2427,6 @@
             `;
             }
 
-
             // RENDER PAGINATION
             function renderPagination(response) {
 
@@ -1846,7 +2458,6 @@
 
                 </li>
             `;
-
 
                 // NOMOR HALAMAN
                 const startPage =
@@ -1885,7 +2496,6 @@
                     }
                 }
 
-
                 for (
                     let page = startPage; page <= endPage; page++
                 ) {
@@ -1905,7 +2515,6 @@
                     </li>
                 `;
                 }
-
 
                 if (endPage < lastPage) {
 
@@ -1936,7 +2545,6 @@
                 `;
                 }
 
-
                 // NEXT
                 pagination += `
                 <li class="page-item ${currentPage >= lastPage ? 'disabled' : ''}">
@@ -1953,7 +2561,6 @@
 
                 </li>
             `;
-
 
                 return `
                 <div class="klinik-pagination d-flex justify-content-between align-items-center flex-wrap gap-2">
@@ -1992,7 +2599,6 @@
             `;
             }
 
-
             // LOAD DATA AJAX
             async function loadKlinikData(page = 1) {
 
@@ -2020,7 +2626,6 @@
                 </div>
             `;
 
-
                 // PARAMATER
                 const params = new URLSearchParams();
 
@@ -2033,7 +2638,6 @@
                 if (currentStatus !== '') {
                     params.set('status', currentStatus);
                 }
-
 
                 try {
 
@@ -2127,26 +2731,23 @@
                     return;
                 }
 
+                nama.textContent = button.dataset.nama || '-';
+                noReg.textContent = button.dataset.noReg || '-';
+                nik.value = button.dataset.nik || '';
+                tanggalMasuk.value = button.dataset.tanggalMasuk || '';
+                rekamMedis.value = button.dataset.rekamMedis || '';
+                form.dataset.nikLama = button.dataset.nik || '';
+                form.dataset.tanggalMasukLama = button.dataset.tanggalMasuk || '';
+                form.dataset.rekamMedisLama = button.dataset.rekamMedis || '';
 
-                wbpId.textContent =
-                    button.dataset.wbpId || '-';
+                form.action = button.dataset.updateUrl;
+                form.dataset.wbpId = button.dataset.wbpId;
 
-                nama.textContent =
-                    button.dataset.nama || '-';
-
-                noReg.textContent =
-                    button.dataset.noReg || '-';
-
-                rekamMedis.value =
-                    button.dataset.rekamMedis || '';
-
-                form.action =
-                    button.dataset.updateUrl;
+                console.log('UPDATE URL:', form.action);
 
                 errorBox.textContent = '';
 
                 modal.classList.add('show');
-
 
                 setTimeout(function() {
 
@@ -2165,7 +2766,7 @@
 
             }
 
-            // BUTTON CLOSE
+            // BUTTON CLOSE MODAL EDIT
             if (closeButton) {
 
                 closeButton.addEventListener(
@@ -2175,7 +2776,7 @@
 
             }
 
-            // BUTTON BATAL
+            // BUTTON BATAL MODAL EDIT
             if (cancelButton) {
 
                 cancelButton.addEventListener(
@@ -2185,7 +2786,292 @@
 
             }
 
-            // KLIK OVERLAY
+            // BUTTON CLOSE MODAL KONFIRMASI
+            if (confirmCloseButton) {
+
+                confirmCloseButton.addEventListener('click', function() {
+
+                    confirmModal.classList.remove('show');
+
+                    modal.classList.add('show');
+
+                });
+
+            }
+
+            // BUTTON BATAL MODAL KONFIRMASI
+            if (confirmCancelButton) {
+
+                confirmCancelButton.addEventListener('click', function() {
+
+                    confirmModal.classList.remove('show');
+
+                    modal.classList.add('show');
+
+                });
+
+            }
+
+            // SUBMIT FORM EDIT → BUKA KONFIRMASI
+            if (form) {
+
+                form.addEventListener('submit', function(event) {
+
+                    event.preventDefault();
+
+                    // NAMA WBP
+                    confirmNama.textContent =
+                        nama.textContent || '-';
+
+
+                    // NIK
+                    const nikLama =
+                        form.dataset.nikLama ?? '';
+
+                    const nikBaru =
+                        nik.value.trim();
+
+                    confirmNikLama.textContent =
+                        nikLama || '-';
+
+                    confirmNikBaru.textContent =
+                        nikBaru || '-';
+
+
+                    // TANGGAL MASUK LAPAS
+                    const tanggalLama =
+                        form.dataset.tanggalMasukLama ?? '';
+
+                    const tanggalBaru =
+                        tanggalMasuk.value || '';
+
+                    confirmTanggalLama.textContent =
+                        tanggalLama ?
+                        formatTanggalIndonesia(tanggalLama) :
+                        '-';
+
+                    confirmTanggalBaru.textContent =
+                        tanggalBaru ?
+                        formatTanggalIndonesia(tanggalBaru) :
+                        '-';
+
+
+                    // NO REKAM MEDIS
+                    const rekamLama =
+                        form.dataset.rekamMedisLama ?? '';
+
+                    const rekamBaru =
+                        rekamMedis.value.trim();
+
+                    confirmRekamLama.textContent =
+                        rekamLama || '-';
+
+                    confirmRekamBaru.textContent =
+                        rekamBaru || '-';
+
+
+                    // TUTUP MODAL EDIT
+                    modal.classList.remove('show');
+
+                    // BUKA MODAL KONFIRMASI
+                    confirmModal.classList.add('show');
+
+                });
+
+            }
+
+            // KONFIRMASI SIMPAN
+            if (confirmButton) {
+
+                confirmButton.addEventListener('click', async function(event) {
+
+                    event.preventDefault();
+
+                    // Cegah double click
+                    if (confirmButton.disabled) {
+                        return;
+                    }
+
+                    confirmButton.disabled = true;
+
+                    confirmButton.innerHTML = `
+                        <span
+                            class="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true">
+                        </span>
+                        Menyimpan...
+                    `;
+
+                    try {
+
+                        console.log('FORM ACTION:', form.action);
+                        console.log('FORM METHOD:', form.method);
+                        console.log('FORM DATA:', [...new FormData(form).entries()]);
+
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]'
+                                ).getAttribute('content'),
+
+                                'Accept': 'application/json',
+
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+
+                            body: new FormData(form)
+                        });
+
+                        // Ambil response sebagai text dulu
+                        const responseText = await response.text();
+
+                        console.log('STATUS:', response.status);
+                        console.log('CONTENT-TYPE:', response.headers.get('content-type'));
+                        console.log('RESPONSE:', responseText);
+
+                        let data;
+
+                        try {
+                            data = JSON.parse(responseText);
+                        } catch (jsonError) {
+
+                            console.error('========== ERROR RESPONSE ==========');
+                            console.error('STATUS:', response.status);
+                            console.error('CONTENT-TYPE:', response.headers.get('content-type'));
+                            console.error('URL:', form.action);
+                            console.error('RESPONSE MENTAH:', responseText);
+                            console.error('====================================');
+
+                            throw new Error(
+                                'Response server bukan JSON. Cek Console untuk detail.'
+                            );
+                        }
+
+                        // VALIDASI/ERROR
+                        if (!response.ok) {
+
+                            if (response.status === 422 && data.errors) {
+
+                                const firstError = Object.values(data.errors)
+                                    .flat()[0];
+
+                                throw new Error(
+                                    firstError || 'Data yang dimasukkan tidak valid.'
+                                );
+                            }
+
+                            throw new Error(
+                                data.message ||
+                                'Gagal menyimpan perubahan data.'
+                            );
+                        }
+
+                        // BERHASIL
+                        confirmModal.classList.remove('show');
+
+                        confirmButton.disabled = false;
+
+                        confirmButton.innerHTML = 'Simpan Perubahan';
+
+                        // UPDATE DATA DI TABEL TANPA REFRESH
+                        const wbpId = form.querySelector('input[name="wbp_id"]')?.value ||
+                            form.dataset.wbpId;
+
+                        const nikBaru = form.querySelector('input[name="nik"]')?.value.trim() || '';
+                        const tanggalMasukBaru =
+                            form.querySelector('input[name="tgl_masuk_lapas"]')?.value || '';
+                        const rekamMedisBaru =
+                            form.querySelector('input[name="no_rekam_medis"]')?.value.trim() || '';
+
+                        // Cari row berdasarkan tombol edit yang memiliki wbp_id yang sama
+                        const editButton = tableWrapper.querySelector(
+                            ko `.btn-edit-klinik[data-wbp-id="${CSS.escape(String(wbpId))}"]`
+                        );
+
+                        if (editButton) {
+
+                            // Update dataset tombol edit
+                            editButton.dataset.nik = nikBaru;
+                            editButton.dataset.tanggalMasuk = tanggalMasukBaru;
+                            editButton.dataset.rekamMedis = rekamMedisBaru;
+
+                            // Cari row tabel
+                            const row = editButton.closest('tr');
+
+                            if (row) {
+
+                                // Kolom:
+                                // 0 = No Rekam Medis
+                                // 1 = NIK
+                                // 2 = Nama WBP
+                                // 3 = Tanggal Masuk
+                                // 4 = Aksi
+
+                                const cells = row.querySelectorAll('td');
+
+                                if (cells.length >= 4) {
+
+                                    // No Rekam Medis
+                                    cells[0].textContent = rekamMedisBaru || 'Belum tersedia';
+
+                                    // NIK
+                                    cells[1].textContent = nikBaru || 'Belum tersedia';
+
+                                    // Tanggal Masuk Lapas
+                                    if (tanggalMasukBaru) {
+                                        const tanggal = new Date(tanggalMasukBaru + 'T00:00:00');
+
+                                        cells[3].textContent = tanggal.toLocaleDateString(
+                                            'id-ID', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric'
+                                            }
+                                        );
+                                    } else {
+                                        cells[3].textContent = 'Belum tersedia';
+                                    }
+                                }
+                            }
+                        }
+
+                        // JIKA FILTER "TANPA REKAM MEDIS"
+                        if (currentStatus === 'tanpa_rekam_medis' && rekamMedisBaru !== '') {
+
+                            if (editButton) {
+
+                                const row = editButton.closest('tr');
+
+                                if (row) {
+                                    row.remove();
+                                }
+                            }
+                        }
+
+                        // NOTIFIKASI SUKSES
+                        if (typeof showToast === 'function') {
+                            showToast(data.message, 'success');
+                        }
+
+                    } catch (error) {
+
+                        console.error('Gagal menyimpan:', error);
+
+                        confirmButton.disabled = false;
+
+                        confirmButton.innerHTML = 'Simpan Perubahan';
+
+                        alert(error.message);
+                    }
+
+                });
+
+            }
+
+            // KLIK OVERLAY MODAL EDIT
             modal.addEventListener('click', function(event) {
 
                 if (event.target === modal) {
@@ -2196,13 +3082,41 @@
 
             });
 
+            // KLIK OVERLAY MODAL KONFIRMASI
+            confirmModal.addEventListener('click', function(event) {
+
+                if (event.target === confirmModal) {
+
+                    confirmModal.classList.remove('show');
+
+                    modal.classList.add('show');
+
+                }
+
+            });
+
             // ESC
             document.addEventListener('keydown', function(event) {
 
-                if (
-                    event.key === 'Escape' &&
-                    modal.classList.contains('show')
-                ) {
+                if (event.key !== 'Escape') {
+                    return;
+                }
+
+
+                // Jika konfirmasi terbuka → kembali ke Edit
+                if (confirmModal.classList.contains('show')) {
+
+                    confirmModal.classList.remove('show');
+
+                    modal.classList.add('show');
+
+                    return;
+
+                }
+
+
+                // Jika Edit terbuka → tutup Edit
+                if (modal.classList.contains('show')) {
 
                     closeModal();
 

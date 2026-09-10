@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WbpKlinik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WbpKlinikController extends Controller
 {
@@ -209,10 +210,17 @@ class WbpKlinikController extends Controller
     {
         $wbpKlinik->load('wbp');
 
-        return view(
-            'admin-banceuy.wbp-klinik-detail',
-            compact('wbpKlinik')
-        );
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'wbp_id' => $wbpKlinik->wbp_id,
+                'no_rekam_medis' => $wbpKlinik->no_rekam_medis,
+                'nama' => $wbpKlinik->wbp?->nama,
+                'nik' => $wbpKlinik->wbp?->nik,
+                'no_reg_instansi' => $wbpKlinik->wbp?->no_reg_instansi,
+                'tgl_masuk_lapas' => $wbpKlinik->wbp?->tgl_masuk_lapas,
+            ],
+        ]);
     }
 
     public function edit(WbpKlinik $wbpKlinik)
@@ -228,6 +236,17 @@ class WbpKlinikController extends Controller
     public function update(Request $request, WbpKlinik $wbpKlinik)
     {
         $validated = $request->validate([
+            'nik' => [
+                'nullable',
+                'string',
+                'max:30',
+            ],
+
+            'tgl_masuk_lapas' => [
+                'nullable',
+                'date',
+            ],
+
             'no_rekam_medis' => [
                 'nullable',
                 'string',
@@ -238,15 +257,33 @@ class WbpKlinikController extends Controller
             ],
         ]);
 
-        $validated['no_rekam_medis'] =
-            blank($validated['no_rekam_medis'] ?? null)
+        $nik = blank($validated['nik'] ?? null)
+            ? null
+            : trim($validated['nik']);
+
+        $noRekamMedis = blank($validated['no_rekam_medis'] ?? null)
             ? null
             : trim($validated['no_rekam_medis']);
 
-        $wbpKlinik->update($validated);
+        DB::transaction(function () use (
+            $wbpKlinik,
+            $nik,
+            $validated,
+            $noRekamMedis
+        ) {
+            $wbpKlinik->wbp->update([
+                'nik' => $nik,
+                'tgl_masuk_lapas' => $validated['tgl_masuk_lapas'] ?? null,
+            ]);
 
-        return redirect()
-            ->route('klinik.wbp.index')
-            ->with('success', 'Nomor rekam medis berhasil diperbarui.');
+            $wbpKlinik->update([
+                'no_rekam_medis' => $noRekamMedis,
+            ]);
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data WBP berhasil diperbarui.',
+        ]);
     }
 }

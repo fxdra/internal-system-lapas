@@ -690,6 +690,536 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
         }
+
+        /* =========================================================
+        MOBILE DATA HUNIAN KAMAR
+        ========================================================= */
+        @media (max-width: 768px) {
+
+            /* ================= PAGE ================= */
+
+            .page-hunian {
+                padding: 10px !important;
+                padding-bottom: 180px !important;
+            }
+
+
+            /* ================= HEADER CARD ================= */
+
+            .page-hunian>.no-print {
+                margin-bottom: 16px !important;
+                border-radius: 8px;
+            }
+
+            .page-hunian>.no-print .card-body {
+                padding: 14px !important;
+            }
+
+
+            /* ================= HEADER TOP ================= */
+
+            .page-hunian>.no-print .card-body>.d-flex {
+                display: flex !important;
+                align-items: flex-start !important;
+                justify-content: space-between !important;
+
+                gap: 10px;
+                margin-bottom: 12px !important;
+            }
+
+
+            /* ================= TITLE AREA ================= */
+
+            .page-hunian>.no-print .card-body>.d-flex>div:first-child {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .page-hunian>.no-print h4 {
+                font-size: 20px !important;
+                line-height: 1.15;
+
+                margin-bottom: 4px !important;
+
+                word-break: normal;
+            }
+
+
+            /* ================= BREADCRUMB ================= */
+
+            .page-hunian>.no-print .breadcrumb {
+                display: flex;
+                flex-wrap: nowrap;
+
+                font-size: 12px;
+                line-height: 1.3;
+
+                white-space: nowrap;
+                overflow: visible;
+            }
+
+            .page-hunian>.no-print .breadcrumb-item {
+                white-space: nowrap;
+            }
+
+            .page-hunian>.no-print .breadcrumb-item.active {
+                overflow: visible;
+                text-overflow: unset;
+            }
+
+
+            /* ================= HEADER BUTTON AREA ================= */
+
+            .page-hunian>.no-print .card-body>.d-flex>.d-flex {
+                flex-shrink: 0;
+
+                display: flex;
+                align-items: flex-start;
+
+                gap: 6px !important;
+            }
+
+
+            /* ================= VIEW MODE ================= */
+
+            .page-hunian>.no-print .btn-group .btn {
+                width: 38px;
+                height: 42px;
+
+                padding: 0;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .page-hunian>.no-print .btn-group i {
+                font-size: 13px;
+            }
+
+
+            /* ================= PRINT BUTTON ================= */
+
+            .page-hunian>.no-print .btn-primary {
+                width: 92px;
+                height: 42px;
+
+                min-width: 92px;
+                min-height: 42px;
+
+                padding: 0 8px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-size: 11px;
+                line-height: 1;
+                white-space: nowrap;
+            }
+
+            /* ================= SEARCH ================= */
+
+            .page-hunian>.no-print .row {
+                margin-top: 8px;
+
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .page-hunian>.no-print .row>div {
+                width: 100%;
+
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .page-hunian #searchKamar {
+                width: 100%;
+                height: 40px;
+
+                padding: 8px 12px;
+
+                font-size: 13px;
+
+                border-radius: 7px;
+            }
+
+            .page-hunian .blok-card {
+                margin-bottom: 14px !important;
+                border-radius: 8px;
+            }
+
+            .page-hunian .blok-card>.card-header {
+                padding: 10px 14px !important;
+            }
+
+            .page-hunian .blok-card>.card-header h4 {
+                font-size: 18px;
+            }
+
+            .page-hunian .blok-card>.card-body {
+                padding: 10px !important;
+            }
+
+            /* ================= KAMAR ================= */
+            .page-hunian .kamar-card {
+                margin-bottom: 10px !important;
+                border-radius: 8px;
+            }
+
+            .page-hunian .kamar-card>.card-header {
+                padding: 10px !important;
+            }
+
+            .page-hunian .kamar-card>.card-header>.d-flex {
+                gap: 8px;
+                align-items: flex-start !important;
+            }
+
+
+            /* ================= KAMAR TITLE ================= */
+            .page-hunian .kamar-card h5 {
+                font-size: 15px;
+                line-height: 1.2;
+                margin-bottom: 4px !important;
+            }
+
+            .page-hunian .kamar-card .text-muted {
+                font-size: 10px !important;
+                line-height: 1.3;
+            }
+
+
+            /* ================= KAMAR CONTROL ================= */
+            .page-hunian .kamar-card .d-flex.flex-column.align-items-end {
+
+                width: auto;
+                min-width: 0;
+
+                flex-shrink: 0;
+
+                align-items: flex-start !important;
+
+                gap: 7px;
+            }
+
+            .page-hunian .kamar-card .d-flex.flex-column.align-items-end>.d-flex {
+
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 6px !important;
+            }
+
+            .page-hunian .kamar-card .d-flex.flex-column.align-items-end>.d-flex .badge {
+
+                font-size: 11px !important;
+                padding: 6px 9px !important;
+            }
+
+            .page-hunian .kamar-card .btn-sm {
+                font-size: 10px;
+                padding: 6px 9px;
+            }
+
+            /* ================= KAMAR CARD HEADER ================= */
+            .page-hunian .kamar-card>.card-header {
+                padding: 10px !important;
+            }
+
+            .page-hunian .kamar-card>.card-header>.d-flex {
+                align-items: flex-start !important;
+                gap: 8px;
+            }
+
+            /* ================= INFO KAMAR ================= */
+            .page-hunian .kamar-card>.card-header>.d-flex>div:first-child {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .page-hunian .kamar-card>.card-header h5 {
+                font-size: 15px;
+                line-height: 1.2;
+                margin-bottom: 4px !important;
+                word-break: normal;
+            }
+
+            .page-hunian .kamar-card>.card-header .text-muted {
+                font-size: 10px !important;
+                line-height: 1.3;
+            }
+
+            /* ================= CONTROL KAMAR ================= */
+            .page-hunian .kamar-card>.card-header .d-flex.flex-column.align-items-end {
+
+                width: auto;
+                min-width: 0;
+
+                flex-shrink: 0;
+
+                align-items: flex-start !important;
+
+                gap: 7px;
+            }
+
+            /* ================= DIPILIH ================= */
+            .page-hunian .kamar-card>.card-header .d-flex.flex-column.align-items-end>span {
+
+                font-size: 11px !important;
+
+                line-height: 1.2;
+
+                white-space: nowrap;
+
+                margin-bottom: 0 !important;
+            }
+
+            /* ================= BUTTON ROW ================= */
+            .page-hunian .kamar-card>.card-header .d-flex.flex-column.align-items-end>.d-flex {
+
+                width: 100%;
+
+                display: flex;
+
+                flex-wrap: wrap;
+
+                align-items: center;
+
+                gap: 5px !important;
+            }
+
+            /* ================= BADGE ================= */
+            .page-hunian .kamar-card>.card-header .badge {
+
+                font-size: 9px !important;
+
+                padding: 5px 7px !important;
+
+                white-space: nowrap;
+            }
+
+            /* ================= BUTTON ================= */
+            .page-hunian .kamar-card>.card-header .btn-sm {
+
+                min-height: 28px;
+
+                padding: 5px 7px !important;
+
+                font-size: 8px !important;
+
+                line-height: 1.1;
+
+                white-space: nowrap;
+            }
+
+            /* ================= WBP CARD ================= */
+            .page-hunian .wbp-item {
+                border-radius: 8px;
+            }
+
+            .page-hunian .wbp-item .card-body {
+                padding: 8px !important;
+            }
+
+            .page-hunian .foto-wbp {
+                width: 55px;
+                height: 70px;
+            }
+
+            .page-hunian .nama-wbp {
+                font-size: 12px;
+                line-height: 1.2;
+            }
+
+            .page-hunian .screen-only {
+                font-size: 10px !important;
+            }
+
+            /* FLOATING DOCK MOBILE */
+            #quickDock {
+                left: 4px;
+                right: 4px;
+                bottom: 6px;
+
+                width: calc(100% - 8px);
+
+                padding: 10px 8px;
+
+                border-radius: 24px;
+
+                gap: 8px;
+
+                max-height: none;
+
+                overflow: visible;
+
+                box-sizing: border-box;
+            }
+
+            /* ================= DOCK SECTION MOBILE ================= */
+            .dock-section {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 7px;
+
+                margin-left: 0 !important;
+            }
+
+
+            /* ================= DOCK TITLE MOBILE ================= */
+            .dock-title {
+                width: 100%;
+
+                margin: 0 0 2px 0;
+
+                text-align: center;
+
+                font-size: 10px;
+                letter-spacing: .3px;
+            }
+
+            /* ================= DOCK ITEM MOBILE================= */
+            .dock-item {
+                min-width: 48px;
+                width: 48px;
+                height: 48px;
+
+                padding: 0;
+
+                border-radius: 50%;
+
+                font-size: 12px;
+            }
+
+            .dock-item span {
+                font-size: 11px;
+            }
+
+            /* ================= DOCK POPUP MOBILE ================= */
+            /* Popup bawaan desktop disembunyikan di mobile */
+            #quickDock .dock-popup {
+                display: none !important;
+            }
+
+
+            /* ================= MOBILE GLOBAL POPUP ================= */
+
+            .mobile-dock-popup {
+                position: fixed !important;
+
+                left: 50% !important;
+                bottom: 230px !important;
+
+                width: 190px !important;
+                max-width: calc(100vw - 30px) !important;
+
+                padding: 10px !important;
+
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr);
+
+                gap: 6px;
+
+                border-radius: 16px;
+
+                background: #fff;
+
+                border: 1px solid #dee2e6;
+
+                box-shadow: 0 15px 35px rgba(0, 0, 0, .20);
+
+                z-index: 100001 !important;
+
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+
+                transform: translate(-50%, 10px);
+
+                transition:
+                    opacity .18s ease,
+                    transform .18s ease,
+                    visibility .18s ease;
+            }
+
+
+            /* ================= MOBILE POPUP SHOW ================= */
+
+            .mobile-dock-popup.show {
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+
+                transform: translate(-50%, 0) !important;
+            }
+
+
+            /* ================= MOBILE POPUP ROOM ================= */
+
+            .mobile-dock-popup .popup-room {
+                width: 38px;
+                height: 34px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border-radius: 9px;
+
+                background: #f3f6fa;
+                color: #212529;
+
+                font-size: 11px;
+                font-weight: 700;
+
+                cursor: pointer;
+            }
+
+            .mobile-dock-popup .popup-room:active {
+                background: #0d3b66;
+                color: #fff;
+            }
+
+            .mobile-dock-popup .popup-room:active {
+                background: #0d3b66;
+                color: #fff;
+
+                transform: scale(.95);
+            }
+
+            /* ================= POPUP ROOM MOBILE================= */
+            .popup-room {
+                width: 38px;
+                height: 34px;
+
+                font-size: 11px;
+                border-radius: 9px;
+            }
+
+            /* ================= OUTER DOCK MOBILE================= */
+            .dock-section+.dock-section {
+                margin-top: 2px;
+            }
+
+            /* ================= MODAL ================= */
+            #modalPindah .modal-dialog {
+                margin: 10px;
+            }
+
+            #modalPindah .modal-content {
+                border-radius: 12px;
+            }
+
+            #modalPindah .modal-header,
+            #modalPindah .modal-body,
+            #modalPindah .modal-footer {
+                padding: 12px 14px;
+            }
+
+        }
     </style>
 </head>
 
@@ -1688,7 +2218,7 @@
                         @break
 
                         @case('ISOLASI')
-                            🔒 <span>Isolasi</span>
+                            <span>Isolasi</span>
                         @break
 
                         @default
@@ -2261,6 +2791,286 @@
             });
 
         });
+
+
+        /* =====================================
+                FLOATING DOCK MOBILE JS
+        ===================================== */
+
+        (function() {
+
+            const quickDock = document.getElementById("quickDock");
+
+            if (!quickDock) return;
+
+            const isMobile = () => window.innerWidth <= 768;
+
+            let mobilePopup = null;
+            let activeMobileBlock = null;
+
+
+            /* =====================================
+                    CREATE GLOBAL POPUP
+            ===================================== */
+
+            function createMobilePopup() {
+
+                if (mobilePopup) return;
+
+                mobilePopup = document.createElement("div");
+
+                mobilePopup.id = "mobileDockPopup";
+                mobilePopup.className = "mobile-dock-popup";
+
+                document.body.appendChild(mobilePopup);
+            }
+
+
+            /* =====================================
+                    CLOSE POPUP
+            ===================================== */
+
+            function closeMobilePopup() {
+
+                if (!mobilePopup) return;
+
+                mobilePopup.classList.remove("show");
+
+                activeMobileBlock = null;
+            }
+
+
+            /* =====================================
+                    OPEN POPUP
+            ===================================== */
+
+            function openMobilePopup(item) {
+
+                if (!isMobile()) return;
+
+                createMobilePopup();
+
+                const block = item.dataset.block;
+                const total = Number(item.dataset.roomCount);
+
+                if (!block || !total) return;
+
+                activeMobileBlock = block;
+
+                mobilePopup.innerHTML = "";
+
+
+                /* =================================
+                        GENERATE ROOM BUTTON
+                ================================= */
+
+                for (let i = 1; i <= total; i++) {
+
+                    const button = document.createElement("div");
+
+                    button.className = "popup-room";
+
+                    button.textContent = i;
+
+
+                    button.addEventListener("click", function(e) {
+
+                        e.stopPropagation();
+
+                        const prefix =
+                            detailView.style.display !== "none" ?
+                            "room-detail-" :
+                            "room-card-";
+
+
+                        let targetId;
+
+
+                        if (block === "DAPUR") {
+
+                            targetId = prefix + "DAPUR-1";
+
+                        } else if (block === "ISOLASI") {
+
+                            targetId = prefix + "ISOLASI-" + i;
+
+                        } else {
+
+                            targetId = prefix + block + "-" + i;
+
+                        }
+
+
+                        const card = document.getElementById(targetId);
+
+                        if (!card) return;
+
+
+                        /* =========================
+                                ACTIVE DOCK
+                        ========================= */
+
+                        document.querySelectorAll(".dock-item")
+                            .forEach(function(dock) {
+                                dock.classList.remove("active");
+                            });
+
+                        item.classList.add("active");
+
+
+                        /* =========================
+                                REMOVE OLD HIGHLIGHT
+                        ========================= */
+
+                        if (activeHighlight) {
+                            activeHighlight.classList.remove("room-highlight");
+                        }
+
+
+                        activeHighlight = card;
+
+
+                        /* =========================
+                                SCROLL
+                        ========================= */
+
+                        card.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+
+                        /* =========================
+                                HIGHLIGHT
+                        ========================= */
+
+                        card.classList.add("room-highlight");
+
+
+                        /* =========================
+                                CLOSE POPUP
+                        ========================= */
+
+                        closeMobilePopup();
+
+
+                        clearTimeout(highlightTimer);
+
+                        highlightTimer = setTimeout(function() {
+
+                            card.classList.remove("room-highlight");
+
+                            item.classList.remove("active");
+
+                            activeHighlight = null;
+
+                        }, 1000);
+
+                    });
+
+
+                    mobilePopup.appendChild(button);
+                }
+
+
+                /* =================================
+                        SHOW
+                ================================= */
+
+                mobilePopup.classList.add("show");
+            }
+
+
+            /* =====================================
+                    MOBILE DOCK CLICK
+            ===================================== */
+
+            quickDock.addEventListener("click", function(e) {
+
+                if (!isMobile()) return;
+
+
+                const item = e.target.closest(
+                    ".dock-item[data-block]"
+                );
+
+
+                if (!item) return;
+
+
+                e.preventDefault();
+                e.stopPropagation();
+
+
+                const block = item.dataset.block;
+
+
+                /* =========================
+                        SAME BLOCK
+                ========================= */
+
+                if (
+                    mobilePopup &&
+                    mobilePopup.classList.contains("show") &&
+                    activeMobileBlock === block
+                ) {
+
+                    closeMobilePopup();
+
+                    return;
+                }
+
+
+                /* =========================
+                        OPEN
+                ========================= */
+
+                openMobilePopup(item);
+
+            });
+
+
+            /* =====================================
+                    CLICK OUTSIDE
+            ===================================== */
+
+            document.addEventListener("click", function(e) {
+
+                if (!isMobile()) return;
+
+                if (!mobilePopup) return;
+
+                if (!mobilePopup.classList.contains("show")) return;
+
+
+                if (mobilePopup.contains(e.target)) {
+                    return;
+                }
+
+
+                if (e.target.closest("#quickDock")) {
+                    return;
+                }
+
+
+                closeMobilePopup();
+
+            });
+
+
+            /* =====================================
+                    RESIZE
+            ===================================== */
+
+            window.addEventListener("resize", function() {
+
+                if (!isMobile()) {
+                    closeMobilePopup();
+                }
+
+            });
+
+        })();
     </script>
 
 </body>
