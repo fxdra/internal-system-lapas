@@ -366,329 +366,22 @@
             padding-bottom: 140px;
         }
 
-        @media print {
+        /* DESKTOP STICKY HEADER */
+        @media (min-width: 769px) {
 
-            @page {
-                size: 297mm 210mm;
-                margin: 12mm;
+            .page-hunian>.no-print {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+
+                background: rgba(255, 255, 255, .96);
+
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+
+                border-bottom: 1px solid rgba(0, 0, 0, .06);
             }
 
-            body {
-                background: #fff !important;
-            }
-
-            /* =========================
-            PRINT GRID
-            ========================= */
-
-            .container-fluid.py-3 {
-                display: flex !important;
-                flex-wrap: wrap !important;
-
-                width: 264mm !important;
-                max-width: 264mm !important;
-
-                column-gap: 8mm !important;
-                row-gap: 8mm !important;
-
-                margin: 0 !important;
-                padding: 0 !important;
-
-                align-items: flex-start !important;
-                align-content: flex-start !important;
-            }
-
-            /* =========================
-            SEMBUNYIKAN UI
-            ========================= */
-
-            .no-print,
-            .btn-all,
-            .btn-batal,
-            .btn-pindah,
-            .wbp-check,
-            .toolbar-select,
-            .quick-dock,
-            #quickDock,
-            .screen-only {
-                display: none !important;
-            }
-
-            /* =========================
-            SEMBUNYIKAN SEMUA HEADER CARD
-            ========================= */
-
-            .card-header {
-                display: none !important;
-            }
-
-            /* =========================
-            SEMBUNYIKAN PESAN KAMAR KOSONG
-            ========================= */
-
-            .kamar-card .alert {
-                display: none !important;
-            }
-
-
-            /* =========================
-            CONTAINER BLOK
-            ========================= */
-
-            .blok-card {
-                display: contents !important;
-            }
-
-            .blok-card>.card-body {
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-
-
-            /* =========================
-            CONTAINER KAMAR
-            ========================= */
-
-            .kamar-card {
-                display: contents !important;
-            }
-
-            .kamar-card>.card-body {
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-
-            /* =========================
-            HEADER KAMAR TERPILIH
-            ========================= */
-
-            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header {
-                display: block !important;
-
-                width: 264mm !important;
-                max-width: 264mm !important;
-
-                flex: 0 0 264mm !important;
-
-                margin: 0 0 4mm 0 !important;
-                padding: 0 0 3mm 0 !important;
-
-                border: none !important;
-                border-bottom: 1px solid #000 !important;
-
-                background: #fff !important;
-                color: #000 !important;
-            }
-
-
-            /* =========================
-            JUDUL KAMAR
-            ========================= */
-
-            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header h5 {
-                font-size: 11pt !important;
-                margin: 0 !important;
-                color: #000 !important;
-            }
-
-
-            /* =========================
-            SEMBUNYIKAN KAMAR + KAPASITAS
-            ========================= */
-
-            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .text-muted {
-                display: none !important;
-            }
-
-
-            /* =========================
-            SEMBUNYIKAN BAGIAN KANAN
-            Dipilih + jumlah WBP + tombol
-            ========================= */
-
-            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .d-flex.flex-column.align-items-end {
-                display: none !important;
-            }
-
-            /* =========================
-            RUMAH SAKIT & BON
-            DEFAULT HILANG
-            ========================= */
-
-            #section-rs,
-            #section-bon {
-                display: none !important;
-            }
-
-
-            /* =========================
-                TAMPILKAN HANYA JIKA
-                ADA WBP YANG DIPILIH
-                ========================= */
-
-            #section-rs:has(.print-card:not([style*="display: none"])),
-            #section-bon:has(.print-card:not([style*="display: none"])) {
-                display: contents !important;
-            }
-
-
-            /* =========================
-            BODY SECTION JADI TRANSPARAN
-            ========================= */
-
-            #section-rs>.card-body,
-            #section-bon>.card-body {
-                display: contents !important;
-            }
-
-
-            /* =========================
-            ROW JADI TRANSPARAN
-            ========================= */
-
-            #section-rs .row.g-3,
-            #section-bon .row.g-3 {
-                display: contents !important;
-            }
-
-
-            /* =========================
-            ROW
-            ========================= */
-
-            .kamar-card .row.g-3 {
-                margin: 0 !important;
-            }
-
-            /* =========================
-            SETIAP WBP
-            ========================= */
-
-            .print-card {
-                width: 128mm !important;
-                max-width: 128mm !important;
-
-                flex: 0 0 128mm !important;
-
-                padding: 0 !important;
-                margin: 0 !important;
-
-                break-inside: avoid !important;
-                page-break-inside: avoid !important;
-            }
-
-            /* =========================
-            STEREK
-            ========================= */
-
-            .wbp-item {
-                width: 128mm !important;
-                height: 34mm !important;
-
-                box-sizing: border-box !important;
-
-                border: 1px solid #000 !important;
-                border-radius: 0 !important;
-                box-shadow: none !important;
-
-                background: #fff !important;
-
-                overflow: hidden !important;
-
-                margin: 0 !important;
-            }
-
-
-            .wbp-item.selected {
-                background: #fff !important;
-                border: 1px solid #000 !important;
-            }
-
-            /* =========================
-            ISI STEREK
-            ========================= */
-
-            .wbp-item .card-body {
-                padding: 5px 6px !important;
-            }
-
-            /* =========================
-            FOTO
-            ========================= */
-
-            .foto-wbp {
-                width: 22mm !important;
-                height: 28mm !important;
-
-                object-fit: cover !important;
-            }
-
-            /* =========================
-            NAMA
-            ========================= */
-
-            .nama-wbp {
-                font-size: 10pt !important;
-                font-weight: 700 !important;
-                line-height: 1.15 !important;
-
-                white-space: nowrap !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-            }
-
-            /* =========================
-            DATA WBP
-            ========================= */
-
-            .print-only {
-                display: block !important;
-
-                margin-top: 3px !important;
-
-                font-size: 8pt !important;
-                line-height: 1.2 !important;
-            }
-
-            .print-only div {
-                margin-bottom: 1px !important;
-
-                white-space: nowrap !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-            }
-
-
-            .print-only strong {
-                display: inline-block !important;
-                width: 65px !important;
-            }
-        }
-
-        .screen-only {
-            display: block;
-        }
-
-        .print-only {
-            display: none;
-        }
-
-        .select-box {
-            width: 22px;
-            height: 22px;
-            cursor: pointer;
-        }
-
-        .toolbar-select {
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            background: #fff;
-            border: 1px solid #dee2e6;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
         }
 
         /* =========================================================
@@ -1220,6 +913,389 @@
             }
 
         }
+
+        /* SEARCH WBP RESULTS */
+        .search-wbp-results {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            z-index: 10000;
+
+            display: none;
+
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .search-wbp-results.show {
+            display: block;
+        }
+
+        .search-wbp-result {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .search-wbp-result:last-child {
+            border-bottom: none;
+        }
+
+        .search-wbp-result:hover {
+            background: #f5f7fa;
+        }
+
+        .search-wbp-name {
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #0d3b66;
+        }
+
+        .search-wbp-location {
+            margin-top: 2px;
+            font-size: 11px;
+            color: #6c757d;
+        }
+
+        .search-wbp-empty {
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        @media print {
+
+            @page {
+                size: 297mm 210mm;
+                margin: 12mm;
+            }
+
+            body {
+                background: #fff !important;
+            }
+
+            /* =========================
+            PRINT GRID
+            ========================= */
+
+            .container-fluid.py-3 {
+                display: flex !important;
+                flex-wrap: wrap !important;
+
+                width: 264mm !important;
+                max-width: 264mm !important;
+
+                column-gap: 8mm !important;
+                row-gap: 8mm !important;
+
+                margin: 0 !important;
+                padding: 0 !important;
+
+                align-items: flex-start !important;
+                align-content: flex-start !important;
+            }
+
+            /* =========================
+            SEMBUNYIKAN UI
+            ========================= */
+
+            .no-print,
+            .btn-all,
+            .btn-batal,
+            .btn-pindah,
+            .wbp-check,
+            .toolbar-select,
+            .quick-dock,
+            #quickDock,
+            .screen-only {
+                display: none !important;
+            }
+
+            /* =========================
+            SEMBUNYIKAN SEMUA HEADER CARD
+            ========================= */
+
+            .card-header {
+                display: none !important;
+            }
+
+            /* =========================
+            SEMBUNYIKAN PESAN KAMAR KOSONG
+            ========================= */
+
+            .kamar-card .alert {
+                display: none !important;
+            }
+
+
+            /* =========================
+            CONTAINER BLOK
+            ========================= */
+
+            .blok-card {
+                display: contents !important;
+            }
+
+            .blok-card>.card-body {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+
+            /* =========================
+            CONTAINER KAMAR
+            ========================= */
+
+            .kamar-card {
+                display: contents !important;
+            }
+
+            .kamar-card>.card-body {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            /* =========================
+            HEADER KAMAR TERPILIH
+            ========================= */
+
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header {
+                display: block !important;
+
+                width: 264mm !important;
+                max-width: 264mm !important;
+
+                flex: 0 0 264mm !important;
+
+                margin: 0 0 4mm 0 !important;
+                padding: 0 0 3mm 0 !important;
+
+                border: none !important;
+                border-bottom: 1px solid #000 !important;
+
+                background: #fff !important;
+                color: #000 !important;
+            }
+
+
+            /* =========================
+            JUDUL KAMAR
+            ========================= */
+
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header h5 {
+                font-size: 11pt !important;
+                margin: 0 !important;
+                color: #000 !important;
+            }
+
+
+            /* =========================
+            SEMBUNYIKAN KAMAR + KAPASITAS
+            ========================= */
+
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .text-muted {
+                display: none !important;
+            }
+
+
+            /* =========================
+            SEMBUNYIKAN BAGIAN KANAN
+            Dipilih + jumlah WBP + tombol
+            ========================= */
+
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .d-flex.flex-column.align-items-end {
+                display: none !important;
+            }
+
+            /* =========================
+            RUMAH SAKIT & BON
+            DEFAULT HILANG
+            ========================= */
+
+            #section-rs,
+            #section-bon {
+                display: none !important;
+            }
+
+
+            /* =========================
+                TAMPILKAN HANYA JIKA
+                ADA WBP YANG DIPILIH
+                ========================= */
+
+            #section-rs:has(.print-card:not([style*="display: none"])),
+            #section-bon:has(.print-card:not([style*="display: none"])) {
+                display: contents !important;
+            }
+
+
+            /* =========================
+            BODY SECTION JADI TRANSPARAN
+            ========================= */
+
+            #section-rs>.card-body,
+            #section-bon>.card-body {
+                display: contents !important;
+            }
+
+
+            /* =========================
+            ROW JADI TRANSPARAN
+            ========================= */
+
+            #section-rs .row.g-3,
+            #section-bon .row.g-3 {
+                display: contents !important;
+            }
+
+
+            /* =========================
+            ROW
+            ========================= */
+
+            .kamar-card .row.g-3 {
+                margin: 0 !important;
+            }
+
+            /* =========================
+            SETIAP WBP
+            ========================= */
+
+            .print-card {
+                width: 128mm !important;
+                max-width: 128mm !important;
+
+                flex: 0 0 128mm !important;
+
+                padding: 0 !important;
+                margin: 0 !important;
+
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            /* =========================
+            STEREK
+            ========================= */
+
+            .wbp-item {
+                width: 128mm !important;
+                height: 34mm !important;
+
+                box-sizing: border-box !important;
+
+                border: 1px solid #000 !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+
+                background: #fff !important;
+
+                overflow: hidden !important;
+
+                margin: 0 !important;
+            }
+
+
+            .wbp-item.selected {
+                background: #fff !important;
+                border: 1px solid #000 !important;
+            }
+
+            /* =========================
+            ISI STEREK
+            ========================= */
+
+            .wbp-item .card-body {
+                padding: 5px 6px !important;
+            }
+
+            /* =========================
+            FOTO
+            ========================= */
+
+            .foto-wbp {
+                width: 22mm !important;
+                height: 28mm !important;
+
+                object-fit: cover !important;
+            }
+
+            /* =========================
+            NAMA
+            ========================= */
+
+            .nama-wbp {
+                font-size: 10pt !important;
+                font-weight: 700 !important;
+                line-height: 1.15 !important;
+
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+
+            /* =========================
+            DATA WBP
+            ========================= */
+
+            .print-only {
+                display: block !important;
+
+                margin-top: 3px !important;
+
+                font-size: 8pt !important;
+                line-height: 1.2 !important;
+            }
+
+            .print-only div {
+                margin-bottom: 1px !important;
+
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+
+
+            .print-only strong {
+                display: inline-block !important;
+                width: 65px !important;
+            }
+        }
+
+        .screen-only {
+            display: block;
+        }
+
+        .print-only {
+            display: none;
+        }
+
+        .select-box {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .toolbar-select {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: #fff;
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+        }
     </style>
 </head>
 
@@ -1227,13 +1303,15 @@
 
     <div class="container-fluid py-3 page-hunian">
 
-        <div class="card shadow-sm mb-4 no-print">
+        <div class="card shadow-sm mb-4 no-print page-hunian-header-card">
 
             <div class="card-body">
 
-                <div class="d-flex justify-content-between align-items-start mb-3">
+                {{-- ================= HEADER ================= --}}
+                <div class="d-flex justify-content-between align-items-start mb-3 page-hunian-header">
 
-                    <div>
+                    {{-- TITLE --}}
+                    <div class="page-hunian-title">
 
                         <h4 class="fw-bold mb-1">
                             DATA HUNIAN KAMAR
@@ -1259,9 +1337,12 @@
 
                     </div>
 
-                    <div class="d-flex align-items-center gap-2">
+
+                    {{-- ACTION --}}
+                    <div class="d-flex align-items-center gap-2 page-hunian-actions">
 
                         <div class="btn-group" role="group" aria-label="View Mode">
+
                             <button type="button" id="btnCardView" class="btn btn-outline-secondary active"
                                 title="Card View">
 
@@ -1289,12 +1370,16 @@
 
                 </div>
 
-                <div class="row">
 
-                    <div class="col-lg-4 col-md-6">
+                {{-- ================= SEARCH ================= --}}
+                <div class="row page-hunian-search">
+
+                    <div class="col-lg-4 col-md-6 position-relative">
 
                         <input type="text" id="searchKamar" class="form-control"
-                            placeholder="Cari Blok / No. Kamar...">
+                            placeholder="Cari Blok / No. Kamar / Nama WBP..." autocomplete="off">
+
+                        <div id="searchWbpResults" class="search-wbp-results"></div>
 
                     </div>
 
@@ -1488,8 +1573,8 @@
                                                                         </div>
 
                                                                         <div>
-                                                                            <strong>Perkara :</strong>
-                                                                            {{ $wbp['jenis_kejahatan'] ?? '-' }}
+                                                                            <strong>Pasal :</strong>
+                                                                            {{ $wbp['pasal'] ?? '-' }}
                                                                         </div>
 
                                                                         <div>
@@ -1625,8 +1710,8 @@
                                                         </div>
 
                                                         <div>
-                                                            <strong>Perkara :</strong>
-                                                            {{ $wbp['jenis_kejahatan'] ?? '-' }}
+                                                            <strong>Pasal :</strong>
+                                                            {{ $wbp['pasal'] ?? '-' }}
                                                         </div>
 
                                                         <div>
@@ -1750,8 +1835,8 @@
                                                         </div>
 
                                                         <div>
-                                                            <strong>Perkara :</strong>
-                                                            {{ $wbp['jenis_kejahatan'] ?? '-' }}
+                                                            <strong>Pasal :</strong>
+                                                            {{ $wbp['pasal'] ?? '-' }}
                                                         </div>
 
                                                         <div>
@@ -2252,10 +2337,7 @@
     </div>
 
     <script>
-        // =======================
         // TOGGLE VIEW CARD/DETAILS
-        // =======================
-
         const btnCardView = document.getElementById("btnCardView");
         const btnDetailView = document.getElementById("btnDetailView");
 
@@ -2306,10 +2388,8 @@
 
         }
 
-        // =========================
-        // RESTORE POSISI SCROLL
-        // =========================
 
+        // RESTORE POSISI SCROLL
         document.addEventListener("DOMContentLoaded", function() {
 
             const savedScroll = sessionStorage.getItem("mutasiScrollY");
@@ -2334,9 +2414,7 @@
 
         let currentCard = null;
 
-        // =====================
         // UPDATE JUMLAH TERPILIH PER KAMAR
-        // =====================
         function updateSelected(card) {
             if (!card) return;
             const total = card.querySelectorAll(".wbp-check:checked").length;
@@ -2346,9 +2424,7 @@
             }
         }
 
-        // =====================
         // SELECT ALL
-        // =====================
         function selectKamar(button) {
             const card = button.closest(".kamar-card");
             card.querySelectorAll(".wbp-item").forEach(function(item) {
@@ -2360,9 +2436,7 @@
 
         }
 
-        // =====================
         // UNSELECT ALL
-        // =====================
         function unselectKamar(button) {
             const card = button.closest(".kamar-card");
             card.querySelectorAll(".wbp-item").forEach(function(item) {
@@ -2375,9 +2449,7 @@
 
         }
 
-        /* =====================
-        PRINT WBP TERPILIH
-        ===================== */
+        // PRINT WBP TERPILIH
         function printSelected() {
 
             const checked = document.querySelectorAll(".wbp-check:checked");
@@ -2443,9 +2515,7 @@
 
         }
 
-        // =====================
         // OPEN MODAL
-        // =====================
         function bukaModalPindah(button, idKamar, blok, lokasiSel) {
             currentCard = button.closest(".kamar-card");
             const checked = currentCard.querySelectorAll(".wbp-check:checked");
@@ -2463,9 +2533,7 @@
             ).show();
         }
 
-        // =====================
         // PINDAHKAN DATA
-        // =====================
         async function pindahkanData() {
 
             const kamarAsal = document.getElementById("kamarAsalId").value;
@@ -2566,58 +2634,225 @@
 
         }
 
-        // =====================
-        // SEARCH BLOK / KAMAR
-        // =====================
-        document.getElementById("searchKamar").addEventListener("input", function() {
 
-            const keyword = this.value
+        // SEARCH BLOK / KAMAR / NAMA WBP
+        const searchInput = document.getElementById("searchKamar");
+        const searchResults = document.getElementById("searchWbpResults");
+
+        function normalizeSearch(value) {
+            return (value || "")
                 .toUpperCase()
                 .replace(/[^A-Z0-9]/g, "");
+        }
 
-            // Filter setiap kamar
+        searchInput.addEventListener("input", function() {
+
+            const keyword = normalizeSearch(this.value);
+
+            // Tutup hasil kalau kosong
+            if (keyword === "") {
+
+                searchResults.innerHTML = "";
+                searchResults.classList.remove("show");
+
+                // Tampilkan semua kamar
+                document.querySelectorAll(".kamar-card").forEach(function(card) {
+                    card.style.display = "";
+                });
+
+                document.querySelectorAll(".blok-card").forEach(function(blok) {
+                    blok.style.display = "";
+                });
+
+                return;
+            }
+
+            let wbpMatches = [];
+
+            // CARI WBP
             document.querySelectorAll(".kamar-card").forEach(function(card) {
 
-                const target = card.dataset.search
-                    .toUpperCase()
-                    .replace(/[^A-Z0-9]/g, "");
+                const kamarTarget = normalizeSearch(
+                    card.dataset.search
+                );
 
-                if (keyword === "" || target.includes(keyword)) {
+                const wbpItems = card.querySelectorAll(".wbp-item");
 
-                    card.style.display = "";
+                let kamarCocok = kamarTarget.includes(keyword);
 
-                } else {
+                wbpItems.forEach(function(item) {
 
-                    card.style.display = "none";
+                    const namaElement = item.querySelector(".nama-wbp");
 
-                }
+                    if (!namaElement) return;
 
-            });
+                    const nama = namaElement.textContent.trim();
 
-            // Tampilkan / sembunyikan blok
-            document.querySelectorAll(".blok-card").forEach(function(blok) {
+                    const namaTarget = normalizeSearch(nama);
 
-                const visibleRooms = blok.querySelectorAll(".kamar-card");
+                    if (namaTarget.includes(keyword)) {
 
-                let adaYangTampil = false;
+                        wbpMatches.push({
+                            nama: nama,
+                            item: item,
+                            card: card
+                        });
 
-                visibleRooms.forEach(function(room) {
-
-                    if (room.style.display !== "none") {
-                        adaYangTampil = true;
                     }
 
                 });
 
-                blok.style.display = adaYangTampil ? "" : "none";
+                // Tampilkan kamar kalau:
+                // - nama WBP cocok
+                // - atau blok/kamar cocok
+
+                if (kamarCocok || wbpItems.length === 0) {
+                    card.style.display = kamarCocok ? "" : "none";
+                } else {
+
+                    const adaWbpCocok = Array.from(wbpItems).some(function(item) {
+
+                        const namaElement = item.querySelector(".nama-wbp");
+
+                        if (!namaElement) return false;
+
+                        return normalizeSearch(
+                            namaElement.textContent
+                        ).includes(keyword);
+
+                    });
+
+                    card.style.display = adaWbpCocok ? "" : "none";
+                }
 
             });
 
+            // TAMPILKAN / SEMBUNYIKAN BLOK
+            document.querySelectorAll(".blok-card").forEach(function(blok) {
+
+                const adaKamar = Array.from(
+                    blok.querySelectorAll(".kamar-card")
+                ).some(function(room) {
+
+                    return room.style.display !== "none";
+
+                });
+
+                blok.style.display = adaKamar ? "" : "none";
+
+            });
+
+            // HASIL PENCARIAN WBP
+            searchResults.innerHTML = "";
+
+            if (wbpMatches.length === 0) {
+
+                searchResults.innerHTML = `
+            <div class="search-wbp-empty">
+                WBP tidak ditemukan
+            </div>
+        `;
+
+                searchResults.classList.add("show");
+
+                return;
+            }
+
+            wbpMatches.forEach(function(match) {
+
+                const result = document.createElement("div");
+
+                result.className = "search-wbp-result";
+
+                const lokasi = match.card.querySelector(
+                    ".card-header h5"
+                );
+
+                const lokasiText = lokasi ?
+                    lokasi.textContent.trim() :
+                    "Kamar tidak diketahui";
+
+                result.innerHTML = `
+            <div class="search-wbp-name">
+                ${match.nama}
+            </div>
+
+            <div class="search-wbp-location">
+                ${lokasiText}
+            </div>
+        `;
+
+                result.addEventListener("click", function() {
+
+                    // SELECT WBP
+                    const checkbox = match.item.querySelector(
+                        ".wbp-check"
+                    );
+
+                    if (!checkbox) return;
+
+                    checkbox.checked = true;
+
+                    match.item.classList.add("selected");
+
+                    // Update counter kamar
+                    updateSelected(match.card);
+
+                    // TUTUP SEARCH
+                    searchResults.classList.remove("show");
+
+                    // KAMAR DITAMPILKAN
+                    match.card.style.display = "";
+
+                    const blok = match.card.closest(".blok-card");
+
+                    if (blok) {
+                        blok.style.display = "";
+                    }
+
+                    // SCROLL KE WBP
+                    setTimeout(function() {
+
+                        match.item.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+                        // Highlight
+                        match.item.classList.add("room-highlight");
+
+                        setTimeout(function() {
+
+                            match.item.classList.remove(
+                                "room-highlight"
+                            );
+
+                        }, 1500);
+
+                    }, 50);
+
+                });
+
+                searchResults.appendChild(result);
+
+            });
+
+            searchResults.classList.add("show");
+
         });
 
-        // =====================
+        document.addEventListener("click", function(e) {
+
+            if (!searchInput.contains(e.target) &&
+                !searchResults.contains(e.target)) {
+
+                searchResults.classList.remove("show");
+
+            }
+
+        });
+
         // CLICK CARD WBP
-        // =====================
         document.querySelectorAll(".wbp-item").forEach(function(card) {
 
             card.addEventListener("click", function(e) {
@@ -2637,9 +2872,7 @@
 
         });
 
-        // =====================
         // EVENT CHECKBOX
-        // =====================
         document.addEventListener("change", function(e) {
             if (e.target.classList.contains("wbp-check")) {
                 const item = e.target.closest(".wbp-item");
@@ -2649,10 +2882,7 @@
 
         });
 
-        /* =====================================
-                    FLOATING DOCK JS
-        =====================================*/
-
+        // FLOATING DOCK JS
         let activeHighlight = null;
         let highlightTimer = null;
 
@@ -2739,10 +2969,7 @@
 
         });
 
-        /* =====================================
-                FLOATING DOCK RS / BON
-        =====================================*/
-
+        // FLOATING DOCK RS / BON
         let activeSection = null;
         let sectionTimer = null;
 
@@ -2792,11 +3019,7 @@
 
         });
 
-
-        /* =====================================
-                FLOATING DOCK MOBILE JS
-        ===================================== */
-
+        // FLOATING DOCK MOBILE JS
         (function() {
 
             const quickDock = document.getElementById("quickDock");
@@ -2905,19 +3128,6 @@
 
                         if (!card) return;
 
-
-                        /* =========================
-                                ACTIVE DOCK
-                        ========================= */
-
-                        document.querySelectorAll(".dock-item")
-                            .forEach(function(dock) {
-                                dock.classList.remove("active");
-                            });
-
-                        item.classList.add("active");
-
-
                         /* =========================
                                 REMOVE OLD HIGHLIGHT
                         ========================= */
@@ -2926,9 +3136,7 @@
                             activeHighlight.classList.remove("room-highlight");
                         }
 
-
                         activeHighlight = card;
-
 
                         /* =========================
                                 SCROLL
@@ -2939,17 +3147,7 @@
                             block: "center"
                         });
 
-
-                        /* =========================
-                                HIGHLIGHT
-                        ========================= */
-
                         card.classList.add("room-highlight");
-
-
-                        /* =========================
-                                CLOSE POPUP
-                        ========================= */
 
                         closeMobilePopup();
 
@@ -2972,11 +3170,6 @@
                     mobilePopup.appendChild(button);
                 }
 
-
-                /* =================================
-                        SHOW
-                ================================= */
-
                 mobilePopup.classList.add("show");
             }
 
@@ -2989,25 +3182,21 @@
 
                 if (!isMobile()) return;
 
-
                 const item = e.target.closest(
                     ".dock-item[data-block]"
                 );
 
-
                 if (!item) return;
-
 
                 e.preventDefault();
                 e.stopPropagation();
 
-
                 const block = item.dataset.block;
 
 
-                /* =========================
+                /* =================================
                         SAME BLOCK
-                ========================= */
+                ================================= */
 
                 if (
                     mobilePopup &&
@@ -3015,15 +3204,37 @@
                     activeMobileBlock === block
                 ) {
 
+                    item.classList.remove("active");
+
                     closeMobilePopup();
 
                     return;
                 }
 
 
-                /* =========================
-                        OPEN
-                ========================= */
+                /* =================================
+                        RESET ACTIVE DOCK
+                ================================= */
+
+                document.querySelectorAll(
+                    "#quickDock .dock-item"
+                ).forEach(function(dock) {
+
+                    dock.classList.remove("active");
+
+                });
+
+
+                /* =================================
+                        ACTIVE BLOCK
+                ================================= */
+
+                item.classList.add("active");
+
+
+                /* =================================
+                        OPEN POPUP
+                ================================= */
 
                 openMobilePopup(item);
 

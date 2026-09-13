@@ -7,6 +7,7 @@ use App\Models\Kamar;
 use App\Models\Wbp;
 use Illuminate\Support\Facades\DB;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Services\KamarService;
 
@@ -320,8 +321,9 @@ class KamarController extends Controller
         $kamar = Kamar::findOrFail($request->kamar_id);
 
         // ================= HAPUS FILE LAMA =================
-        if ($kamar->pdf_file && \Storage::disk('public')->exists($kamar->pdf_file)) {
-            \Storage::disk('public')->delete($kamar->pdf_file);
+        if ($kamar->pdf_file && Storage::disk('public')->exists($kamar->pdf_file)) {
+
+            Storage::disk('public')->delete($kamar->pdf_file);
         }
 
         // ================= SIMPAN FILE BARU =================
@@ -432,7 +434,9 @@ class KamarController extends Controller
                         'no_reg_instansi',
                         'agama',
                         'jenis_kejahatan',
+                        'pasal',
                         'putusan',
+                        'putusan_bulan',
                         'ekspirasi',
                         'lokasi_blok',
                         'lokasi_sel',
@@ -459,7 +463,9 @@ class KamarController extends Controller
                 'no_reg_instansi',
                 'agama',
                 'jenis_kejahatan',
+                'pasal',
                 'putusan',
+                'putusan_bulan',
                 'ekspirasi',
                 'lokasi_blok',
                 'lokasi_sel',
@@ -477,7 +483,9 @@ class KamarController extends Controller
                 'no_reg_instansi',
                 'agama',
                 'jenis_kejahatan',
+                'pasal',
                 'putusan',
+                'putusan_bulan',
                 'ekspirasi',
                 'lokasi_blok',
                 'lokasi_sel',
@@ -538,7 +546,9 @@ class KamarController extends Controller
                         'no_reg_instansi' => $wbp->no_reg_instansi,
                         'agama' => $wbp->agama,
                         'jenis_kejahatan' => $wbp->jenis_kejahatan,
+                        'pasal' => $wbp->pasal,
                         'putusan' => $wbp->putusan,
+                        'putusan_bulan' => $wbp->putusan_bulan,
                         'ekspirasi' => $wbp->ekspirasi,
                         'lokasi_blok' => $wbp->lokasi_blok,
                         'lokasi_sel' => $wbp->lokasi_sel,

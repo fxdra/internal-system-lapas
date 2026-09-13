@@ -379,6 +379,9 @@ class DataWbpController extends Controller
             'tanggal' => $data->tanggal,
             'keterangan' => $data->keterangan,
             'jenis_kejahatan' => $data->jenis_kejahatan,
+
+            // foto wbp
+            'foto_wbp' => $data->foto_wbp,
         ]);
     }
 
@@ -721,6 +724,13 @@ class DataWbpController extends Controller
 
             if ($request->hasFile('foto_wbp')) {
 
+                Log::info('EDIT FOTO DITERIMA', [
+                    'original_name' => $request->file('foto_wbp')->getClientOriginalName(),
+                    'mime' => $request->file('foto_wbp')->getMimeType(),
+                    'size' => $request->file('foto_wbp')->getSize(),
+                ]);
+
+
                 $file = $request->file('foto_wbp');
 
                 $namaFile = $file->getClientOriginalName();
@@ -850,7 +860,6 @@ class DataWbpController extends Controller
                     ->ignore($wbp->id),
             ],
 
-
             'nama' => 'required|string|max:100',
             'negara' => 'nullable|string|max:50',
             'agama' => 'nullable|string|max:30',
@@ -877,7 +886,15 @@ class DataWbpController extends Controller
             'keperluan' => 'nullable|string|max:255',
             'tanggal_bon' => 'nullable|date',
             'tanggal' => 'nullable|date',
-            'foto_wbp' => 'nullable|string|max:255',
+
+            // FOTO BARU
+            'foto_wbp' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120',
+            ],
+
             'keterangan' => 'nullable|string|max:5000',
         ]);
 
@@ -885,7 +902,9 @@ class DataWbpController extends Controller
 
         try {
 
-            $wbp->update([
+
+            //DATA UPDATE
+            $data = [
                 'no_reg_instansi' => $request->no_reg_instansi,
                 'nama' => $request->nama,
                 'negara' => $request->negara,
@@ -913,9 +932,60 @@ class DataWbpController extends Controller
                 'keperluan' => $request->keperluan,
                 'tanggal_bon' => $request->tanggal_bon,
                 'tanggal' => $request->tanggal,
-                'foto_wbp' => $request->foto_wbp,
                 'keterangan' => $request->keterangan,
-            ]);
+            ];
+
+            // FOTO WBP
+            if ($request->hasFile('foto_wbp')) {
+
+                $fotoLama = $wbp->foto_wbp;
+
+                // Simpan foto baru
+                $fileFoto = $request->file('foto_wbp');
+
+                $namaFoto = $fileFoto->getClientOriginalName();
+
+                $pathFotoBaru = $fileFoto->storeAs(
+                    'foto_wbp',
+                    $namaFoto,
+                    'public'
+                );
+
+                // Ambil URL dari konfigurasi disk public,
+                // lalu ubah menjadi path relatif untuk database
+                $urlFotoBaru = Storage::disk('public')->url($pathFotoBaru);
+
+                $data['foto_wbp'] = ltrim(
+                    parse_url($urlFotoBaru, PHP_URL_PATH),
+                    '/'
+                );
+
+                // Hapus foto lama
+                if ($fotoLama) {
+
+                    // DB:
+                    // storage/foto_wbp/nama.jpg
+                    //
+                    // Storage:
+                    // foto_wbp/nama.jpg
+                    $pathFotoLama = preg_replace(
+                        '#^/?storage/#',
+                        '',
+                        $fotoLama
+                    );
+
+                    // Jangan hapus kalau foto lama dan foto baru
+                    // ternyata menggunakan file yang sama
+                    if (
+                        $pathFotoLama !== $pathFotoBaru &&
+                        Storage::disk('public')->exists($pathFotoLama)
+                    ) {
+                        Storage::disk('public')->delete($pathFotoLama);
+                    }
+                }
+            }
+
+            $wbp->update($data);
 
             DB::commit();
 
