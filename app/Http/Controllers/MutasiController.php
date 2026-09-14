@@ -44,14 +44,178 @@ class MutasiController extends Controller
 
     public function destroy($id)
     {
+        DB::beginTransaction();
+
         try {
-            $data = Mutasi::findOrFail($id);
-            $data->delete();
 
-            return redirect()->back()->with('success', 'Data mutasi berhasil dihapus');
-        } catch (\Exception $e) {
+            // CARI DATA MUTASI
+            $mutasi = Mutasi::findOrFail($id);
 
-            return redirect()->back()->with('error', 'Gagal menghapus data');
+            // CARI WBP
+            $wbp = Wbp::findOrFail($mutasi->wbp_id);
+
+            // CEK MUTASI TERAKHIR WBP
+            $mutasiTerakhir = Mutasi::where('wbp_id', $mutasi->wbp_id)
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
+                ->first();
+
+            // JIKA BUKAN MUTASI TERAKHIR
+            if (!$mutasiTerakhir || $mutasiTerakhir->id != $mutasi->id) {
+
+                DB::rollBack();
+
+                return redirect()
+                    ->back()
+                    ->with(
+                        'error',
+                        'Riwayat Mutasi untuk WBP ini tidak dapat dihapus karena masih ada data sebelum periode ini.'
+                    );
+            }
+
+            // SIMPAN DATA UNTUK GOOGLE SHEET
+            $mutasiId = $mutasi->id;
+
+            // KAMAR ASAL
+            $kamarAsal = Kamar::find($mutasi->kamar_asal_id);
+
+            if (!$kamarAsal) {
+
+                DB::rollBack();
+
+                return redirect()
+                    ->back()
+                    ->with(
+                        'error',
+                        'Kamar asal tidak ditemukan. Mutasi tidak dapat dibatalkan.'
+                    );
+            }
+
+            // KEMBALIKAN WBP KE KAMAR ASAL
+            $wbp->update([
+                'kamar_id'     => $kamarAsal->id,
+                'lokasi_blok'  => $kamarAsal->lokasi_blok,
+                'lokasi_sel'   => $kamarAsal->lokasi_sel,
+                'status_kamar' => $kamarAsal->status_kamar,
+            ]);
+
+            // HAPUS RIWAYAT MUTASI
+            $mutasi->delete();
+
+            DB::commit();
+
+            // GOOGLE SHEET
+            try {
+
+                $sheetService = app(GoogleSheetService::class);
+
+                $service = $sheetService->getService();
+
+                $spreadsheetId = $sheetService->getSpreadsheetId('mutasi');
+
+                $range = 'Sheet1!A:P';
+
+                $response = $service
+                    ->spreadsheets_values
+                    ->get($spreadsheetId, $range);
+
+                $rows = $response->getValues();
+
+                $rowIndex = null;
+
+                // CARI BARIS BERDASARKAN MUTASI ID
+                foreach ($rows as $i => $row) {
+
+                    if (
+                        isset($row[0]) &&
+                        (string) $row[0] === (string) $mutasiId
+                    ) {
+                        $rowIndex = $i;
+                        break;
+                    }
+                }
+
+                // HAPUS BARIS GOOGLE SHEET
+                if ($rowIndex !== null) {
+
+                    $spreadsheet = $service
+                        ->spreadsheets
+                        ->get($spreadsheetId);
+
+                    $sheetId = null;
+
+                    foreach ($spreadsheet->getSheets() as $sheet) {
+
+                        if (
+                            $sheet->getProperties()->getTitle() === 'Sheet1'
+                        ) {
+                            $sheetId = $sheet
+                                ->getProperties()
+                                ->getSheetId();
+
+                            break;
+                        }
+                    }
+
+                    if ($sheetId !== null) {
+
+                        $deleteRequest =
+                            new \Google\Service\Sheets\DeleteDimensionRequest([
+                                'range' => [
+                                    'sheetId'    => $sheetId,
+                                    'dimension'  => 'ROWS',
+                                    'startIndex' => $rowIndex,
+                                    'endIndex'   => $rowIndex + 1,
+                                ]
+                            ]);
+
+                        $request =
+                            new \Google\Service\Sheets\Request([
+                                'deleteDimension' => $deleteRequest
+                            ]);
+
+                        $batchUpdateRequest =
+                            new \Google\Service\Sheets\BatchUpdateSpreadsheetRequest([
+                                'requests' => [$request]
+                            ]);
+
+                        $service
+                            ->spreadsheets
+                            ->batchUpdate(
+                                $spreadsheetId,
+                                $batchUpdateRequest
+                            );
+                    }
+                }
+            } catch (\Throwable $sheetError) {
+
+                Log::error('GoogleSheet destroy mutasi ERROR', [
+                    'mutasi_id' => $mutasiId,
+                    'message'   => $sheetError->getMessage(),
+                ]);
+            }
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Mutasi berhasil dihapus dan WBP dikembalikan ke kamar asal.'
+                );
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            Log::error('Destroy mutasi ERROR', [
+                'mutasi_id' => $id,
+                'message'   => $e->getMessage(),
+            ]);
+
+            return redirect()
+                ->back()
+                ->with(
+                    'error',
+                    'Gagal menghapus mutasi: ' . $e->getMessage()
+                );
         }
     }
 
@@ -683,9 +847,7 @@ class MutasiController extends Controller
             // Data WBP
             $wbp = Wbp::findOrFail($mutasi->wbp_id);
 
-            // ==========================
             // UPDATE TABEL MUTASI
-            // ==========================
             $mutasi->update([
                 'kamar_tujuan_id'   => $kamar->id,
                 'kamar_tujuan_nama' => $kamar->kode_kamar,
