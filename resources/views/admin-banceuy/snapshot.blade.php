@@ -450,7 +450,6 @@
             </div>
         </div>
 
-        {{-- FILTER --}}
         <div class="card mb-4 shadow-sm no-print">
 
             <div class="card-body">

@@ -724,13 +724,6 @@ class DataWbpController extends Controller
 
             if ($request->hasFile('foto_wbp')) {
 
-                Log::info('EDIT FOTO DITERIMA', [
-                    'original_name' => $request->file('foto_wbp')->getClientOriginalName(),
-                    'mime' => $request->file('foto_wbp')->getMimeType(),
-                    'size' => $request->file('foto_wbp')->getSize(),
-                ]);
-
-
                 $file = $request->file('foto_wbp');
 
                 $namaFile = $file->getClientOriginalName();

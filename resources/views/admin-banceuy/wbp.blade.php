@@ -816,13 +816,31 @@
 
         }
 
-        /* Mobile */
-        @media (max-width:768px) {
+        /* MOBILE */
+        @media (max-width: 768px) {
+
+            /* ACTION BUTTON */
             .action-btn {
                 flex: 1;
                 justify-content: center;
             }
 
+            /* HEADER BUTTON */
+            .btn-import {
+                font-size: 10px !important;
+                padding: 6px 9px !important;
+                height: 30px;
+                line-height: 1.2;
+                white-space: nowrap;
+            }
+
+            .btn-import i {
+                font-size: 10px;
+                margin-right: 2px !important;
+            }
+
+
+            /* STATUS TABS */
             #statusTabs {
                 display: flex;
                 flex-wrap: nowrap;
@@ -845,14 +863,14 @@
                 font-size: 13px;
             }
 
-            /* Overlay */
+            /* DETAIL MODAL - OVERLAY */
             #modalDetail {
                 padding: 10px;
                 overflow-y: auto;
                 align-items: center;
             }
 
-            /* Card */
+            /* DETAIL MODAL - CARD */
             #modalDetail .detail-card {
                 width: 100%;
                 max-width: 100%;
@@ -868,7 +886,7 @@
                 overflow: hidden;
             }
 
-            /* Isi modal */
+            /* DETAIL MODAL - CONTENT */
             #detailBody {
                 flex: 1;
                 overflow-y: auto;
@@ -877,45 +895,34 @@
                 max-height: none;
                 min-height: 0;
             }
-        }
 
-        /* MOBILE - DATA WBP CARD */
-        @media (max-width: 768px) {
-
-            /* GRID */
+            /* DATA WBP - GRID */
             .wbp-grid {
                 grid-template-columns: 1fr;
                 gap: 10px;
             }
 
-            /* CARD */
+            /* DATA WBP - CARD */
             .wbp-grid .main-row {
                 width: 100%;
                 min-width: 0;
 
                 padding: 12px;
-
                 margin-bottom: 0;
 
                 border-radius: 12px;
-
                 box-sizing: border-box;
             }
 
-            /* CONTENT */
+            /* DATA WBP - CONTENT */
             .wbp-grid .wbp-card-content {
                 flex: 1 1 auto;
-
                 min-width: 0;
 
-                /*
-                                                                                                                     * Sisakan ruang untuk badge
-                                                                                                                     * di pojok kanan atas.
-                                                                                                                     */
                 padding-right: 72px;
             }
 
-            /* NAMA */
+            /* DATA WBP - NAMA */
             .wbp-grid .nama-col {
                 width: 100%;
                 min-width: 0;
@@ -931,7 +938,7 @@
                 word-break: normal;
             }
 
-            /* INFO TAMBAHAN */
+            /* DATA WBP - INFO TAMBAHAN */
             .wbp-grid .sub-info {
                 width: 100%;
                 min-width: 0;
@@ -946,7 +953,7 @@
                 overflow-wrap: anywhere;
             }
 
-            /* STATUS */
+            /* DATA WBP - STATUS */
             .wbp-grid .wbp-status {
                 display: inline-block;
 
@@ -962,7 +969,7 @@
                 white-space: nowrap;
             }
 
-            /* FOTO CONTAINER */
+            /* DATA WBP - FOTO */
             .wbp-grid .wbp-card-photo {
                 flex: 0 0 68px;
 
@@ -980,7 +987,7 @@
                 border-radius: 9px;
             }
 
-            /* BUTTON */
+            /* DATA WBP - BUTTON */
             .wbp-grid .action-buttons {
                 display: flex !important;
 
@@ -1008,8 +1015,7 @@
                 border-radius: 7px;
             }
 
-
-            /* AUDIT BADGE */
+            /* DATA WBP - AUDIT BADGE */
             .wbp-grid .main-row>.position-absolute {
                 top: 8px !important;
                 right: 8px !important;
@@ -1042,7 +1048,6 @@
 
     <style>
         /* ================= DELETE MODAL ================= */
-
         .delete-modal-overlay {
             position: fixed;
             inset: 0;
@@ -1066,7 +1071,6 @@
         }
 
         /* HEADER */
-
         .delete-modal-header {
             display: flex;
             justify-content: space-between;
@@ -1082,7 +1086,6 @@
         }
 
         /* CLOSE */
-
         .delete-modal-close {
             width: 36px;
             height: 36px;
@@ -1101,7 +1104,6 @@
         }
 
         /* BODY */
-
         .delete-modal-body {
             padding: 24px;
         }
@@ -1124,7 +1126,6 @@
         }
 
         /* ANIMATION */
-
         @keyframes deleteModalShow {
 
             from {
@@ -3039,14 +3040,14 @@
                                     ${
                                         fullAccess
                                         ? `
-                                                                        <button class="action-btn btn-detail" data-id="${w.id}">
-                                                                            Detail
-                                                                        </button>
+                                                            <button class="action-btn btn-detail" data-id="${w.id}">
+                                                                Detail
+                                                            </button>
 
-                                                                        <button class="action-btn btn-delete" data-id="${w.id}">
-                                                                            Hapus
-                                                                        </button>
-                                                                    `
+                                                            <button class="action-btn btn-delete" data-id="${w.id}">
+                                                                Hapus
+                                                            </button>
+                                                        `
                                         : ''
                                     }
                                 </div>
@@ -3195,6 +3196,8 @@
 
         // ================= DETAIL =================
         $(document).on('click', '.btn-detail', function() {
+
+            console.log('DETAIL DIKLIK');
 
             let id = $(this).data('id');
 
@@ -3712,219 +3715,219 @@
         // ================= LANJUT SIMPAN =================
         $(document).on('click', '#lanjutSimpanEditWbp', function() {
 
-                    const form = $('#formEditWbp');
-                    const wbpId = $('#full_edit_wbp_id').val();
+            const form = $('#formEditWbp');
+            const wbpId = $('#full_edit_wbp_id').val();
 
-                    if (!wbpId) {
-                        alert('ID WBP tidak ditemukan.');
+            if (!wbpId) {
+                alert('ID WBP tidak ditemukan.');
+                return;
+            }
+
+            const submitButton = form.find('button[type="submit"]');
+
+            // ================= TUTUP KONFIRMASI =================
+
+            $('#modalKonfirmasiEditWbp').removeClass('show');
+
+            // ================= LOADING =================
+
+            submitButton
+                .prop('disabled', true)
+                .html('Menyimpan...');
+
+            // ================= FORM DATA =================
+
+            const formData = new FormData(form[0]);
+
+            console.log(
+                'Foto File:',
+                $('#edit_foto_wbp')[0]?.files[0]
+            );
+
+            console.log(
+                'FormData Foto:',
+                formData.get('foto_wbp')
+            );
+            console.log('FormData foto:', formData.get('foto_wbp'));
+
+            // ================= BERSIHKAN FORMAT DENDA =================
+
+            let dendaSubsider = $('#edit_denda_subsider').val();
+
+            if (dendaSubsider) {
+                dendaSubsider = dendaSubsider.replace(/\./g, '');
+                formData.set('denda_subsider', dendaSubsider);
+            } else {
+                formData.set('denda_subsider', '');
+            }
+
+            // ================= METHOD LARAVEL =================
+            // POST + _method PUT lebih aman untuk multipart/form-data
+
+            formData.append('_method', 'PUT');
+
+            $.ajax({
+
+                url: '/admin-banceuy/wbp/' + wbpId,
+
+                type: 'POST',
+
+                data: formData,
+
+                contentType: false,
+
+                processData: false,
+
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                success: function(res) {
+
+                    console.log('Update WBP berhasil:', res);
+
+                    // ================= TUTUP MODAL EDIT =================
+
+                    $('#modalEditWbp').removeClass('show');
+
+                    // ================= RESET BUTTON =================
+
+                    submitButton
+                        .prop('disabled', false)
+                        .html('Simpan Perubahan');
+
+                    // ================= RESET FORM FOTO =================
+
+                    $('#edit_foto_wbp').val('');
+
+                    $('#edit_foto_preview')
+                        .attr('src', '')
+                        .hide();
+
+                    // ================= NOTIFIKASI =================
+
+                    alert(
+                        res.message ??
+                        'Data WBP berhasil diperbarui.'
+                    );
+
+                    // ================= REFRESH DATA =================
+                    loadStatus(currentStatus, currentPage);
+
+                },
+
+                error: function(xhr) {
+
+                    console.error(
+                        'Gagal update WBP:',
+                        xhr.responseJSON || xhr.responseText
+                    );
+
+                    // ================= RESET BUTTON =================
+
+                    submitButton
+                        .prop('disabled', false)
+                        .html('Simpan Perubahan');
+
+                    // ================= VALIDATION ERROR =================
+
+                    if (xhr.status === 422) {
+
+                        let message = 'Data tidak valid.';
+
+                        if (xhr.responseJSON?.errors) {
+
+                            const errors = xhr.responseJSON.errors;
+
+                            message = Object.values(errors)
+                                .flat()
+                                .join('\n');
+                        }
+
+                        alert(message);
+
                         return;
                     }
 
-                    const submitButton = form.find('button[type="submit"]');
-
-                    // ================= TUTUP KONFIRMASI =================
-
-                    $('#modalKonfirmasiEditWbp').removeClass('show');
-
-                    // ================= LOADING =================
-
-                    submitButton
-                        .prop('disabled', true)
-                        .html('Menyimpan...');
-
-                    // ================= FORM DATA =================
-
-                    const formData = new FormData(form[0]);
-
-                    console.log(
-                        'Foto File:',
-                        $('#edit_foto_wbp')[0]?.files[0]
+                    alert(
+                        xhr.responseJSON?.message ??
+                        'Terjadi kesalahan saat memperbarui Data WBP.'
                     );
 
-                    console.log(
-                        'FormData Foto:',
-                        formData.get('foto_wbp')
-                    );
-                    console.log('FormData foto:', formData.get('foto_wbp'));
+                }
+            });
 
-                    // ================= BERSIHKAN FORMAT DENDA =================
+        });
 
-                    let dendaSubsider = $('#edit_denda_subsider').val();
+        // ================= CLOSE EDIT WBP =================
+        $(document).on(
+            'click',
+            '#closeModalEditWbp, #cancelEditWbp',
+            function() {
 
-                    if (dendaSubsider) {
-                        dendaSubsider = dendaSubsider.replace(/\./g, '');
-                        formData.set('denda_subsider', dendaSubsider);
-                    } else {
-                        formData.set('denda_subsider', '');
-                    }
+                $('#modalEditWbp').removeClass('show');
 
-                    // ================= METHOD LARAVEL =================
-                    // POST + _method PUT lebih aman untuk multipart/form-data
+            }
+        );
 
-                    formData.append('_method', 'PUT');
+        // ================= OPEN EDIT KAMAR =================
+        $(document).on('click', '.btn-edit-kamar', function() {
 
-                    $.ajax({
-
-                        url: '/admin-banceuy/wbp/' + wbpId,
-
-                        type: 'POST',
-
-                        data: formData,
-
-                        contentType: false,
-
-                        processData: false,
-
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-
-                        success: function(res) {
-
-                            console.log('Update WBP berhasil:', res);
-
-                            // ================= TUTUP MODAL EDIT =================
-
-                            $('#modalEditWbp').removeClass('show');
-
-                            // ================= RESET BUTTON =================
-
-                            submitButton
-                                .prop('disabled', false)
-                                .html('Simpan Perubahan');
-
-                            // ================= RESET FORM FOTO =================
-
-                            $('#edit_foto_wbp').val('');
-
-                            $('#edit_foto_preview')
-                                .attr('src', '')
-                                .hide();
-
-                            // ================= NOTIFIKASI =================
-
-                            alert(
-                                res.message ??
-                                'Data WBP berhasil diperbarui.'
-                            );
-
-                            // ================= REFRESH DATA =================
-
-                            loadStatus(currentStatus, currentPage);
-
-                        },
-
-                        error: function(xhr) {
-
-                            console.error(
-                                'Gagal update WBP:',
-                                xhr.responseJSON || xhr.responseText
-                            );
-
-                            // ================= RESET BUTTON =================
-
-                            submitButton
-                                .prop('disabled', false)
-                                .html('Simpan Perubahan');
-
-                            // ================= VALIDATION ERROR =================
-
-                            if (xhr.status === 422) {
-
-                                let message = 'Data tidak valid.';
-
-                                if (xhr.responseJSON?.errors) {
-
-                                    const errors = xhr.responseJSON.errors;
-
-                                    message = Object.values(errors)
-                                        .flat()
-                                        .join('\n');
-                                }
-
-                                alert(message);
-
-                                return;
-                            }
-
-                            alert(
-                                xhr.responseJSON?.message ??
-                                'Terjadi kesalahan saat memperbarui Data WBP.'
-                            );
-
-                        }
-
-                    });
-
-                    // ================= CLOSE EDIT WBP =================
-                    $(document).on(
-                        'click',
-                        '#closeModalEditWbp, #cancelEditWbp',
-                        function() {
-
-                            $('#modalEditWbp').removeClass('show');
-
-                        }
-                    );
-
-                    // ================= OPEN EDIT KAMAR =================
-                    $(document).on('click', '.btn-edit-kamar', function() {
-
-                        let wbpId = $(this).data('id');
-                        let nama = $(this).data('nama');
-                        let kamarSaatIni = $(this).data('kamar');
+            let wbpId = $(this).data('id');
+            let nama = $(this).data('nama');
+            let kamarSaatIni = $(this).data('kamar');
 
 
-                        // ================= SAFETY GUARD =================
-                        if (!wbpId) {
-                            alert('WBP ID tidak ditemukan di tombol');
-                            return;
-                        }
+            // ================= SAFETY GUARD =================
+            if (!wbpId) {
+                alert('WBP ID tidak ditemukan di tombol');
+                return;
+            }
 
-                        $('#modalDetail').fadeOut(200);
-                        $('#modalEditKamar').fadeIn(200);
+            $('#modalDetail').fadeOut(200);
+            $('#modalEditKamar').fadeIn(200);
 
-                        $('#editBody').html(`
+            $('#editBody').html(`
                 <div class="text-center p-4">
                     Loading...
                 </div>
             `);
 
-                        $.get('/admin-banceuy/kamar/all', function(kamarList) {
+            $.get('/admin-banceuy/kamar/all', function(kamarList) {
 
-                            let option = `<option value="">Pilih Kamar Tujuan</option>`;
+                let option = `<option value="">Pilih Kamar Tujuan</option>`;
 
-                            let currentBlok = '';
+                let currentBlok = '';
 
-                            $.each(kamarList, function(i, kamar) {
+                $.each(kamarList, function(i, kamar) {
 
-                                if (currentBlok !== kamar.kode_blok) {
+                    if (currentBlok !== kamar.kode_blok) {
 
-                                    currentBlok = kamar.kode_blok;
+                        currentBlok = kamar.kode_blok;
 
-                                    option += `
+                        option += `
                         <optgroup label="BLOK ${currentBlok}">
                     `;
-                                }
+                    }
 
-                                option += `
+                    option += `
                     <option value="${kamar.id}">
                         BLOK ${kamar.kode_blok} - ${kamar.lokasi_sel}
                     </option>
                 `;
 
-                                if (
-                                    i === kamarList.length - 1 ||
-                                    kamarList[i + 1].kode_blok !== currentBlok
-                                ) {
-                                    option += `</optgroup>`;
-                                }
+                    if (
+                        i === kamarList.length - 1 ||
+                        kamarList[i + 1].kode_blok !== currentBlok
+                    ) {
+                        option += `</optgroup>`;
+                    }
 
-                            });
+                });
 
-                            $('#kamar_id').html(option);
+                $('#kamar_id').html(option);
 
-                            $('#editBody').html(`
+                $('#editBody').html(`
 
                 <input type="hidden" id="edit_wbp_id" value="${wbpId}">
 
@@ -3959,54 +3962,54 @@
 
             `);
 
-                        });
+            });
 
-                    });
+        });
 
-                    // ================= SAVE EDIT KAMAR =================
-                    $(document).on('click', '#btnSimpanKamar', function() {
+        // ================= SAVE EDIT KAMAR =================
+        $(document).on('click', '#btnSimpanKamar', function() {
 
-                        let wbpId = $('#edit_wbp_id').val();
-                        let kamarId = $('#kamar_tujuan').val();
+            let wbpId = $('#edit_wbp_id').val();
+            let kamarId = $('#kamar_tujuan').val();
 
-                        // ================= SAFETY GUARD =================
-                        if (!wbpId || wbpId === 'undefined') {
-                            alert('WBP ID tidak valid');
-                            return;
-                        }
+            // ================= SAFETY GUARD =================
+            if (!wbpId || wbpId === 'undefined') {
+                alert('WBP ID tidak valid');
+                return;
+            }
 
-                        if (!kamarId) {
-                            alert('Pilih kamar tujuan');
-                            return;
-                        }
+            if (!kamarId) {
+                alert('Pilih kamar tujuan');
+                return;
+            }
 
-                        $.post('/admin-banceuy/wbp/update-kamar', {
-                            _token: $('meta[name="csrf-token"]').attr('content'),
-                            wbp_id: wbpId,
-                            kamar_id: kamarId
+            $.post('/admin-banceuy/wbp/update-kamar', {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                wbp_id: wbpId,
+                kamar_id: kamarId
 
-                        }, function(res) {
-                            alert(res.message ?? 'Kamar berhasil diperbarui');
-                            $('#modalEditKamar').fadeOut(200);
-                            location.reload();
+            }, function(res) {
+                alert(res.message ?? 'Kamar berhasil diperbarui');
+                $('#modalEditKamar').fadeOut(200);
+                location.reload();
 
-                        }).fail(function(xhr) {
-                            alert(xhr.responseJSON?.message ?? 'Gagal memperbarui kamar');
-                        });
+            }).fail(function(xhr) {
+                alert(xhr.responseJSON?.message ?? 'Gagal memperbarui kamar');
+            });
 
-                    });
+        });
 
-                    $(document).on('click', '.btn-edit-status', function() {
+        $(document).on('click', '.btn-edit-status', function() {
 
-                        let id = $(this).data('id');
-                        let nama = $(this).data('nama');
-                        let status = $(this).data('status');
-                        let statusKamar = $(this).data('status-kamar');
+            let id = $(this).data('id');
+            let nama = $(this).data('nama');
+            let status = $(this).data('status');
+            let statusKamar = $(this).data('status-kamar');
 
-                        $('#modalDetail').fadeOut(200);
-                        $('#modalEditStatus').fadeIn(200);
+            $('#modalDetail').fadeOut(200);
+            $('#modalEditStatus').fadeIn(200);
 
-                        $('#statusBody').html(`
+            $('#statusBody').html(`
 
                 <input
                     type="hidden"
@@ -4054,57 +4057,57 @@
                         </button>
                     </div>
                 `);
-                        $('#status_wbp').val(status);
-                        $('#status_kamar').val(statusKamar);
-                    });
+            $('#status_wbp').val(status);
+            $('#status_kamar').val(statusKamar);
+        });
 
-                    $(document).on('click', '#btnSimpanStatus', function() {
-                        $.ajax({
-                            url: '/admin-banceuy/wbp/update-status',
-                            type: 'POST',
-                            data: {
-                                _token: $('meta[name="csrf-token"]').attr('content'),
-                                id: $('#status_wbp_id').val(),
-                                status_wbp: $('#status_wbp').val(),
-                                status_kamar: $('#status_kamar').val()
-                            },
+        $(document).on('click', '#btnSimpanStatus', function() {
+            $.ajax({
+                url: '/admin-banceuy/wbp/update-status',
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    id: $('#status_wbp_id').val(),
+                    status_wbp: $('#status_wbp').val(),
+                    status_kamar: $('#status_kamar').val()
+                },
 
-                            success: function(res) {
-                                if (res.success) {
-                                    $('#modalEditStatus').fadeOut(200);
-                                    $('#count-isolasi').text(res.count_isolasi);
-                                    loadStatus(currentStatus, currentPage);
-                                }
-                            },
-
-                            error: function(xhr) {
-                                console.log(xhr.responseText);
-                            }
-                        });
-                    });
-
-                    // ================= Modal Keterangan =================
-                    $(document).on('click', '#closeStatusModal', function() {
+                success: function(res) {
+                    if (res.success) {
                         $('#modalEditStatus').fadeOut(200);
-                    });
+                        $('#count-isolasi').text(res.count_isolasi);
+                        loadStatus(currentStatus, currentPage);
+                    }
+                },
 
-                    $(window).click(function(e) {
-                        if ($(e.target).is('#modalEditStatus')) {
-                            $('#modalEditStatus').fadeOut(200);
-                        }
-                    });
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
 
-                    $(document).on(
-                        'click',
-                        '.btn-edit-keterangan',
-                        function() {
+        // ================= Modal Keterangan =================
+        $(document).on('click', '#closeStatusModal', function() {
+            $('#modalEditStatus').fadeOut(200);
+        });
 
-                            let id = $(this).data('id');
-                            let nama = $(this).data('nama');
-                            let tanggal = $(this).data('tanggal') || '';
-                            let keterangan = $(this).data('keterangan') || '';
+        $(window).click(function(e) {
+            if ($(e.target).is('#modalEditStatus')) {
+                $('#modalEditStatus').fadeOut(200);
+            }
+        });
 
-                            $('#keteranganBody').html(`
+        $(document).on(
+            'click',
+            '.btn-edit-keterangan',
+            function() {
+
+                let id = $(this).data('id');
+                let nama = $(this).data('nama');
+                let tanggal = $(this).data('tanggal') || '';
+                let keterangan = $(this).data('keterangan') || '';
+
+                $('#keteranganBody').html(`
 
                     <input
                         type="hidden"
@@ -4161,115 +4164,115 @@
 
                 `);
 
-                            $('#modalDetail').fadeOut(200, function() {
+                $('#modalDetail').fadeOut(200, function() {
 
-                                $('#modalEditKeterangan').fadeIn(200);
+                    $('#modalEditKeterangan').fadeIn(200);
 
-                            });
+                });
 
+            }
+        );
+
+        $(document).on(
+            'click',
+            '#btnSimpanKeterangan',
+            function() {
+                let btn = $(this);
+                btn.prop('disabled', true);
+                $.ajax({
+                    url: '/admin-banceuy/wbp/update-keterangan',
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+
+                    data: {
+                        id: $('#wbp_id').val(),
+                        tanggal: $('#tanggal').val(),
+                        keterangan: $('#keterangan').val()
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            $('#modalEditKeterangan')
+                                .fadeOut(200);
+
+                            // refresh detail WBP
+                            loadDetailWbp(
+                                $('#wbp_id').val()
+                            );
+
+                        } else {
+                            alert(
+                                res.message ??
+                                'Gagal menyimpan'
+                            );
                         }
-                    );
+                    },
 
-                    $(document).on(
-                        'click',
-                        '#btnSimpanKeterangan',
-                        function() {
-                            let btn = $(this);
-                            btn.prop('disabled', true);
-                            $.ajax({
-                                url: '/admin-banceuy/wbp/update-keterangan',
-                                type: 'POST',
-                                dataType: 'json',
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        if (
+                            xhr.responseJSON &&
+                            xhr.responseJSON.errors
+                        ) {
 
-                                data: {
-                                    id: $('#wbp_id').val(),
-                                    tanggal: $('#tanggal').val(),
-                                    keterangan: $('#keterangan').val()
-                                },
-                                success: function(res) {
-                                    if (res.success) {
-                                        $('#modalEditKeterangan')
-                                            .fadeOut(200);
-
-                                        // refresh detail WBP
-                                        loadDetailWbp(
-                                            $('#wbp_id').val()
-                                        );
-
-                                    } else {
-                                        alert(
-                                            res.message ??
-                                            'Gagal menyimpan'
-                                        );
-                                    }
-                                },
-
-                                error: function(xhr) {
-                                    console.log(xhr.responseText);
-                                    if (
-                                        xhr.responseJSON &&
-                                        xhr.responseJSON.errors
-                                    ) {
-
-                                        let errors = [];
-                                        $.each(
-                                            xhr.responseJSON.errors,
-                                            function(key, value) {
-                                                errors.push(
-                                                    value.join('\n')
-                                                );
-                                            }
-                                        );
-                                        alert(
-                                            errors.join('\n\n')
-                                        );
-                                    } else {
-                                        alert(
-                                            'Terjadi kesalahan server'
-                                        );
-                                    }
-                                },
-
-                                complete: function() {
-                                    btn.prop(
-                                        'disabled',
-                                        false
+                            let errors = [];
+                            $.each(
+                                xhr.responseJSON.errors,
+                                function(key, value) {
+                                    errors.push(
+                                        value.join('\n')
                                     );
                                 }
-                            });
+                            );
+                            alert(
+                                errors.join('\n\n')
+                            );
+                        } else {
+                            alert(
+                                'Terjadi kesalahan server'
+                            );
                         }
-                    );
+                    },
 
-                    // ================= CLOSE KETERANGAN =================
-                    $('#closeKeteranganModal').click(function() {
-                        $('#modalEditKeterangan').fadeOut(200);
-                    });
+                    complete: function() {
+                        btn.prop(
+                            'disabled',
+                            false
+                        );
+                    }
+                });
+            }
+        );
 
-                    // ================= CLOSE DETAIL =================
-                    $('#closeModal').click(function() {
-                        $('#modalDetail').fadeOut(200);
-                    });
-                    // ================= CLOSE EDIT =================
-                    $(document).on('click', '#closeEditModal', function() {
+        // ================= CLOSE KETERANGAN =================
+        $('#closeKeteranganModal').click(function() {
+            $('#modalEditKeterangan').fadeOut(200);
+        });
 
-                        $('#modalEditKamar').fadeOut(200);
-                    });
+        // ================= CLOSE DETAIL =================
+        $('#closeModal').click(function() {
+            $('#modalDetail').fadeOut(200);
+        });
+        // ================= CLOSE EDIT =================
+        $(document).on('click', '#closeEditModal', function() {
 
-                    // ================= CLICK OUTSIDE =================
-                    $(window).click(function(e) {
+            $('#modalEditKamar').fadeOut(200);
+        });
 
-                        if ($(e.target).is('#modalDetail')) {
-                            $('#modalDetail').fadeOut(200);
-                        }
+        // ================= CLICK OUTSIDE =================
+        $(window).click(function(e) {
 
-                        if ($(e.target).is('#modalEditKamar')) {
-                            $('#modalEditKamar').fadeOut(200);
-                        }
+            if ($(e.target).is('#modalDetail')) {
+                $('#modalDetail').fadeOut(200);
+            }
 
-                    });
+            if ($(e.target).is('#modalEditKamar')) {
+                $('#modalEditKamar').fadeOut(200);
+            }
+
+        });
     </script>
 
     <script>
