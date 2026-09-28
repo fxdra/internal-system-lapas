@@ -2634,7 +2634,6 @@
 
         }
 
-
         // SEARCH BLOK / KAMAR / NAMA WBP
         const searchInput = document.getElementById("searchKamar");
         const searchResults = document.getElementById("searchWbpResults");

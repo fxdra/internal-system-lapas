@@ -839,6 +839,19 @@
                 margin-right: 2px !important;
             }
 
+            /* AUDIT TOOLBAR */
+            .audit-toolbar {
+                display: flex;
+                align-items: center;
+                flex-wrap: nowrap;
+            }
+
+            .audit-toolbar .audit-filter {
+                padding: 4px 6px !important;
+                font-size: 7px !important;
+                line-height: 1.1;
+                white-space: nowrap;
+            }
 
             /* STATUS TABS */
             #statusTabs {
@@ -1564,7 +1577,7 @@
                 </small>
             </div>
 
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 align-items-center">
 
                 @if ($permissions['fullAccess'])
                     <button id="btnImportExcel" class="btn btn-success btn-import shadow-sm">
@@ -1579,6 +1592,35 @@
                         Tambah WBP
                     </button>
                 @endif
+
+                {{-- AUDIT --}}
+                <div class="d-flex gap-1 audit-toolbar">
+
+                    @if ($audit['duplicate_no_reg'] > 0)
+                        <button class="badge bg-danger border-0 audit-filter" data-filter="duplicate_no_reg">
+                            Duplikat No. Reg • {{ $audit['duplicate_no_reg'] }}
+                        </button>
+                    @endif
+
+                    @if ($audit['duplicate_nama'] > 0)
+                        <button class="badge bg-warning text-dark border-0 audit-filter" data-filter="duplicate_nama">
+                            Duplikat Nama • {{ $audit['duplicate_nama'] }}
+                        </button>
+                    @endif
+
+                    @if ($audit['belum_ada_foto'] > 0)
+                        <button class="badge bg-secondary border-0 audit-filter" data-filter="belum_ada_foto">
+                            Belum Ada Foto • {{ $audit['belum_ada_foto'] }}
+                        </button>
+                    @endif
+
+                    @if ($audit['ekspirasi_kosong'] > 0)
+                        <button class="badge bg-info text-dark border-0 audit-filter" data-filter="ekspirasi_kosong">
+                            Eksp • {{ $audit['ekspirasi_kosong'] }}
+                        </button>
+                    @endif
+
+                </div>
 
             </div>
 
@@ -1653,37 +1695,7 @@
                         </span>
                     </button>
                 </li>
-
             </ul>
-
-            {{-- Audit --}}
-            <div class="d-flex gap-2 audit-toolbar">
-
-                @if ($audit['duplicate_no_reg'] > 0)
-                    <button class="badge bg-danger border-0 audit-filter" data-filter="duplicate_no_reg">
-                        Duplikat No. Reg • {{ $audit['duplicate_no_reg'] }}
-                    </button>
-                @endif
-
-                @if ($audit['duplicate_nama'] > 0)
-                    <button class="badge bg-warning text-dark border-0 audit-filter" data-filter="duplicate_nama">
-                        Duplikat Nama • {{ $audit['duplicate_nama'] }}
-                    </button>
-                @endif
-
-                @if ($audit['belum_ada_foto'] > 0)
-                    <button class="badge bg-secondary border-0 audit-filter" data-filter="belum_ada_foto">
-                        Belum Ada Foto • {{ $audit['belum_ada_foto'] }}
-                    </button>
-                @endif
-
-                @if ($audit['ekspirasi_kosong'] > 0)
-                    <button class="badge bg-info text-dark border-0 audit-filter" data-filter="ekspirasi_kosong">
-                        Eksp • {{ $audit['ekspirasi_kosong'] }}
-                    </button>
-                @endif
-            </div>
-
         </div>
 
         {{-- ================= TABLE WRAPPER ================= --}}
@@ -3040,14 +3052,14 @@
                                     ${
                                         fullAccess
                                         ? `
-                                                            <button class="action-btn btn-detail" data-id="${w.id}">
-                                                                Detail
-                                                            </button>
+                                                                                    <button class="action-btn btn-detail" data-id="${w.id}">
+                                                                                        Detail
+                                                                                    </button>
 
-                                                            <button class="action-btn btn-delete" data-id="${w.id}">
-                                                                Hapus
-                                                            </button>
-                                                        `
+                                                                                    <button class="action-btn btn-delete" data-id="${w.id}">
+                                                                                        Hapus
+                                                                                    </button>
+                                                                                `
                                         : ''
                                     }
                                 </div>

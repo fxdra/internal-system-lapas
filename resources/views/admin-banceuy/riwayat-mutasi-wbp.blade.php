@@ -50,8 +50,6 @@
             text-overflow: ellipsis;
         }
 
-
-
         .table-fixed .text-truncate {
             display: block;
             width: 100%;
@@ -59,7 +57,6 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }
-
 
         .col-negara,
         .col-agama,
@@ -129,9 +126,27 @@
         }
 
         .col-action {
-            width: 8%;
-            min-width: 80px;
-            max-width: 80px;
+            width: 14%;
+            min-width: 155px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .col-action .btn {
+            white-space: nowrap;
+        }
+
+        /* =========================
+        MUTASI HIDE
+        ========================= */
+
+        .mutasi-row-hidden {
+            opacity: 0.45;
+            background-color: #e9ecef !important;
+        }
+
+        .mutasi-row-hidden td {
+            color: #6c757d !important;
         }
 
         /* =========================
@@ -150,6 +165,11 @@
                 background: #fff;
                 padding: 0;
                 font-size: 9px;
+            }
+
+            /* BARIS YANG DI-HIDE TIDAK IKUT PRINT */
+            .mutasi-row-hidden {
+                display: none !important;
             }
 
             .card {
@@ -566,7 +586,7 @@
                             <tbody>
 
                                 @foreach ($items as $row)
-                                    <tr>
+                                    <tr class="mutasi-row">
 
                                         <td class="col-nama">
                                             <div class="text-truncate" title="{{ $row->nama }}">
@@ -620,12 +640,23 @@
                                         <td class="col-action">
                                             <div class="d-flex justify-content-center align-items-center gap-1">
 
+                                                {{-- HIDE / SHOW --}}
+                                                <button type="button"
+                                                    class="btn btn-secondary btn-sm btn-hide-mutasi"
+                                                    onclick="toggleHideMutasi(this)" title="Sembunyikan dari print">
+
+                                                    <i class="fas fa-eye-slash"></i>
+                                                    <span class="hide-text">Hide</span>
+                                                </button>
+
+                                                {{-- EDIT --}}
                                                 <button type="button" class="btn btn-warning btn-sm"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#editModal{{ $row->id }}">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </button>
 
+                                                {{-- HAPUS --}}
                                                 <form action="{{ route('mutasi.destroy', $row->id) }}" method="POST"
                                                     class="m-0" onsubmit="return confirm('Yakin hapus data ini?')">
 
@@ -809,6 +840,41 @@
             });
 
         });
+    </script>
+
+    <script>
+        function toggleHideMutasi(button) {
+
+            const row = button.closest('.mutasi-row');
+
+            if (!row) return;
+
+            const isHidden = row.classList.toggle('mutasi-row-hidden');
+
+            const icon = button.querySelector('i');
+            const text = button.querySelector('.hide-text');
+
+            if (isHidden) {
+
+                button.classList.remove('btn-secondary');
+                button.classList.add('btn-success');
+
+                icon.className = 'fas fa-eye';
+                text.textContent = 'Show';
+
+                button.title = 'Tampilkan kembali saat print';
+
+            } else {
+
+                button.classList.remove('btn-success');
+                button.classList.add('btn-secondary');
+
+                icon.className = 'fas fa-eye-slash';
+                text.textContent = 'Hide';
+
+                button.title = 'Sembunyikan dari print';
+            }
+        }
     </script>
 
 </body>
