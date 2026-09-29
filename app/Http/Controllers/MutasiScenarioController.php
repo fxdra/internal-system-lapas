@@ -73,10 +73,10 @@ class MutasiScenarioController extends Controller
     public function snapshot(Request $request)
     {
         /*
-|--------------------------------------------------------------------------
-| FILTER
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | FILTER
+    |--------------------------------------------------------------------------
+    */
 
         $request->validate([
             'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
@@ -162,10 +162,10 @@ class MutasiScenarioController extends Controller
 
 
         /*
-        |--------------------------------------------------------------------------
-        | KAMAR (TIDAK DIUBAH)
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | KAMAR (TIDAK DIUBAH)
+    |--------------------------------------------------------------------------
+    */
 
         $kamars =
             Kamar::orderBy(
@@ -179,11 +179,11 @@ class MutasiScenarioController extends Controller
 
 
         /*
-        |--------------------------------------------------------------------------
-        | KONDISI KAMAR SAAT INI
-        | -> SESUDAH
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | KONDISI KAMAR SAAT INI
+    | -> SESUDAH
+    |--------------------------------------------------------------------------
+    */
 
         $currentPerKamar =
             Wbp::where(
@@ -192,9 +192,9 @@ class MutasiScenarioController extends Controller
             )
             ->selectRaw(
                 '
-            kamar_id,
-            COUNT(*) total
-            '
+        kamar_id,
+        COUNT(*) total
+        '
             )
             ->groupBy(
                 'kamar_id'
@@ -221,20 +221,21 @@ class MutasiScenarioController extends Controller
                     $endDate
                 ]
             )
+            ->where('is_hidden', false)
             ->orderBy(
                 'created_at'
             )
             ->get();
 
         /*
-        |--------------------------------------------------------------------------
-        | MUTASI SETELAH PERIODE
-        |--------------------------------------------------------------------------
-        |
-        | Digunakan untuk mengembalikan kondisi WBP sekarang
-        | menjadi kondisi pada akhir periode yang dipilih.
-        |
-        */
+    |--------------------------------------------------------------------------
+    | MUTASI SETELAH PERIODE
+    |--------------------------------------------------------------------------
+    |
+    | Digunakan untuk mengembalikan kondisi WBP sekarang
+    | menjadi kondisi pada akhir periode yang dipilih.
+    |
+    */
 
         $mutasisSetelah =
             DB::table('mutasis')
@@ -243,15 +244,16 @@ class MutasiScenarioController extends Controller
                 '>',
                 $endDate
             )
+            ->where('is_hidden', false)
             ->orderBy('created_at')
             ->get();
 
 
         /*
-        |--------------------------------------------------------------------------
-        | HITUNG PERGERAKAN SETELAH PERIODE
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | HITUNG PERGERAKAN SETELAH PERIODE
+    |--------------------------------------------------------------------------
+    */
 
         $masukSetelah = [];
 
@@ -273,10 +275,10 @@ class MutasiScenarioController extends Controller
         }
 
         /*
-        |--------------------------------------------------------------------------
-        | HITUNG PERGERAKAN
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | HITUNG PERGERAKAN
+    |--------------------------------------------------------------------------
+    */
 
         $masuk = [];
 
@@ -317,10 +319,10 @@ class MutasiScenarioController extends Controller
         }
 
         /*
-        |--------------------------------------------------------------------------
-        | BUILD DATA
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | BUILD DATA
+    |--------------------------------------------------------------------------
+    */
 
         $data =
             $kamars
@@ -425,6 +427,625 @@ class MutasiScenarioController extends Controller
                         $this->extractNoKamar(
                             $kamar->lokasi_sel
                         ),
+
+                        'nama_kamar'
+                        =>
+                        $kamar->nama_kamar,
+
+                        'sebelum'
+                        =>
+                        $sebelum,
+
+                        'masuk'
+                        =>
+                        $jMasuk,
+
+                        'keluar'
+                        =>
+                        $jKeluar,
+
+                        'sesudah'
+                        =>
+                        $sesudah,
+
+                        'created_at'
+                        =>
+                        null,
+
+                    ];
+                }
+            );
+
+
+        /*
+|--------------------------------------------------------------------------
+| SORT NATURAL
+|--------------------------------------------------------------------------
+*/
+
+        $data =
+            $data
+            ->sort(
+                function (
+                    $a,
+                    $b
+                ) {
+
+                    $kamarA =
+                        Kamar::find(
+                            $a->kamar_id
+                        );
+
+                    $kamarB =
+                        Kamar::find(
+                            $b->kamar_id
+                        );
+
+                    /*
+            |--------------------------------------------------------------------------
+            | URUTKAN BERDASARKAN BLOK
+            |--------------------------------------------------------------------------
+            */
+
+                    if (
+                        $kamarA->kode_blok
+                        !==
+                        $kamarB->kode_blok
+                    ) {
+
+                        return strcmp(
+                            $kamarA->kode_blok,
+                            $kamarB->kode_blok
+                        );
+                    }
+
+                    /*
+            |--------------------------------------------------------------------------
+            | AMBIL NOMOR KAMAR
+            |--------------------------------------------------------------------------
+            */
+
+                    preg_match(
+                        '/(\d+)/',
+                        $a->lokasi_sel,
+                        $ma
+                    );
+
+                    preg_match(
+                        '/(\d+)/',
+                        $b->lokasi_sel,
+                        $mb
+                    );
+
+                    $aNo =
+                        (int)(
+                            $ma[1]
+                            ??
+                            0
+                        );
+
+                    $bNo =
+                        (int)(
+                            $mb[1]
+                            ??
+                            0
+                        );
+
+                    return
+                        $aNo
+                        <=>
+                        $bNo;
+                }
+            )
+            ->values();
+
+
+
+        /*
+|--------------------------------------------------------------------------
+| GROUP
+|--------------------------------------------------------------------------
+*/
+
+        $grouped =
+            $data
+            ->groupBy(
+                function (
+                    $item
+                ) {
+
+                    return
+                        Kamar::find(
+                            $item->kamar_id
+                        )->kode_blok;
+                }
+            )
+            ->sortKeys();
+
+        /*
+|--------------------------------------------------------------------------
+| GRAND TOTAL PER KAMAR
+|--------------------------------------------------------------------------
+*/
+
+        $grand = [
+
+            'sebelum' =>
+            $data->sum(
+                'sebelum'
+            ),
+
+            'masuk' =>
+            $data->sum(
+                'masuk'
+            ),
+
+            'keluar' =>
+            $data->sum(
+                'keluar'
+            ),
+
+            'sesudah' =>
+            $data->sum(
+                'sesudah'
+            ),
+
+        ];
+
+
+
+        /*
+|--------------------------------------------------------------------------
+| COUNT STATUS WBP
+|--------------------------------------------------------------------------
+*/
+
+        $countAktif =
+            Wbp::where(
+                'status_wbp',
+                'AKTIF'
+            )->count();
+
+
+        $countBon =
+            Wbp::where(
+                'status_wbp',
+                'BON'
+            )->count();
+
+
+        $countSakit =
+            Wbp::where(
+                'status_wbp',
+                'SAKIT'
+            )->count();
+
+
+        $countPindah =
+            Wbp::where(
+                'status_wbp',
+                'PINDAH UPT'
+            )->count();
+
+
+        $countPulang =
+            Wbp::where(
+                'status_wbp',
+                'PULANG'
+            )->count();
+
+
+        $countMeninggal =
+            Wbp::where(
+                'status_wbp',
+                'MENINGGAL'
+            )->count();
+
+
+
+        /*
+|--------------------------------------------------------------------------
+| GRAND TOTAL WBP
+|--------------------------------------------------------------------------
+*/
+
+        $grandWbp =
+
+            $countAktif
+            +
+
+            $countBon
+            +
+
+            $countSakit
+            +
+
+            $countPindah
+            +
+
+            $countPulang
+            +
+
+            $countMeninggal;
+
+        Carbon::setLocale('id');
+        $date = Carbon::now()->translatedFormat('d F Y');
+        $kplp = Admin::where('role', 'ka. kplp')->first();
+
+        return view(
+            'admin-banceuy.snapshot',
+
+            compact(
+
+                'grouped',
+
+                'filter',
+
+                'startDate',
+
+                'endDate',
+
+                'grand',
+
+                'countAktif',
+
+                'countBon',
+
+                'countSakit',
+
+                'countPindah',
+
+                'countPulang',
+
+                'countMeninggal',
+
+                'grandWbp',
+                'date',
+                'kplp'
+
+            )
+        );
+    }
+
+
+    /**
+     * 🔥 AMBIL NOMOR KAMAR
+     */
+    private function extractNoKamar($text)
+    {
+        preg_match(
+            '/\d+\/(\d+)/',
+            $text,
+            $match
+        );
+
+        return $match[1] ?? '-';
+    }
+
+
+    public function snapshotApp(Request $request)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | FILTER
+        |--------------------------------------------------------------------------
+        */
+        $request->validate([
+            'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
+            'start_date' => 'nullable|date|date_format:Y-m-d',
+            'end_date'   => 'nullable|date|date_format:Y-m-d|after_or_equal:start_date',
+        ]);
+
+        $filter = $request->get('filter', 'today');
+
+        switch ($filter) {
+
+            case 'today':
+
+                $startDate = Carbon::today();
+                $endDate   = Carbon::today();
+
+                break;
+
+            case 'yesterday':
+
+                $startDate = Carbon::yesterday();
+                $endDate   = Carbon::yesterday();
+
+                break;
+
+            case '3days':
+
+                $startDate = Carbon::today()->subDays(2);
+                $endDate   = Carbon::today();
+
+                break;
+
+            case '7days':
+
+                $startDate = Carbon::today()->subDays(6);
+                $endDate   = Carbon::today();
+
+                break;
+
+            case '1month':
+
+                $startDate = Carbon::today()->subMonth();
+                $endDate   = Carbon::today();
+
+                break;
+
+            case 'custom':
+
+                if (
+                    !$request->filled('start_date') ||
+                    !$request->filled('end_date')
+                ) {
+
+                    return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with(
+                            'error',
+                            'Rentang tanggal wajib dipilih'
+                        );
+                }
+
+                $startDate = Carbon::parse(
+                    $request->start_date
+                );
+
+                $endDate = Carbon::parse(
+                    $request->end_date
+                );
+
+                break;
+
+            default:
+
+                $startDate = Carbon::today();
+                $endDate   = Carbon::today();
+
+                break;
+        }
+
+        $startDate = $startDate
+            ->copy()
+            ->startOfDay();
+
+        $endDate = $endDate
+            ->copy()
+            ->endOfDay();
+
+        /*
+        |--------------------------------------------------------------------------
+        | KAMAR (TIDAK DIUBAH)
+        |--------------------------------------------------------------------------
+        */
+
+        $kamars =
+            Kamar::orderBy(
+                'lokasi_blok'
+            )
+            ->orderBy(
+                'lokasi_sel'
+            )
+            ->get();
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | KONDISI KAMAR SAAT INI
+        | -> SESUDAH
+        |--------------------------------------------------------------------------
+        */
+
+        $currentPerKamar =
+            Wbp::where(
+                'status_wbp',
+                'aktif'
+            )
+            ->selectRaw(
+                '
+            kamar_id,
+            COUNT(*) total
+            '
+            )
+            ->groupBy(
+                'kamar_id'
+            )
+            ->pluck(
+                'total',
+                'kamar_id'
+            );
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MUTASI SESUAI TANGGAL
+        |--------------------------------------------------------------------------
+        */
+
+        $mutasis =
+            DB::table(
+                'mutasis'
+            )
+            ->whereBetween(
+                'created_at',
+                [
+                    $startDate,
+                    $endDate
+                ]
+            )
+            ->where('is_hidden', false)
+            ->orderBy(
+                'created_at'
+            )
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ANTI DOUBLE COUNT
+        |--------------------------------------------------------------------------
+        */
+
+        $mutasis =
+            $mutasis
+            ->groupBy(
+                function (
+                    $row
+                ) {
+
+                    return
+                        $row->wbp_id
+                        . '|'
+                        .
+                        Carbon::parse(
+                            $row->created_at
+                        )
+                        ->toDateString();
+                }
+            )
+            ->map(
+                function (
+                    $rows
+                ) {
+
+                    return
+                        $rows
+                        ->sortByDesc(
+                            'created_at'
+                        )
+                        ->first();
+                }
+            )
+            ->values();
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | HITUNG PERGERAKAN
+        |--------------------------------------------------------------------------
+        */
+
+        $masuk = [];
+
+        $keluar = [];
+
+
+        foreach (
+            $mutasis
+            as $trx
+        ) {
+
+            if (
+                $trx->kamar_asal_id
+            ) {
+
+                $keluar[$trx->kamar_asal_id] =
+                    (
+                        $keluar[$trx->kamar_asal_id]
+                        ??
+                        0
+                    )
+                    + 1;
+            }
+
+
+            if (
+                $trx->kamar_tujuan_id
+            ) {
+
+                $masuk[$trx->kamar_tujuan_id] =
+                    (
+                        $masuk[$trx->kamar_tujuan_id]
+                        ??
+                        0
+                    )
+                    + 1;
+            }
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BUILD DATA
+        |--------------------------------------------------------------------------
+        */
+
+        $data =
+            $kamars
+            ->map(
+                function (
+                    $kamar
+                )
+                use (
+                    $currentPerKamar,
+                    $masuk,
+                    $keluar
+                ) {
+
+                    $sesudah =
+                        $currentPerKamar[$kamar->id]
+                        ??
+                        0;
+
+
+                    $jMasuk =
+                        $masuk[$kamar->id]
+                        ??
+                        0;
+
+
+                    $jKeluar =
+                        $keluar[$kamar->id]
+                        ??
+                        0;
+
+
+                    $sebelum =
+                        max(
+                            0,
+                            (
+                                $sesudah
+                                -
+                                $jMasuk
+                                +
+                                $jKeluar
+                            )
+                        );
+
+
+                    return (object)[
+
+                        'kamar_id'
+                        =>
+                        $kamar->id,
+
+                        'kode_kamar'
+                        =>
+                        $kamar->kode_kamar,
+
+                        'lokasi_blok'
+                        =>
+                        $kamar->lokasi_blok,
+
+                        'lokasi_sel'
+                        =>
+                        $kamar->lokasi_sel,
+
+                        'no_kamar'
+                        =>
+                        $this
+                            ->extractNoKamar(
+                                $kamar
+                                    ->lokasi_sel
+                            ),
 
                         'nama_kamar'
                         =>
@@ -670,624 +1291,6 @@ class MutasiScenarioController extends Controller
         $date = Carbon::now()->translatedFormat('d F Y');
         $kplp = Admin::where('role', 'ka. kplp')->first();
 
-        return view(
-            'admin-banceuy.snapshot',
-
-            compact(
-
-                'grouped',
-
-                'filter',
-
-                'startDate',
-
-                'endDate',
-
-                'grand',
-
-                'countAktif',
-
-                'countBon',
-
-                'countSakit',
-
-                'countPindah',
-
-                'countPulang',
-
-                'countMeninggal',
-
-                'grandWbp',
-                'date',
-                'kplp'
-
-            )
-        );
-    }
-
-
-    /**
-     * 🔥 AMBIL NOMOR KAMAR
-     */
-    private function extractNoKamar($text)
-    {
-        preg_match(
-            '/\d+\/(\d+)/',
-            $text,
-            $match
-        );
-
-        return $match[1] ?? '-';
-    }
-
-
-    public function snapshotApp(Request $request)
-    {
-        /*
-            |--------------------------------------------------------------------------
-            | FILTER
-            |--------------------------------------------------------------------------
-            */
-        $request->validate([
-            'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
-            'start_date' => 'nullable|date|date_format:Y-m-d',
-            'end_date'   => 'nullable|date|date_format:Y-m-d|after_or_equal:start_date',
-        ]);
-
-        $filter = $request->get('filter', 'today');
-
-        switch ($filter) {
-
-            case 'today':
-
-                $startDate = Carbon::today();
-                $endDate   = Carbon::today();
-
-                break;
-
-            case 'yesterday':
-
-                $startDate = Carbon::yesterday();
-                $endDate   = Carbon::yesterday();
-
-                break;
-
-            case '3days':
-
-                $startDate = Carbon::today()->subDays(2);
-                $endDate   = Carbon::today();
-
-                break;
-
-            case '7days':
-
-                $startDate = Carbon::today()->subDays(6);
-                $endDate   = Carbon::today();
-
-                break;
-
-            case '1month':
-
-                $startDate = Carbon::today()->subMonth();
-                $endDate   = Carbon::today();
-
-                break;
-
-            case 'custom':
-
-                if (
-                    !$request->filled('start_date') ||
-                    !$request->filled('end_date')
-                ) {
-
-                    return redirect()
-                        ->back()
-                        ->withInput()
-                        ->with(
-                            'error',
-                            'Rentang tanggal wajib dipilih'
-                        );
-                }
-
-                $startDate = Carbon::parse(
-                    $request->start_date
-                );
-
-                $endDate = Carbon::parse(
-                    $request->end_date
-                );
-
-                break;
-
-            default:
-
-                $startDate = Carbon::today();
-                $endDate   = Carbon::today();
-
-                break;
-        }
-
-        $startDate = $startDate
-            ->copy()
-            ->startOfDay();
-
-        $endDate = $endDate
-            ->copy()
-            ->endOfDay();
-
-        /*
-            |--------------------------------------------------------------------------
-            | KAMAR (TIDAK DIUBAH)
-            |--------------------------------------------------------------------------
-            */
-
-        $kamars =
-            Kamar::orderBy(
-                'lokasi_blok'
-            )
-            ->orderBy(
-                'lokasi_sel'
-            )
-            ->get();
-
-
-
-        /*
-            |--------------------------------------------------------------------------
-            | KONDISI KAMAR SAAT INI
-            | -> SESUDAH
-            |--------------------------------------------------------------------------
-            */
-
-        $currentPerKamar =
-            Wbp::where(
-                'status_wbp',
-                'aktif'
-            )
-            ->selectRaw(
-                '
-                kamar_id,
-                COUNT(*) total
-                '
-            )
-            ->groupBy(
-                'kamar_id'
-            )
-            ->pluck(
-                'total',
-                'kamar_id'
-            );
-
-
-
-        /*
-            |--------------------------------------------------------------------------
-            | MUTASI SESUAI TANGGAL
-            |--------------------------------------------------------------------------
-            */
-
-        $mutasis =
-            DB::table(
-                'mutasis'
-            )
-            ->whereBetween(
-                'created_at',
-                [
-                    $startDate,
-                    $endDate
-                ]
-            )
-            ->orderBy(
-                'created_at'
-            )
-            ->get();
-
-
-        /*
-            |--------------------------------------------------------------------------
-            | ANTI DOUBLE COUNT
-            |--------------------------------------------------------------------------
-            */
-
-        $mutasis =
-            $mutasis
-            ->groupBy(
-                function (
-                    $row
-                ) {
-
-                    return
-                        $row->wbp_id
-                        . '|'
-                        .
-                        Carbon::parse(
-                            $row->created_at
-                        )
-                        ->toDateString();
-                }
-            )
-            ->map(
-                function (
-                    $rows
-                ) {
-
-                    return
-                        $rows
-                        ->sortByDesc(
-                            'created_at'
-                        )
-                        ->first();
-                }
-            )
-            ->values();
-
-
-
-        /*
-            |--------------------------------------------------------------------------
-            | HITUNG PERGERAKAN
-            |--------------------------------------------------------------------------
-            */
-
-        $masuk = [];
-
-        $keluar = [];
-
-
-        foreach (
-            $mutasis
-            as $trx
-        ) {
-
-            if (
-                $trx->kamar_asal_id
-            ) {
-
-                $keluar[$trx->kamar_asal_id] =
-                    (
-                        $keluar[$trx->kamar_asal_id]
-                        ??
-                        0
-                    )
-                    + 1;
-            }
-
-
-            if (
-                $trx->kamar_tujuan_id
-            ) {
-
-                $masuk[$trx->kamar_tujuan_id] =
-                    (
-                        $masuk[$trx->kamar_tujuan_id]
-                        ??
-                        0
-                    )
-                    + 1;
-            }
-        }
-
-
-
-        /*
-            |--------------------------------------------------------------------------
-            | BUILD DATA
-            |--------------------------------------------------------------------------
-            */
-
-        $data =
-            $kamars
-            ->map(
-                function (
-                    $kamar
-                )
-                use (
-                    $currentPerKamar,
-                    $masuk,
-                    $keluar
-                ) {
-
-                    $sesudah =
-                        $currentPerKamar[$kamar->id]
-                        ??
-                        0;
-
-
-                    $jMasuk =
-                        $masuk[$kamar->id]
-                        ??
-                        0;
-
-
-                    $jKeluar =
-                        $keluar[$kamar->id]
-                        ??
-                        0;
-
-
-                    $sebelum =
-                        max(
-                            0,
-                            (
-                                $sesudah
-                                -
-                                $jMasuk
-                                +
-                                $jKeluar
-                            )
-                        );
-
-
-                    return (object)[
-
-                        'kamar_id'
-                        =>
-                        $kamar->id,
-
-                        'kode_kamar'
-                        =>
-                        $kamar->kode_kamar,
-
-                        'lokasi_blok'
-                        =>
-                        $kamar->lokasi_blok,
-
-                        'lokasi_sel'
-                        =>
-                        $kamar->lokasi_sel,
-
-                        'no_kamar'
-                        =>
-                        $this
-                            ->extractNoKamar(
-                                $kamar
-                                    ->lokasi_sel
-                            ),
-
-                        'nama_kamar'
-                        =>
-                        $kamar->nama_kamar,
-
-                        'sebelum'
-                        =>
-                        $sebelum,
-
-                        'masuk'
-                        =>
-                        $jMasuk,
-
-                        'keluar'
-                        =>
-                        $jKeluar,
-
-                        'sesudah'
-                        =>
-                        $sesudah,
-
-                        'created_at'
-                        =>
-                        null,
-
-                    ];
-                }
-            );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | SORT NATURAL
-        |--------------------------------------------------------------------------
-        */
-
-        $data =
-            $data
-            ->sort(
-                function (
-                    $a,
-                    $b
-                ) {
-
-                    $kamarA =
-                        Kamar::find(
-                            $a->kamar_id
-                        );
-
-                    $kamarB =
-                        Kamar::find(
-                            $b->kamar_id
-                        );
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | URUTKAN BERDASARKAN BLOK
-                    |--------------------------------------------------------------------------
-                    */
-
-                    if (
-                        $kamarA->kode_blok
-                        !==
-                        $kamarB->kode_blok
-                    ) {
-
-                        return strcmp(
-                            $kamarA->kode_blok,
-                            $kamarB->kode_blok
-                        );
-                    }
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | AMBIL NOMOR KAMAR
-                    |--------------------------------------------------------------------------
-                    */
-
-                    preg_match(
-                        '/(\d+)/',
-                        $a->lokasi_sel,
-                        $ma
-                    );
-
-                    preg_match(
-                        '/(\d+)/',
-                        $b->lokasi_sel,
-                        $mb
-                    );
-
-                    $aNo =
-                        (int)(
-                            $ma[1]
-                            ??
-                            0
-                        );
-
-                    $bNo =
-                        (int)(
-                            $mb[1]
-                            ??
-                            0
-                        );
-
-                    return
-                        $aNo
-                        <=>
-                        $bNo;
-                }
-            )
-            ->values();
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | GROUP
-        |--------------------------------------------------------------------------
-        */
-
-        $grouped =
-            $data
-            ->groupBy(
-                function (
-                    $item
-                ) {
-
-                    return
-                        Kamar::find(
-                            $item->kamar_id
-                        )->kode_blok;
-                }
-            )
-            ->sortKeys();
-
-        /*
-        |--------------------------------------------------------------------------
-        | GRAND TOTAL PER KAMAR
-        |--------------------------------------------------------------------------
-        */
-
-        $grand = [
-
-            'sebelum' =>
-            $data->sum(
-                'sebelum'
-            ),
-
-            'masuk' =>
-            $data->sum(
-                'masuk'
-            ),
-
-            'keluar' =>
-            $data->sum(
-                'keluar'
-            ),
-
-            'sesudah' =>
-            $data->sum(
-                'sesudah'
-            ),
-
-        ];
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | COUNT STATUS WBP
-        |--------------------------------------------------------------------------
-        */
-
-        $countAktif =
-            Wbp::where(
-                'status_wbp',
-                'AKTIF'
-            )->count();
-
-
-        $countBon =
-            Wbp::where(
-                'status_wbp',
-                'BON'
-            )->count();
-
-
-        $countSakit =
-            Wbp::where(
-                'status_wbp',
-                'SAKIT'
-            )->count();
-
-
-        $countPindah =
-            Wbp::where(
-                'status_wbp',
-                'PINDAH UPT'
-            )->count();
-
-
-        $countPulang =
-            Wbp::where(
-                'status_wbp',
-                'PULANG'
-            )->count();
-
-
-        $countMeninggal =
-            Wbp::where(
-                'status_wbp',
-                'MENINGGAL'
-            )->count();
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | GRAND TOTAL WBP
-        |--------------------------------------------------------------------------
-        */
-
-        $grandWbp =
-
-            $countAktif
-            +
-
-            $countBon
-            +
-
-            $countSakit
-            +
-
-            $countPindah
-            +
-
-            $countPulang
-            +
-
-            $countMeninggal;
-
-        Carbon::setLocale('id');
-        $date = Carbon::now()->translatedFormat('d F Y');
-        $kplp = Admin::where('role', 'ka. kplp')->first();
-
         return response()->json([
             'success' => true,
             'message' => 'Data snapshot berhasil diambil',
@@ -1321,5 +1324,18 @@ class MutasiScenarioController extends Controller
         Mutasi::whereDate('created_at', Carbon::today())->delete();
 
         return back()->with('success', 'Snapshot berhasil direset.');
+    }
+
+    public function toggleHide($id)
+    {
+        $mutasi = Mutasi::findOrFail($id);
+
+        $mutasi->is_hidden = !$mutasi->is_hidden;
+        $mutasi->save();
+
+        return response()->json([
+            'success' => true,
+            'is_hidden' => $mutasi->is_hidden,
+        ]);
     }
 }

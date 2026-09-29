@@ -146,6 +146,7 @@ Route::middleware('admin')->group(function () {
         Route::put('/mutasi/{id}', [MutasiController::class, 'updateKamarNew'])->name('mutasi.update');
         Route::post('/admin-banceuy/wbp-kamar-update', [MutasiController::class, 'wbpKamarUpdate']);
         Route::get('/admin-banceuy/riwayat-mutasi', [MutasiController::class, 'dataMutasi'])->name('mutasi.riwayat');
+        Route::post('/mutasi/{id}/toggle-hide', [MutasiScenarioController::class, 'toggleHide'])->name('mutasi.toggleHide');
 
         //Route Kamar & Status WBP
         Route::post('/admin-banceuy/wbp/store', [DataWbpController::class, 'store'])->name('wbp.store');

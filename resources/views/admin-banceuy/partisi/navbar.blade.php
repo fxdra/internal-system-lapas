@@ -197,7 +197,7 @@
 
                         <li class="nxl-item">
                             <a class="nxl-link" href="/admin-banceuy/scenario-snapshot">
-                                Data Mutasi Wbp
+                                Data Jumlah Wbp Per Kamar
                             </a>
                         </li>
 

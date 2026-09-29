@@ -5,6 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Riwayat Mutasi WBP</title>
 
@@ -141,7 +142,7 @@
         ========================= */
 
         .mutasi-row-hidden {
-            opacity: 0.45;
+            opacity: 0.5;
             background-color: #e9ecef !important;
         }
 
@@ -586,7 +587,8 @@
                             <tbody>
 
                                 @foreach ($items as $row)
-                                    <tr class="mutasi-row">
+                                    <tr
+                                        class="mutasi-row {{ $row->is_hidden ? 'mutasi-row-hidden' : '' }}"data-id="{{ $row->id }}">
 
                                         <td class="col-nama">
                                             <div class="text-truncate" title="{{ $row->nama }}">
@@ -849,31 +851,64 @@
 
             if (!row) return;
 
-            const isHidden = row.classList.toggle('mutasi-row-hidden');
+            const id = row.dataset.id;
 
-            const icon = button.querySelector('i');
-            const text = button.querySelector('.hide-text');
-
-            if (isHidden) {
-
-                button.classList.remove('btn-secondary');
-                button.classList.add('btn-success');
-
-                icon.className = 'fas fa-eye';
-                text.textContent = 'Show';
-
-                button.title = 'Tampilkan kembali saat print';
-
-            } else {
-
-                button.classList.remove('btn-success');
-                button.classList.add('btn-secondary');
-
-                icon.className = 'fas fa-eye-slash';
-                text.textContent = 'Hide';
-
-                button.title = 'Sembunyikan dari print';
+            if (!id) {
+                console.error('ID mutasi tidak ditemukan.');
+                return;
             }
+
+            const isHidden = !row.classList.contains('mutasi-row-hidden');
+
+            fetch(`/mutasi/${id}/toggle-hide`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        is_hidden: isHidden
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    if (!data.success) {
+                        throw new Error(data.message || 'Gagal mengubah status.');
+                    }
+
+                    row.classList.toggle('mutasi-row-hidden', data.is_hidden);
+
+                    const icon = button.querySelector('i');
+                    const text = button.querySelector('.hide-text');
+
+                    if (data.is_hidden) {
+
+                        button.classList.remove('btn-secondary');
+                        button.classList.add('btn-success');
+
+                        icon.className = 'fas fa-eye';
+                        text.textContent = 'Show';
+
+                        button.title = 'Tampilkan kembali saat print';
+
+                    } else {
+
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-secondary');
+
+                        icon.className = 'fas fa-eye-slash';
+                        text.textContent = 'Hide';
+
+                        button.title = 'Sembunyikan dari print';
+                    }
+
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Gagal mengubah status Hide/Show.');
+                });
         }
     </script>
 

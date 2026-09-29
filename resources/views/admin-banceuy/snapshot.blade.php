@@ -404,7 +404,7 @@
 
                         <div class="ms-3">
                             <h4 class="mb-1 fw-bold">
-                                DATA MUTASI WBP
+                                DATA JUMLAH WBP PER KAMAR
                             </h4>
 
                             <nav aria-label="breadcrumb">
@@ -413,7 +413,7 @@
                                         <a href="/admin-banceuy">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        Data Mutasi
+                                        Data Jumlah WBP Per Kamar
                                     </li>
                                 </ol>
                             </nav>
