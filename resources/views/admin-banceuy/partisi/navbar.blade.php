@@ -75,10 +75,7 @@
 
                 </li>
 
-                {{-- ============================================================
-                   MANAJEMEN PENGGUNA
-                ============================================================ --}}
-
+                {{-- MANAJEMEN PENGGUNA --}}
                 @if (in_array($role, ['superadmin', 'admin']))
                     <li class="nxl-item">
 
@@ -97,11 +94,48 @@
                     </li>
                 @endif
 
+                {{-- ADMIN HALO MINNA --}}
+                @if (in_array($role, ['superadmin', 'admin', 'binadik']))
+                    <li class="nxl-item nxl-hasmenu">
 
-                {{-- ============================================================
-                   MANAJEMEN PETUGAS
-                ============================================================ --}}
+                        <a href="javascript:void(0);" class="nxl-link">
 
+                            <span class="nxl-micon">
+                                <i class="feather-smartphone"></i>
+                            </span>
+
+                            <span class="nxl-mtext">
+                                Admin Halo Minna
+                            </span>
+
+                            <span class="nxl-arrow">
+                                <i class="feather-chevron-right"></i>
+                            </span>
+
+                        </a>
+
+                        <ul class="nxl-submenu">
+
+                            {{-- Dashboard Halo Minna --}}
+                            <li class="nxl-item">
+                                <a class="nxl-link" href="href="javascript:void(0);">
+                                    Halo Minna
+                                </a>
+                            </li>
+
+                            {{-- Program Pembinaan --}}
+                            <li class="nxl-item">
+                                <a class="nxl-link" href="{{ route('program-pembinaan.index') }}">
+                                    Program Pembinaan
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                @endif
+
+                {{-- MANAJEMEN PETUGAS --}}
                 @if ($permissions['fullAccess'])
                     <li class="nxl-item nxl-hasmenu">
 

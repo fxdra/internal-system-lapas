@@ -69,15 +69,8 @@ class MutasiScenarioController extends Controller
         }
     }
 
-
     public function snapshot(Request $request)
     {
-        /*
-    |--------------------------------------------------------------------------
-    | FILTER
-    |--------------------------------------------------------------------------
-    */
-
         $request->validate([
             'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
             'start_date' => 'nullable|date|date_format:Y-m-d',
@@ -159,14 +152,6 @@ class MutasiScenarioController extends Controller
         $startDate = $startDate->copy()->startOfDay();
         $endDate   = $endDate->copy()->endOfDay();
 
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | KAMAR (TIDAK DIUBAH)
-    |--------------------------------------------------------------------------
-    */
-
         $kamars =
             Kamar::orderBy(
                 'lokasi_blok'
@@ -175,15 +160,6 @@ class MutasiScenarioController extends Controller
                 'lokasi_sel'
             )
             ->get();
-
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | KONDISI KAMAR SAAT INI
-    | -> SESUDAH
-    |--------------------------------------------------------------------------
-    */
 
         $currentPerKamar =
             Wbp::where(
@@ -204,12 +180,6 @@ class MutasiScenarioController extends Controller
                 'kamar_id'
             );
 
-        /*
-        |--------------------------------------------------------------------------
-        | MUTASI SESUAI TANGGAL
-        |--------------------------------------------------------------------------
-        */
-
         $mutasis =
             DB::table(
                 'mutasis'
@@ -227,16 +197,6 @@ class MutasiScenarioController extends Controller
             )
             ->get();
 
-        /*
-    |--------------------------------------------------------------------------
-    | MUTASI SETELAH PERIODE
-    |--------------------------------------------------------------------------
-    |
-    | Digunakan untuk mengembalikan kondisi WBP sekarang
-    | menjadi kondisi pada akhir periode yang dipilih.
-    |
-    */
-
         $mutasisSetelah =
             DB::table('mutasis')
             ->where(
@@ -247,13 +207,6 @@ class MutasiScenarioController extends Controller
             ->where('is_hidden', false)
             ->orderBy('created_at')
             ->get();
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | HITUNG PERGERAKAN SETELAH PERIODE
-    |--------------------------------------------------------------------------
-    */
 
         $masukSetelah = [];
 
@@ -273,12 +226,6 @@ class MutasiScenarioController extends Controller
                     ($masukSetelah[$trx->kamar_tujuan_id] ?? 0) + 1;
             }
         }
-
-        /*
-    |--------------------------------------------------------------------------
-    | HITUNG PERGERAKAN
-    |--------------------------------------------------------------------------
-    */
 
         $masuk = [];
 
@@ -318,12 +265,6 @@ class MutasiScenarioController extends Controller
             }
         }
 
-        /*
-    |--------------------------------------------------------------------------
-    | BUILD DATA
-    |--------------------------------------------------------------------------
-    */
-
         $data =
             $kamars
             ->map(
@@ -338,19 +279,10 @@ class MutasiScenarioController extends Controller
                     $keluarSetelah
                 ) {
 
-                    // =========================
-                    // KONDISI SEKARANG
-                    // =========================
-
                     $sekarang =
                         $currentPerKamar[$kamar->id]
                         ??
                         0;
-
-
-                    // =========================
-                    // MUTASI SETELAH PERIODE
-                    // =========================
 
                     $jMasukSetelah =
                         $masukSetelah[$kamar->id]
@@ -362,11 +294,6 @@ class MutasiScenarioController extends Controller
                         ??
                         0;
 
-
-                    // =========================
-                    // HSL AKHIR PERIODE
-                    // =========================
-
                     $sesudah =
                         max(
                             0,
@@ -377,11 +304,6 @@ class MutasiScenarioController extends Controller
                                 $jKeluarSetelah
                         );
 
-
-                    // =========================
-                    // MUTASI DALAM PERIODE
-                    // =========================
-
                     $jMasuk =
                         $masuk[$kamar->id]
                         ??
@@ -391,11 +313,6 @@ class MutasiScenarioController extends Controller
                         $keluar[$kamar->id]
                         ??
                         0;
-
-
-                    // =========================
-                    // JML AWAL PERIODE
-                    // =========================
 
                     $sebelum =
                         $sesudah
@@ -457,12 +374,6 @@ class MutasiScenarioController extends Controller
             );
 
 
-        /*
-|--------------------------------------------------------------------------
-| SORT NATURAL
-|--------------------------------------------------------------------------
-*/
-
         $data =
             $data
             ->sort(
@@ -481,12 +392,6 @@ class MutasiScenarioController extends Controller
                             $b->kamar_id
                         );
 
-                    /*
-            |--------------------------------------------------------------------------
-            | URUTKAN BERDASARKAN BLOK
-            |--------------------------------------------------------------------------
-            */
-
                     if (
                         $kamarA->kode_blok
                         !==
@@ -498,12 +403,6 @@ class MutasiScenarioController extends Controller
                             $kamarB->kode_blok
                         );
                     }
-
-                    /*
-            |--------------------------------------------------------------------------
-            | AMBIL NOMOR KAMAR
-            |--------------------------------------------------------------------------
-            */
 
                     preg_match(
                         '/(\d+)/',
@@ -539,14 +438,6 @@ class MutasiScenarioController extends Controller
             )
             ->values();
 
-
-
-        /*
-|--------------------------------------------------------------------------
-| GROUP
-|--------------------------------------------------------------------------
-*/
-
         $grouped =
             $data
             ->groupBy(
@@ -561,12 +452,6 @@ class MutasiScenarioController extends Controller
                 }
             )
             ->sortKeys();
-
-        /*
-|--------------------------------------------------------------------------
-| GRAND TOTAL PER KAMAR
-|--------------------------------------------------------------------------
-*/
 
         $grand = [
 
@@ -591,14 +476,6 @@ class MutasiScenarioController extends Controller
             ),
 
         ];
-
-
-
-        /*
-|--------------------------------------------------------------------------
-| COUNT STATUS WBP
-|--------------------------------------------------------------------------
-*/
 
         $countAktif =
             Wbp::where(
@@ -641,13 +518,6 @@ class MutasiScenarioController extends Controller
                 'MENINGGAL'
             )->count();
 
-
-
-        /*
-|--------------------------------------------------------------------------
-| GRAND TOTAL WBP
-|--------------------------------------------------------------------------
-*/
 
         $grandWbp =
 
@@ -707,10 +577,6 @@ class MutasiScenarioController extends Controller
         );
     }
 
-
-    /**
-     * 🔥 AMBIL NOMOR KAMAR
-     */
     private function extractNoKamar($text)
     {
         preg_match(
@@ -725,11 +591,7 @@ class MutasiScenarioController extends Controller
 
     public function snapshotApp(Request $request)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER
-        |--------------------------------------------------------------------------
-        */
+
         $request->validate([
             'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
             'start_date' => 'nullable|date|date_format:Y-m-d',
@@ -817,12 +679,6 @@ class MutasiScenarioController extends Controller
             ->copy()
             ->endOfDay();
 
-        /*
-        |--------------------------------------------------------------------------
-        | KAMAR (TIDAK DIUBAH)
-        |--------------------------------------------------------------------------
-        */
-
         $kamars =
             Kamar::orderBy(
                 'lokasi_blok'
@@ -831,15 +687,6 @@ class MutasiScenarioController extends Controller
                 'lokasi_sel'
             )
             ->get();
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | KONDISI KAMAR SAAT INI
-        | -> SESUDAH
-        |--------------------------------------------------------------------------
-        */
 
         $currentPerKamar =
             Wbp::where(
@@ -860,14 +707,6 @@ class MutasiScenarioController extends Controller
                 'kamar_id'
             );
 
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | MUTASI SESUAI TANGGAL
-        |--------------------------------------------------------------------------
-        */
-
         $mutasis =
             DB::table(
                 'mutasis'
@@ -884,13 +723,6 @@ class MutasiScenarioController extends Controller
                 'created_at'
             )
             ->get();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | ANTI DOUBLE COUNT
-        |--------------------------------------------------------------------------
-        */
 
         $mutasis =
             $mutasis
@@ -923,14 +755,6 @@ class MutasiScenarioController extends Controller
                 }
             )
             ->values();
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | HITUNG PERGERAKAN
-        |--------------------------------------------------------------------------
-        */
 
         $masuk = [];
 
@@ -969,14 +793,6 @@ class MutasiScenarioController extends Controller
                     + 1;
             }
         }
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | BUILD DATA
-        |--------------------------------------------------------------------------
-        */
 
         $data =
             $kamars
@@ -1075,13 +891,6 @@ class MutasiScenarioController extends Controller
                 }
             );
 
-
-        /*
-    |--------------------------------------------------------------------------
-    | SORT NATURAL
-    |--------------------------------------------------------------------------
-    */
-
         $data =
             $data
             ->sort(
@@ -1100,12 +909,6 @@ class MutasiScenarioController extends Controller
                             $b->kamar_id
                         );
 
-                    /*
-                |--------------------------------------------------------------------------
-                | URUTKAN BERDASARKAN BLOK
-                |--------------------------------------------------------------------------
-                */
-
                     if (
                         $kamarA->kode_blok
                         !==
@@ -1117,12 +920,6 @@ class MutasiScenarioController extends Controller
                             $kamarB->kode_blok
                         );
                     }
-
-                    /*
-                |--------------------------------------------------------------------------
-                | AMBIL NOMOR KAMAR
-                |--------------------------------------------------------------------------
-                */
 
                     preg_match(
                         '/(\d+)/',
@@ -1158,14 +955,6 @@ class MutasiScenarioController extends Controller
             )
             ->values();
 
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | GROUP
-    |--------------------------------------------------------------------------
-    */
-
         $grouped =
             $data
             ->groupBy(
@@ -1180,12 +969,6 @@ class MutasiScenarioController extends Controller
                 }
             )
             ->sortKeys();
-
-        /*
-    |--------------------------------------------------------------------------
-    | GRAND TOTAL PER KAMAR
-    |--------------------------------------------------------------------------
-    */
 
         $grand = [
 
@@ -1210,14 +993,6 @@ class MutasiScenarioController extends Controller
             ),
 
         ];
-
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | COUNT STATUS WBP
-    |--------------------------------------------------------------------------
-    */
 
         $countAktif =
             Wbp::where(
@@ -1259,14 +1034,6 @@ class MutasiScenarioController extends Controller
                 'status_wbp',
                 'MENINGGAL'
             )->count();
-
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | GRAND TOTAL WBP
-    |--------------------------------------------------------------------------
-    */
 
         $grandWbp =
 

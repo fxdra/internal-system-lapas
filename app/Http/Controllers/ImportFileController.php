@@ -181,6 +181,8 @@ class ImportFileController extends Controller
 
     private function importRow(array $row, string $mode): string
     {
+
+        // HELPER NILAI
         $val = function ($v) {
             if ($v === null) {
                 return null;
@@ -191,18 +193,31 @@ class ImportFileController extends Controller
             return $v === '' ? null : $v;
         };
 
+        Log::info('IMPORT WBP ROW', [
+            'row' => $row,
+        ]);
+
+        // HELPER TANGGAL
         $parseDate = function ($value) {
-            if ($value === null || trim((string) $value) === '') {
+
+            if (
+                $value === null ||
+                trim((string) $value) === ''
+            ) {
                 return null;
             }
 
             try {
+
+                // Tanggal dari Excel dalam bentuk serial number
                 if (is_numeric($value)) {
+
                     return \PhpOffice\PhpSpreadsheet\Shared\Date
                         ::excelToDateTimeObject($value)
                         ->format('Y-m-d');
                 }
 
+                // Tanggal dalam bentuk string
                 $ts = strtotime($value);
 
                 if ($ts === false) {
@@ -211,17 +226,17 @@ class ImportFileController extends Controller
 
                 return date('Y-m-d', $ts);
             } catch (\Exception $e) {
+
                 throw new \Exception(
                     "Format tanggal tidak valid: {$value}"
                 );
             }
         };
 
-        // =========================================================
         // IDENTITAS
-        // =========================================================
-
-        $no_reg = $val($row[1] ?? null);
+        $no_reg = $val(
+            $row[1] ?? null
+        );
 
         if (!$no_reg) {
             throw new \Exception(
@@ -229,7 +244,9 @@ class ImportFileController extends Controller
             );
         }
 
-        $nama = $val($row[2] ?? null);
+        $nama = $val(
+            $row[2] ?? null
+        );
 
         if (!$nama) {
             throw new \Exception(
@@ -237,29 +254,44 @@ class ImportFileController extends Controller
             );
         }
 
-        $negara = $val($row[3] ?? null);
-        $agama = $val($row[4] ?? null);
-        $jenis_kejahatan = $val($row[5] ?? null);
+        $negara = $val(
+            $row[3] ?? null
+        );
 
-        // =========================================================
+        $agama = $val(
+            $row[4] ?? null
+        );
+
+        $jenis_kejahatan = $val(
+            $row[5] ?? null
+        );
+
         // DATA KLINIK
-        // =========================================================
-
-        $tempat_lahir = $val($row[6] ?? null);
+        $tempat_lahir = $val(
+            $row[6] ?? null
+        );
 
         $tgl_lahir = $parseDate(
             $row[7] ?? null
         );
 
-        $nik = $val($row[8] ?? null);
+        $nik = $val(
+            $row[8] ?? null
+        );
 
-        // =========================================================
+        // Tanggal masuk lapas termasuk data klinik
+        $tgl_masuk_lapas = $parseDate(
+            $row[12] ?? null
+        );
+
         // PERKARA
-        // =========================================================
+        $pasal = $val(
+            $row[9] ?? null
+        );
 
-        $pasal = $val($row[9] ?? null);
-
-        $putusan = $val($row[10] ?? null);
+        $putusan = $val(
+            $row[10] ?? null
+        );
 
         $putusan_bulan = $val(
             $row[11] ?? null
@@ -274,18 +306,7 @@ class ImportFileController extends Controller
             );
         }
 
-        // =========================================================
-        // DATA MASUK LAPAS
-        // =========================================================
-
-        $tgl_masuk_lapas = $parseDate(
-            $row[12] ?? null
-        );
-
-        // =========================================================
         // SUBSIDER
-        // =========================================================
-
         $subsider_bulan = $val(
             $row[13] ?? null
         );
@@ -298,10 +319,8 @@ class ImportFileController extends Controller
             $row[15] ?? null
         );
 
-        // =========================================================
-        // DENDA SUBSIDER
-        // =========================================================
 
+        // DENDA SUBSIDER
         $denda_subsider = $val(
             $row[16] ?? null
         );
@@ -333,97 +352,121 @@ class ImportFileController extends Controller
             $denda_subsider = (int) $denda_subsider;
         }
 
-        // =========================================================
         // EKSPIRASI
-        // =========================================================
-
         $ekspirasi = $parseDate(
             $row[17] ?? null
         );
 
-        // =========================================================
-        // MASA PIDANA
-        // =========================================================
-
-        $masa_1_3 = $parseDate(
+        // LOKASI WBP
+        $lokasi_blok = $val(
             $row[18] ?? null
         );
 
-        $masa_1_2 = $parseDate(
+        $lokasi_sel = $val(
             $row[19] ?? null
         );
 
-        $masa_2_3 = $parseDate(
-            $row[20] ?? null
+        // STATUS WBP
+        $status_wbp = $this->resolveInitialStatus(
+            $row
         );
 
-        // =========================================================
-        // REMISI
-        // =========================================================
-
-        $total_bulan_remisi = $val(
-            $row[21] ?? null
-        );
-
-        $total_hari_remisi = $val(
+        $klasifikasi_wbp = $val(
             $row[22] ?? null
         );
 
-        // =========================================================
+        // MASA PIDANA
+        $masa_1_3 = $parseDate(
+            $row[23] ?? null
+        );
+
+        $masa_1_2 = $parseDate(
+            $row[24] ?? null
+        );
+
+        $masa_2_3 = $parseDate(
+            $row[25] ?? null
+        );
+
+        // REMISI
+        $total_bulan_remisi = $val(
+            $row[26] ?? null
+        );
+
+        $total_hari_remisi = $val(
+            $row[27] ?? null
+        );
+
+
+        // FOTO WBP
+        $foto_wbp = $val(
+            $row[28] ?? null
+        );
+
+
+
         // DATA YANG DIIMPORT
         // Digunakan untuk APPEND dan UPDATE
-        // =========================================================
 
         $masterData = [
+
+            // IDENTITAS
             'nama' => $nama,
             'negara' => $negara,
             'agama' => $agama,
             'jenis_kejahatan' => $jenis_kejahatan,
 
-            // Klinik
+            // DATA KLINIK
             'tempat_lahir' => $tempat_lahir,
             'tgl_lahir' => $tgl_lahir,
             'nik' => $nik,
+            'tgl_masuk_lapas' => $tgl_masuk_lapas,
 
-            // Perkara
+            // PERKARA
             'pasal' => $pasal,
             'putusan' => $putusan,
             'putusan_bulan' => $putusan_bulan,
 
-            // Masuk Lapas
-            'tgl_masuk_lapas' => $tgl_masuk_lapas,
-
-            // Pidana tambahan
+            // PIDANA TAMBAHAN / SUBSIDER
             'subsider_bulan' => $subsider_bulan,
             'subsider_tahun' => $subsider_tahun,
             'subsider_hari' => $subsider_hari,
             'denda_subsider' => $denda_subsider,
 
-            // Ekspirasi
+            // EKSPIRASI
             'ekspirasi' => $ekspirasi,
 
-            // Masa pidana
+            // LOKASI
+            'lokasi_blok' => $lokasi_blok,
+            'lokasi_sel' => $lokasi_sel,
+
+            // STATUS WBP
+            'status_wbp' => $status_wbp,
+            'klasifikasi_wbp' => $klasifikasi_wbp,
+
+            // MASA PIDANA
             'masa_1_3' => $masa_1_3,
             'masa_1_2' => $masa_1_2,
             'masa_2_3' => $masa_2_3,
 
-            // Remisi
+            // REMISI
             'total_bulan_remisi' => $total_bulan_remisi,
             'total_hari_remisi' => $total_hari_remisi,
+
+            // FOTO WBP
+            'foto_wbp' => $foto_wbp,
         ];
 
-        // =========================================================
-        // APPEND
-        // =========================================================
 
+        // APPEND
         if ($mode === 'append') {
 
-            if (
-                Wbp::where(
-                    'no_reg_instansi',
-                    $no_reg
-                )->exists()
-            ) {
+            $exists = Wbp::where(
+                'no_reg_instansi',
+                $no_reg
+            )->exists();
+
+            if ($exists) {
                 return 'skipped';
             }
 
@@ -439,10 +482,8 @@ class ImportFileController extends Controller
             return 'inserted';
         }
 
-        // =========================================================
-        // UPDATE
-        // =========================================================
 
+        // UPDATE
         if ($mode === 'update') {
 
             $existing = Wbp::where(
@@ -461,6 +502,7 @@ class ImportFileController extends Controller
             return 'updated';
         }
 
+        // MODE IMPORT TIDAK VALID
         throw new \InvalidArgumentException(
             "Mode import tidak valid: {$mode}"
         );
@@ -506,6 +548,7 @@ class ImportFileController extends Controller
             try {
 
                 $noReg = trim((string) ($rows[$i][1] ?? ''));
+                $nama = trim((string) ($rows[$i][2] ?? ''));
 
                 if ($noReg === '') {
                     $invalid++;
@@ -520,26 +563,33 @@ class ImportFileController extends Controller
                 if ($mode === 'append') {
 
                     if ($exists) {
+
                         $skip++;
+
+                        $result = 'skip';
                     } else {
+
                         $insert++;
+
+                        $result = 'insert';
                     }
                 } elseif ($mode === 'update') {
 
                     if ($exists) {
 
                         $update++;
+
+                        $result = 'update';
                     } else {
 
                         $notFound++;
 
-                        // Simpan detail baris Excel
+                        $result = 'not_found';
+
                         $notFoundRows[] = [
                             'row' => $i + 1,
                             'no_reg_instansi' => $noReg,
-                            'nama' => trim(
-                                (string) ($rows[$i][2] ?? '')
-                            ),
+                            'nama' => $nama,
                         ];
                     }
                 }
@@ -563,15 +613,26 @@ class ImportFileController extends Controller
 
             'invalid' => $invalid,
 
-            // Detail data yang tidak ditemukan
             'not_found_rows' => $notFoundRows,
-
         ]);
     }
 
     private function resolveInitialStatus(array $row): string
     {
-        $status = strtoupper(trim((string) ($row[11] ?? '')));
+        $status = trim(
+            (string) ($row[21] ?? '')
+        );
+
+        // Excel menggunakan string "null"
+        // untuk nilai kosong
+        if (
+            $status === '' ||
+            strtolower($status) === 'null'
+        ) {
+            return 'AKTIF';
+        }
+
+        $status = strtoupper($status);
 
         $valid = [
             'AKTIF',
@@ -582,7 +643,11 @@ class ImportFileController extends Controller
             'MENINGGAL',
         ];
 
-        return in_array($status, $valid, true)
+        return in_array(
+            $status,
+            $valid,
+            true
+        )
             ? $status
             : 'AKTIF';
     }

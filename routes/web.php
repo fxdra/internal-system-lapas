@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{BukuController, AdminController, AntrianController, BeritaController, BulettinController, DataKritikController, DataKunjunganController, DataProfileController, DataWbpController, HomeController, ImportFileController, InformasiLayananController, KegiatanController, KritikController, OcrController, PengunjungController, SettingController, TitipanController, ConverterController, KamarController, HpGasbanController, ManajemenPenggunaController, MutasiController, MutasiScenarioController, ProdukController, PetugasKplpController, RaziaController, RaziaGabunganController, PenerimaanWBPController, PemindahanWBPController, TrackingPhotoController, KomjaController, WbpKlinikController,};
+use App\Http\Controllers\{BukuController, AdminController, AntrianController, BeritaController, BulettinController, DataKritikController, DataKunjunganController, DataProfileController, DataWbpController, HomeController, ImportFileController, InformasiLayananController, KegiatanController, KritikController, OcrController, PengunjungController, SettingController, TitipanController, ConverterController, KamarController, HpGasbanController, ManajemenPenggunaController, MutasiController, MutasiScenarioController, ProdukController, PetugasKplpController, RaziaController, RaziaGabunganController, PenerimaanWBPController, PemindahanWBPController, TrackingPhotoController, KomjaController, WbpKlinikController, ProgramPembinaanController};
 use App\Http\Controllers\Api\LaporanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PengunjungPerpustakaanController;
@@ -77,11 +77,7 @@ Route::post('/kritik-saran', [KritikController::class, 'store']);
 Route::post('/ocr-ktp', [KritikController::class, 'ocrKtp'])->name('ocr.ktp');
 Route::get('/admin/kunjungan/{id}/detail', [PengunjungController::class, 'detail'])->name('kunjungan.detail');
 
-/*
-|--------------------------------------------------------------------------
-| DATA WBP dan DATA MUTASI UNTUK GIATJA, BIMPAS, REGISTRASI DAN KAMTIB
-|--------------------------------------------------------------------------
-*/
+// | DATA WBP dan DATA MUTASI UNTUK GIATJA, BIMPAS, REGISTRASI DAN KAMTIB
 Route::middleware('admin')->group(function () {
     //Dashboard
     Route::get('/admin-banceuy', [AdminController::class, 'index'])->name('dashboard');
@@ -109,7 +105,15 @@ Route::middleware('admin')->group(function () {
             Route::put('/wbp/{wbpKlinik}', [WbpKlinikController::class, 'update'])->name('klinik.wbp.update');
             Route::get('/wbp/search', [WbpKlinikController::class, 'search'])->name('klinik.wbp.search');
         });
-
+    // Program Pembinaan WBP
+    Route::middleware('role:superadmin,admin,binadik')
+        ->prefix('admin-banceuy/program-pembinaan')
+        ->name('program-pembinaan.')
+        ->group(function () {
+            Route::get('/', [ProgramPembinaanController::class, 'index'])->name('index');
+            Route::post('/', [ProgramPembinaanController::class, 'store'])->name('store');
+            Route::put('/keikutsertaan/{wbpPembinaan}', [ProgramPembinaanController::class, 'updateKeikutsertaan'])->name('keikutsertaan.update');
+        });
     /*
     |--------------------------------------------------------------------------
     | DATA KAMAR / HUNIAN
@@ -128,6 +132,7 @@ Route::middleware('admin')->group(function () {
         Route::get('/admin-banceuy/kamar/print', [KamarController::class, 'print']);
         Route::get('/kamar-with-wbps', [KamarController::class, 'kamarWithWbps']);
     });
+
 
     /*
     |--------------------------------------------------------------------------

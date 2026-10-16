@@ -587,8 +587,8 @@
                             <tbody>
 
                                 @foreach ($items as $row)
-                                    <tr
-                                        class="mutasi-row {{ $row->is_hidden ? 'mutasi-row-hidden' : '' }}"data-id="{{ $row->id }}">
+                                    <tr class="mutasi-row {{ $row->is_hidden ? 'mutasi-row-hidden' : '' }}"
+                                        data-id="{{ $row->id }}">
 
                                         <td class="col-nama">
                                             <div class="text-truncate" title="{{ $row->nama }}">
@@ -644,11 +644,16 @@
 
                                                 {{-- HIDE / SHOW --}}
                                                 <button type="button"
-                                                    class="btn btn-secondary btn-sm btn-hide-mutasi"
-                                                    onclick="toggleHideMutasi(this)" title="Sembunyikan dari print">
+                                                    class="btn btn-sm {{ $row->is_hidden ? 'btn-success' : 'btn-secondary' }} btn-hide-mutasi"
+                                                    onclick="toggleHideMutasi(this)"
+                                                    title="{{ $row->is_hidden ? 'Tampilkan kembali saat print' : 'Sembunyikan dari print' }}">
 
-                                                    <i class="fas fa-eye-slash"></i>
-                                                    <span class="hide-text">Hide</span>
+                                                    <i
+                                                        class="fas {{ $row->is_hidden ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+
+                                                    <span class="hide-text">
+                                                        {{ $row->is_hidden ? 'Show' : 'Hide' }}
+                                                    </span>
                                                 </button>
 
                                                 {{-- EDIT --}}
@@ -845,11 +850,18 @@
     </script>
 
     <script>
+        const toggleHideUrl = @json(route('mutasi.toggleHide', ['id' => '__ID__']));
+    </script>
+
+    <script>
         function toggleHideMutasi(button) {
 
             const row = button.closest('.mutasi-row');
 
-            if (!row) return;
+            if (!row) {
+                console.error('Row mutasi tidak ditemukan.');
+                return;
+            }
 
             const id = row.dataset.id;
 
@@ -858,27 +870,56 @@
                 return;
             }
 
-            const isHidden = !row.classList.contains('mutasi-row-hidden');
+            const url = toggleHideUrl.replace('__ID__', id);
 
-            fetch(`/mutasi/${id}/toggle-hide`, {
+            console.log('Toggle Hide URL:', url);
+
+            fetch(url, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        is_hidden: isHidden
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
+                        'X-CSRF-TOKEN': document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content'),
 
-                    if (!data.success) {
-                        throw new Error(data.message || 'Gagal mengubah status.');
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(async response => {
+
+                    const text = await response.text();
+
+                    console.log('STATUS:', response.status);
+                    console.log('RESPONSE:', text);
+
+                    if (!response.ok) {
+                        throw new Error(
+                            `HTTP ${response.status}: ${text}`
+                        );
                     }
 
-                    row.classList.toggle('mutasi-row-hidden', data.is_hidden);
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        throw new Error(
+                            'Response bukan JSON: ' + text
+                        );
+                    }
+                })
+                .then(data => {
+
+                    console.log('DATA JSON:', data);
+
+                    if (!data.success) {
+                        throw new Error(
+                            data.message || 'Gagal mengubah status.'
+                        );
+                    }
+
+                    row.classList.toggle(
+                        'mutasi-row-hidden',
+                        data.is_hidden
+                    );
 
                     const icon = button.querySelector('i');
                     const text = button.querySelector('.hide-text');
@@ -906,12 +947,16 @@
 
                 })
                 .catch(error => {
-                    console.error(error);
-                    alert('Gagal mengubah status Hide/Show.');
+
+                    console.error('ERROR TOGGLE HIDE:', error);
+
+                    alert(
+                        'Gagal mengubah status Hide/Show.\n\n' +
+                        error.message
+                    );
                 });
         }
     </script>
-
 </body>
 
 </html>

@@ -7,6 +7,8 @@ use App\Models\Pengunjung;
 use App\Models\Titipan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Wbp extends Model
 {
@@ -44,6 +46,16 @@ class Wbp extends Model
     public function bonWbps()
     {
         return $this->hasMany(BonWbp::class);
+    }
+
+    public function simproin(): HasOne
+    {
+        return $this->hasOne(SimproinWbp::class, 'wbp_id', 'id');
+    }
+
+    public function riwayatPembinaan(): HasMany
+    {
+        return $this->hasMany(WbpPembinaan::class, 'wbp_id', 'id');
     }
 
     /**
