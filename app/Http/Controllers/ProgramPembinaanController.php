@@ -19,6 +19,15 @@ class ProgramPembinaanController extends Controller
         $search = trim((string) $request->query('search', ''));
         $blok = $request->query('blok');
         $kamarId = $request->query('kamar_id');
+        $selectedIds = collect($request->query('selected_ids', []))
+            ->filter(fn($id) => filter_var($id, FILTER_VALIDATE_INT) !== false && (int) $id > 0)
+            ->map(fn($id) => (int) $id)
+            ->unique()
+            ->values();
+
+        $selectedWbps = Wbp::query()
+            ->whereIn('id', $selectedIds)
+            ->get(['id', 'no_reg_instansi', 'nama']);
 
         // Daftar blok untuk filter.
         $blokList = Kamar::query()
@@ -59,7 +68,10 @@ class ProgramPembinaanController extends Controller
                 'nama',
                 'kamar_id',
             ])
-            ->with('kamar:id,kode_blok,kode_kamar,nama_kamar')
+            ->with([
+                'kamar:id,kode_blok,kode_kamar,nama_kamar',
+                'riwayatPembinaan.program:id,nama_program',
+            ])
             ->when($search !== '', function ($query) use ($search) {
                 $query->where(function ($subQuery) use ($search) {
                     $subQuery->where('nama', 'like', "%{$search}%")
@@ -86,7 +98,8 @@ class ProgramPembinaanController extends Controller
 
         $riwayat = WbpPembinaan::query()
             ->with([
-                'wbp:id,no_reg_instansi,nama',
+                'wbp:id,no_reg_instansi,nama,kamar_id',
+                'wbp.kamar:id,kode_blok,lokasi_sel',
                 'program:id,kategori,nama_program',
             ])
             ->when($selectedProgram, function ($query) use ($selectedProgram) {
@@ -97,7 +110,9 @@ class ProgramPembinaanController extends Controller
                     $subQuery->where('kategori', $kategori);
                 });
             })
-            ->latest('tanggal_mulai')
+            ->join('wbps', 'wbp_pembinaan.wbp_id', '=', 'wbps.id')
+            ->orderBy('wbps.nama', 'asc')
+            ->select('wbp_pembinaan.*')
             ->paginate(20, ['*'], 'riwayat_page')
             ->withQueryString();
 
@@ -124,6 +139,8 @@ class ProgramPembinaanController extends Controller
             'kamarList',
             'wbps',
             'riwayat',
+            'selectedIds',
+            'selectedWbps',
             'statistik'
         ));
     }

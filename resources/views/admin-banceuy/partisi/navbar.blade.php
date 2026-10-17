@@ -95,7 +95,7 @@
                 @endif
 
                 {{-- ADMIN HALO MINNA --}}
-                @if (in_array($role, ['superadmin', 'admin', 'binadik']))
+                @if (in_array($role, ['superadmin', 'admin', 'binadik', 'giatja']))
                     <li class="nxl-item nxl-hasmenu">
 
                         <a href="javascript:void(0);" class="nxl-link">

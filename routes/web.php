@@ -106,7 +106,7 @@ Route::middleware('admin')->group(function () {
             Route::get('/wbp/search', [WbpKlinikController::class, 'search'])->name('klinik.wbp.search');
         });
     // Program Pembinaan WBP
-    Route::middleware('role:superadmin,admin,binadik')
+    Route::middleware('role:superadmin,admin,binadik,giatja')
         ->prefix('admin-banceuy/program-pembinaan')
         ->name('program-pembinaan.')
         ->group(function () {
