@@ -118,8 +118,9 @@
 
                             {{-- Dashboard Halo Minna --}}
                             <li class="nxl-item">
-                                <a class="nxl-link" href="href="javascript:void(0);">
-                                    Halo Minna
+                                <a class="nxl-link {{ request()->routeIs('halo-minna.*') ? 'active' : '' }}"
+                                    href="{{ route('halo-minna.index') }}">
+                                    <span class="nxl-mtext">Halo Minna</span>
                                 </a>
                             </li>
 

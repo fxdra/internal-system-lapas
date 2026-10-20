@@ -19,25 +19,39 @@ class WbpObserver
     /**
      * Handle the Wbp "updated" event.
      */
+
     public function updated(Wbp $wbp): void
     {
-        // Jalankan hanya jika status_wbp berubah menjadi PULANG.
-        if (
-            $wbp->wasChanged('status_wbp') &&
-            strtoupper(trim((string) $wbp->status_wbp)) === 'PULANG'
-        ) {
-            DB::transaction(function () use ($wbp) {
-                WbpPembinaan::query()
-                    ->where('wbp_id', $wbp->id)
-                    ->where('status_keikutsertaan', 'Aktif')
-                    ->update([
-                        'status_keikutsertaan' => 'Selesai',
-                        'tanggal_selesai' => now()->toDateString(),
-                        'updated_at' => now(),
-                    ]);
-            });
+        // Jalankan hanya jika status_wbp berubah.
+        if (!$wbp->wasChanged('status_wbp')) {
+            return;
         }
+
+        $statusWbp = strtoupper(trim((string) $wbp->status_wbp));
+
+        $statusAkhir = [
+            'PULANG',
+            'PINDAH UPT',
+            'MENINGGAL',
+        ];
+
+        // Hanya proses status akhir yang ditentukan.
+        if (!in_array($statusWbp, $statusAkhir, true)) {
+            return;
+        }
+
+        DB::transaction(function () use ($wbp) {
+            WbpPembinaan::query()
+                ->where('wbp_id', $wbp->id)
+                ->where('status_keikutsertaan', 'Aktif')
+                ->update([
+                    'status_keikutsertaan' => 'Selesai',
+                    'tanggal_selesai' => now()->toDateString(),
+                    'updated_at' => now(),
+                ]);
+        });
     }
+
 
     /**
      * Handle the Wbp "deleted" event.

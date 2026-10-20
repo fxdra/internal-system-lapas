@@ -595,7 +595,6 @@
                                                         @csrf
                                                         @method('PUT')
 
-
                                                         <div class="row g-3">
 
                                                             {{-- TANGGAL MULAI --}}
@@ -744,9 +743,82 @@
             font-size: 22px;
         }
 
-        .program-pembinaan-page .card {
-            overflow: hidden;
+
+        /* WBP TERPILIH - GRID HORIZONTAL */
+        .program-pembinaan-page #selectedWbpsList {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+            justify-content: start;
+            gap: 14px 24px;
+            width: 100%;
+            text-align: left;
         }
+
+        /* ITEM WBP */
+        .program-pembinaan-page #selectedWbpsList [data-selected-wbp] {
+            display: flex !important;
+            flex-direction: row;
+            justify-content: flex-start !important;
+            align-items: flex-start;
+            gap: 12px;
+            min-width: 0;
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 0 10px !important;
+            border: 0 !important;
+            border-bottom: none !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+        }
+
+        /* INFORMASI WBP */
+        .program-pembinaan-page #selectedWbpsList [data-selected-wbp]>div {
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: 280px;
+            overflow-wrap: anywhere;
+        }
+
+        /* NAMA WBP */
+        .program-pembinaan-page #selectedWbpsList .fw-semibold {
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        /* NOMOR REGISTRASI */
+        .program-pembinaan-page #selectedWbpsList .text-muted {
+            display: block;
+            margin-top: 3px;
+            font-size: 12px;
+        }
+
+        /* TOMBOL HAPUS */
+        .program-pembinaan-page #selectedWbpsList .btn-hapus-wbp {
+            display: inline-flex;
+            flex: 0 0 64px;
+            width: 64px;
+            min-width: 64px;
+            justify-content: center;
+            align-items: center;
+            margin: 0px 0 0 !important;
+            padding: 5px 0;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* TABLET DAN MOBILE */
+        @media (max-width: 767.98px) {
+            .program-pembinaan-page #selectedWbpsList {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 12px;
+            }
+
+            .program-pembinaan-page #selectedWbpsList [data-selected-wbp]>div {
+                max-width: 100%;
+            }
+        }
+
 
         /* FORM DAN INPUT */
         .program-pembinaan-page .form-control,
@@ -925,14 +997,6 @@
             gap: 3px;
         }
 
-        @media (max-width: 575.98px) {
-            .program-pembinaan-page .pp-pagination-clean {
-                justify-content: center;
-                text-align: center;
-            }
-        }
-
-
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .program-pembinaan-page .card-body {
@@ -971,6 +1035,13 @@
 
             .program-pembinaan-page .pp-pagination .pagination {
                 justify-content: center;
+            }
+
+            @media (max-width: 575.98px) {
+                .program-pembinaan-page .pp-pagination-clean {
+                    justify-content: center;
+                    text-align: center;
+                }
             }
         }
     </style>
@@ -1038,8 +1109,7 @@
                     selectedContainer.appendChild(input);
 
                     const item = document.createElement('div');
-                    item.className =
-                        'd-flex justify-content-between align-items-center gap-2 border-bottom pb-2';
+                    item.className = 'selected-wbp-item';
                     item.dataset.selectedWbp = wbp.id;
 
                     const info = document.createElement('div');

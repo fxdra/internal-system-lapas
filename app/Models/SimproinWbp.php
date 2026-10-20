@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Sanctum\HasApiTokens;
 
 class SimproinWbp extends Model
 {
+    use HasApiTokens;
+
     protected $table = 'simproin_wbp';
 
     protected $fillable = [

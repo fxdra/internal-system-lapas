@@ -215,9 +215,14 @@ class ProgramPembinaanController extends Controller
             ->with('success', $message);
     }
 
+
     public function updateKeikutsertaan(Request $request, WbpPembinaan $wbpPembinaan)
     {
         $validated = $request->validate([
+            'tanggal_mulai' => [
+                'required',
+                'date',
+            ],
             'indikator_keaktifan' => [
                 'required',
                 Rule::in(['Sangat Aktif', 'Aktif', 'Kurang Aktif']),
@@ -229,7 +234,7 @@ class ProgramPembinaanController extends Controller
             'tanggal_selesai' => [
                 'nullable',
                 'date',
-                'after_or_equal:' . $wbpPembinaan->tanggal_mulai->format('Y-m-d'),
+                'after_or_equal:tanggal_mulai',
             ],
             'keterangan' => ['nullable', 'string', 'max:2000'],
         ]);
@@ -252,6 +257,7 @@ class ProgramPembinaanController extends Controller
         }
 
         $wbpPembinaan->update([
+            'tanggal_mulai' => $validated['tanggal_mulai'],
             'indikator_keaktifan' => $validated['indikator_keaktifan'],
             'status_keikutsertaan' => $status,
             'tanggal_selesai' => $status === 'Selesai'

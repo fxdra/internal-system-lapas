@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{BukuController, AdminController, AntrianController, BeritaController, BulettinController, DataKritikController, DataKunjunganController, DataProfileController, DataWbpController, HomeController, ImportFileController, InformasiLayananController, KegiatanController, KritikController, OcrController, PengunjungController, SettingController, TitipanController, ConverterController, KamarController, HpGasbanController, ManajemenPenggunaController, MutasiController, MutasiScenarioController, ProdukController, PetugasKplpController, RaziaController, RaziaGabunganController, PenerimaanWBPController, PemindahanWBPController, TrackingPhotoController, KomjaController, WbpKlinikController, ProgramPembinaanController};
+use App\Http\Controllers\{BukuController, AdminController, AntrianController, BeritaController, BulettinController, DataKritikController, DataKunjunganController, DataProfileController, DataWbpController, HomeController, ImportFileController, InformasiLayananController, KegiatanController, KritikController, OcrController, PengunjungController, SettingController, TitipanController, ConverterController, KamarController, HpGasbanController, ManajemenPenggunaController, MutasiController, MutasiScenarioController, ProdukController, PetugasKplpController, RaziaController, RaziaGabunganController, PenerimaanWBPController, PemindahanWBPController, TrackingPhotoController, KomjaController, WbpKlinikController, HaloMinnaController, ProgramPembinaanController};
 use App\Http\Controllers\Api\LaporanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PengunjungPerpustakaanController;
@@ -114,6 +114,17 @@ Route::middleware('admin')->group(function () {
             Route::post('/', [ProgramPembinaanController::class, 'store'])->name('store');
             Route::put('/keikutsertaan/{wbpPembinaan}', [ProgramPembinaanController::class, 'updateKeikutsertaan'])->name('keikutsertaan.update');
         });
+
+    Route::middleware('role:superadmin,admin,binadik')
+        ->prefix('admin-banceuy/halo-minna')
+        ->name('halo-minna.')
+        ->controller(HaloMinnaController::class)
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/{wbp}/simpan/{bagian}', 'simpanBagian')->name('simpan');
+            Route::post('/{wbp}/generate-ulang-kode', 'generateUlangKode')->name('generate-ulang-kode');
+        });
+
     /*
     |--------------------------------------------------------------------------
     | DATA KAMAR / HUNIAN
