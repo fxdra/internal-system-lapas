@@ -2,6 +2,477 @@
 
 @section('content')
 
+    <style>
+        .program-pembinaan-page .pp-stat-icon {
+            width: 52px;
+            height: 52px;
+            flex: 0 0 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            font-size: 22px;
+        }
+
+
+        /* WBP TERPILIH - GRID HORIZONTAL */
+        .program-pembinaan-page #selectedWbpsList {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+            justify-content: start;
+            gap: 14px 24px;
+            width: 100%;
+            text-align: left;
+        }
+
+        /* ITEM WBP */
+        .program-pembinaan-page #selectedWbpsList [data-selected-wbp] {
+            display: flex !important;
+            flex-direction: row;
+            justify-content: flex-start !important;
+            align-items: flex-start;
+            gap: 12px;
+            min-width: 0;
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 0 10px !important;
+            border: 0 !important;
+            border-bottom: none !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+        }
+
+        /* INFORMASI WBP */
+        .program-pembinaan-page #selectedWbpsList [data-selected-wbp]>div {
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: 280px;
+            overflow-wrap: anywhere;
+        }
+
+        /* NAMA WBP */
+        .program-pembinaan-page #selectedWbpsList .fw-semibold {
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        /* NOMOR REGISTRASI */
+        .program-pembinaan-page #selectedWbpsList .text-muted {
+            display: block;
+            margin-top: 3px;
+            font-size: 12px;
+        }
+
+        /* TOMBOL HAPUS */
+        .program-pembinaan-page #selectedWbpsList .btn-hapus-wbp {
+            display: inline-flex;
+            flex: 0 0 64px;
+            width: 64px;
+            min-width: 64px;
+            justify-content: center;
+            align-items: center;
+            margin: 0px 0 0 !important;
+            padding: 5px 0;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* TABLET DAN MOBILE */
+        @media (max-width: 767.98px) {
+            .program-pembinaan-page #selectedWbpsList {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 12px;
+            }
+
+            .program-pembinaan-page #selectedWbpsList [data-selected-wbp]>div {
+                max-width: 100%;
+            }
+        }
+
+
+        /* FORM DAN INPUT */
+        .program-pembinaan-page .form-control,
+        .program-pembinaan-page .form-select,
+        .program-pembinaan-page .input-group-text {
+            border-radius: 10px;
+        }
+
+        .program-pembinaan-page .input-group .form-control {
+            border-radius: 0 10px 10px 0 !important;
+        }
+
+        .program-pembinaan-page .input-group .input-group-text {
+            border-radius: 10px 0 0 10px !important;
+        }
+
+        .program-pembinaan-page .input-group .form-control:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+
+        .program-pembinaan-page .input-group .btn:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        .program-pembinaan-page .btn-cari-wbp {
+            border-radius: 10px !important;
+        }
+
+        .program-pembinaan-page .rounded-pill {
+            font-weight: 500;
+        }
+
+        /* TABEL */
+        .program-pembinaan-page .pp-table th {
+            white-space: nowrap;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .program-pembinaan-page .pp-table td {
+            font-size: 13px;
+        }
+
+        .program-pembinaan-page .form-check-input {
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+        }
+
+        /* DETAIL RIWAYAT PEMBINAAN */
+        .program-pembinaan-page .pp-detail-row>td {
+            background: transparent;
+        }
+
+        .program-pembinaan-page .pp-detail-content {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+        }
+
+        .program-pembinaan-page .pp-detail-content .form-control,
+        .program-pembinaan-page .pp-detail-content .form-select {
+            border-radius: 10px;
+        }
+
+        .program-pembinaan-page .pp-detail-content .form-label {
+            color: #334155;
+        }
+
+        /* PAGINATION */
+        .program-pembinaan-page .pp-pagination .small.text-muted {
+            display: none !important;
+        }
+
+        .program-pembinaan-page .pp-pagination-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            margin-top: 18px;
+            padding: 14px 16px;
+            background: #f8fafc;
+            border: 1px solid #e8edf4;
+            border-radius: 14px;
+        }
+
+        .program-pembinaan-page .pp-pagination-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .program-pembinaan-page .pp-pagination-info strong {
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .program-pembinaan-page .pp-pagination-label {
+            color: #334155;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .program-pembinaan-page .pp-pagination nav {
+            margin: 0;
+        }
+
+        .program-pembinaan-page .pp-pagination .pagination {
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 5px;
+            margin: 0;
+        }
+
+        .program-pembinaan-page .pp-pagination .page-item {
+            margin: 0;
+        }
+
+        .program-pembinaan-page .pp-pagination .page-link {
+            display: inline-flex;
+            min-width: 36px;
+            height: 36px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 11px;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 600;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px !important;
+            box-shadow: 0 1px 2px rgb(15 23 42 / 4%);
+            transition: color .2s ease, background-color .2s ease,
+                border-color .2s ease, box-shadow .2s ease;
+        }
+
+        .program-pembinaan-page .pp-pagination .page-link:hover {
+            color: var(--bs-primary);
+            background: #f8faff;
+            border-color: var(--bs-primary);
+        }
+
+        .program-pembinaan-page .pp-pagination .page-item.active .page-link {
+            color: #fff;
+            background: var(--bs-primary);
+            border-color: var(--bs-primary);
+            box-shadow: 0 3px 8px rgb(13 110 253 / 20%);
+        }
+
+        .program-pembinaan-page .pp-pagination .page-item.disabled .page-link {
+            color: #a0aab8;
+            background: #f8fafc;
+            border-color: #e8edf4;
+            box-shadow: none;
+        }
+
+        /* FOOTER RIWAYAT TANPA CARD */
+        .program-pembinaan-page .pp-pagination-clean {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .program-pembinaan-page .pp-pagination-clean .pp-pagination-info {
+            gap: 3px;
+        }
+
+        /* ================= DARK THEME PROGRAM PEMBINAAN ================= */
+
+        /* Badge jumlah WBP dipilih */
+        html.app-skin-dark .badge.bg-light.text-dark.border {
+            background-color: #1e293b !important;
+            color: #cbd5e1 !important;
+            border-color: #334155 !important;
+        }
+
+        /* Icon kalender pada input date saat dark theme */
+        .app-skin-dark input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        /* Header tabel program pembinaan */
+        html.app-skin-dark .table thead th {
+            background-color: #0f172a !important;
+            color: #cbd5e1 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Checkbox pilih semua */
+        html.app-skin-dark .table thead .form-check-input {
+            background-color: #1e293b;
+            border-color: #64748b;
+        }
+
+        html.app-skin-dark .table thead .form-check-input:checked {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+
+        /* Dropdown Program Pembinaan */
+        html.app-skin-dark .form-select,
+        html.app-skin-dark select.form-select {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+        }
+
+        /* Opsi dropdown */
+        html.app-skin-dark .form-select option,
+        html.app-skin-dark select option {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Opsi yang dipilih */
+        html.app-skin-dark .form-select option:checked,
+        html.app-skin-dark select option:checked {
+            background-color: #1d4ed8 !important;
+            color: #ffffff !important;
+        }
+
+        /* Container informasi dan pagination */
+        html.app-skin-dark .pp-pagination-wrap {
+            background: #0f172a !important;
+            border-color: #283449 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Label Data WBP */
+        html.app-skin-dark .pp-pagination-info,
+        html.app-skin-dark .pp-pagination-label {
+            color: #cbd5e1 !important;
+        }
+
+        /* Angka jumlah data */
+        html.app-skin-dark .pp-pagination-info strong {
+            color: #f1f5f9 !important;
+        }
+
+        /* Tombol pagination */
+        html.app-skin-dark .pp-pagination .page-link {
+            background-color: #111c30 !important;
+            color: #cbd5e1 !important;
+            border-color: #283449 !important;
+            box-shadow: none !important;
+        }
+
+        /* Halaman aktif */
+        html.app-skin-dark .pp-pagination .page-item.active .page-link {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+            border-color: #2563eb !important;
+        }
+
+        /* Hover tombol */
+        html.app-skin-dark .pp-pagination .page-link:hover {
+            background-color: #1e293b !important;
+            color: #ffffff !important;
+            border-color: #334155 !important;
+        }
+
+        /* Tombol disabled */
+        html.app-skin-dark .pp-pagination .page-item.disabled .page-link {
+            background-color: #0f172a !important;
+            color: #64748b !important;
+            border-color: #283449 !important;
+        }
+
+        /* DARK THEME - DETAIL KEIKUTSERTAAN */
+        .app-skin-dark .pp-detail-content {
+            background-color: #111827;
+            color: #e5e7eb;
+        }
+
+        /* Judul dan label */
+        .app-skin-dark .pp-detail-content h6,
+        .app-skin-dark .pp-detail-content .form-label {
+            color: #f3f4f6 !important;
+        }
+
+        /* Deskripsi WBP dan program */
+        .app-skin-dark .pp-detail-content .text-muted {
+            color: #9ca3af !important;
+        }
+
+        /* Input, textarea, dan dropdown */
+        .app-skin-dark .pp-detail-content .form-control,
+        .app-skin-dark .pp-detail-content .form-select {
+            background-color: #0f172a !important;
+            color: #e5e7eb !important;
+            border-color: #374151 !important;
+        }
+
+        /* Placeholder */
+        .app-skin-dark .pp-detail-content .form-control::placeholder {
+            color: #9ca3af !important;
+        }
+
+        /* Fokus input */
+        .app-skin-dark .pp-detail-content .form-control:focus,
+        .app-skin-dark .pp-detail-content .form-select:focus {
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.2) !important;
+        }
+
+        /* Opsi dropdown */
+        .app-skin-dark .pp-detail-content .form-select option {
+            background-color: #0f172a;
+            color: #e5e7eb;
+        }
+
+        /* Ikon kalender */
+        .app-skin-dark .pp-detail-content input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        /* Tombol simpan */
+        .app-skin-dark .pp-detail-content .btn-primary {
+            color: #ffffff !important;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .program-pembinaan-page .card-body {
+                padding: 1rem !important;
+            }
+
+            .program-pembinaan-page .pp-stat-icon {
+                width: 44px;
+                height: 44px;
+                flex-basis: 44px;
+            }
+
+            .program-pembinaan-page .btn {
+                max-width: 100%;
+            }
+
+            .program-pembinaan-page .table-responsive {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .program-pembinaan-page .pp-pagination-wrap {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .program-pembinaan-page .pp-pagination-info {
+                align-items: center;
+                width: 100%;
+            }
+
+            .program-pembinaan-page .pp-pagination {
+                width: 100%;
+            }
+
+            .program-pembinaan-page .pp-pagination .pagination {
+                justify-content: center;
+            }
+
+            @media (max-width: 575.98px) {
+                .program-pembinaan-page .pp-pagination-clean {
+                    justify-content: center;
+                    text-align: center;
+                }
+            }
+        }
+    </style>
+
     <div class="container-fluid my-3 program-pembinaan-page">
 
         {{-- HEADER --}}
@@ -730,321 +1201,6 @@
             </div>
         @endif
     </div>
-
-    <style>
-        .program-pembinaan-page .pp-stat-icon {
-            width: 52px;
-            height: 52px;
-            flex: 0 0 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            font-size: 22px;
-        }
-
-
-        /* WBP TERPILIH - GRID HORIZONTAL */
-        .program-pembinaan-page #selectedWbpsList {
-            display: grid !important;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            align-items: start;
-            justify-content: start;
-            gap: 14px 24px;
-            width: 100%;
-            text-align: left;
-        }
-
-        /* ITEM WBP */
-        .program-pembinaan-page #selectedWbpsList [data-selected-wbp] {
-            display: flex !important;
-            flex-direction: row;
-            justify-content: flex-start !important;
-            align-items: flex-start;
-            gap: 12px;
-            min-width: 0;
-            width: 100%;
-            margin: 0 !important;
-            padding: 0 0 10px !important;
-            border: 0 !important;
-            border-bottom: none !important;
-            border-radius: 0 !important;
-            background: transparent !important;
-        }
-
-        /* INFORMASI WBP */
-        .program-pembinaan-page #selectedWbpsList [data-selected-wbp]>div {
-            flex: 1 1 auto;
-            min-width: 0;
-            max-width: 280px;
-            overflow-wrap: anywhere;
-        }
-
-        /* NAMA WBP */
-        .program-pembinaan-page #selectedWbpsList .fw-semibold {
-            line-height: 1.4;
-            overflow-wrap: anywhere;
-        }
-
-        /* NOMOR REGISTRASI */
-        .program-pembinaan-page #selectedWbpsList .text-muted {
-            display: block;
-            margin-top: 3px;
-            font-size: 12px;
-        }
-
-        /* TOMBOL HAPUS */
-        .program-pembinaan-page #selectedWbpsList .btn-hapus-wbp {
-            display: inline-flex;
-            flex: 0 0 64px;
-            width: 64px;
-            min-width: 64px;
-            justify-content: center;
-            align-items: center;
-            margin: 0px 0 0 !important;
-            padding: 5px 0;
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        /* TABLET DAN MOBILE */
-        @media (max-width: 767.98px) {
-            .program-pembinaan-page #selectedWbpsList {
-                grid-template-columns: minmax(0, 1fr);
-                gap: 12px;
-            }
-
-            .program-pembinaan-page #selectedWbpsList [data-selected-wbp]>div {
-                max-width: 100%;
-            }
-        }
-
-
-        /* FORM DAN INPUT */
-        .program-pembinaan-page .form-control,
-        .program-pembinaan-page .form-select,
-        .program-pembinaan-page .input-group-text {
-            border-radius: 10px;
-        }
-
-        .program-pembinaan-page .input-group .form-control {
-            border-radius: 0 10px 10px 0 !important;
-        }
-
-        .program-pembinaan-page .input-group .input-group-text {
-            border-radius: 10px 0 0 10px !important;
-        }
-
-        .program-pembinaan-page .input-group .form-control:first-child {
-            border-radius: 10px 0 0 10px;
-        }
-
-        .program-pembinaan-page .input-group .btn:last-child {
-            border-radius: 0 10px 10px 0;
-        }
-
-        .program-pembinaan-page .btn-cari-wbp {
-            border-radius: 10px !important;
-        }
-
-        .program-pembinaan-page .rounded-pill {
-            font-weight: 500;
-        }
-
-        /* TABEL */
-        .program-pembinaan-page .pp-table th {
-            white-space: nowrap;
-            font-size: 13px;
-            color: #475569;
-        }
-
-        .program-pembinaan-page .pp-table td {
-            font-size: 13px;
-        }
-
-        .program-pembinaan-page .form-check-input {
-            width: 17px;
-            height: 17px;
-            cursor: pointer;
-        }
-
-        /* DETAIL RIWAYAT PEMBINAAN */
-        .program-pembinaan-page .pp-detail-row>td {
-            background: transparent;
-        }
-
-        .program-pembinaan-page .pp-detail-content {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-        }
-
-        .program-pembinaan-page .pp-detail-content .form-control,
-        .program-pembinaan-page .pp-detail-content .form-select {
-            border-radius: 10px;
-        }
-
-        .program-pembinaan-page .pp-detail-content .form-label {
-            color: #334155;
-        }
-
-        /* PAGINATION */
-        .program-pembinaan-page .pp-pagination .small.text-muted {
-            display: none !important;
-        }
-
-        .program-pembinaan-page .pp-pagination-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 14px;
-            margin-top: 18px;
-            padding: 14px 16px;
-            background: #f8fafc;
-            border: 1px solid #e8edf4;
-            border-radius: 14px;
-        }
-
-        .program-pembinaan-page .pp-pagination-info {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            color: #64748b;
-            font-size: 13px;
-        }
-
-        .program-pembinaan-page .pp-pagination-info strong {
-            color: #334155;
-            font-weight: 600;
-        }
-
-        .program-pembinaan-page .pp-pagination-label {
-            color: #334155;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .program-pembinaan-page .pp-pagination nav {
-            margin: 0;
-        }
-
-        .program-pembinaan-page .pp-pagination .pagination {
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            gap: 5px;
-            margin: 0;
-        }
-
-        .program-pembinaan-page .pp-pagination .page-item {
-            margin: 0;
-        }
-
-        .program-pembinaan-page .pp-pagination .page-link {
-            display: inline-flex;
-            min-width: 36px;
-            height: 36px;
-            align-items: center;
-            justify-content: center;
-            padding: 0 11px;
-            color: #475569;
-            font-size: 13px;
-            font-weight: 600;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 9px !important;
-            box-shadow: 0 1px 2px rgb(15 23 42 / 4%);
-            transition: color .2s ease, background-color .2s ease,
-                border-color .2s ease, box-shadow .2s ease;
-        }
-
-        .program-pembinaan-page .pp-pagination .page-link:hover {
-            color: var(--bs-primary);
-            background: #f8faff;
-            border-color: var(--bs-primary);
-        }
-
-        .program-pembinaan-page .pp-pagination .page-item.active .page-link {
-            color: #fff;
-            background: var(--bs-primary);
-            border-color: var(--bs-primary);
-            box-shadow: 0 3px 8px rgb(13 110 253 / 20%);
-        }
-
-        .program-pembinaan-page .pp-pagination .page-item.disabled .page-link {
-            color: #a0aab8;
-            background: #f8fafc;
-            border-color: #e8edf4;
-            box-shadow: none;
-        }
-
-        /* FOOTER RIWAYAT TANPA CARD */
-        .program-pembinaan-page .pp-pagination-clean {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-top: 14px;
-            padding: 0;
-            background: transparent;
-            border: 0;
-            border-radius: 0;
-            box-shadow: none;
-        }
-
-        .program-pembinaan-page .pp-pagination-clean .pp-pagination-info {
-            gap: 3px;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .program-pembinaan-page .card-body {
-                padding: 1rem !important;
-            }
-
-            .program-pembinaan-page .pp-stat-icon {
-                width: 44px;
-                height: 44px;
-                flex-basis: 44px;
-            }
-
-            .program-pembinaan-page .btn {
-                max-width: 100%;
-            }
-
-            .program-pembinaan-page .table-responsive {
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 575.98px) {
-            .program-pembinaan-page .pp-pagination-wrap {
-                justify-content: center;
-                text-align: center;
-            }
-
-            .program-pembinaan-page .pp-pagination-info {
-                align-items: center;
-                width: 100%;
-            }
-
-            .program-pembinaan-page .pp-pagination {
-                width: 100%;
-            }
-
-            .program-pembinaan-page .pp-pagination .pagination {
-                justify-content: center;
-            }
-
-            @media (max-width: 575.98px) {
-                .program-pembinaan-page .pp-pagination-clean {
-                    justify-content: center;
-                    text-align: center;
-                }
-            }
-        }
-    </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

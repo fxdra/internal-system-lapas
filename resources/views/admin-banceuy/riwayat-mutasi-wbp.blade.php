@@ -9,6 +9,18 @@
 
     <title>Riwayat Mutasi WBP</title>
 
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('app-skin-dark');
+
+                if (theme === 'app-skin-dark') {
+                    document.documentElement.classList.add('app-skin-dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -149,6 +161,216 @@
         .mutasi-row-hidden td {
             color: #6c757d !important;
         }
+
+        /* DARK MODE - RIWAYAT MUTASI WBP */
+        @media screen {
+            html.app-skin-dark body {
+                background: #0f172a !important;
+                color: #e2e8f0;
+            }
+
+            /* CARD */
+            html.app-skin-dark .card {
+                background-color: #182235;
+                color: #e2e8f0;
+                border-color: #334155 !important;
+            }
+
+            html.app-skin-dark .card-body {
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark .card-header {
+                background-color: #263449;
+                color: #f1f5f9;
+                border-color: #334155;
+            }
+
+            html.app-skin-dark .header-block {
+                background-color: #182235;
+            }
+
+            /* JUDUL DAN BREADCRUMB */
+            html.app-skin-dark h4,
+            html.app-skin-dark h5,
+            html.app-skin-dark strong,
+            html.app-skin-dark label,
+            html.app-skin-dark .form-label {
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark .breadcrumb-item,
+            html.app-skin-dark .breadcrumb-item.active {
+                color: #a8b5c7;
+            }
+
+            html.app-skin-dark .breadcrumb-item a {
+                color: #93c5fd;
+            }
+
+            html.app-skin-dark .breadcrumb-item+.breadcrumb-item::before {
+                color: #64748b;
+            }
+
+            /* INPUT DAN FILTER */
+            html.app-skin-dark .form-control,
+            html.app-skin-dark .form-select {
+                background-color: #0f172a;
+                color: #e2e8f0;
+                border-color: #475569;
+            }
+
+            html.app-skin-dark .form-control::placeholder {
+                color: #94a3b8;
+            }
+
+            html.app-skin-dark .form-control:focus,
+            html.app-skin-dark .form-select:focus {
+                border-color: #60a5fa;
+                box-shadow: 0 0 0 .2rem rgba(96, 165, 250, .15);
+            }
+
+            html.app-skin-dark .form-select option {
+                background-color: #182235;
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark input[type="date"]::-webkit-calendar-picker-indicator {
+                filter: invert(1);
+                cursor: pointer;
+            }
+
+            /* TABEL */
+            html.app-skin-dark .table {
+                --bs-table-color: #e2e8f0;
+                --bs-table-bg: #182235;
+                --bs-table-border-color: #334155;
+                --bs-table-striped-bg: #202d42;
+                --bs-table-striped-color: #e2e8f0;
+                --bs-table-hover-bg: #263449;
+                --bs-table-hover-color: #ffffff;
+
+                color: #e2e8f0;
+                border-color: #334155;
+            }
+
+            html.app-skin-dark .table-light {
+                --bs-table-bg: #263449;
+                --bs-table-color: #f1f5f9;
+                --bs-table-border-color: #475569;
+
+                background-color: #263449 !important;
+                color: #f1f5f9 !important;
+            }
+
+            html.app-skin-dark .table-success {
+                --bs-table-bg: #123c35;
+                --bs-table-color: #d1fae5;
+                --bs-table-border-color: #27675a;
+            }
+
+            /* MUTASI YANG DISEMBUNYIKAN */
+            html.app-skin-dark .mutasi-row-hidden {
+                background-color: #293244 !important;
+                opacity: .65;
+            }
+
+            html.app-skin-dark .mutasi-row-hidden td {
+                color: #a8b5c7 !important;
+            }
+
+            /* SELECT2 - PENCARIAN WBP */
+            html.app-skin-dark .select2-container--default .select2-selection--single {
+                background-color: #0f172a;
+                border-color: #475569;
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark .select2-container--default .select2-selection--single .select2-selection__placeholder {
+                color: #94a3b8;
+            }
+
+            html.app-skin-dark .select2-container--default .select2-selection--single .select2-selection__arrow b {
+                border-top-color: #cbd5e1;
+            }
+
+            html.app-skin-dark .select2-dropdown {
+                background-color: #182235;
+                border-color: #475569;
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark .select2-container--default .select2-results__option {
+                background-color: #182235;
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark .select2-container--default .select2-results__option--highlighted[aria-selected] {
+                background-color: #1d4ed8;
+                color: #ffffff;
+            }
+
+            html.app-skin-dark .select2-container--default .select2-results__option[aria-selected="true"] {
+                background-color: #263449;
+                color: #ffffff;
+            }
+
+            html.app-skin-dark .select2-container--default .select2-search--dropdown .select2-search__field {
+                background-color: #0f172a;
+                color: #e2e8f0;
+                border-color: #475569;
+            }
+
+            /* MODAL EDIT */
+            html.app-skin-dark .modal-content {
+                background-color: #182235;
+                color: #e2e8f0;
+                border-color: #334155;
+            }
+
+            html.app-skin-dark .modal-header,
+            html.app-skin-dark .modal-footer {
+                border-color: #334155;
+            }
+
+            html.app-skin-dark .modal-title {
+                color: #f1f5f9;
+            }
+
+            html.app-skin-dark .modal-body label {
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark .modal-content .btn-close {
+                filter: invert(1);
+            }
+
+            /* RINGKASAN DAN GRAND TOTAL */
+            html.app-skin-dark .badge.bg-success {
+                color: #ffffff;
+            }
+
+            html.app-skin-dark .btn-outline-secondary {
+                color: #cbd5e1;
+                border-color: #64748b;
+            }
+
+            html.app-skin-dark .btn-outline-secondary:hover {
+                background-color: #334155;
+                color: #ffffff;
+            }
+
+            /* TANGGAL DAN TANDA TANGAN */
+            html.app-skin-dark .text-muted,
+            html.app-skin-dark .small {
+                color: #a8b5c7 !important;
+            }
+        }
+
 
         /* =========================
                 PRINT
@@ -320,7 +542,6 @@
                         </label>
 
                         <select name="filter" id="filter" class="form-select">
-
                             <option value="today" {{ $filter == 'today' ? 'selected' : '' }}>
                                 Hari Ini
                             </option>
@@ -344,9 +565,7 @@
                             <option value="custom" {{ $filter == 'custom' ? 'selected' : '' }}>
                                 Pilih Rentang Tanggal
                             </option>
-
                         </select>
-
                     </div>
 
                     <div class="col-md-3">
@@ -356,65 +575,45 @@
                         </label>
 
                         <select name="search" id="searchWbp" class="form-select">
-
                             <option value="">
                                 Pilih WBP...
                             </option>
-
                             @foreach ($wbps as $wbp)
                                 <option value="{{ $wbp->nama }}"
                                     {{ request('search') == $wbp->nama ? 'selected' : '' }}>
-
                                     {{ $wbp->nama }}
                                     —
                                     BLOK {{ $wbp->blok }}
                                     -
                                     {{ $wbp->kamar }}
-
                                 </option>
                             @endforeach
-
                         </select>
-
                     </div>
 
                     <div class="col-md-2 custom-range" style="{{ $filter == 'custom' ? '' : 'display:none' }}">
-
                         <label class="form-label">
                             Dari Tanggal
                         </label>
-
                         <input type="date" name="start_date" class="form-control"
                             value="{{ request('start_date') }}">
-
                     </div>
 
                     <div class="col-md-2 custom-range" style="{{ $filter == 'custom' ? '' : 'display:none' }}">
-
                         <label class="form-label">
                             Sampai Tanggal
                         </label>
-
                         <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
-
                     </div>
 
                     <div class="col-md-2">
-
                         <button type="submit" class="btn btn-primary w-100">
-
                             Tampilkan
-
                         </button>
-
                     </div>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
 
     @if (request('search'))
@@ -481,13 +680,11 @@
                         <thead class="table-light">
 
                             <tr>
-
                                 <th>Nama WBP</th>
                                 <th>Kamar Asal</th>
                                 <th>Kamar Tujuan</th>
                                 <th>Tanggal</th>
                                 <th>Keterangan</th>
-
                             </tr>
 
                         </thead>
@@ -563,29 +760,22 @@
                 </div>
 
                 <div class="card-body p-0">
-
                     <div class="table-responsive">
-
                         <table class="table table-bordered table-hover table-sm align-middle mb-0 table-fixed">
-
                             <thead class="table-light">
                                 <tr>
-
                                     <th class="col-nama text-center">Nama</th>
                                     <th class="col-kamar">Kamar Tujuan</th>
                                     <th class="col-agama">Agama</th>
                                     <th class="col-putusan">Pidana</th>
                                     <th class="col-ekspirasi">Ekspirasi</th>
                                     <th class="col-kejahatan">Jenis Kejahatan</th>
-                                    <th class="col-alasan text-center">Ket</th>
                                     <th class="col-tanggal">Tanggal</th>
                                     <th class="col-action text-center">Action</th>
-
                                 </tr>
                             </thead>
 
                             <tbody>
-
                                 @foreach ($items as $row)
                                     <tr class="mutasi-row {{ $row->is_hidden ? 'mutasi-row-hidden' : '' }}"
                                         data-id="{{ $row->id }}">
@@ -611,8 +801,8 @@
 
                                         <td class="col-putusan">
                                             <div class="text-truncate">
-                                                {{ $row->putusan ? $row->putusan . ' Tahun' : '' }}
-                                                {{ $row->putusan_bulan ? $row->putusan_bulan . ' Bulan' : '' }}
+                                                {{ $row->wbp?->putusan ? $row->wbp->putusan . ' Tahun' : '' }}
+                                                {{ $row->wbp?->putusan_bulan ? $row->wbp->putusan_bulan . ' Bulan' : '' }}
                                             </div>
                                         </td>
 
@@ -625,13 +815,6 @@
                                         <td class="col-kejahatan">
                                             <div class="text-truncate" title="{{ $row->jenis_kejahatan }}">
                                                 {{ $row->jenis_kejahatan }}
-                                            </div>
-                                        </td>
-
-
-                                        <td class="col-alasan">
-                                            <div class="text-truncate" title="{{ $row->alasan }}">
-                                                {{ $row->alasan }}
                                             </div>
                                         </td>
 
@@ -709,10 +892,8 @@
 
                                                         <div class="mb-3">
                                                             <label class="form-label">Kamar Tujuan</label>
-
                                                             <select name="kamar_tujuan_id" class="form-select"
                                                                 required>
-
                                                                 @foreach ($kamars as $kamar)
                                                                     <option value="{{ $kamar->id }}"
                                                                         {{ $row->kamar_tujuan_id == $kamar->id ? 'selected' : '' }}>
@@ -720,7 +901,6 @@
                                                                         {{ $kamar->lokasi_sel ?? '-' }}
                                                                     </option>
                                                                 @endforeach
-
                                                             </select>
                                                         </div>
 
@@ -728,37 +908,26 @@
                                                             <label>Keterangan</label>
                                                             <textarea name="alasan" class="form-control" rows="4">{{ $row->alasan }}</textarea>
                                                         </div>
-
                                                     </div>
 
                                                     <div class="modal-footer">
-
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">
                                                             Batal
                                                         </button>
-
                                                         <button type="submit" class="btn btn-primary">
                                                             Simpan
                                                         </button>
-
                                                     </div>
-
                                                 </form>
-
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
-
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
-
             </div>
         @endforeach
     @endif

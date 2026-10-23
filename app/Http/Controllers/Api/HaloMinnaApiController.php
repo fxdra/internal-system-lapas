@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\ProgramPembinaan;
+use App\Models\WbpPembinaan;
 
 class HaloMinnaApiController extends Controller
 {
@@ -90,6 +92,148 @@ class HaloMinnaApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Logout berhasil.',
+        ]);
+    }
+
+    public function programPembinaan()
+    {
+        $programs = ProgramPembinaan::query()
+            ->where('is_active', true)
+            ->orderBy('kategori')
+            ->orderBy('nama_program')
+            ->get([
+                'id',
+                'kategori',
+                'nama_program',
+            ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $programs,
+        ]);
+    }
+
+    public function programDiikuti(Request $request)
+    {
+        $user = $request->user();
+
+        $user->load('wbp');
+
+        if (
+            !$user->wbp ||
+            $user->wbp->status_wbp !== 'AKTIF' ||
+            $user->status_aktif !== 'Aktif'
+        ) {
+            $user->currentAccessToken()?->delete();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Akun atau data WBP tidak aktif.',
+            ], 403);
+        }
+
+        $programs = WbpPembinaan::query()
+            ->where('wbp_id', $user->wbp_id)
+            ->with([
+                'program:id,kategori,nama_program',
+            ])
+            ->orderByDesc('tanggal_mulai')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'program_id' => $item->program_pembinaan_id,
+                    'kategori' => $item->program?->kategori,
+                    'nama_program' => $item->program?->nama_program,
+                    'tanggal_mulai' => $item->tanggal_mulai?->format('Y-m-d'),
+                    'tanggal_selesai' => $item->tanggal_selesai?->format('Y-m-d'),
+                    'indikator_keaktifan' => $item->indikator_keaktifan,
+                    'status_keikutsertaan' => $item->status_keikutsertaan,
+                    'keterangan' => $item->keterangan,
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'data' => $programs,
+        ]);
+    }
+
+    public function statistikPembinaan(Request $request)
+    {
+        $user = $request->user();
+
+        $user->load('wbp');
+
+        if (
+            !$user->wbp ||
+            $user->wbp->status_wbp !== 'AKTIF' ||
+            $user->status_aktif !== 'Aktif'
+        ) {
+            $user->currentAccessToken()?->delete();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Akun atau data WBP tidak aktif.',
+            ], 403);
+        }
+
+        // Ambil seluruh data keikutsertaan pembinaan dari semua WBP aktif.
+        $riwayat = WbpPembinaan::query()
+            ->whereHas('wbp', function ($query) {
+                $query->where('status_wbp', 'AKTIF');
+            })
+            ->with('program:id,kategori,nama_program')
+            ->get();
+
+        $aktif = $riwayat->where('status_keikutsertaan', 'Aktif');
+        $selesai = $riwayat->where('status_keikutsertaan', 'Selesai');
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'total_diikuti' => $riwayat
+                    ->pluck('wbp_id')
+                    ->unique()
+                    ->count(),
+
+                'total_aktif' => $aktif
+                    ->pluck('wbp_id')
+                    ->unique()
+                    ->count(),
+
+                'total_selesai' => $selesai
+                    ->pluck('wbp_id')
+                    ->unique()
+                    ->count(),
+
+                'per_program' => $riwayat
+                    ->groupBy('program_pembinaan_id')
+                    ->map(function ($items) {
+                        $program = $items->first()->program;
+
+                        return [
+                            'program_id' => $program?->id,
+                            'kategori' => $program?->kategori,
+                            'nama_program' => $program?->nama_program,
+                            'jumlah_wbp' => $items
+                                ->pluck('wbp_id')
+                                ->unique()
+                                ->count(),
+                            'total_aktif' => $items
+                                ->where('status_keikutsertaan', 'Aktif')
+                                ->pluck('wbp_id')
+                                ->unique()
+                                ->count(),
+                            'total_selesai' => $items
+                                ->where('status_keikutsertaan', 'Selesai')
+                                ->pluck('wbp_id')
+                                ->unique()
+                                ->count(),
+                        ];
+                    })
+                    ->values(),
+            ],
         ]);
     }
 

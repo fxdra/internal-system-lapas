@@ -1,19 +1,14 @@
 @extends('admin-banceuy.partisi.main')
-
 @section('content')
-
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <style>
         body {
             background: #f5f7fb;
         }
 
-        /* =========================
-            CARD
-            ========================= */
 
+        /* CARD */
         .card-custom {
             border: none;
             border-radius: 24px;
@@ -36,9 +31,7 @@
         }
 
 
-        /* =========================
-                       BUTTON
-                    ========================= */
+        /* BUTTON */
 
         .btn {
             border: none;
@@ -72,24 +65,20 @@
             font-size: 13px;
         }
 
-        /* =========================
-                       CUSTOM MODAL
-                    ========================= */
+
+        /* CUSTOM MODAL */
 
         .custom-modal {
             position: fixed;
             inset: 0;
             background: rgba(15, 23, 42, .6);
             backdrop-filter: blur(5px);
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             opacity: 0;
             visibility: hidden;
             transition: .25s ease;
-
             z-index: 99999;
             padding: 20px;
         }
@@ -105,10 +94,8 @@
             background: white;
             border-radius: 24px;
             overflow: hidden;
-
             transform: scale(.9) translateY(20px);
             transition: .25s ease;
-
             box-shadow:
                 0 20px 40px rgba(0, 0, 0, .15);
         }
@@ -120,7 +107,6 @@
         .custom-modal-header {
             padding: 24px 28px 18px;
             border-bottom: 1px solid #f1f5f9;
-
             display: flex;
             justify-content: space-between;
             align-items: start;
@@ -191,7 +177,6 @@
 
         .custom-modal-footer {
             padding: 20px 28px 28px;
-
             display: flex;
             justify-content: end;
             gap: 12px;
@@ -219,8 +204,143 @@
             background: #1d4ed8;
         }
 
-        @media(max-width:576px) {
+        /* ================= DARK THEME PETUGAS KPLP ================= */
 
+        /* Card utama */
+        html.app-skin-dark .card-custom {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Header card yang memakai bg-white */
+        html.app-skin-dark .card-custom .card-header {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Judul dan teks deskripsi */
+        html.app-skin-dark .card-custom h3 {
+            color: #f1f5f9 !important;
+        }
+
+        html.app-skin-dark .card-custom .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        /* Header tabel */
+        html.app-skin-dark .card-custom .table thead th {
+            background: #0f172a !important;
+            color: #cbd5e1 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Isi tabel */
+        html.app-skin-dark .card-custom .table tbody td {
+            background: #111c30 !important;
+            color: #e2e8f0 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Efek hover baris tabel */
+        html.app-skin-dark .card-custom .table-hover tbody tr:hover>* {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+        }
+
+        /* Overlay modal */
+        html.app-skin-dark #customModal.custom-modal {
+            background: rgba(2, 6, 23, 0.78) !important;
+        }
+
+        /* Panel modal */
+        html.app-skin-dark #customModal .custom-modal-box {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border: 1px solid #283449 !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        /* Header modal */
+        html.app-skin-dark #customModal .custom-modal-header {
+            background: #0f172a !important;
+            border-bottom-color: #283449 !important;
+        }
+
+        html.app-skin-dark #customModal .custom-modal-header h3 {
+            color: #f1f5f9 !important;
+        }
+
+        html.app-skin-dark #customModal .custom-modal-header small {
+            color: #94a3b8 !important;
+        }
+
+        /* Label form */
+        html.app-skin-dark #customModal .form-group-custom label {
+            color: #cbd5e1 !important;
+        }
+
+        /* Input form */
+        html.app-skin-dark #customModal .form-group-custom input {
+            background: #111c30 !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+            color-scheme: dark;
+        }
+
+        html.app-skin-dark #customModal .form-group-custom input::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1;
+        }
+
+        html.app-skin-dark #customModal .form-group-custom input:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2) !important;
+        }
+
+        /* Keterangan password */
+        html.app-skin-dark #customModal .form-group-custom small {
+            color: #94a3b8 !important;
+        }
+
+        /* Footer modal */
+        html.app-skin-dark #customModal .custom-modal-footer {
+            background: #0f172a !important;
+            border-top-color: #283449 !important;
+        }
+
+        /* Tombol close */
+        html.app-skin-dark #customModal .close-modal {
+            background: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
+
+        html.app-skin-dark #customModal .close-modal:hover {
+            background: #334155 !important;
+        }
+
+        /* Tombol batal */
+        html.app-skin-dark #customModal .btn-cancel {
+            background: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
+
+        html.app-skin-dark #customModal .btn-cancel:hover {
+            background: #334155 !important;
+        }
+
+        /* Tombol simpan tetap biru */
+        html.app-skin-dark #customModal .btn-save {
+            background: #2563eb !important;
+            color: #ffffff !important;
+        }
+
+        html.app-skin-dark #customModal .btn-save:hover {
+            background: #1d4ed8 !important;
+        }
+
+        @media(max-width:576px) {
             .custom-modal-box {
                 border-radius: 20px;
             }
@@ -231,367 +351,214 @@
                 padding-left: 20px;
                 padding-right: 20px;
             }
-
         }
     </style>
-
     <div class="container py-4">
-
         <div class="card card-custom shadow-sm">
-
             <div class="card-header bg-white border-0 py-4">
-
                 <div class="d-flex align-items-center flex-wrap gap-3">
-
                     <div>
-
                         <h3 class="fw-bold mb-1">
                             Data Petugas KPLP
                         </h3>
-
                         <small class="text-muted">
                             Management Data Petugas KPLP
                         </small>
-
                     </div>
-
                     <div class="ms-auto">
-
                         <button class="btn btn-primary" id="btnTambah">
-
                             + Tambah Petugas
-
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
-
             <div class="card-body">
-
                 @if (session('success'))
                     <div class="alert alert-success">
-
                         {{ session('success') }}
-
                     </div>
                 @endif
-
                 @if ($errors->any())
                     <div class="alert alert-danger">
-
                         <ul class="mb-0">
-
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
-
                         </ul>
-
                     </div>
                 @endif
-
                 <div class="table-responsive">
-
                     <table class="table table-hover align-middle">
-
                         <thead class="table-light">
-
                             <tr>
-
                                 <th width="80">No</th>
                                 <th>Nama</th>
                                 <th>NIP</th>
                                 <th>Role</th>
                                 <th width="220">Aksi</th>
-
                             </tr>
-
                         </thead>
-
                         <tbody>
-
                             @forelse($petugas as $item)
                                 <tr>
-
                                     <td>{{ $loop->iteration }}</td>
-
                                     <td class="fw-semibold">
                                         {{ $item->nama }}
                                     </td>
-
                                     <td>
                                         {{ $item->nip }}
                                     </td>
-
                                     <td>
-
                                         <span class="badge-custom">
-
                                             {{ strtoupper($item->role) }}
-
                                         </span>
-
                                     </td>
-
-
                                     <td>
-
                                         <div class="d-flex justify-content-between align-items-center">
-
                                             <button type="button" class="btn btn-sm btn-warning rounded-pill px-3 btnEdit"
                                                 data-id="{{ $item->id }}" data-nama="{{ $item->nama }}"
                                                 data-nip="{{ $item->nip }}">
-
                                                 Edit
-
                                             </button>
-
                                             <form action="{{ route('petugas-kplp.destroy', $item->id) }}" method="POST"
                                                 class="m-0">
-
                                                 @csrf
                                                 @method('DELETE')
-
                                                 <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3"
                                                     onclick="return confirm('Yakin ingin menghapus data ini ?')">
-
                                                     Hapus
-
                                                 </button>
-
                                             </form>
-
                                         </div>
-
                                     </td>
-
                                 </tr>
-
                             @empty
-
                                 <tr>
-
                                     <td colspan="5" class="text-center py-5">
-
                                         <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" width="90"
                                             class="mb-3">
-
                                         <div class="text-muted">
-
                                             Data Petugas KPLP Belum Ada
-
                                         </div>
-
                                     </td>
-
                                 </tr>
                             @endforelse
-
                         </tbody>
-
                     </table>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
     <!-- CUSTOM MODAL -->
-
     <div class="custom-modal" id="customModal">
-
         <div class="custom-modal-box">
-
             <div class="custom-modal-header">
-
                 <div>
-
                     <h3 id="modalTitle">
                         Tambah Petugas
                     </h3>
-
                     <small>
                         Form Data Petugas KPLP
                     </small>
-
                 </div>
-
                 <button class="close-modal" id="closeModal">
-
                     &times;
-
                 </button>
-
             </div>
-
             <form action="{{ route('petugas-kplp.store') }}" method="POST">
-
                 @csrf
-
                 <input type="hidden" name="id" id="id">
-
                 <div class="custom-modal-body">
-
                     <div class="form-group-custom">
-
                         <label>
                             Nama Lengkap
                         </label>
-
                         <input type="text" name="nama" id="nama" placeholder="Masukkan nama petugas" required>
-
                     </div>
-
                     <div class="form-group-custom">
-
                         <label>
                             NIP
                         </label>
-
                         <input type="text" name="nip" id="nip" placeholder="Masukkan NIP" required>
-
                     </div>
-
                     <div class="form-group-custom">
-
                         <label>
                             Password
                         </label>
-
                         <input type="password" name="password" id="password" placeholder="Masukkan password">
-
                         <small>
                             Kosongkan jika tidak ingin mengganti password
                         </small>
-
                     </div>
-
                 </div>
-
                 <div class="custom-modal-footer">
-
                     <button type="button" class="btn-cancel" id="btnBatal">
-
                         Batal
-
                     </button>
-
                     <button type="submit" class="btn-save">
-
                         Simpan
-
                     </button>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
-
     <script>
         $(document).ready(function() {
-
             function openModal() {
-
                 $('#customModal').addClass('active');
-
                 $('body').css('overflow', 'hidden');
-
             }
 
             function closeModal() {
-
                 $('#customModal').removeClass('active');
-
                 $('body').css('overflow', 'auto');
-
             }
-
             // TAMBAH
-
             $('#btnTambah').click(function() {
-
                 $('#modalTitle').html('Tambah Petugas');
-
                 $('#id').val('');
                 $('#nama').val('');
                 $('#nip').val('');
                 $('#password').val('');
-
                 openModal();
-
             });
-
             // EDIT
-
             $('.btnEdit').click(function() {
-
                 let id = $(this).data('id');
                 let nama = $(this).data('nama');
                 let nip = $(this).data('nip');
-
                 $('#modalTitle').html('Edit Petugas');
-
                 $('#id').val(id);
                 $('#nama').val(nama);
                 $('#nip').val(nip);
                 $('#password').val('');
-
                 openModal();
-
             });
-
             // CLOSE BUTTON
-
             $('#closeModal, #btnBatal').click(function() {
-
                 closeModal();
-
             });
-
             // CLICK OUTSIDE
-
             let mouseDownX = 0;
             let mouseDownY = 0;
-
             $('#customModal').on('mousedown', function(e) {
-
                 if (e.target.id === 'customModal') {
-
                     mouseDownX = e.clientX;
                     mouseDownY = e.clientY;
-
                 }
-
             });
-
             $('#customModal').on('mouseup', function(e) {
-
                 if (e.target.id !== 'customModal') {
                     return;
                 }
-
                 const moveX = Math.abs(e.clientX - mouseDownX);
                 const moveY = Math.abs(e.clientY - mouseDownY);
-
                 // Kalau mouse bergerak, berarti kemungkinan drag
                 if (moveX > 5 || moveY > 5) {
                     return;
                 }
-
                 closeModal();
-
             });
-
         });
     </script>
-
 @endsection

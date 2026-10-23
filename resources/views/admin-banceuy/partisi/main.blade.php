@@ -2,6 +2,18 @@
 <html lang="en">
 
 <head>
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('app-skin-dark');
+
+                if (theme === 'app-skin-dark') {
+                    document.documentElement.classList.add('app-skin-dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

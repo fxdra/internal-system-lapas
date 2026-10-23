@@ -1,14 +1,11 @@
 @php
     $user = Auth::guard('admin')->user();
     $role = $user?->role;
-
     $permissions = [
         // Full Access
         'fullAccess' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp']),
-
         // User Management
         'userManagement' => in_array($role, ['superadmin', 'admin']),
-
         // Bidang
         'registrasi' => $role === 'registrasi',
         'binadik' => $role === 'binadik',
@@ -21,25 +18,20 @@
 @extends('admin-banceuy.partisi.main')
 
 @section('content')
+
     <style>
         /* ================= CUSTOM MODAL ================= */
         .custom-modal {
             position: fixed;
             inset: 0;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             background: rgba(0, 0, 0, .45);
-
             opacity: 0;
             visibility: hidden;
-
             transition: opacity .25s ease, visibility .25s ease;
-
             z-index: 99999;
-
             padding: 20px;
         }
 
@@ -50,22 +42,16 @@
         }
 
         /* ================= MODAL CONTENT ================= */
-
         .custom-modal-content {
             width: 1100px;
             max-width: 95%;
             height: 85vh;
-
             display: flex;
             flex-direction: column;
-
             background: #fff;
-
             border-radius: 16px;
             overflow: hidden;
-
             box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
-
             transform: translateY(-20px);
             transition: transform .25s ease;
         }
@@ -75,70 +61,51 @@
         }
 
         /* ================= HEADER ================= */
-
         .custom-modal-header {
             flex-shrink: 0;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             padding: 18px 25px;
-
             border-bottom: 1px solid #ececec;
-
             background: #f8f9fa;
         }
 
         .custom-modal-header h5 {
             margin: 0;
-
             font-size: 20px;
             font-weight: 600;
-
             color: #212529;
         }
 
         /* ================= CLOSE BUTTON ================= */
-
         .btn-close-modal {
             width: 38px;
             height: 38px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             border: none;
             background: transparent;
-
             font-size: 30px;
             line-height: 1;
-
             color: #777;
-
             cursor: pointer;
-
             border-radius: 8px;
-
             transition: .2s ease;
         }
 
         .btn-close-modal:hover {
             background: #e9ecef;
             color: #dc3545;
-
             transform: scale(1.05);
         }
 
         /* ================= BODY ================= */
-
         .custom-modal-body {
             flex: 1;
             min-height: 0;
-
             overflow-y: auto;
-
             padding: 24px;
         }
 
@@ -161,7 +128,6 @@
         }
 
         /* ================= FORM ================= */
-
         .custom-modal-body form {
             width: 100%;
         }
@@ -169,10 +135,8 @@
         /* Label */
         .custom-modal-body .form-label {
             margin-bottom: 7px;
-
             font-size: 14px;
             font-weight: 600;
-
             color: #343a40;
         }
 
@@ -180,23 +144,17 @@
         .custom-modal-body .form-control,
         .custom-modal-body .form-select {
             width: 100%;
-
             min-height: 42px;
-
             border: 1px solid #dee2e6;
             border-radius: 8px;
-
             padding: 9px 12px;
-
             font-size: 14px;
-
             transition: .2s ease;
         }
 
         .custom-modal-body .form-control:focus,
         .custom-modal-body .form-select:focus {
             border-color: #0d6efd;
-
             box-shadow: 0 0 0 3px rgba(13, 110, 253, .12);
         }
 
@@ -216,22 +174,18 @@
         .custom-modal-body hr {
             margin-top: 24px;
             margin-bottom: 24px;
-
             border-color: #e9ecef;
             opacity: 1;
         }
 
         /* ================= BUTTON AREA ================= */
-
         .custom-modal-body form>.mt-4 {
             padding-top: 8px;
             padding-bottom: 4px;
         }
 
         /* ================= MOBILE ================= */
-
         @media (max-width: 768px) {
-
             .custom-modal {
                 padding: 10px;
                 align-items: center;
@@ -240,9 +194,7 @@
             .custom-modal-content {
                 width: 100%;
                 max-width: 100%;
-
                 height: 92vh;
-
                 border-radius: 14px;
             }
 
@@ -257,7 +209,6 @@
             .custom-modal-body {
                 padding: 18px;
             }
-
         }
     </style>
 
@@ -267,16 +218,12 @@
             width: 1100px;
             max-width: 95%;
             height: 85vh;
-
             display: flex;
             flex-direction: column;
-
             background: #fff;
             border-radius: 16px;
             overflow: hidden;
-
             box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
-
             transform: translateY(-20px);
             transition: transform .25s ease;
         }
@@ -288,24 +235,18 @@
         /* HEADER */
         #modalTambahWbp .modal-header-custom {
             flex-shrink: 0;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             padding: 18px 25px;
-
             border-bottom: 1px solid #ececec;
-
             background: #f8f9fa;
         }
 
         #modalTambahWbp .modal-header-custom h4 {
             margin: 0;
-
             font-size: 20px;
             font-weight: 600;
-
             color: #212529;
         }
 
@@ -313,29 +254,22 @@
         #modalTambahWbp .close-modal {
             width: 38px;
             height: 38px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             border: none;
             background: transparent;
-
             font-size: 30px;
             line-height: 1;
-
             color: #777;
-
             cursor: pointer;
             border-radius: 8px;
-
             transition: .2s ease;
         }
 
         #modalTambahWbp .close-modal:hover {
             background: #e9ecef;
             color: #dc3545;
-
             transform: scale(1.05);
         }
 
@@ -352,7 +286,6 @@
         #modalTambahWbp .custom-modal-content form {
             flex: 1;
             min-height: 0;
-
             display: flex;
             flex-direction: column;
         }
@@ -361,61 +294,66 @@
         #modalTambahWbp .modal-body-custom .form-control,
         #modalTambahWbp .modal-body-custom .form-select {
             width: 100%;
-
             min-height: 42px;
-
             border: 1px solid #dee2e6;
             border-radius: 8px;
-
             padding: 9px 12px;
-
             font-size: 14px;
-
             transition: .2s ease;
+        }
+
+        /* ================= VALIDASI FORM TAMBAH WBP ================= */
+        #formTambahWbp .form-control.is-invalid,
+        #formTambahWbp .form-select.is-invalid {
+            border-color: #dc3545 !important;
+            background-image: none;
+        }
+
+        #formTambahWbp .form-control.is-invalid:focus,
+        #formTambahWbp .form-select.is-invalid:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, .12);
+        }
+
+        #formTambahWbp [data-validation-error] {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #dc3545;
         }
 
         #modalTambahWbp .modal-body-custom .form-control:focus,
         #modalTambahWbp .modal-body-custom .form-select:focus {
             border-color: #0d6efd;
-
             box-shadow: 0 0 0 3px rgba(13, 110, 253, .12);
         }
 
         /* LABEL */
         #modalTambahWbp .modal-body-custom label {
             margin-bottom: 7px;
-
             font-size: 14px;
             font-weight: 600;
-
             color: #343a40;
         }
 
         /* FOOTER */
         #modalTambahWbp .modal-footer-custom {
             flex-shrink: 0;
-
             display: flex;
             justify-content: flex-end;
             align-items: center;
-
             gap: 10px;
-
             padding: 18px 25px;
-
             border-top: 1px solid #ececec;
-
             background: #fff;
         }
 
         /* FOOTER BUTTON */
         #modalTambahWbp .modal-footer-custom .btn {
             min-height: 40px;
-
             padding: 8px 18px;
-
             border-radius: 7px;
-
             font-size: 13px;
             font-weight: 600;
         }
@@ -436,7 +374,6 @@
             background: rgba(0, 0, 0, .5);
             z-index: 10000;
         }
-
 
         #modalEditKeterangan {
             display: none;
@@ -476,10 +413,8 @@
         .wbp-card-photo img,
         .wbp-card-photo-empty {
             display: block;
-
             width: 90px;
             height: 90px;
-
             object-fit: cover;
             border-radius: 12px;
         }
@@ -489,7 +424,6 @@
         }
 
         /* CONTENT */
-
         .wbp-card-content {
             flex: 1 1 auto;
             min-width: 0;
@@ -500,7 +434,6 @@
             display: flex;
             align-items: flex-start;
             gap: 12px;
-
             background: #f8f9fa;
             border-radius: 14px;
             padding: 16px;
@@ -531,18 +464,12 @@
 
         .wbp-status {
             display: inline-block;
-
             margin-top: 6px;
-
             padding: 4px 8px;
-
             border-radius: 6px;
-
             font-size: 12px;
             font-weight: 600;
-
             line-height: 1.2;
-
             white-space: nowrap;
         }
 
@@ -717,7 +644,6 @@
             font-size: 15px;
         }
 
-
         .action-buttons {
             margin-top: 10px;
             display: flex;
@@ -728,21 +654,15 @@
         .action-btn {
             width: 82px;
             height: 38px;
-
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
             padding: 0;
-
             line-height: 1;
-
             border: none;
             border-radius: 8px;
-
             font-size: 12px;
             font-weight: 600;
-
             cursor: pointer;
             transition: .2s;
         }
@@ -769,7 +689,6 @@
             transform: translateY(-1px);
         }
 
-
         /* ================= STATUS TAB ================= */
         #statusTabs {
             gap: 10px;
@@ -777,43 +696,31 @@
         }
 
         #statusTabs .nav-link {
-
             border: none;
             border-radius: 12px;
-
             padding: 10px 18px;
-
             font-size: 14px;
             font-weight: 600;
-
             color: #6b7280;
             background: #f3f4f6;
-
             transition: .25s ease;
-
             white-space: nowrap;
         }
 
         #statusTabs .nav-link:hover {
-
             background: #e5e7eb;
             color: #111827;
-
             transform: translateY(-1px);
         }
 
         /* ACTIVE */
         #statusTabs .nav-link.active {
-
             background: linear-gradient(135deg,
                     #198754,
                     #157347);
-
             color: #fff;
-
             box-shadow:
                 0 4px 12px rgba(25, 135, 84, .25);
-
         }
 
         /* MOBILE */
@@ -890,10 +797,8 @@
                 margin: 20px auto;
                 padding: 20px;
                 border-radius: 18px;
-
                 height: auto;
                 max-height: calc(100vh - 40px);
-
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
@@ -904,7 +809,6 @@
                 flex: 1;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
-
                 max-height: none;
                 min-height: 0;
             }
@@ -919,10 +823,8 @@
             .wbp-grid .main-row {
                 width: 100%;
                 min-width: 0;
-
                 padding: 12px;
                 margin-bottom: 0;
-
                 border-radius: 12px;
                 box-sizing: border-box;
             }
@@ -931,7 +833,6 @@
             .wbp-grid .wbp-card-content {
                 flex: 1 1 auto;
                 min-width: 0;
-
                 padding-right: 72px;
             }
 
@@ -939,14 +840,10 @@
             .wbp-grid .nama-col {
                 width: 100%;
                 min-width: 0;
-
                 font-size: 13px;
                 line-height: 1.3;
-
                 margin: 0;
-
                 white-space: normal;
-
                 overflow-wrap: anywhere;
                 word-break: normal;
             }
@@ -955,37 +852,27 @@
             .wbp-grid .sub-info {
                 width: 100%;
                 min-width: 0;
-
                 font-size: 10px;
                 line-height: 1.3;
-
                 margin-top: 3px;
-
                 white-space: normal;
-
                 overflow-wrap: anywhere;
             }
 
             /* DATA WBP - STATUS */
             .wbp-grid .wbp-status {
                 display: inline-block;
-
                 margin-top: 6px !important;
-
                 padding: 4px 8px !important;
-
                 border-radius: 6px !important;
-
                 font-size: 9px !important;
                 line-height: 1.2;
-
                 white-space: nowrap;
             }
 
             /* DATA WBP - FOTO */
             .wbp-grid .wbp-card-photo {
                 flex: 0 0 68px;
-
                 width: 68px;
                 min-width: 68px;
             }
@@ -994,37 +881,26 @@
             .wbp-grid .wbp-card-photo-empty {
                 width: 68px;
                 height: 68px;
-
                 object-fit: cover;
-
                 border-radius: 9px;
             }
 
             /* DATA WBP - BUTTON */
             .wbp-grid .action-buttons {
                 display: flex !important;
-
                 width: 100%;
-
                 margin-top: 8px !important;
-
                 gap: 7px !important;
-
                 flex-wrap: nowrap;
             }
 
             .wbp-grid .action-btn {
                 flex: 1 1 0;
-
                 width: auto;
                 min-width: 0;
-
                 height: 32px;
-
                 padding: 0 6px;
-
                 font-size: 10px;
-
                 border-radius: 7px;
             }
 
@@ -1032,30 +908,20 @@
             .wbp-grid .main-row>.position-absolute {
                 top: 8px !important;
                 right: 8px !important;
-
                 margin: 0 !important;
-
                 max-width: 80px;
-
                 z-index: 2;
             }
 
             .wbp-grid .main-row>.position-absolute .badge {
                 max-width: 80px;
-
                 padding: 4px 6px;
-
                 font-size: 7px;
-
                 line-height: 1.15;
-
                 text-align: center;
-
                 white-space: normal;
-
                 overflow-wrap: anywhere;
             }
-
         }
     </style>
 
@@ -1140,7 +1006,6 @@
 
         /* ANIMATION */
         @keyframes deleteModalShow {
-
             from {
                 opacity: 0;
                 transform: translateY(15px) scale(.96);
@@ -1150,12 +1015,10 @@
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
-
         }
 
         /* ================= MOBILE ================= */
         @media (max-width:768px) {
-
             .delete-modal-overlay {
                 padding: 16px;
                 align-items: flex-end;
@@ -1171,11 +1034,9 @@
             .delete-modal-body {
                 padding: 20px;
             }
-
         }
 
         @keyframes deleteModalMobile {
-
             from {
                 transform: translateY(100%);
             }
@@ -1183,7 +1044,6 @@
             to {
                 transform: translateY(0);
             }
-
         }
     </style>
 
@@ -1192,22 +1052,16 @@
         #modalEditWbp {
             position: fixed;
             inset: 0;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             padding: 20px;
-
             background: rgba(0, 0, 0, .45);
-
             opacity: 0;
             visibility: hidden;
-
             transition:
                 opacity .25s ease,
                 visibility .25s ease;
-
             z-index: 99999;
         }
 
@@ -1222,17 +1076,12 @@
             width: 1100px;
             max-width: 95%;
             height: 85vh;
-
             display: flex;
             flex-direction: column;
-
             background: #fff;
-
             border-radius: 16px;
             overflow: hidden;
-
             box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
-
             transform: translateY(-20px);
             transition: transform .25s ease;
         }
@@ -1244,24 +1093,18 @@
         /* HEADER */
         #modalEditWbp .custom-modal-header {
             flex-shrink: 0;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             padding: 18px 25px;
-
             border-bottom: 1px solid #ececec;
-
             background: #f8f9fa;
         }
 
         #modalEditWbp .custom-modal-header h5 {
             margin: 0;
-
             font-size: 20px;
             font-weight: 700;
-
             color: #212529;
         }
 
@@ -1269,32 +1112,23 @@
         #modalEditWbp .btn-close-modal {
             width: 38px;
             height: 38px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             padding: 0;
-
             border: none;
             border-radius: 8px;
-
             background: transparent;
-
             color: #777;
-
             font-size: 30px;
             line-height: 1;
-
             cursor: pointer;
-
             transition: .2s ease;
         }
 
         #modalEditWbp .btn-close-modal:hover {
             background: #e9ecef;
             color: #dc3545;
-
             transform: scale(1.05);
         }
 
@@ -1302,9 +1136,7 @@
         #modalEditWbp .custom-modal-body {
             flex: 1;
             min-height: 0;
-
             overflow-y: auto;
-
             padding: 24px;
         }
 
@@ -1325,33 +1157,25 @@
         /* FORM */
         #modalEditWbp .custom-modal-body .form-label {
             margin-bottom: 7px;
-
             font-size: 14px;
             font-weight: 600;
-
             color: #343a40;
         }
 
         #modalEditWbp .custom-modal-body .form-control,
         #modalEditWbp .custom-modal-body .form-select {
             width: 100%;
-
             min-height: 42px;
-
             padding: 9px 12px;
-
             border: 1px solid #dee2e6;
             border-radius: 8px;
-
             font-size: 14px;
-
             transition: .2s ease;
         }
 
         #modalEditWbp .custom-modal-body .form-control:focus,
         #modalEditWbp .custom-modal-body .form-select:focus {
             border-color: #0d6efd;
-
             box-shadow:
                 0 0 0 3px rgba(13, 110, 253, .12);
         }
@@ -1365,16 +1189,13 @@
         #modalEditWbp .custom-modal-body h6 {
             font-size: 16px;
             font-weight: 700;
-
             color: #212529;
         }
 
         #modalEditWbp .custom-modal-body hr {
             margin-top: 24px;
             margin-bottom: 24px;
-
             border-color: #e9ecef;
-
             opacity: 1;
         }
 
@@ -1382,17 +1203,13 @@
         #modalEditWbp #cancelEditWbp,
         #modalEditWbp button[type="submit"] {
             min-width: 130px;
-
             height: 42px;
-
             border-radius: 8px;
-
             font-weight: 600;
         }
 
         /* MOBILE */
         @media (max-width: 768px) {
-
             #modalEditWbp {
                 padding: 10px;
             }
@@ -1400,9 +1217,7 @@
             #modalEditWbp .custom-modal-content {
                 width: 100%;
                 max-width: 100%;
-
                 height: 92vh;
-
                 border-radius: 14px;
             }
 
@@ -1438,14 +1253,11 @@
             max-width: 460px;
             height: auto;
             min-height: 0;
-
             margin: 0;
             padding: 0;
-
             background: #ffffff;
             border-radius: 14px;
             overflow: hidden;
-
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
         }
 
@@ -1454,9 +1266,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             padding: 17px 20px;
-
             border-bottom: 1px solid #e9ecef;
         }
 
@@ -1471,15 +1281,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-
             width: 58px;
             height: 58px;
-
             margin: 0 auto 16px;
-
             font-size: 32px;
             line-height: 1;
-
             background: #fff3cd;
             border-radius: 50%;
         }
@@ -1487,22 +1293,17 @@
         /* JUDUL */
         #modalKonfirmasiEditWbp .modal-konfirmasi-title {
             margin: 0 0 7px;
-
             font-size: 17px;
             font-weight: 700;
-
             color: #26364a;
         }
 
         /* DESKRIPSI */
         #modalKonfirmasiEditWbp .modal-konfirmasi-text {
             max-width: 380px;
-
             margin: 0 auto;
-
             font-size: 13.5px;
             line-height: 1.5;
-
             color: #6c757d;
         }
 
@@ -1512,7 +1313,6 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-
             padding: 18px 25px 22px;
         }
 
@@ -1520,12 +1320,9 @@
         #modalKonfirmasiEditWbp .modal-konfirmasi-footer .btn {
             height: 38px;
             padding: 0 18px;
-
             border-radius: 5px;
-
             font-size: 12px;
             font-weight: 700;
-
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -1546,11 +1343,8 @@
         #modalKonfirmasiEditWbp .btn-close-modal {
             font-size: 25px;
             line-height: 1;
-
             color: #6c757d;
-
             opacity: 0.9;
-
             padding: 0;
         }
 
@@ -1559,11 +1353,200 @@
         }
     </style>
 
-    <div class="container-fluid my-3">
+    {{-- ================= DARK THEME DATA WBP ================= --}}
+    <style>
+        html.app-skin-dark .wbp-grid .main-row,
+        html.app-skin-dark .main-row {
+            background: #182235 !important;
+            color: #e5e7eb !important;
+            border: 1px solid #2b384d;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .18);
+        }
 
+        html.app-skin-dark .wbp-grid .main-row:hover,
+        html.app-skin-dark .main-row:hover {
+            background: #1c2940 !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .28);
+        }
+
+        html.app-skin-dark .wbp-grid .nama-col,
+        html.app-skin-dark .main-row .nama-col {
+            color: #f1f5f9 !important;
+        }
+
+        html.app-skin-dark .wbp-grid .sub-info,
+        html.app-skin-dark .main-row .sub-info {
+            color: #aab7c8 !important;
+        }
+
+        html.app-skin-dark #statusTabs .nav-link:not(.active) {
+            background: #202c40 !important;
+            color: #cbd5e1 !important;
+            border: 1px solid #334155;
+        }
+
+        html.app-skin-dark #statusTabs .nav-link:not(.active):hover {
+            background: #2b3a52 !important;
+            color: #fff !important;
+        }
+
+        html.app-skin-dark #modalDetail .detail-card,
+        html.app-skin-dark #modalEditStatus .edit-card,
+        html.app-skin-dark #modalEditKamar .edit-card,
+        html.app-skin-dark #modalEditKeterangan .edit-card,
+        html.app-skin-dark #modalEditWbp .custom-modal-content {
+            background: #182235 !important;
+            color: #e5e7eb !important;
+            border: 1px solid #334155;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .4);
+        }
+
+        html.app-skin-dark #modalDetail h5,
+        html.app-skin-dark #modalEditStatus h5,
+        html.app-skin-dark #modalEditKamar h5,
+        html.app-skin-dark #modalEditKeterangan h5,
+        html.app-skin-dark #modalEditWbp .custom-modal-header h5,
+        html.app-skin-dark #modalDetail h6,
+        html.app-skin-dark #modalEditStatus h6,
+        html.app-skin-dark #modalEditKamar h6,
+        html.app-skin-dark #modalEditKeterangan h6,
+        html.app-skin-dark #modalEditWbp .custom-modal-body h6 {
+            color: #f1f5f9 !important;
+        }
+
+        html.app-skin-dark #modalEditWbp .custom-modal-header {
+            background: #182235 !important;
+            border-bottom-color: #334155 !important;
+        }
+
+        html.app-skin-dark #modalEditWbp .custom-modal-body,
+        html.app-skin-dark #modalDetail #detailBody,
+        html.app-skin-dark #modalEditStatus #statusBody,
+        html.app-skin-dark #modalEditKamar #editBody,
+        html.app-skin-dark #modalEditKeterangan #keteranganBody {
+            color: #dbe4f0 !important;
+        }
+
+        html.app-skin-dark #modalEditWbp .form-label,
+        html.app-skin-dark #modalEditStatus label,
+        html.app-skin-dark #modalEditKamar label,
+        html.app-skin-dark #modalEditKeterangan label,
+        html.app-skin-dark #modalDetail label {
+            color: #cbd5e1 !important;
+        }
+
+        html.app-skin-dark #modalEditWbp .form-control,
+        html.app-skin-dark #modalEditWbp .form-select,
+        html.app-skin-dark #modalEditStatus .form-control,
+        html.app-skin-dark #modalEditStatus .form-select,
+        html.app-skin-dark #modalEditKamar .form-control,
+        html.app-skin-dark #modalEditKamar .form-select,
+        html.app-skin-dark #modalEditKeterangan .form-control,
+        html.app-skin-dark #modalEditKeterangan .form-select,
+        html.app-skin-dark #modalDetail .form-control,
+        html.app-skin-dark #modalDetail .form-select {
+            background-color: #111b2b !important;
+            color: #e5e7eb !important;
+            border-color: #3b4a60 !important;
+        }
+
+        html.app-skin-dark #modalEditWbp .form-control::placeholder,
+        html.app-skin-dark #modalEditStatus .form-control::placeholder,
+        html.app-skin-dark #modalEditKamar .form-control::placeholder,
+        html.app-skin-dark #modalEditKeterangan .form-control::placeholder,
+        html.app-skin-dark #modalDetail .form-control::placeholder {
+            color: #8291a7 !important;
+        }
+
+        html.app-skin-dark #modalEditWbp .form-control:focus,
+        html.app-skin-dark #modalEditWbp .form-select:focus,
+        html.app-skin-dark #modalEditStatus .form-control:focus,
+        html.app-skin-dark #modalEditStatus .form-select:focus,
+        html.app-skin-dark #modalEditKamar .form-control:focus,
+        html.app-skin-dark #modalEditKamar .form-select:focus,
+        html.app-skin-dark #modalEditKeterangan .form-control:focus,
+        html.app-skin-dark #modalEditKeterangan .form-select:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 .2rem rgba(59, 130, 246, .2) !important;
+        }
+
+        html.app-skin-dark #modalEditWbp hr,
+        html.app-skin-dark #modalEditStatus hr,
+        html.app-skin-dark #modalEditKamar hr,
+        html.app-skin-dark #modalEditKeterangan hr,
+        html.app-skin-dark #modalDetail hr {
+            border-color: #334155 !important;
+            opacity: 1;
+        }
+
+        html.app-skin-dark #modalEditWbp small,
+        html.app-skin-dark #modalEditStatus small,
+        html.app-skin-dark #modalEditKamar small,
+        html.app-skin-dark #modalEditKeterangan small,
+        html.app-skin-dark #modalDetail small,
+        html.app-skin-dark #modalEditWbp .text-muted,
+        html.app-skin-dark #modalEditStatus .text-muted,
+        html.app-skin-dark #modalEditKamar .text-muted,
+        html.app-skin-dark #modalEditKeterangan .text-muted,
+        html.app-skin-dark #modalDetail .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        html.app-skin-dark #modalEditWbp .btn-close-modal {
+            color: #e2e8f0 !important;
+            background: #263449 !important;
+        }
+
+        html.app-skin-dark #modalEditWbp .btn-close-modal:hover {
+            background: #35465e !important;
+        }
+
+        html.app-skin-dark #modalDetail .detail-card .border,
+        html.app-skin-dark #modalDetail .detail-card [style*="background: #fff"],
+        html.app-skin-dark #modalDetail .detail-card [style*="background:#fff"],
+        html.app-skin-dark #modalEditStatus #statusBody [style*="background: #fff"],
+        html.app-skin-dark #modalEditKamar #editBody [style*="background: #fff"],
+        html.app-skin-dark #modalEditKeterangan #keteranganBody [style*="background: #fff"] {
+            background-color: #202c40 !important;
+            color: #e5e7eb !important;
+            border-color: #334155 !important;
+        }
+
+
+        /* Box keterangan - Light Theme */
+        .detail-keterangan-box {
+            background: #f8f9fa;
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+
+        /* Box keterangan - Dark Theme */
+        .app-skin-dark .detail-keterangan-box {
+            background: #1e293b !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+        }
+
+        /* Teks di dalam box */
+        .app-skin-dark .detail-keterangan-box>div {
+            color: #e2e8f0 !important;
+        }
+
+        @media (max-width: 768px) {
+
+            html.app-skin-dark #modalDetail .detail-card,
+            html.app-skin-dark #modalEditStatus .edit-card,
+            html.app-skin-dark #modalEditKamar .edit-card,
+            html.app-skin-dark #modalEditKeterangan .edit-card {
+                background: #182235 !important;
+                color: #e5e7eb !important;
+            }
+        }
+    </style>
+
+    <div class="container-fluid my-3">
         {{-- ================= HEADER ================= --}}
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-
             <div>
                 <h4 class="fw-bold mb-1">
                     Data WBP
@@ -1571,68 +1554,52 @@
                         {{ number_format($countAktif) }} Orang
                     </span>
                 </h4>
-
                 <small class="text-secondary">
                     Manage data warga binaan
                 </small>
             </div>
-
             <div class="d-flex gap-2 align-items-center">
-
                 @if ($permissions['fullAccess'])
                     <button id="btnImportExcel" class="btn btn-success btn-import shadow-sm">
                         <i class="bi bi-file-earmark-excel me-1"></i>
                         Import Excel
                     </button>
                 @endif
-
                 @if ($permissions['fullAccess'])
                     <button id="btnTambahWbp" class="btn btn-primary btn-import shadow-sm">
                         <i class="bi bi-person-plus me-1"></i>
                         Tambah WBP
                     </button>
                 @endif
-
                 {{-- AUDIT --}}
                 <div class="d-flex gap-1 audit-toolbar">
-
                     @if ($audit['duplicate_no_reg'] > 0)
                         <button class="badge bg-danger border-0 audit-filter" data-filter="duplicate_no_reg">
                             Duplikat No. Reg • {{ $audit['duplicate_no_reg'] }}
                         </button>
                     @endif
-
                     @if ($audit['duplicate_nama'] > 0)
                         <button class="badge bg-warning text-dark border-0 audit-filter" data-filter="duplicate_nama">
                             Duplikat Nama • {{ $audit['duplicate_nama'] }}
                         </button>
                     @endif
-
                     @if ($audit['belum_ada_foto'] > 0)
                         <button class="badge bg-secondary border-0 audit-filter" data-filter="belum_ada_foto">
                             Belum Ada Foto • {{ $audit['belum_ada_foto'] }}
                         </button>
                     @endif
-
                     @if ($audit['ekspirasi_kosong'] > 0)
                         <button class="badge bg-info text-dark border-0 audit-filter" data-filter="ekspirasi_kosong">
                             Eksp • {{ $audit['ekspirasi_kosong'] }}
                         </button>
                     @endif
-
                 </div>
-
             </div>
-
         </div>
-
         {{-- ================= SEARCH ================= --}}
         <input type="text" id="search" class="form-control search-box mb-2" placeholder="Cari nama warga binaan...">
-
         <div class="d-flex justify-content-between align-items-center mb-3">
-
             <ul class="nav nav-pills mb-0" id="statusTabs">
-
                 <li class="nav-item">
                     <button class="nav-link active status-tab" data-status="AKTIF">
                         PENGHUNI -
@@ -1641,7 +1608,6 @@
                         </span>
                     </button>
                 </li>
-
                 <li class="nav-item">
                     <button class="nav-link status-tab" data-status="BON">
                         BON -
@@ -1650,7 +1616,6 @@
                         </span>
                     </button>
                 </li>
-
                 <li class="nav-item">
                     <button class="nav-link status-tab" data-status="SAKIT">
                         LUAR TEMBOK -
@@ -1659,7 +1624,6 @@
                         </span>
                     </button>
                 </li>
-
                 <li class="nav-item">
                     <button class="nav-link status-tab" data-status="ISOLASI">
                         ISOLASI -
@@ -1668,7 +1632,6 @@
                         </span>
                     </button>
                 </li>
-
                 <li class="nav-item">
                     <button class="nav-link status-tab" data-status="PINDAH UPT">
                         PINDAH UPT -
@@ -1677,7 +1640,6 @@
                         </span>
                     </button>
                 </li>
-
                 <li class="nav-item">
                     <button class="nav-link status-tab" data-status="PULANG">
                         PULANG -
@@ -1686,7 +1648,6 @@
                         </span>
                     </button>
                 </li>
-
                 <li class="nav-item">
                     <button class="nav-link status-tab" data-status="MENINGGAL">
                         MENINGGAL -
@@ -1700,637 +1661,475 @@
 
         {{-- ================= TABLE WRAPPER ================= --}}
         <div id="tableWrapper">
-
             <div class="card shadow-md border-0">
                 <div class="card-body">
-
                     <div class="wbp-grid ">
-
                         @forelse($wbp as $w)
                             <div class="main-row d-flex gap-3 align-items-start shadow-lg">
-
                                 <div class="position-absolute top-0 end-0 m-2 d-flex flex-column align-items-end gap-1">
-
                                     @if ($w->duplicate_no_reg)
                                         <span class="badge bg-danger">
                                             No Reg Duplikat
                                         </span>
                                     @endif
-
                                     @if ($w->duplicate_nama)
                                         <span class="badge bg-warning text-dark">
                                             Nama Duplikat
                                         </span>
                                     @endif
-
                                     @if (!$w->has_foto)
                                         <span class="badge bg-secondary">
                                             Belum Ada Foto
                                         </span>
                                     @endif
-
                                     @if (blank($w->ekspirasi))
                                         <span class="badge bg-info text-dark">
                                             Ekspirasi Kosong
                                         </span>
                                     @endif
-
                                     @if ($w->is_data_complete)
                                         <span class="badge bg-success">
                                             Data Lengkap
                                         </span>
                                     @endif
-
                                 </div>
-
                                 {{-- FOTO --}}
                                 <div class="wbp-card-photo">
-
                                     @if (!empty($w->foto_wbp))
                                         <img src="{{ asset($w->foto_wbp) }}" alt="Foto WBP">
                                     @else
                                         <div class="wbp-card-photo-empty"></div>
                                     @endif
-
                                 </div>
-
                                 {{-- DATA --}}
                                 <div class="wbp-card-content">
-
                                     <div class="nama-col">
                                         {{ $w->nama ?? '-' }}
                                     </div>
-
                                     <div class="sub-info fw-bold">
                                         BLOK {{ $w->kamar->kode_blok ?? '-' }} -
                                         <span>{{ $w->kamar->lokasi_sel ?? '-' }}</span>
                                     </div>
-
                                     {{-- STATUS --}}
                                     @php
                                         $status = $w->status_kamar ?? '-';
-
                                         $statusStyle = match ($status) {
                                             'Terbuka' => 'background:#28a745;color:#fff;',
                                             'Tertutup' => 'background:#dc3545;color:#fff;',
                                             default => 'background:#6c757d;color:#fff;',
                                         };
                                     @endphp
-
                                     <span class="wbp-status" style="{{ $statusStyle }}">
                                         {{ $status }}
                                     </span>
-
                                     <div class="d-flex gap-2 action-buttons">
-
                                         @if ($permissions['fullAccess'])
                                             <button class="action-btn btn-detail" data-id="{{ $w->id }}">
                                                 Detail
                                             </button>
                                         @endif
-
                                         @if ($permissions['fullAccess'])
                                             <button class="action-btn btn-delete" data-id="{{ $w->id }}">
                                                 Hapus
                                             </button>
                                         @endif
-
                                     </div>
-
                                 </div>
-
                             </div>
-
                         @empty
-
                             <div class="text-center py-5 text-secondary">
                                 Data tidak ditemukan
                             </div>
                         @endforelse
-
                     </div>
-
                     {{-- PAGINATION --}}
                     <div class="d-flex justify-content-center mt-4">
                         {{ $wbp->onEachSide(1)->links() }}
                     </div>
-
                 </div>
             </div>
-
         </div>
-
     </div>
 
     {{-- ================= MODAL DETAIL ================= --}}
     <div id="modalDetail">
-
         <div class="detail-card">
-
             <div class="d-flex justify-content-between align-items-center mb-3">
-
                 <h5 class="fw-bold mb-0">
                     Detail WBP
                 </h5>
-
                 <div class="d-flex gap-2">
-
                     <button id="closeModal" class="btn btn-sm btn-danger">
                         ✕
                     </button>
-
                 </div>
-
             </div>
-
             <div id="detailBody">
                 Loading...
             </div>
-
         </div>
-
     </div>
 
     {{-- ================= MODAL EDIT WBP ================= --}}
     <div class="custom-modal" id="modalEditWbp">
-
         <div class="custom-modal-content" style="max-width:1100px; width:95%;">
-
             <div class="custom-modal-header">
-
                 <h5 class="fw-bold mb-0">
                     Edit Data WBP
                 </h5>
-
                 <button type="button" class="btn-close-modal" id="closeModalEditWbp">
                     &times;
                 </button>
-
             </div>
-
             <div class="custom-modal-body">
-
                 <form id="formEditWbp">
-
                     <input type="hidden" id="full_edit_wbp_id" name="id">
-
                     {{-- ================= IDENTITAS ================= --}}
                     <h6 class="fw-bold mb-3">
                         Identitas WBP
                     </h6>
-
                     <div class="row g-3">
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold">
                                 No. Reg. Instansi
                             </label>
-
                             <input type="text" class="form-control" id="edit_no_reg_instansi" name="no_reg_instansi">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold">
                                 Nama
                             </label>
-
                             <input type="text" class="form-control" id="edit_nama" name="nama">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Negara
                             </label>
-
                             <input type="text" class="form-control" id="edit_negara" name="negara">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Agama
                             </label>
-
                             <input type="text" class="form-control" id="edit_agama" name="agama">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Klasifikasi WBP
                             </label>
-
                             <input type="text" class="form-control" id="edit_klasifikasi_wbp" name="klasifikasi_wbp">
                         </div>
-
                     </div>
-
-
                     {{-- ================= PERKARA ================= --}}
                     <hr class="my-4">
-
                     <h6 class="fw-bold mb-3">
                         Perkara & Putusan
                     </h6>
-
                     <div class="row g-3">
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold">
                                 Jenis Kejahatan
                             </label>
-
                             <input type="text" class="form-control" id="edit_jenis_kejahatan" name="jenis_kejahatan">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold">
                                 Pasal
                             </label>
-
                             <input type="text" class="form-control" id="edit_pasal" name="pasal">
                         </div>
-
                         <div class="col-md-8">
                             <label class="form-label fw-bold">
                                 Putusan
                             </label>
-
                             <input type="text" class="form-control" id="edit_putusan" name="putusan">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Putusan Bulan
                             </label>
-
                             <input type="number" class="form-control" id="edit_putusan_bulan" name="putusan_bulan"
                                 min="0">
                         </div>
-
                     </div>
-
-
                     {{-- ================= SUBSIDER ================= --}}
                     <hr class="my-4">
-
                     <h6 class="fw-bold mb-3">
                         Subsider
                     </h6>
-
                     <div class="row g-3">
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Subsider Tahun
                             </label>
-
                             <input type="number" class="form-control" id="edit_subsider_tahun" name="subsider_tahun"
                                 min="0">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Subsider Bulan
                             </label>
-
                             <input type="number" class="form-control" id="edit_subsider_bulan" name="subsider_bulan"
                                 min="0">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Subsider Hari
                             </label>
-
                             <input type="number" class="form-control" id="edit_subsider_hari" name="subsider_hari"
                                 min="0">
                         </div>
-
                         <div class="col-md-12">
                             <label class="form-label fw-bold">
                                 Denda Subsider
                             </label>
-
                             <input type="text" class="form-control" id="edit_denda_subsider" name="denda_subsider"
                                 inputmode="numeric" autocomplete="off" placeholder="Contoh: 1.000.000">
                         </div>
-
                     </div>
-
                     {{-- ================= MASA & REMISI ================= --}}
                     <hr class="my-4">
-
                     <h6 class="fw-bold mb-3">
                         Masa Pidana & Remisi
                     </h6>
-
                     <div class="row g-3">
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Ekspirasi
                             </label>
-
                             <input type="date" class="form-control" id="edit_ekspirasi" name="ekspirasi">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Masa 1/3
                             </label>
-
                             <input type="date" class="form-control" id="edit_masa_1_3" name="masa_1_3">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Masa 1/2
                             </label>
-
                             <input type="date" class="form-control" id="edit_masa_1_2" name="masa_1_2">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Masa 2/3
                             </label>
-
                             <input type="date" class="form-control" id="edit_masa_2_3" name="masa_2_3">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Total Bulan Remisi
                             </label>
-
                             <input type="number" class="form-control" id="edit_total_bulan_remisi"
                                 name="total_bulan_remisi" min="0">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label fw-bold">
                                 Total Hari Remisi
                             </label>
-
                             <input type="number" class="form-control" id="edit_total_hari_remisi"
                                 name="total_hari_remisi" min="0">
                         </div>
-
                     </div>
-
+                    {{-- ================= LOKASI WBP ================= --}}
+                    <div id="editLokasiWbpSection" style="display: none;">
+                        <hr class="my-4">
+                        <h6 class="fw-bold mb-3">
+                            Penempatan Kamar WBP
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="edit_kamar_id" class="form-label fw-bold">
+                                    Pilih Kamar <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="edit_kamar_id" name="kamar_id" required disabled>
+                                    <option value="">Pilih kamar...</option>
+                                    @foreach ($kamars as $kamar)
+                                        <option value="{{ $kamar->id }}">
+                                            {{ formatNamaBlok($kamar->kode_blok, $kamar->lokasi_sel) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="form-text">
+                                    Wajib memilih kamar karena lokasi WBP belum lengkap.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {{-- ================= DATA TAMBAHAN ================= --}}
                     <hr class="my-4">
-
                     <h6 class="fw-bold mb-3">
                         Data Tambahan
                     </h6>
-
                     <div class="row g-3">
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold">
                                 Keperluan
                             </label>
-
                             <input type="text" class="form-control" id="edit_keperluan" name="keperluan">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold">
                                 Tanggal Bon
                             </label>
-
                             <input type="date" class="form-control" id="edit_tanggal_bon" name="tanggal_bon">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold">
                                 Tanggal
                             </label>
-
                             <input type="datetime-local" class="form-control" id="edit_tanggal" name="tanggal">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold">
                                 Foto WBP
                             </label>
-
                             <input type="file" class="form-control" id="edit_foto_wbp" name="foto_wbp"
                                 accept="image/jpeg,image/png,image/webp">
-
                             <div class="form-text">
                                 Pilih foto baru jika ingin mengganti foto lama.
                                 Format JPG, PNG, atau WEBP.
                             </div>
-
                             <div class="mt-2">
                                 <img id="edit_foto_preview" src="" alt="Preview Foto WBP"
                                     style="display:none; width:90px; height:110px; object-fit:cover; border-radius:6px; border:1px solid #dee2e6;">
                             </div>
                         </div>
-
                         <div class="col-md-12">
                             <label class="form-label fw-bold">
                                 Keterangan
                             </label>
-
                             <textarea class="form-control" id="edit_keterangan" name="keterangan" rows="4"></textarea>
                         </div>
-
                     </div>
-
-
                     {{-- ================= BUTTON ================= --}}
                     <div class="mt-4 d-flex justify-content-end gap-2">
-
                         <button type="button" class="btn btn-secondary" id="cancelEditWbp">
                             Batal
                         </button>
-
                         <button type="submit" class="btn btn-primary">
                             Simpan Perubahan
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
-
         </div>
-
     </div>
-
     {{-- ================= MODAL KONFIRMASI PERUBAHAN WBP ================= --}}
     <div class="custom-modal" id="modalKonfirmasiEditWbp">
-
         <div class="custom-modal-content modal-konfirmasi-wbp">
-
             <div class="custom-modal-header">
-
                 <h5 class="fw-bold mb-0">
                     Konfirmasi Perubahan
                 </h5>
-
                 <button type="button" class="btn-close-modal" id="closeModalKonfirmasiEditWbp">
                     &times;
                 </button>
-
             </div>
-
             <div class="modal-konfirmasi-body">
-
                 <div class="modal-konfirmasi-icon">
                     <i class="bi bi-exclamation-triangle-fill"></i>
                 </div>
-
                 <h5 class="modal-konfirmasi-title">
                     Simpan perubahan data?
                 </h5>
-
                 <p class="modal-konfirmasi-text">
                     Pastikan seluruh data WBP yang diubah sudah benar
                     sebelum melanjutkan.
                 </p>
-
             </div>
-
             <div class="modal-konfirmasi-footer">
-
                 <button type="button" class="btn btn-secondary" id="batalKonfirmasiEditWbp">
                     Batal
                 </button>
-
                 <button type="button" class="btn btn-primary" id="lanjutSimpanEditWbp">
                     Ya
                 </button>
-
             </div>
-
         </div>
-
     </div>
 
     {{-- ================= MODAL EDIT STATUS ================= --}}
     <div id="modalEditStatus">
-
         <div class="edit-card">
-
             <div class="d-flex justify-content-between align-items-center mb-3">
-
                 <h5 class="fw-bold mb-0">
                     Edit Status WBP
                 </h5>
-
                 <button id="closeStatusModal" class="btn btn-sm btn-danger">
                     ✕
                 </button>
-
             </div>
-
             <div id="statusBody"></div>
-
         </div>
-
     </div>
 
     {{-- ================= MODAL EDIT KAMAR ================= --}}
     <div id="modalEditKamar">
-
         <div class="edit-card">
-
             <div class="d-flex justify-content-between align-items-center mb-3">
-
                 <h5 class="fw-bold mb-0">
                     Edit Kamar
                 </h5>
-
                 <button id="closeEditModal" class="btn btn-sm btn-danger">
                     ✕
                 </button>
-
             </div>
-
             <div id="editBody"></div>
-
         </div>
-
     </div>
 
     {{-- ================= MODAL EDIT KETERANGAN ================= --}}
     <div id="modalEditKeterangan">
-
         <div class="edit-card">
-
             <div class="d-flex justify-content-between align-items-center mb-3">
-
                 <h5 class="fw-bold mb-0">
                     Edit Keterangan
                 </h5>
-
                 <button id="closeKeteranganModal" class="btn btn-sm btn-danger">
                     ✕
                 </button>
-
             </div>
-
             <div id="keteranganBody"></div>
-
         </div>
-
     </div>
 
     {{-- ================= MODAL IMPORT ================= --}}
     <div class="jq-modal-overlay" id="importExcelModal">
-
         <div class="jq-modal-card shadow-lg">
-
             {{-- HEADER --}}
             <div class="jq-modal-header d-flex justify-content-between align-items-center">
-
                 <h5 class="fw-bold mb-0">
                     📥 Import Data WBP
                 </h5>
-
                 <button type="button" class="jq-close btn btn-light btn-sm">
                     ×
                 </button>
-
             </div>
-
             {{-- BODY --}}
             <div class="jq-modal-body">
-
                 <form id="importWbpForm" action="{{ route('wbp.import') }}" method="POST"
                     enctype="multipart/form-data" autocomplete="off">
-
                     @csrf
-
                     <div class="upload-box">
-
                         <div class="upload-icon">
                             📄
                         </div>
-
                         <h5 class="fw-bold mt-3">
                             Upload File Excel
                         </h5>
-
                         <div class="text-secondary mb-4">
                             Format .xls / .xlsx
                         </div>
-
                         {{-- MODE IMPORT --}}
                         <div class="mb-4 text-start">
-
                             <label class="form-label fw-bold">
                                 Mode Import
                             </label>
-
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="import_mode" id="mode_append"
                                     value="append" checked>
-
                                 <label class="form-check-label" for="mode_append">
                                     <strong>Tambah Data</strong>
                                     <br>
@@ -2339,11 +2138,9 @@
                                     </small>
                                 </label>
                             </div>
-
                             <div class="form-check mt-2">
                                 <input class="form-check-input" type="radio" name="import_mode" id="mode_update"
                                     value="update">
-
                                 <label class="form-check-label" for="mode_update">
                                     <strong>Perbarui Data WBP</strong>
                                     <br>
@@ -2353,84 +2150,61 @@
                                     </small>
                                 </label>
                             </div>
-
                         </div>
-
                         {{-- FILE --}}
                         <input id="fileExcel" type="file" name="file_excel" class="form-control" accept=".xls,.xlsx"
                             required>
-
                     </div>
-
                     {{-- HASIL PREVIEW --}}
                     <div id="previewResult" class="card border-primary mt-4 shadow-sm" style="display:none;">
-
                         <div class="card-header bg-primary text-white fw-bold">
                             👁 HASIL PREVIEW
                         </div>
-
                         <div class="card-body">
-
                             <table class="table table-borderless table-sm mb-0">
-
                                 <tr>
                                     <th width="45%">Mode</th>
                                     <td id="previewMode">-</td>
                                 </tr>
-
                                 <tr>
                                     <th>Total Data Excel</th>
                                     <td id="previewTotal">0</td>
                                 </tr>
-
                                 <tr>
                                     <th>Data Baru (Insert)</th>
                                     <td class="text-success fw-bold" id="previewInsert">0</td>
                                 </tr>
-
                                 <tr>
                                     <th>Data Update</th>
                                     <td class="text-primary fw-bold" id="previewUpdate">0</td>
                                 </tr>
-
                                 <tr>
                                     <th>Data Dilewati</th>
                                     <td class="text-warning fw-bold" id="previewSkip">0</td>
                                 </tr>
-
                                 <tr>
                                     <th>No. Reg. Tidak Ditemukan</th>
                                     <td class="text-danger fw-bold" id="previewNotFound">0</td>
                                 </tr>
-
                                 <tr>
                                     <th>Data Tidak Valid</th>
                                     <td class="text-danger fw-bold" id="previewInvalid">0</td>
                                 </tr>
-
                             </table>
-
                         </div>
-
                     </div>
-
                     {{-- HASIL DETAIL IMPORT --}}
                     <div id="importDetailResult" class="card border-warning mt-4 shadow-sm" style="display:none;">
-
                         <div class="card-header bg-warning fw-bold">
                             ⚠️ DATA TIDAK DITEMUKAN
                         </div>
-
                         <div class="card-body">
-
                             <div class="text-secondary mb-3">
                                 Data berikut terdapat di file Excel tetapi
                                 No Registrasi Instansinya tidak ditemukan di database.
                             </div>
-
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered align-middle mb-0">
-
                                     <thead class="table-light">
                                         <tr>
                                             <th width="15%">Baris Excel</th>
@@ -2438,34 +2212,23 @@
                                             <th>Nama WBP</th>
                                         </tr>
                                     </thead>
-
                                     <tbody id="notFoundRowsBody">
                                     </tbody>
-
                                 </table>
                             </div>
-
                         </div>
-
                     </div>
                 </form>
-
             </div>
-
             <div class="d-grid gap-2 mt-4">
-
                 <button type="button" id="btnPreviewImport" class="btn btn-primary">
                     👁 Preview Import
                 </button>
-
                 <button type="button" id="btnImportNow" class="btn btn-success" style="display:none;">
                     🚀 Import Sekarang
                 </button>
-
             </div>
-
         </div>
-
     </div>
 
     {{-- {ERROR SESSION --}}
@@ -2490,66 +2253,50 @@
 
     <!-- ================= MODAL TAMBAH WBP ================= -->
     <div class="custom-modal" id="modalTambahWbp">
-
         <div class="custom-modal-content">
-
             <!-- ================= HEADER ================= -->
             <div class="modal-header-custom">
-
                 <h4>
                     Tambah WBP
                 </h4>
-
                 <button type="button" class="close-modal" id="closeTambahModal">
                     ×
                 </button>
-
             </div>
-
             <!-- ================= FORM ================= -->
-            <form action="{{ route('wbp.store') }}" method="POST" enctype="multipart/form-data">
+            <form id="formTambahWbp" action="{{ route('wbp.store') }}" method="POST" enctype="multipart/form-data"
+                novalidate>
                 @csrf
-
                 <div class="modal-body-custom">
-
                     <div class="row g-3">
-
                         <!-- ================= IDENTITAS ================= -->
                         <div class="col-12">
                             <h6 class="fw-bold mb-1">
                                 Identitas WBP
                             </h6>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">
                                 No. Register Instansi
                             </label>
-
                             <input type="text" name="no_reg_instansi" class="form-control" required>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">
                                 Nama WBP
                             </label>
-
                             <input type="text" name="nama" class="form-control" required>
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Negara
                             </label>
-
                             <input type="text" name="negara" class="form-control">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Agama
                             </label>
-
                             <select name="agama" class="form-select">
                                 <option value="">Pilih Agama</option>
                                 <option value="Islam">Islam</option>
@@ -2560,180 +2307,141 @@
                                 <option value="Konghucu">Konghucu</option>
                             </select>
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Klasifikasi WBP
                             </label>
-
-                            <input type="text" name="klasifikasi_wbp" class="form-control">
+                            <input type="text" name="klasifikasi_wbp" class="form-control" maxlength="100" required>
                         </div>
-
-
                         <!-- ================= PERKARA & PUTUSAN ================= -->
                         <div class="col-12">
                             <hr class="my-3">
-
                             <h6 class="fw-bold mb-1">
                                 Perkara & Pidana
                             </h6>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">
                                 Jenis Kejahatan
                             </label>
-
                             <input type="text" name="jenis_kejahatan" class="form-control">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">
                                 Pasal
                             </label>
-
                             <input type="text" name="pasal" class="form-control">
                         </div>
-
                         <div class="col-md-8">
                             <label class="form-label">
                                 Pidana (Tahun)
                             </label>
-
                             <input type="number" name="putusan" class="form-control" min="0">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Pidana (Bulan)
                             </label>
-
                             <input type="number" name="putusan_bulan" class="form-control" min="0"
                                 max="11" value="0">
                         </div>
-
-
                         <!-- ================= SUBSIDER ================= -->
                         <div class="col-12">
                             <hr class="my-3">
-
                             <h6 class="fw-bold mb-1">
                                 Subsider
                             </h6>
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Subsider Tahun
                             </label>
-
                             <input type="number" name="subsider_tahun" class="form-control" min="0"
                                 value="0">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Subsider Bulan
                             </label>
-
                             <input type="number" name="subsider_bulan" class="form-control" min="0"
                                 max="11" value="0">
                         </div>
-
                         <div class="col-md-4">
-                            <label class="form-label">
+                            <label class="form-label" for="tambah_subsider_hari">
                                 Subsider Hari
                             </label>
-
-                            <input type="number" name="subsider_hari" class="form-control" min="0"
-                                value="0">
+                            <input type="number" name="subsider_hari" id="tambah_subsider_hari" class="form-control"
+                                min="0" max="365" value="0" aria-describedby="error_subsider_hari">
+                            <small id="error_subsider_hari" class="text-danger d-none" role="alert"></small>
+                            <small class="text-muted" id="info_subsider_hari">
+                                Masukkan 0–365 hari.
+                            </small>
                         </div>
-
                         <div class="col-md-12">
                             <label class="form-label">
                                 Denda Subsider
                             </label>
-
                             <input type="text" name="denda_subsider" id="tambah_denda_subsider" class="form-control"
                                 inputmode="numeric" autocomplete="off" placeholder="Contoh: 1.000.000">
                         </div>
-
                         <!-- ================= MASA & REMISI ================= -->
                         <div class="col-12">
                             <hr class="my-3">
-
                             <h6 class="fw-bold mb-1">
                                 Masa Pidana & Remisi
                             </h6>
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Ekspirasi
                             </label>
-
                             <input type="date" name="ekspirasi" class="form-control">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Masa 1/3
                             </label>
-
                             <input type="date" name="masa_1_3" class="form-control">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Masa 1/2
                             </label>
-
                             <input type="date" name="masa_1_2" class="form-control">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Masa 2/3
                             </label>
-
                             <input type="date" name="masa_2_3" class="form-control">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Total Bulan Remisi
                             </label>
-
                             <input type="number" name="total_bulan_remisi" class="form-control" min="0">
                         </div>
-
                         <div class="col-md-4">
                             <label class="form-label">
                                 Total Hari Remisi
                             </label>
-
                             <input type="number" name="total_hari_remisi" class="form-control" min="0">
                         </div>
-
                         <!-- ================= KAMAR & STATUS ================= -->
                         <div class="col-12">
                             <hr class="my-3">
-
                             <h6 class="fw-bold mb-1">
                                 Kamar & Status
                             </h6>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">
                                 Kamar
                             </label>
-
                             <select name="kamar_id" class="form-select">
                                 <option value="">
                                     Pilih Kamar
                                 </option>
-
                                 @foreach ($kamars as $kamar)
                                     <option value="{{ $kamar->id }}"
                                         data-search="
@@ -2745,106 +2453,76 @@
                                         {{ formatNamaBlok($kamar->kode_blok, $kamar->lokasi_sel) }}
                                     </option>
                                 @endforeach
-
                             </select>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">
                                 Status WBP
                             </label>
-
                             <select name="status_wbp" class="form-select">
                                 <option value="AKTIF">
                                     AKTIF
                                 </option>
-
                                 <option value="BON">
                                     BON
                                 </option>
-
                                 <option value="SAKIT">
                                     SAKIT
                                 </option>
-
                                 <option value="PINDAH UPT">
                                     PINDAH UPT
                                 </option>
-
                                 <option value="PULANG">
                                     PULANG
                                 </option>
-
                                 <option value="MENINGGAL">
                                     MENINGGAL
                                 </option>
                             </select>
                         </div>
-
                         <!-- ================= FOTO ================= -->
                         <div class="col-12">
                             <hr class="my-3">
-
                             <h6 class="fw-bold mb-1">
                                 Foto WBP
                             </h6>
                         </div>
-
                         <div class="col-md-12">
                             <label class="form-label">
                                 Foto WBP
                             </label>
-
                             <input type="file" name="foto_wbp" class="form-control" required>
                         </div>
-
                     </div>
-
                 </div>
-
-
                 <!-- ================= FOOTER ================= -->
                 <div class="modal-footer-custom">
-
                     <button type="button" class="btn btn-secondary" id="btnBatalTambah">
                         Batal
                     </button>
-
                     <button type="submit" class="btn btn-primary">
                         Simpan
                     </button>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
 
     {{-- ================= DELETE MODAL ================= --}}
     <div class="delete-modal-overlay" id="deleteModal">
-
         <div class="delete-modal-card">
-
             <div class="delete-modal-header">
-
                 <h5 class="mb-0">
                     🗑️ Konfirmasi Hapus
                 </h5>
-
                 <button type="button" id="closeDeleteModal" class="delete-modal-close">
                     ×
                 </button>
-
             </div>
-
             <div class="delete-modal-body">
-
                 <p class="mb-3 text-muted">
                     Untuk menghapus data ini, silakan masukkan password akun Anda.
                 </p>
-
                 {{-- Dummy field supaya browser tidak autofill --}}
                 <input type="text" name="fake_username" autocomplete="username" tabindex="-1"
                     style="
@@ -2854,47 +2532,30 @@
                     height:1px;
                     opacity:0;
                 ">
-
                 <form id="deleteForm" autocomplete="off" onsubmit="return false;">
-
                     <input type="password" id="deletePassword" name="delete_password_confirm" class="form-control"
                         placeholder="Masukkan password" autocomplete="current-password" spellcheck="false"
                         autocapitalize="off" autocorrect="off">
-
                 </form>
-
                 <div class="d-flex justify-content-end gap-2 mt-4">
-
                     <button type="button" class="btn btn-light" id="cancelDelete">
-
                         Batal
-
                     </button>
-
                     <button type="button" class="btn btn-danger" id="confirmDelete">
-
                         🗑️ Hapus
-
                     </button>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     {{-- ================= JQUERY ================= --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script>
         const fullAccess = @json($permissions['fullAccess']);
-
         let currentStatus = 'AKTIF';
         let currentPage = 1;
         let currentAudit = '';
-
         // ================= LOAD DATA =================
         function loadStatus(status, page = 1) {
             $('#tableWrapper').html(`
@@ -2902,30 +2563,20 @@
                 Loading...
             </div>
         `);
-
             $.ajax({
-
                 url: '/admin-banceuy/wbp/filter',
-
                 type: 'GET',
-
                 dataType: 'json',
-
                 data: {
                     status: status,
                     page: page,
                     search: $('#search').val(),
                     audit: currentAudit
                 },
-
                 success: function(res) {
-
                     console.log('RES DATA:', res.data);
-
                     let html = '';
-
                     if (res.data.length === 0) {
-
                         html = `
                     <div class="card shadow-sm border-0">
                         <div class="card-body text-center py-5">
@@ -2933,39 +2584,26 @@
                         </div>
                     </div>
                 `;
-
                     } else {
-
                         html += `
                     <div class="card shadow-sm border-0">
                         <div class="card-body">
-
                             <div class="wbp-grid">
                 `;
-
                         $.each(res.data, function(i, w) {
-
                             let foto = '';
-
                             if (w.has_foto) {
-
                                 foto = `
                                     <img src="/${w.foto_wbp}" alt="Foto WBP">
                                     `;
-
                             } else {
-
                                 foto = `
                                     <div class="wbp-card-photo-empty"></div>
                                     `;
-
                             }
-
                             // ================= STATUS BADGE =================
                             let statusBadge = '';
-
                             if (w.status_kamar === 'Terbuka') {
-
                                 statusBadge = `
                             <span style="
                                 display:inline-block;
@@ -2979,9 +2617,7 @@
                                 Terbuka
                             </span>
                         `;
-
                             } else if (w.status_kamar === 'Tertutup') {
-
                                 statusBadge = `
                             <span style="
                                 display:inline-block;
@@ -2995,91 +2631,62 @@
                                 Tertutup
                             </span>
                         `;
-
                             }
-
                             // ================= AUDIT BADGE =================
                             let auditBadge = '';
-
                             if (w.duplicate_no_reg) {
                                 auditBadge += `<span class="badge bg-danger">No Reg Duplikat</span>`;
                             }
-
                             if (w.duplicate_nama) {
                                 auditBadge +=
                                     `<span class="badge bg-warning text-dark">Nama Duplikat</span>`;
                             }
-
                             if (!w.has_foto) {
                                 auditBadge += `<span class="badge bg-secondary">Belum Ada Foto</span>`;
                             }
-
                             if (!w.ekspirasi) {
                                 auditBadge +=
                                     `<span class="badge bg-info text-dark">Ekspirasi Kosong</span>`;
                             }
-
                             if (w.is_data_complete) {
                                 auditBadge += `<span class="badge bg-success">Data Lengkap</span>`;
                             }
-
                             html += `
-
                         <div class="main-row d-flex gap-3 align-items-start shadow-lg">
-
                             <div class="position-absolute top-0 end-0 m-2 d-flex flex-column align-items-end gap-1">
                                 ${auditBadge}
                             </div>
-
                             <div class="wbp-card-photo">
                                 ${foto}
                             </div>
-
                             <div class="wbp-card-content">
-
                                 <div class="nama-col">
                                     ${w.nama ?? '-'}
                                 </div>
-
                                 <div class="sub-info fw-bold">
                                     BLOK ${w.kamar?.kode_blok ?? '-'} -
                                     <span>${w.kamar?.lokasi_sel ?? '-'}</span>
                                 </div>
-
                                 ${statusBadge}
-
                                 <div class="d-flex gap-2 action-buttons">
                                     ${
                                         fullAccess
                                         ? `
-                                                                                    <button class="action-btn btn-detail" data-id="${w.id}">
-                                                                                        Detail
-                                                                                    </button>
-
-                                                                                    <button class="action-btn btn-delete" data-id="${w.id}">
-                                                                                        Hapus
-                                                                                    </button>
-                                                                                `
+                                                                                                    <button class="action-btn btn-detail" data-id="${w.id}"> Detail </button>
+                                                                                                    <button class="action-btn btn-delete" data-id="${w.id}"> Hapus </button>
+                                                                                                `
                                         : ''
                                     }
                                 </div>
-
                             </div>
-
                         </div>
-
                     `;
                         });
-
                         html += `
-
                         </div>
-
                         <div class="d-flex justify-content-center mt-4">
                 `;
-
                         if (res.current_page > 1) {
-
                             html += `
                         <button
                             class="btn btn-outline-primary me-2 page-btn"
@@ -3088,15 +2695,12 @@
                         </button>
                     `;
                         }
-
                         html += `
                     <span class="align-self-center">
                         Halaman ${res.current_page} / ${res.last_page}
                     </span>
                 `;
-
                         if (res.current_page < res.last_page) {
-
                             html += `
                         <button
                             class="btn btn-outline-primary ms-2 page-btn"
@@ -3105,120 +2709,76 @@
                         </button>
                     `;
                         }
-
                         html += `
                         </div>
                     </div>
                 </div>
                 `;
                     }
-
                     $('#tableWrapper').html(html);
-
                     $('#totalBadge').text(
                         res.total + ' Orang'
                     );
-
                 },
-
                 error: function(xhr) {
-
                     console.log(xhr.responseText);
-
                     $('#tableWrapper').html(`
                 <div class="alert alert-danger">
                     Gagal memuat data
                 </div>
             `);
-
                 }
-
             });
         }
-
         // ================= TAB =================
         $(document).on('click', '.status-tab', function() {
-
             $('.status-tab').removeClass('active');
-
             $(this).addClass('active');
-
             currentStatus = $(this).data('status');
-
             currentPage = 1;
-
             loadStatus(currentStatus, currentPage);
-
         });
-
         // ================= AUDIT BADGE =================
         $(document).on('click', '.audit-filter', function() {
-
             $('.audit-filter').removeClass('active');
-
             if (currentAudit === $(this).data('filter')) {
-
                 currentAudit = '';
-
             } else {
-
                 $(this).addClass('active');
-
                 currentAudit = $(this).data('filter');
-
             }
-
             currentPage = 1;
-
             loadStatus(currentStatus, currentPage);
-
         });
-
         // ================= SEARCH =================
         let typingTimer;
-
         $('#search').on('keyup', function() {
-
             clearTimeout(typingTimer);
-
             typingTimer = setTimeout(function() {
-
                 currentPage = 1;
-
                 loadStatus(
                     currentStatus,
                     currentPage
                 );
-
             }, 300);
-
         });
 
         // ================= PAGINATION =================
         $(document).on('click', '.page-btn', function() {
-
             currentPage = $(this).data('page');
-
             loadStatus(
                 currentStatus,
                 currentPage
             );
-
         });
 
         // ================= DETAIL =================
         $(document).on('click', '.btn-detail', function() {
-
             console.log('DETAIL DIKLIK');
-
             let id = $(this).data('id');
-
             $('#modalDetail').fadeIn(200);
-
             $('#detailBody').html('Loading...');
-
             $.get('/admin-banceuy/wbp/' + id + '/detail', function(res) {
-
                 let status = res.status_kamar ?? '-';
                 let noReg = res.no_reg_instansi ?? '-';
                 let blok = res.blok ?? '-';
@@ -3236,65 +2796,48 @@
                 let subsiderBulan = res.subsider_bulan ?? 0;
                 let subsiderHari = res.subsider_hari ?? 0;
                 let dendaSubsider = res.denda_subsider ?? null;
-
                 let ekspirasi = res.ekspirasi ?
                     formatTanggalIndonesia(res.ekspirasi) :
                     '-';
-
                 // FORMAT TANGGAL
                 function formatTanggalIndonesia(value) {
-
                     if (!value) {
                         return '-';
                     }
-
                     const dateOnly = String(value).substring(0, 10);
                     const parts = dateOnly.split('-');
-
                     if (parts.length !== 3) {
                         return value;
                     }
-
                     const year = parseInt(parts[0]);
                     const month = parseInt(parts[1]) - 1;
                     const day = parseInt(parts[2]);
-
                     const date = new Date(year, month, day);
-
                     return new Intl.DateTimeFormat('id-ID', {
                         day: '2-digit',
                         month: 'long',
                         year: 'numeric'
                     }).format(date);
                 }
-
                 let subsiderParts = [];
-
                 if (Number(subsiderTahun) > 0) {
                     subsiderParts.push(`${subsiderTahun} Tahun`);
                 }
-
                 if (Number(subsiderBulan) > 0) {
                     subsiderParts.push(`${subsiderBulan} Bulan`);
                 }
-
                 if (Number(subsiderHari) > 0) {
                     subsiderParts.push(`${subsiderHari} Hari`);
                 }
-
                 let pidanaSubsider = subsiderParts.length ?
                     subsiderParts.join(' ') :
                     '-';
-
                 let dendaSubsiderFormatted =
                     dendaSubsider !== null && Number(dendaSubsider) > 0 ?
                     Number(dendaSubsider).toLocaleString('id-ID') :
                     '-';
-
                 let statusBadge = '';
-
                 if (status === 'Terbuka') {
-
                     statusBadge = `
                     <span style="
                         background:#28a745;
@@ -3306,9 +2849,7 @@
                         Terbuka
                     </span>
                 `;
-
                 } else if (status === 'Tertutup') {
-
                     statusBadge = `
                     <span style="
                         background:#dc3545;
@@ -3320,9 +2861,7 @@
                         Tertutup
                     </span>
                 `;
-
                 } else {
-
                     statusBadge = `
                     <span style="
                         background:#6c757d;
@@ -3334,46 +2873,33 @@
                         -
                     </span>
                 `;
-
                 }
-
                 $('#detailBody').html(`
-
                 <h5 class="fw-bold mb-3">
                     ${nama}
                 </h5>
-
                 <div class="detail-location-row">
-
                     <p class="fw-bold mb-0">
                         BLOK ${blok} - ${sel}
                     </p>
-
                     <div class="detail-status">
                         <b>Status:</b> ${statusBadge}
                     </div>
-
                 </div>
-
                 <hr>
-
                 <div class="detail-info-grid">
-
                     <div class="detail-info-item">
                         <b>No Reg:</b>
                         <span>${noReg}</span>
                     </div>
-
                     <div class="detail-info-item">
                         <b>Total Remisi:</b>
                         <span>${bulanRemisi} Bulan ${hariRemisi} Hari</span>
                     </div>
-
                     <div class="detail-info-item">
                         <b>Pasal:</b>
                         <span>${pasal || '-'}</span>
                     </div>
-
                     <div class="detail-info-item">
                         <b>Pidana:</b>
                         <span>
@@ -3382,12 +2908,10 @@
                                 : '-'}
                         </span>
                     </div>
-
                     <div class="detail-info-item">
                         <b>Pidana Subsider:</b>
                         <span>${pidanaSubsider}</span>
                     </div>
-
                     <div class="detail-info-item">
                         <b>Denda Subsider:</b>
                         <span>
@@ -3396,79 +2920,52 @@
                                 : '-'}
                         </span>
                     </div>
-
                     <div class="detail-info-item">
                         <b>Jenis Kejahatan:</b>
                         <span>${jenis_kejahatan || '-'}</span>
                     </div>
-
                     <div class="detail-info-item">
                         <b>Ekspirasi:</b>
                         <span>${ekspirasi}</span>
                     </div>
-
                 </div>
-
                 <div class="mt-3">
-
                     <label
                         class="fw-bold mb-2 d-block">
                         Tanggal Keterangan
                     </label>
-
                     <div
                         class="border rounded p-2 bg-light">
-
                         ${tanggal}
-
                     </div>
-
                 </div>
-
                 <div class="mt-3">
-
                         <label class="fw-bold mb-2 d-block">
                             Keterangan
                         </label>
-
-                        <div
+                        <div class="detail-keterangan-box"
                             style="
                                 min-height:120px;
-                                border:1px solid #dee2e6;
                                 border-radius:12px;
                                 padding:16px;
-                                background:#f8f9fa;
                                 white-space:pre-wrap;
                                 word-break:break-word;
                                 overflow-wrap:break-word;
                                 font-size:15px;
                                 line-height:1.7;
-                                color:#495057;
                                 text-align:left;
                                 display:flex;
                                 align-items:flex-start;
                                 justify-content:flex-start;
                             ">
-
-                            ${
-                                keterangan
-                                    ? `<div style="width:100%;">${keterangan}</div>`
-                                    : `<span class="text-muted fst-italic">Belum ada keterangan</span>`
-                            }
-
                         </div>
-
-                    </div>
-
                <div class="mt-4 text-end d-flex gap-2 justify-content-end">
-
                     <button
                         class="btn btn-primary btn-edit-wbp"
                         data-id="${res.id ?? ''}"
                         data-nama="${nama}">
                         Edit Data WBP
                     </button>
-
                     <button
                         class="btn btn-info btn-edit-status"
                         data-id="${res.id ?? ''}"
@@ -3476,7 +2973,6 @@
                         data-status="${res.status_wbp ?? ''}">
                         Edit Status
                     </button>
-
                     <button
                         class="btn btn-warning btn-edit-kamar"
                         data-id="${res.id ?? ''}"
@@ -3484,7 +2980,6 @@
                         data-kamar="${blok} - ${sel}">
                         Edit Kamar
                     </button>
-
                     <button
                         class="btn btn-secondary btn-edit-keterangan"
                         data-id="${res.id ?? ''}"
@@ -3493,35 +2988,24 @@
                         data-keterangan="${res.keterangan ?? ''}">
                         Edit Keterangan
                     </button>
-
                 </div>
-
             `);
-
             });
-
         });
 
         // ================= OPEN EDIT DATA WBP =================
         $(document).on('click', '.btn-edit-wbp', function() {
-
             let wbpId = $(this).data('id');
-
             if (!wbpId) {
                 alert('WBP ID tidak ditemukan');
                 return;
             }
-
             console.log('Edit WBP:', wbpId);
-
             // ================= BUKA MODAL =================
             $('#modalEditWbp').addClass('show');
-
             // ================= AMBIL DATA =================
             $.get('/admin-banceuy/wbp/' + wbpId + '/edit', function(res) {
-
                 console.log('Data Edit WBP:', res);
-
                 // ================= IDENTITAS =================
                 $('#full_edit_wbp_id').val(res.id);
                 $('#edit_no_reg_instansi').val(res.no_reg_instansi ?? '');
@@ -3529,13 +3013,11 @@
                 $('#edit_negara').val(res.negara ?? '');
                 $('#edit_agama').val(res.agama ?? '');
                 $('#edit_klasifikasi_wbp').val(res.klasifikasi_wbp ?? '');
-
                 // ================= PERKARA =================
                 $('#edit_jenis_kejahatan').val(res.jenis_kejahatan ?? '');
                 $('#edit_pasal').val(res.pasal ?? '');
                 $('#edit_putusan').val(res.putusan ?? '');
                 $('#edit_putusan_bulan').val(res.putusan_bulan ?? '');
-
                 // ================= SUBSIDER =================
                 $('#edit_subsider_tahun').val(res.subsider_tahun ?? '');
                 $('#edit_subsider_bulan').val(res.subsider_bulan ?? '');
@@ -3545,34 +3027,49 @@
                     new Intl.NumberFormat('id-ID').format(res.denda_subsider) :
                     ''
                 );
-
                 // ================= MASA & REMISI =================
                 $('#edit_ekspirasi').val(res.ekspirasi ?? '');
                 $('#edit_masa_1_3').val(res.masa_1_3 ?? '');
                 $('#edit_masa_1_2').val(res.masa_1_2 ?? '');
                 $('#edit_masa_2_3').val(res.masa_2_3 ?? '');
-
                 $('#edit_total_bulan_remisi').val(
                     res.total_bulan_remisi ?? ''
                 );
-
                 $('#edit_total_hari_remisi').val(
                     res.total_hari_remisi ?? ''
                 );
+                // ================= LOKASI WBP =================
+                const lokasiBlok = (res.lokasi_blok ?? '').trim();
+                const lokasiSel = (res.lokasi_sel ?? '').trim();
 
-                // ================= LOKASI =================
-                $('#edit_lokasi_blok').val(res.lokasi_blok ?? '');
-                $('#edit_lokasi_sel').val(res.lokasi_sel ?? '');
-                $('#edit_kamar_id').val(res.kamar_id ?? '');
+                const perluPilihKamar = !lokasiBlok || !lokasiSel;
 
+                const $lokasiSection = $('#editLokasiWbpSection');
+                const $kamarSelect = $('#edit_kamar_id');
+
+                if (perluPilihKamar) {
+                    // Lokasi belum lengkap: tampilkan dropdown dan wajibkan pilihan.
+                    $lokasiSection.show();
+
+                    $kamarSelect
+                        .prop('disabled', false)
+                        .prop('required', true)
+                        .val(res.kamar_id ?? '');
+                } else {
+                    // Lokasi sudah lengkap: sembunyikan dropdown.
+                    $lokasiSection.hide();
+
+                    $kamarSelect
+                        .prop('disabled', true)
+                        .prop('required', false)
+                        .val('');
+                }
                 // ================= STATUS =================
                 $('#edit_status_kamar').val(res.status_kamar ?? '');
                 $('#edit_status_wbp').val(res.status_wbp ?? '');
-
                 // ================= DATA TAMBAHAN =================
                 $('#edit_keperluan').val(res.keperluan ?? '');
                 $('#edit_tanggal_bon').val(res.tanggal_bon ?? '');
-
                 if (res.tanggal) {
                     $('#edit_tanggal').val(
                         res.tanggal.substring(0, 16).replace(' ', 'T')
@@ -3580,113 +3077,76 @@
                 } else {
                     $('#edit_tanggal').val('');
                 }
-
                 // ================= FOTO WBP =================
-
                 // Reset input file
                 $('#edit_foto_wbp').val('');
-
                 // Tampilkan foto lama sebagai preview
                 if (res.foto_wbp) {
-
                     const fotoUrl = res.foto_wbp.startsWith('http') ?
                         res.foto_wbp :
                         window.location.origin + '/' + res.foto_wbp.replace(/^\/+/, '');
-
                     $('#edit_foto_preview')
                         .attr('src', fotoUrl)
                         .show();
-
                 } else {
-
                     $('#edit_foto_preview')
                         .attr('src', '')
                         .hide();
-
                 }
-
                 $('#edit_keterangan').val(res.keterangan ?? '');
-
             }).fail(function(xhr) {
-
                 console.error('Gagal mengambil data WBP:', xhr);
-
                 $('#modalEditWbp').removeClass('show');
-
                 alert('Gagal mengambil data WBP.');
-
             });
-
         });
 
         // ================= PREVIEW FOTO EDIT WBP =================
         $(document).on('change', '#edit_foto_wbp', function() {
-
             const file = this.files[0];
-
             if (!file) {
                 return;
             }
-
             const allowedTypes = [
                 'image/jpeg',
                 'image/png',
                 'image/webp'
             ];
-
             if (!allowedTypes.includes(file.type)) {
-
                 alert('Format foto harus JPG, PNG, atau WEBP.');
-
                 $(this).val('');
-
                 $('#edit_foto_preview')
                     .attr('src', '')
                     .hide();
-
                 return;
             }
-
             const maxSize = 5 * 1024 * 1024;
-
             if (file.size > maxSize) {
-
                 alert('Ukuran foto maksimal 5 MB.');
-
                 $(this).val('');
-
                 $('#edit_foto_preview')
                     .attr('src', '')
                     .hide();
-
                 return;
             }
-
             const reader = new FileReader();
-
             reader.onload = function(e) {
-
                 $('#edit_foto_preview')
                     .attr('src', e.target.result)
                     .show();
-
             };
-
             reader.readAsDataURL(file);
-
         });
 
         // ================= FORMAT DENDA SUBSIDER =================
         function formatRupiahInput(input) {
             let value = input.value.replace(/\D/g, '');
-
             if (value) {
                 input.value = new Intl.NumberFormat('id-ID').format(value);
             } else {
                 input.value = '';
             }
         }
-
         $(document).on(
             'input',
             '#tambah_denda_subsider, #edit_denda_subsider',
@@ -3697,20 +3157,15 @@
 
         // ================= SUBMIT EDIT DATA WBP =================
         $(document).on('submit', '#formEditWbp', function(e) {
-
             e.preventDefault();
-
             const form = $(this);
             const wbpId = $('#full_edit_wbp_id').val();
-
             if (!wbpId) {
                 alert('ID WBP tidak ditemukan.');
                 return;
             }
-
             // ================= TAMPILKAN KONFIRMASI =================
             $('#modalKonfirmasiEditWbp').addClass('show');
-
         });
 
         // ================= BATAL KONFIRMASI =================
@@ -3718,157 +3173,104 @@
             'click',
             '#closeModalKonfirmasiEditWbp, #batalKonfirmasiEditWbp',
             function() {
-
                 $('#modalKonfirmasiEditWbp').removeClass('show');
-
             }
         );
 
         // ================= LANJUT SIMPAN =================
         $(document).on('click', '#lanjutSimpanEditWbp', function() {
-
             const form = $('#formEditWbp');
             const wbpId = $('#full_edit_wbp_id').val();
-
             if (!wbpId) {
                 alert('ID WBP tidak ditemukan.');
                 return;
             }
-
             const submitButton = form.find('button[type="submit"]');
-
             // ================= TUTUP KONFIRMASI =================
-
             $('#modalKonfirmasiEditWbp').removeClass('show');
-
             // ================= LOADING =================
-
             submitButton
                 .prop('disabled', true)
                 .html('Menyimpan...');
-
             // ================= FORM DATA =================
-
             const formData = new FormData(form[0]);
-
             console.log(
                 'Foto File:',
                 $('#edit_foto_wbp')[0]?.files[0]
             );
-
             console.log(
                 'FormData Foto:',
                 formData.get('foto_wbp')
             );
             console.log('FormData foto:', formData.get('foto_wbp'));
-
             // ================= BERSIHKAN FORMAT DENDA =================
-
             let dendaSubsider = $('#edit_denda_subsider').val();
-
             if (dendaSubsider) {
                 dendaSubsider = dendaSubsider.replace(/\./g, '');
                 formData.set('denda_subsider', dendaSubsider);
             } else {
                 formData.set('denda_subsider', '');
             }
-
             // ================= METHOD LARAVEL =================
             // POST + _method PUT lebih aman untuk multipart/form-data
-
             formData.append('_method', 'PUT');
-
             $.ajax({
-
                 url: '/admin-banceuy/wbp/' + wbpId,
-
                 type: 'POST',
-
                 data: formData,
-
                 contentType: false,
-
                 processData: false,
-
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-
                 success: function(res) {
-
                     console.log('Update WBP berhasil:', res);
-
                     // ================= TUTUP MODAL EDIT =================
-
                     $('#modalEditWbp').removeClass('show');
-
                     // ================= RESET BUTTON =================
-
                     submitButton
                         .prop('disabled', false)
                         .html('Simpan Perubahan');
-
                     // ================= RESET FORM FOTO =================
-
                     $('#edit_foto_wbp').val('');
-
                     $('#edit_foto_preview')
                         .attr('src', '')
                         .hide();
-
                     // ================= NOTIFIKASI =================
-
                     alert(
                         res.message ??
                         'Data WBP berhasil diperbarui.'
                     );
-
                     // ================= REFRESH DATA =================
                     loadStatus(currentStatus, currentPage);
-
                 },
-
                 error: function(xhr) {
-
                     console.error(
                         'Gagal update WBP:',
                         xhr.responseJSON || xhr.responseText
                     );
-
                     // ================= RESET BUTTON =================
-
                     submitButton
                         .prop('disabled', false)
                         .html('Simpan Perubahan');
-
                     // ================= VALIDATION ERROR =================
-
                     if (xhr.status === 422) {
-
                         let message = 'Data tidak valid.';
-
                         if (xhr.responseJSON?.errors) {
-
                             const errors = xhr.responseJSON.errors;
-
                             message = Object.values(errors)
                                 .flat()
                                 .join('\n');
                         }
-
                         alert(message);
-
                         return;
                     }
-
                     alert(
                         xhr.responseJSON?.message ??
                         'Terjadi kesalahan saat memperbarui Data WBP.'
                     );
-
                 }
             });
-
         });
 
         // ================= CLOSE EDIT WBP =================
@@ -3876,158 +3278,116 @@
             'click',
             '#closeModalEditWbp, #cancelEditWbp',
             function() {
-
                 $('#modalEditWbp').removeClass('show');
-
             }
         );
 
         // ================= OPEN EDIT KAMAR =================
         $(document).on('click', '.btn-edit-kamar', function() {
-
             let wbpId = $(this).data('id');
             let nama = $(this).data('nama');
             let kamarSaatIni = $(this).data('kamar');
-
-
             // ================= SAFETY GUARD =================
             if (!wbpId) {
                 alert('WBP ID tidak ditemukan di tombol');
                 return;
             }
-
             $('#modalDetail').fadeOut(200);
             $('#modalEditKamar').fadeIn(200);
-
             $('#editBody').html(`
                 <div class="text-center p-4">
                     Loading...
                 </div>
             `);
-
             $.get('/admin-banceuy/kamar/all', function(kamarList) {
-
                 let option = `<option value="">Pilih Kamar Tujuan</option>`;
-
                 let currentBlok = '';
-
                 $.each(kamarList, function(i, kamar) {
-
                     if (currentBlok !== kamar.kode_blok) {
-
                         currentBlok = kamar.kode_blok;
-
                         option += `
                         <optgroup label="BLOK ${currentBlok}">
                     `;
                     }
-
                     option += `
                     <option value="${kamar.id}">
                         BLOK ${kamar.kode_blok} - ${kamar.lokasi_sel}
                     </option>
                 `;
-
                     if (
                         i === kamarList.length - 1 ||
                         kamarList[i + 1].kode_blok !== currentBlok
                     ) {
                         option += `</optgroup>`;
                     }
-
                 });
-
                 $('#kamar_id').html(option);
-
                 $('#editBody').html(`
-
                 <input type="hidden" id="edit_wbp_id" value="${wbpId}">
-
                 <div class="mb-3">
                     <label>Nama WBP</label>
                     <input type="text" class="form-control" value="${nama ?? ''}" readonly>
                 </div>
-
                 <div class="mb-3">
                     <label>Kamar Saat Ini</label>
                     <input type="text" class="form-control" value="BLOK ${kamarSaatIni ?? ''}" readonly>
                 </div>
-
                 <div class="mb-3">
                     <label>Kamar Tujuan</label>
                     <select id="kamar_tujuan" class="form-control">
                         ${option}
                     </select>
                 </div>
-
                 <div class="d-flex justify-content-center gap-2 mt-3">
-
                     <button type="button" class="btn btn-secondary" id="closeEditModal">
                         Batal
                     </button>
-
                     <button type="button" class="btn btn-success" id="btnSimpanKamar">
                         Simpan
                     </button>
-
                 </div>
-
             `);
-
             });
-
         });
 
         // ================= SAVE EDIT KAMAR =================
         $(document).on('click', '#btnSimpanKamar', function() {
-
             let wbpId = $('#edit_wbp_id').val();
             let kamarId = $('#kamar_tujuan').val();
-
             // ================= SAFETY GUARD =================
             if (!wbpId || wbpId === 'undefined') {
                 alert('WBP ID tidak valid');
                 return;
             }
-
             if (!kamarId) {
                 alert('Pilih kamar tujuan');
                 return;
             }
-
             $.post('/admin-banceuy/wbp/update-kamar', {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 wbp_id: wbpId,
                 kamar_id: kamarId
-
             }, function(res) {
                 alert(res.message ?? 'Kamar berhasil diperbarui');
                 $('#modalEditKamar').fadeOut(200);
                 location.reload();
-
             }).fail(function(xhr) {
                 alert(xhr.responseJSON?.message ?? 'Gagal memperbarui kamar');
             });
-
         });
 
         $(document).on('click', '.btn-edit-status', function() {
-
             let id = $(this).data('id');
             let nama = $(this).data('nama');
             let status = $(this).data('status');
             let statusKamar = $(this).data('status-kamar');
-
             $('#modalDetail').fadeOut(200);
             $('#modalEditStatus').fadeIn(200);
-
             $('#statusBody').html(`
-
                 <input
                     type="hidden"
                     id="status_wbp_id"
                     value="${id}">
-
                 <div class="mb-3">
                     <label>Nama WBP</label>
                     <input
@@ -4036,7 +3396,6 @@
                         value="${nama}"
                         readonly>
                 </div>
-
                 <div class="mb-3">
                     <label>Status WBP</label>
                     <select
@@ -4049,9 +3408,7 @@
                         <option value="PULANG">PULANG</option>
                         <option value="MENINGGAL">MENINGGAL</option>
                     </select>
-
                 </div>
-
                 <div class="mb-3">
                     <label>Status Kamar</label>
                     <select
@@ -4083,7 +3440,6 @@
                     status_wbp: $('#status_wbp').val(),
                     status_kamar: $('#status_kamar').val()
                 },
-
                 success: function(res) {
                     if (res.success) {
                         $('#modalEditStatus').fadeOut(200);
@@ -4091,7 +3447,6 @@
                         loadStatus(currentStatus, currentPage);
                     }
                 },
-
                 error: function(xhr) {
                     console.log(xhr.responseText);
                 }
@@ -4113,75 +3468,52 @@
             'click',
             '.btn-edit-keterangan',
             function() {
-
                 let id = $(this).data('id');
                 let nama = $(this).data('nama');
                 let tanggal = $(this).data('tanggal') || '';
                 let keterangan = $(this).data('keterangan') || '';
-
                 $('#keteranganBody').html(`
-
                     <input
                         type="hidden"
                         id="wbp_id"
                         value="${id}">
-
                     <div class="mb-3">
-
                         <label class="form-label">
                             Nama WBP
                         </label>
-
                         <input
                             type="text"
                             class="form-control"
                             value="${nama}"
                             readonly>
-
                     </div>
-
                     <div class="mb-3">
-
                         <label class="form-label">
                             Tanggal
                         </label>
-
                         <input
                         type="datetime-local"
                         id="tanggal"
                         class="form-control">
-
                     </div>
-
                     <div class="mb-3">
-
                         <label class="form-label">
                             Keterangan
                         </label>
-
                         <textarea
                             id="keterangan"
                             class="form-control"
                             rows="5">${keterangan}</textarea>
-
                     </div>
-
                     <button
                         id="btnSimpanKeterangan"
                         class="btn btn-primary w-100">
-
                         Simpan
-
                     </button>
-
                 `);
-
                 $('#modalDetail').fadeOut(200, function() {
-
                     $('#modalEditKeterangan').fadeIn(200);
-
                 });
-
             }
         );
 
@@ -4198,7 +3530,6 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-
                     data: {
                         id: $('#wbp_id').val(),
                         tanggal: $('#tanggal').val(),
@@ -4208,12 +3539,10 @@
                         if (res.success) {
                             $('#modalEditKeterangan')
                                 .fadeOut(200);
-
                             // refresh detail WBP
                             loadDetailWbp(
                                 $('#wbp_id').val()
                             );
-
                         } else {
                             alert(
                                 res.message ??
@@ -4221,14 +3550,12 @@
                             );
                         }
                     },
-
                     error: function(xhr) {
                         console.log(xhr.responseText);
                         if (
                             xhr.responseJSON &&
                             xhr.responseJSON.errors
                         ) {
-
                             let errors = [];
                             $.each(
                                 xhr.responseJSON.errors,
@@ -4247,7 +3574,6 @@
                             );
                         }
                     },
-
                     complete: function() {
                         btn.prop(
                             'disabled',
@@ -4267,29 +3593,24 @@
         $('#closeModal').click(function() {
             $('#modalDetail').fadeOut(200);
         });
+
         // ================= CLOSE EDIT =================
         $(document).on('click', '#closeEditModal', function() {
-
             $('#modalEditKamar').fadeOut(200);
         });
 
         // ================= CLICK OUTSIDE =================
         $(window).click(function(e) {
-
             if ($(e.target).is('#modalDetail')) {
                 $('#modalDetail').fadeOut(200);
             }
-
             if ($(e.target).is('#modalEditKamar')) {
                 $('#modalEditKamar').fadeOut(200);
             }
-
         });
     </script>
-
     <script>
         $(function() {
-
             // ================= SEARCH =================
             let t;
             $('#search').on('input', function() {
@@ -4300,28 +3621,23 @@
                     Loading...
                 </div>
             `);
-
                     $.get(window.location.pathname, {
                         search: $('#search').val()
                     }, function(res) {
-
                         $('#tableWrapper').html(
                             $(res).find('#tableWrapper').html()
                         );
                     });
                 }, 300);
             });
-
             // ================= MODAL OPEN IMPORT =================
             $('#btnImportExcel').on('click', function() {
                 $('#importExcelModal').addClass('active');
             });
-
             // ================= CLOSE IMPORT =================
             $(document).on('click', '#importExcelModal .jq-close', function() {
                 $('#importExcelModal').removeClass('active');
             });
-
             // ================= CLOSE IMPORT OVERLAY =================
             $(document).on('click', '#importExcelModal', function(e) {
                 if (e.target.id === 'importExcelModal') {
@@ -4330,80 +3646,56 @@
             });
         });
     </script>
-
     <!--Delete wbp script-->
     <script>
         $(function() {
-
             let deleteId = null;
             let deleteCard = null;
             let isProcessing = false;
-
             // ================= OPEN DELETE MODAL =================
             $(document).on('click', '.btn-delete', function() {
-
                 deleteId = $(this).data('id');
                 deleteCard = $(this).closest('.main-row');
-
                 $('#deletePassword').val('');
                 $('#deleteModal').css('display', 'flex');
-
                 setTimeout(function() {
                     $('#deletePassword').trigger('focus');
                 }, 100);
-
             });
-
             // ================= CONFIRM DELETE =================
             $('#confirmDelete').on('click', function() {
-
                 if (isProcessing) return;
-
                 let password = $('#deletePassword').val().trim();
-
                 if (!password) {
                     alert('Password wajib diisi.');
                     $('#deletePassword').focus();
                     return;
                 }
-
                 isProcessing = true;
-
                 $('#confirmDelete').prop('disabled', true).text('Menghapus...');
-
                 $.ajax({
-
                     url: '/admin-banceuy/wbp/' + deleteId,
                     type: 'POST',
-
                     data: {
                         _method: 'DELETE',
                         _token: '{{ csrf_token() }}',
                         password: password,
                         search: $('#search').val() || ''
                     },
-
                     success: function(res) {
-
                         if (res && res.success) {
-
                             $('#deleteModal').hide();
                             $('#deletePassword').val('');
-
                             if (deleteCard && deleteCard.length) {
                                 deleteCard.fadeOut(200, function() {
                                     $(this).remove();
                                 });
                             }
-
                         } else {
                             alert(res.message || 'Gagal menghapus data.');
                         }
-
                     },
-
                     error: function(xhr) {
-
                         if (xhr.status === 422) {
                             alert(xhr.responseJSON?.message || 'Password salah.');
                         } else if (xhr.status === 500) {
@@ -4411,31 +3703,25 @@
                         } else {
                             alert('Request gagal, coba lagi.');
                         }
-
                     },
-
                     complete: function() {
                         isProcessing = false;
                         $('#confirmDelete').prop('disabled', false).text('🗑️ Hapus');
                     }
                 });
             });
-
             // ================= CLOSE MODAL DELETE =================
             function closeModal() {
                 $('#deletePassword').val('');
                 $('#deleteModal').hide();
             }
-
             $('#closeDeleteModal, #cancelDelete').on('click', closeModal);
-
             // ================= CLICK OUTSIDE MODAL =================
             $('#deleteModal').on('click', function(e) {
                 if (e.target === this) {
                     closeModal();
                 }
             });
-
             // ================= ENTER DELETE KEY =================
             $('#deletePassword').on('keydown', function(e) {
                 if (e.key === 'Enter') {
@@ -4443,75 +3729,289 @@
                     $('#confirmDelete').trigger('click');
                 }
             });
-
         });
     </script>
-
     <!--Tambah wbp script-->
     <script>
         $(function() {
-
             $('#btnTambahWbp').on('click', function() {
-
                 $('#modalTambahWbp').addClass('show');
             });
             $('#closeTambahModal, #btnBatalTambah').on('click', function() {
                 $('#modalTambahWbp').removeClass('show');
             });
-
             $('#modalTambahWbp').on('click', function(e) {
                 if (e.target === this) {
                     $(this).removeClass('show');
                 }
             });
-
         });
     </script>
+    <!-- VALIDASI FORM TAMBAH WBP -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('formTambahWbp');
+            if (!form) return;
+            const rules = {
+                no_reg_instansi: {
+                    required: true,
+                    maxLength: 50,
+                    label: 'Nomor Registrasi Instansi'
+                },
+                nama: {
+                    required: true,
+                    maxLength: 100,
+                    label: 'Nama WBP'
+                },
+                negara: {
+                    maxLength: 50,
+                    label: 'Negara'
+                },
+                agama: {
+                    maxLength: 30,
+                    label: 'Agama'
+                },
+                klasifikasi_wbp: {
+                    required: true,
+                    maxLength: 100,
+                    label: 'Klasifikasi WBP'
+                },
+                jenis_kejahatan: {
+                    maxLength: 100,
+                    label: 'Jenis Kejahatan'
+                },
+                pasal: {
+                    maxLength: 255,
+                    label: 'Pasal'
+                },
+                putusan: {
+                    min: 0,
+                    max: 255,
+                    integer: true,
+                    label: 'Pidana (Tahun)'
+                },
+                putusan_bulan: {
+                    min: 0,
+                    max: 11,
+                    integer: true,
+                    label: 'Pidana (Bulan)'
+                },
+                subsider_tahun: {
+                    min: 0,
+                    integer: true,
+                    label: 'Subsider Tahun'
+                },
+                subsider_bulan: {
+                    min: 0,
+                    max: 11,
+                    integer: true,
+                    label: 'Subsider Bulan'
+                },
+                subsider_hari: {
+                    min: 0,
+                    max: 365,
+                    integer: true,
+                    label: 'Subsider Hari'
+                },
+                denda_subsider: {
+                    min: 0,
+                    integer: true,
+                    label: 'Denda Subsider',
+                    rupiah: true
+                },
+                total_bulan_remisi: {
+                    min: 0,
+                    integer: true,
+                    label: 'Total Bulan Remisi'
+                },
+                total_hari_remisi: {
+                    min: 0,
+                    integer: true,
+                    label: 'Total Hari Remisi'
+                },
+                ekspirasi: {
+                    date: true,
+                    label: 'Ekspirasi'
+                },
+                masa_1_3: {
+                    date: true,
+                    label: 'Masa 1/3'
+                },
+                masa_1_2: {
+                    date: true,
+                    label: 'Masa 1/2'
+                },
+                masa_2_3: {
+                    date: true,
+                    label: 'Masa 2/3'
+                },
+                kamar_id: {
+                    label: 'Kamar'
+                },
+                status_wbp: {
+                    required: true,
+                    allowed: ['AKTIF', 'PINDAH UPT', 'BON', 'SAKIT', 'PULANG', 'MENINGGAL'],
+                    label: 'Status WBP'
+                },
+                foto_wbp: {
+                    required: true,
+                    file: true,
+                    label: 'Foto WBP'
+                }
+            }; // Siapkan elemen pesan untuk setiap field.
+            Object.keys(rules).forEach(function(name) {
+                const field = form.elements.namedItem(name);
+                if (!field || field.length)
+                    return;
+                const error = document.createElement('small');
+                error.className = 'text-danger d-none d-block mt-1';
+                error.setAttribute('role', 'alert');
+                error.dataset.validationError = name;
+                field.insertAdjacentElement('afterend',
+                    error);
+                field.setAttribute('aria-describedby', error.id || (error.id = 'error_tambah_' + name));
+            });
 
+            function
+            validasi(field, rule) {
+                const nilai = field.value.trim();
+                const label = rule.label;
+                const wajib = rule.required ||
+                    field.required;
+                let pesan = '';
+                if (wajib && !nilai) {
+                    pesan = label + ' wajib diisi.';
+                } else if (!nilai) {
+                    return '';
+                }
+                if (pesan) return pesan;
+                if (rule.maxLength && nilai.length >
+                    rule.maxLength) {
+                    return label + ' maksimal ' + rule.maxLength + ' karakter.';
+                }
+                if (rule.integer || rule.min !== undefined ||
+                    rule.max !== undefined) {
+                    const angka = rule.rupiah ?
+                        nilai.replace(/\./g, '') :
+                        nilai;
+                    if (!/^\d+$/.test(angka)) {
+                        return label + ' harus berupa bilangan bulat.';
+                    }
+                    const number = Number(angka);
+                    if (!Number.isSafeInteger(number)) {
+                        return label + ' terlalu besar.';
+                    }
+                    if (rule.min !== undefined && number < rule.min) {
+                        return label + ' minimal ' + rule.min + '.';
+                    }
+                    if (rule.max !== undefined && number > rule.max) {
+                        return label + ' maksimal ' + rule.max + '.';
+                    }
+                }
+                if (rule.date && Number.isNaN(Date.parse(nilai))) {
+                    return 'Format tanggal ' + label + ' tidak valid.';
+                }
+                if (rule.allowed && !rule.allowed.includes(nilai)) {
+                    return 'Pilihan ' + label + ' tidak valid.';
+                }
+                if (rule.file && field.files.length) {
+                    const file = field.files[0];
+                    const allowedTypes = [
+                        'image/jpeg',
+                        'image/png',
+                        'image/webp'
+                    ];
+                    if (!allowedTypes.includes(file.type)) {
+                        return 'Foto harus berformat JPG, JPEG, PNG, atau WEBP.';
+                    }
+                    if (file.size > 2 * 1024 * 1024) {
+                        return 'Ukuran foto maksimal 2 MB.';
+                    }
+                }
+                return '';
+            }
+
+            function validasiField(field, rule) {
+                const pesan = validasi(field, rule);
+                const error = form.querySelector(
+                    '[data-validation-error="' + field.name + '"]'
+                );
+                field.classList.toggle('is-invalid', Boolean(pesan));
+                field.setCustomValidity(pesan);
+                if (error) {
+                    error.textContent = pesan;
+                    error.classList.toggle('d-none', !pesan);
+                }
+                return !pesan;
+            }
+            Object.entries(rules).forEach(function([name, rule]) {
+                const field = form.elements.namedItem(name);
+                if (!field || field.length) return;
+                field.addEventListener('input', function() {
+                    validasiField(field, rule);
+                });
+                field.addEventListener('change', function() {
+                    validasiField(field, rule);
+                });
+                field.addEventListener('blur', function() {
+                    validasiField(field, rule);
+                });
+            });
+            form.addEventListener('submit', function(event) {
+                let valid = true;
+                let firstInvalid = null;
+                Object.entries(rules).forEach(function([name, rule]) {
+                    const field = form.elements.namedItem(name);
+                    if (!field || field.length) return;
+                    if (!validasiField(field, rule)) {
+                        valid = false;
+                        firstInvalid ??= field;
+                    }
+                });
+                if (!valid) {
+                    event.preventDefault();
+                    firstInvalid?.focus();
+                    firstInvalid?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            });
+        });
+    </script>
     <!--Route Import-->
     <script>
         const previewImportUrl = "{{ route('wbp.import.preview') }}";
         const importUrl = "{{ route('wbp.import') }}";
     </script>
-
     {{-- ================= JS IMPORT ================= --}}
     <script>
         $(function() {
-
             // ================= OPEN IMPORT MODAL =================
             $('#btnImportExcel').on('click', function() {
                 resetImportModal();
                 $('#importExcelModal').addClass('active');
             });
-
             // ================= MODAL CLOSE IMPORT =================
             $(document).on('click', '#importExcelModal .jq-close', function() {
                 resetImportModal();
             });
-
             // ================= CLOSE IMPORT OVERLAY =================
             $(document).on('click', '#importExcelModal', function(e) {
                 if (e.target.id === 'importExcelModal') {
                     resetImportModal();
                 }
             });
-
             // ================= MODAL PREVIEW IMPORT =================
             $('#btnPreviewImport').on('click', function() {
-
                 let btn = $(this);
-
                 if ($('#fileExcel').val() === '') {
                     alert('Silakan pilih file Excel terlebih dahulu.');
                     return;
                 }
-
                 let formData = new FormData($('#importWbpForm')[0]);
-
                 btn.prop('disabled', true).text('Memproses...');
-
                 $.ajax({
-
                     url: previewImportUrl,
                     type: 'POST',
                     data: formData,
@@ -4520,9 +4020,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-
                     success: function(res) {
-
                         $('#previewMode').text(res.mode);
                         $('#previewTotal').text(res.total);
                         $('#previewInsert').text(res.insert);
@@ -4530,84 +4028,52 @@
                         $('#previewSkip').text(res.skip);
                         $('#previewNotFound').text(res.not_found);
                         $('#previewInvalid').text(res.invalid);
-
                         $('#previewResult').fadeIn(200);
                         $('#btnImportNow').fadeIn(200);
-
                     },
-
                     error: function(xhr) {
                         console.log(xhr.responseText);
                         alert(xhr.responseJSON?.message ?? 'Preview gagal.');
                     },
-
                     complete: function() {
                         btn.prop('disabled', false).html('👁 Preview Import');
                     }
-
                 });
-
             });
-
             // ================= RESET PREVIEW SAAT FILE / MODE BERUBAH =================
             $('#fileExcel, input[name="import_mode"]').on('change', function() {
-
                 $('#previewResult').hide();
-
                 $('#btnImportNow').hide();
-
             });
-
             // ================= IMPORT EXCEL =================
             $('#btnImportNow').on('click', function() {
-
                 console.log('1. Tombol Import diklik');
-
                 let btn = $(this);
-
                 if (!confirm('Yakin ingin mengimpor data WBP ini?')) {
                     console.log('2. User membatalkan import');
                     return;
                 }
-
                 console.log('3. Konfirmasi OK');
-
                 let form = $('#importWbpForm')[0];
-
                 console.log('4. Form ditemukan:', form);
-
                 let formData = new FormData(form);
-
                 console.log('5. FormData berhasil dibuat');
-
                 console.log('6. Import URL:', importUrl);
-
                 btn.prop('disabled', true).html('⏳ Mengimpor...');
-
                 $.ajax({
-
                     beforeSend: function() {
                         console.log('7. AJAX akan dikirim...');
                     },
-
                     url: importUrl,
-
                     type: 'POST',
-
                     data: formData,
-
                     processData: false,
-
                     contentType: false,
-
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-
                     success: function(res) {
-
                         console.log('8. SUCCESS', res);
-
                         alert(
                             res.message +
                             '\n\n' +
@@ -4617,100 +4083,63 @@
                             '\nTidak Ditemukan : ' + res.not_found +
                             '\nError           : ' + res.error_count
                         );
-
                         // ================= DETAIL NOT FOUND =================
-
                         let tbody = $('#notFoundRowsBody');
-
                         tbody.empty();
-
                         if (res.not_found_rows && res.not_found_rows.length > 0) {
-
                             $.each(res.not_found_rows, function(index, item) {
-
                                 tbody.append(`
                                 <tr>
                                     <td class="fw-bold text-center">
                                         ${item.row}
                                     </td>
-
                                     <td>
                                         ${item.no_reg_instansi}
                                     </td>
-
                                     <td>
                                         ${item.nama}
                                     </td>
                                 </tr>
                             `);
-
                             });
-
                             $('#importDetailResult').fadeIn(200);
-
                         } else {
-
                             $('#importDetailResult').hide();
-
                         }
-
                         // REFRESH DATA TABEL UTAMA
                         loadStatus(currentStatus, currentPage);
-
                     },
-
                     error: function(xhr) {
-
                         console.log('9. ERROR', xhr);
                         console.log(xhr.responseText);
-
                         if (xhr.responseJSON?.errors) {
-
                             let pesan = '';
-
                             $.each(xhr.responseJSON.errors, function(key, value) {
                                 pesan += value.join('\n') + '\n';
                             });
-
                             alert(pesan);
-
                         } else {
-
                             alert(
                                 xhr.responseJSON?.message ??
                                 'Import gagal.'
                             );
-
                         }
-
                     },
-
                     complete: function() {
-
                         console.log('10. COMPLETE');
-
                         btn
                             .prop('disabled', false)
                             .html('🚀 Import Sekarang');
-
                     }
-
                 });
-
             });
-
             // ================= HELPER =================
             function resetImportModal() {
-
                 $('#importWbpForm')[0].reset();
-
                 $('#previewResult').hide();
-
                 $('#importDetailResult').hide();
                 $('#notFoundRowsBody').empty();
-
                 $('#btnImportNow').hide();
-
                 $('#previewMode').text('-');
                 $('#previewTotal').text('0');
                 $('#previewInsert').text('0');
@@ -4718,11 +4147,8 @@
                 $('#previewSkip').text('0');
                 $('#previewNotFound').text('0');
                 $('#previewInvalid').text('0');
-
                 $('#importExcelModal').removeClass('active');
-
             }
-
         });
     </script>
 @endsection

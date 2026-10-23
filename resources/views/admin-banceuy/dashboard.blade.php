@@ -3,9 +3,7 @@
 @section('content')
     {{-- JQuery UI Datepicker --}}
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
     <style>
@@ -93,7 +91,6 @@
         }
 
         /* ===================== RINGKASAN HUNIAN ===================== */
-
         .occupancy-section {
             margin-bottom: 24px;
         }
@@ -296,7 +293,6 @@
         }
 
         /* ======= BREAKDOWN KAMAR TERTUTUP ======= */
-
         .stat-breakdown-closed {
             display: flex;
             flex-direction: column;
@@ -337,7 +333,6 @@
         }
 
         /* ===================== PERHATIAN OPERASIONAL ===================== */
-
         .operational-panel {
             overflow: hidden;
         }
@@ -347,11 +342,9 @@
             border: 0;
             background: #fff;
             padding: 16px 20px;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             text-align: left;
             cursor: pointer;
         }
@@ -364,7 +357,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-
             font-size: 13px;
             font-weight: 800;
             text-transform: uppercase;
@@ -375,11 +367,9 @@
         .operational-chevron {
             width: 22px;
             height: 22px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             color: #6c757d;
             transition: transform .2s ease;
         }
@@ -393,13 +383,10 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: .4px;
-
             padding: 5px 9px;
             border-radius: 999px;
-
             background: #f1f3f5;
             color: #6c757d;
-
             white-space: nowrap;
         }
 
@@ -411,9 +398,7 @@
             display: flex;
             align-items: flex-start;
             gap: 14px;
-
             padding: 14px 20px;
-
             border-bottom: 1px solid rgba(0, 0, 0, .05);
         }
 
@@ -424,9 +409,7 @@
         .operational-indicator {
             width: 8px;
             height: 8px;
-
             margin-top: 5px;
-
             border-radius: 50%;
             flex-shrink: 0;
         }
@@ -455,29 +438,24 @@
             font-size: 13px;
             font-weight: 800;
             color: #212529;
-
             text-transform: uppercase;
             letter-spacing: .2px;
         }
 
         .operational-message {
             margin-top: 3px;
-
             font-size: 12px;
             color: #6c757d;
         }
 
         .operational-empty {
             padding: 20px;
-
             font-size: 13px;
             color: #6c757d;
-
             text-align: center;
         }
 
         @media (max-width: 576px) {
-
             .operational-toggle {
                 padding: 14px 16px;
             }
@@ -507,7 +485,6 @@
         }
 
         /* ===================== SUMMARY KAMAR TERTUTUP ===================== */
-
         /* Summary running text hanya untuk mobile */
         .stat-closed-summary {
             display: none;
@@ -520,7 +497,6 @@
             .container-fluid.py-3>.d-flex.justify-content-between.align-items-center {
                 align-items: flex-start !important;
                 gap: 10px;
-
                 margin-bottom: 18px !important;
             }
 
@@ -542,7 +518,6 @@
             /* ================= BUTTON HEADER ================= */
             .container-fluid.py-3>.d-flex.justify-content-between.align-items-center>.d-flex.gap-2 {
                 flex: 0 0 auto;
-
                 gap: 5px !important;
             }
 
@@ -550,12 +525,9 @@
                 width: 62px;
                 min-width: 62px;
                 height: 34px;
-
                 padding: 5px 6px;
-
                 font-size: 9px;
                 line-height: 1;
-
                 border-radius: 5px;
             }
 
@@ -563,19 +535,15 @@
             .container-fluid.py-3 .row.row-cols-2 {
                 --bs-gutter-x: 10px;
                 --bs-gutter-y: 10px;
-
                 margin-left: -5px;
                 margin-right: -5px;
-
                 align-items: flex-start;
             }
 
             .container-fluid.py-3 .row.row-cols-2>.col {
                 padding-left: 5px;
                 padding-right: 5px;
-
                 align-self: flex-start;
-
                 height: auto;
             }
 
@@ -583,9 +551,7 @@
             .container-fluid.py-3 .stat-card {
                 height: auto;
                 min-height: 0;
-
                 padding: 12px !important;
-
                 border-radius: 14px;
             }
 
@@ -594,7 +560,6 @@
             }
 
             /* ================= SAMAKAN TINGGI KAMAR ================= */
-
             .container-fluid.py-3 .row.row-cols-2>.col:nth-child(3),
             .container-fluid.py-3 .row.row-cols-2>.col:nth-child(4) {
                 align-self: stretch;
@@ -610,32 +575,26 @@
             /* ================= TITLE ================= */
             .container-fluid.py-3 .stat-title {
                 font-size: 10px;
-
                 letter-spacing: .5px;
-
                 margin-bottom: 6px;
             }
 
             /* ================= VALUE ================= */
             .container-fluid.py-3 .stat-value {
                 font-size: 27px;
-
                 line-height: 1;
             }
 
             /* ================= BREAKDOWN UMUM ================= */
             .container-fluid.py-3 .stat-breakdown {
                 gap: 5px 8px;
-
                 margin-top: 10px;
                 padding-top: 8px;
-
                 font-size: 10px;
             }
 
             .container-fluid.py-3 .stat-breakdown-item {
                 gap: 4px;
-
                 font-size: 10px;
             }
 
@@ -648,23 +607,18 @@
             }
 
             /* ================= KAMAR TERTUTUP ================= */
-
             .container-fluid.py-3 .stat-card-closed {
                 position: relative;
                 cursor: pointer;
             }
 
             /* ================= SUMMARY RUNNING TEXT ================= */
-
             .container-fluid.py-3 .stat-closed-summary {
                 display: block;
                 width: 100%;
-
                 margin-top: 9px;
                 padding-top: 8px;
-
                 border-top: 1px solid rgba(0, 0, 0, .06);
-
                 overflow: hidden;
             }
 
@@ -677,32 +631,25 @@
             .container-fluid.py-3 .stat-closed-marquee-track {
                 display: inline-flex;
                 align-items: center;
-
                 width: max-content;
-
                 gap: 5px;
-
                 animation: statClosedMarquee 15s linear infinite;
             }
 
             .container-fluid.py-3 .stat-closed-marquee-track span {
                 font-size: 8px;
                 line-height: 1.2;
-
                 color: #6c757d;
-
                 white-space: nowrap;
             }
 
             .container-fluid.py-3 .stat-closed-marquee-track i {
                 font-size: 8px;
                 font-style: normal;
-
                 color: #adb5bd;
             }
 
             /* ANIMASI RUNNING TEXT */
-
             @keyframes statClosedMarquee {
                 from {
                     transform: translateX(0);
@@ -713,9 +660,7 @@
                 }
             }
 
-
             /* ================= DETAIL ================= */
-
             /* Detail disembunyikan */
             .container-fluid.py-3 .stat-card-closed .stat-breakdown-closed {
                 display: none;
@@ -728,69 +673,49 @@
 
             .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-closed {
                 display: flex;
-
                 flex-direction: column;
-
                 align-items: stretch;
-
                 gap: 5px;
-
                 margin-top: 9px;
             }
 
-
             /* ================= ITEM DETAIL ================= */
-
             .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-item {
                 display: grid;
-
                 grid-template-columns: 62px 6px minmax(0, 1fr);
-
                 align-items: start;
-
                 gap: 2px;
-
                 width: 100%;
                 min-width: 0;
             }
 
             .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-item span {
                 min-width: 0;
-
                 font-size: 7.5px;
                 line-height: 1.2;
-
                 white-space: normal;
                 overflow-wrap: anywhere;
             }
 
             .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-dot {
                 width: auto;
-
                 font-size: 7px;
                 line-height: 1.2;
-
                 text-align: center;
-
                 transform: none;
             }
 
             .container-fluid.py-3 .stat-card-closed.is-open .stat-breakdown-item strong {
                 min-width: 0;
-
                 font-size: 8.5px;
                 line-height: 1.25;
-
                 text-align: left;
-
                 white-space: normal;
-
                 overflow-wrap: anywhere;
                 word-break: normal;
             }
 
             /* ================= OCCUPANCY ================= */
-
             .container-fluid.py-3 .occupancy-card {
                 padding: 14px;
                 border-radius: 14px;
@@ -802,37 +727,29 @@
                 grid-template-columns: minmax(0, 1fr) auto;
                 align-items: start;
                 gap: 8px;
-
                 margin-bottom: 12px;
             }
 
             /* ================= NAMA BLOK + JUMLAH KAMAR ================= */
-
             .container-fluid.py-3 .occupancy-block-info {
                 min-width: 0;
-
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
-
                 gap: 4px;
             }
 
             .container-fluid.py-3 .occupancy-block-name {
                 font-size: 12px;
                 line-height: 1.2;
-
                 letter-spacing: .3px;
-
                 white-space: nowrap;
             }
 
             .container-fluid.py-3 .occupancy-room-count {
                 font-size: 9px;
                 line-height: 1.2;
-
                 gap: 5px;
-
                 white-space: nowrap;
             }
 
@@ -842,25 +759,18 @@
             }
 
             /* ================= STATUS ================= */
-
             .container-fluid.py-3 .occupancy-status {
                 max-width: 72px;
-
                 padding: 5px 7px;
-
                 font-size: 8px;
                 line-height: 1.15;
-
                 text-align: center;
-
                 white-space: normal;
                 overflow-wrap: anywhere;
-
                 border-radius: 999px;
             }
 
             /* ================= VALUE ================= */
-
             .container-fluid.py-3 .occupancy-value {
                 font-size: 23px;
                 line-height: 1;
@@ -872,20 +782,15 @@
             }
 
             /* ================= PROGRESS ================= */
-
             .container-fluid.py-3 .occupancy-progress {
                 height: 6px;
-
                 margin: 12px 0 9px;
             }
 
             /* ================= META ================= */
-
             .container-fluid.py-3 .occupancy-meta {
                 gap: 5px;
-
                 font-size: 9px;
-
                 white-space: nowrap;
             }
 
@@ -893,63 +798,48 @@
                 font-size: 9px;
             }
 
-
             /* ================= UNIT KHUSUS ================= */
             .container-fluid.py-3 .special-unit-card {
                 width: 100%;
                 min-width: 0;
-
                 padding: 14px !important;
-
                 border-radius: 14px;
             }
 
             .container-fluid.py-3 .special-unit-card .occupancy-card-header {
                 display: grid;
-
                 grid-template-columns: minmax(0, 1fr) auto;
-
                 align-items: start;
-
                 gap: 6px;
-
                 margin-bottom: 12px;
             }
 
             .container-fluid.py-3 .special-unit-card .occupancy-block-info {
                 min-width: 0;
-
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
-
                 gap: 4px;
             }
 
             .container-fluid.py-3 .special-unit-card .occupancy-block-name {
                 font-size: 11px;
                 line-height: 1.2;
-
                 white-space: nowrap;
             }
 
             .container-fluid.py-3 .special-unit-card .occupancy-room-count {
                 font-size: 8px;
                 line-height: 1.2;
-
                 white-space: nowrap;
             }
 
             .container-fluid.py-3 .special-unit-card .occupancy-status {
                 max-width: 65px;
-
                 padding: 5px 6px;
-
                 font-size: 7px;
                 line-height: 1.15;
-
                 text-align: center;
-
                 white-space: normal;
             }
 
@@ -964,64 +854,139 @@
 
             .container-fluid.py-3 .special-unit-card .occupancy-progress {
                 height: 6px;
-
                 margin: 11px 0 8px;
             }
 
             .container-fluid.py-3 .special-unit-card .occupancy-meta {
                 width: 100%;
-
                 gap: 4px;
-
                 font-size: 8px;
-
                 white-space: nowrap;
             }
 
             .container-fluid.py-3 .special-unit-card .occupancy-meta strong {
                 font-size: 8px;
-
                 white-space: nowrap;
             }
+        }
 
+        /* ================= DARK THEME DASHBOARD ================= */
+        html.app-skin-dark .card-dashboard,
+        html.app-skin-dark .card-dashboard .card-header,
+        html.app-skin-dark .stat-card,
+        html.app-skin-dark .occupancy-card {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #1b2436 !important;
+        }
+
+        html.app-skin-dark .card-dashboard .card-header {
+            border-bottom-color: #1b2436 !important;
+        }
+
+        html.app-skin-dark .stat-title,
+        html.app-skin-dark .mini-muted,
+        html.app-skin-dark .occupancy-room-count,
+        html.app-skin-dark .occupancy-value span,
+        html.app-skin-dark .occupancy-meta,
+        html.app-skin-dark .stat-breakdown,
+        html.app-skin-dark .stat-breakdown-item,
+        html.app-skin-dark .occupancy-subtitle {
+            color: #b1b4c0 !important;
+        }
+
+        html.app-skin-dark .occupancy-title,
+        html.app-skin-dark .occupancy-block-name,
+        html.app-skin-dark .occupancy-value,
+        html.app-skin-dark .occupancy-meta strong,
+        html.app-skin-dark .stat-breakdown-item strong {
+            color: #f1f5f9 !important;
+        }
+
+        html.app-skin-dark .occupancy-progress {
+            background: #283449 !important;
+        }
+
+        html.app-skin-dark .stat-breakdown {
+            border-top-color: #283449 !important;
+        }
+
+        html.app-skin-dark .operational-toggle {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+        }
+
+        html.app-skin-dark .operational-toggle:hover {
+            background: #1c2438 !important;
+        }
+
+        html.app-skin-dark .operational-heading,
+        html.app-skin-dark .operational-title {
+            color: #f1f5f9 !important;
+        }
+
+        html.app-skin-dark .operational-chevron,
+        html.app-skin-dark .operational-message,
+        html.app-skin-dark .operational-empty {
+            color: #b1b4c0 !important;
+        }
+
+        html.app-skin-dark .operational-count {
+            background: #1c2438 !important;
+            color: #cbd5e1 !important;
+        }
+
+        html.app-skin-dark .operational-list,
+        html.app-skin-dark .operational-item {
+            border-color: #283449 !important;
+        }
+
+        html.app-skin-dark .table thead th {
+            background: #0f172a !important;
+            color: #cbd5e1 !important;
+            border-color: #283449 !important;
+        }
+
+        html.app-skin-dark .special-unit-card {
+            border-left-color: #64748b;
+        }
+
+        html.app-skin-dark .table tfoot th,
+        html.app-skin-dark .table tfoot td,
+        html.app-skin-dark .table tbody tr.total-row th,
+        html.app-skin-dark .table tbody tr.total-row td {
+            background: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #283449 !important;
         }
     </style>
 
     <div class="container-fluid py-3">
-
         {{-- HEADER --}}
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h4 class="fw-bold mb-1">Dashboard Lapas Kelas IIA Banceuy</h4>
                 <div class="mini-muted">Monitoring WBP & Kamar</div>
             </div>
-
             <div class="d-flex gap-2">
                 <a href="{{ url('/admin-banceuy/laporan-data-wbp') }}" class="btn btn-outline-dark btn-sm">👤 WBP</a>
                 <a href="{{ url('/admin-banceuy/laporan-data-kamar') }}" class="btn btn-outline-primary btn-sm">🏠 Kamar</a>
             </div>
         </div>
-
         {{-- ===================== STAT WBP + KAMAR ===================== --}}
         <div class="row row-cols-2 row-cols-md-5 g-3 mb-4">
-
             <div class="col">
                 <div class="card stat-card p-3">
                     <div class="stat-title">WBP Aktif</div>
-
                     <div class="stat-value">
                         {{ $totalWbpAktif }}
                     </div>
-
                     <div class="stat-breakdown">
-
                         <div class="stat-breakdown-item">
                             <span>Narapidana</span>
                             <strong>{{ $totalNarapidanaAktif }}</strong>
                         </div>
-
                         <div class="stat-breakdown-divider"></div>
-
                         <div class="stat-breakdown-item">
                             <span>Tahanan</span>
                             <strong>{{ $totalTahananAktif }}</strong>
@@ -1029,33 +994,25 @@
                     </div>
                 </div>
             </div>
-
             <div class="col">
                 <div class="card stat-card p-3">
                     <div class="stat-title">Luar Tembok</div>
-
                     <div class="stat-value text-warning">
                         {{ $totalWbpLuarTembok }}
                     </div>
-
                     <div class="stat-breakdown">
-
                         <div class="stat-breakdown-item">
                             <span>BON</span>
                             <strong>{{ $totalWbpBon }}</strong>
                         </div>
-
                         <div class="stat-breakdown-divider"></div>
-
                         <div class="stat-breakdown-item">
                             <span>Sakit</span>
                             <strong>{{ $totalWbpSakit }}</strong>
                         </div>
-
                     </div>
                 </div>
             </div>
-
             <div class="col">
                 <div class="card stat-card p-3">
                     <div class="stat-title">Kamar Terbuka</div>
@@ -1064,69 +1021,46 @@
                     </div>
                 </div>
             </div>
-
             <div class="col">
                 <div class="card stat-card stat-card-closed p-3">
-
                     <div class="stat-title">
                         Kamar Tertutup
                     </div>
-
                     <div class="stat-value text-danger">
                         {{ $totalKamarTertutup }}
                     </div>
-
                     {{-- SUMMARY KHUSUS MOBILE --}}
                     <div class="stat-closed-summary">
-
                         <div class="stat-closed-marquee">
-
                             <div class="stat-closed-marquee-track">
-
                                 {{-- LOOP PERTAMA --}}
                                 @forelse ($kamarTertutupBreakdown as $group)
                                     <span>
                                         {{ $group['nama'] }} {{ $group['kamar']->count() }}
                                     </span>
-
                                     <i>•</i>
-
                                 @empty
-
                                     <span>Tidak ada kamar tertutup</span>
                                 @endforelse
-
-
                                 {{-- DUPLIKASI UNTUK RUNNING TEXT --}}
                                 @foreach ($kamarTertutupBreakdown as $group)
                                     <span>
                                         {{ $group['nama'] }} {{ $group['kamar']->count() }}
                                     </span>
-
                                     <i>•</i>
                                 @endforeach
-
                             </div>
-
                         </div>
-
                     </div>
-
-
                     {{-- DETAIL BREAKDOWN --}}
                     <div class="stat-breakdown stat-breakdown-closed">
-
                         @forelse ($kamarTertutupBreakdown as $group)
                             <div class="stat-breakdown-item">
-
                                 <span>
                                     {{ $group['nama'] }}
                                 </span>
-
                                 <i class="stat-breakdown-dot">•</i>
-
                                 <strong>
-
                                     @if (in_array($group['nama'], ['MAXIMUM', 'SEL ISOLASI']))
                                         {{ $group['kamar']->map(function ($kamar) {
                                                 preg_match('/(\d+)/', $kamar->lokasi_sel ?? '', $match);
@@ -1138,23 +1072,16 @@
                                                 return ($kamar->kode_blok ?? '-') . '-' . ($match[1] ?? '-');
                                             })->implode(', ') }}
                                     @endif
-
                                 </strong>
-
                             </div>
-
                         @empty
-
                             <div class="stat-breakdown-item">
                                 <span>Tidak ada kamar tertutup</span>
                             </div>
                         @endforelse
-
                     </div>
-
                 </div>
             </div>
-
             <div class="col">
                 <div class="card stat-card p-3">
                     <div class="stat-title">Total Kamar</div>
@@ -1163,77 +1090,53 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
         {{-- ===================== PERHATIAN OPERASIONAL ===================== --}}
         <div class="row mb-4">
             <div class="col-12">
-
                 <div class="card card-dashboard operational-panel">
-
                     <button class="operational-toggle" type="button" data-bs-toggle="collapse"
                         data-bs-target="#operationalAlerts" aria-expanded="true" aria-controls="operationalAlerts">
                         <div class="operational-heading">
-
                             <span class="operational-chevron">
                                 ▼
                             </span>
-
                             <span>Perhatian Operasional</span>
-
                         </div>
-
                         <span class="operational-count">
                             {{ $operationalAlerts->count() }} Perhatian
                         </span>
-
                     </button>
-
                     <div id="operationalAlerts" class="collapse show">
                         <div class="operational-list">
-
                             @forelse($operationalAlerts as $alert)
                                 <div class="operational-item">
-
                                     <span
                                         class="
                                         operational-indicator
                                         operational-indicator-{{ $alert['level'] }}
                                     "></span>
-
                                     <div class="operational-content">
-
                                         <div class="operational-title">
                                             {{ $alert['title'] }}
                                         </div>
-
                                         <div class="operational-message">
                                             {{ $alert['message'] }}
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             @empty
-
                                 <div class="operational-empty">
                                     Tidak ada perhatian operasional saat ini.
                                 </div>
                             @endforelse
-
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
-
         {{-- ===================== RINGKASAN HUNIAN ===================== --}}
         <div class="occupancy-section">
-
             <div class="occupancy-header">
                 <div>
                     <div class="occupancy-title">Ringkasan Hunian</div>
@@ -1242,58 +1145,43 @@
                     </div>
                 </div>
             </div>
-
             {{-- BLOK HUNIAN --}}
             <div class="row g-3 mb-3">
-
                 @foreach ($summaryBlok as $item)
                     <div class="col-6 col-md-3">
-
                         <div class="occupancy-card">
-
                             <div class="occupancy-card-header">
-
                                 <div class="occupancy-block-info">
                                     <div class="occupancy-block-name">
                                         {{ $item['blok'] }}
                                     </div>
-
                                     <div class="occupancy-room-count">
                                         {{ $item['jumlah_kamar'] }} Kamar
                                     </div>
                                 </div>
-
                                 <span
                                     class="
                                 occupancy-status
                                 occupancy-status-{{ $item['warna'] }}">
                                     {{ $item['status'] }}
                                 </span>
-
                             </div>
-
                             <div class="occupancy-value">
                                 {{ $item['jumlah_wbp'] }}
                                 <span>/ {{ $item['kapasitas'] }} WBP</span>
                             </div>
-
                             <div class="occupancy-progress">
-
                                 <div class="
                                     occupancy-progress-bar
                                     occupancy-progress-{{ $item['warna'] }}
                                 "
                                     style="width: {{ min($item['persen'], 100) }}%">
                                 </div>
-
                             </div>
-
                             <div class="occupancy-meta">
-
                                 <span>
                                     {{ $item['persen'] }}% terisi
                                 </span>
-
                                 <strong>
                                     @if ($item['over'] > 0)
                                         Over {{ $item['over'] }}
@@ -1303,43 +1191,28 @@
                                         Sisa {{ $item['sisa'] }}
                                     @endif
                                 </strong>
-
                             </div>
-
                         </div>
-
                     </div>
                 @endforeach
-
             </div>
-
-
             {{-- UNIT KHUSUS --}}
             <div class="occupancy-subtitle fw-bold text-uppercase mb-2">
                 Unit Khusus
             </div>
-
             <div class="row g-3">
-
                 @foreach ($summaryUnitKhusus as $item)
                     <div class="col-6 col-md-6">
-
                         <div class="occupancy-card special-unit-card">
-
                             <div class="occupancy-card-header">
-
                                 <div class="occupancy-block-info">
-
                                     <div class="occupancy-block-name">
                                         {{ $item['blok'] }}
                                     </div>
-
                                     <div class="occupancy-room-count">
                                         {{ $item['jumlah_kamar'] }} Kamar
                                     </div>
-
                                 </div>
-
                                 <span
                                     class="
                         occupancy-status
@@ -1347,31 +1220,23 @@
                     ">
                                     {{ $item['status'] }}
                                 </span>
-
                             </div>
-
                             <div class="occupancy-value">
                                 {{ $item['jumlah_wbp'] }}
                                 <span>/ {{ $item['kapasitas'] }} WBP</span>
                             </div>
-
                             <div class="occupancy-progress">
-
                                 <div class="
                         occupancy-progress-bar
                         occupancy-progress-{{ $item['warna'] }}
                     "
                                     style="width: {{ min($item['persen'], 100) }}%">
                                 </div>
-
                             </div>
-
                             <div class="occupancy-meta">
-
                                 <span>
                                     {{ $item['persen'] }}% terisi
                                 </span>
-
                                 <strong>
                                     @if ($item['over'] > 0)
                                         Over {{ $item['over'] }}
@@ -1381,21 +1246,14 @@
                                         Sisa {{ $item['sisa'] }}
                                     @endif
                                 </strong>
-
                             </div>
-
                         </div>
-
                     </div>
                 @endforeach
-
             </div>
-
         </div>
-
         {{-- ===================== GRAFIK KEJAHATAN ===================== --}}
         <div class="row g-3 mb-4">
-
             <div class="col-md-12">
                 <div class="card card-dashboard">
                     <div class="card-header">⚖️ Jenis Kejahatan</div>
@@ -1404,99 +1262,71 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
         {{-- ===================== KAMAR PER BLOK + STATUS ===================== --}}
         <div class="row g-3 mb-4">
-
             <!-- CARD KEDUA -->
             <div class="col-md-12">
                 <div class="card card-dashboard h-100">
-
                     <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
-
                         <span>🔄 Perpindahan WBP per Blok</span>
-
                         <div class="d-flex align-items-center gap-2">
-
                             <select id="filterMutasi" class="form-select form-select-sm" style="width:160px">
                                 <option value="" {{ empty($filter) ? 'selected' : '' }}>
                                     Semua
                                 </option>
-
                                 <option value="today" {{ $filter == 'today' ? 'selected' : '' }}>
                                     Hari Ini
                                 </option>
-
                                 <option value="yesterday" {{ $filter == 'yesterday' ? 'selected' : '' }}>
                                     Kemarin
                                 </option>
-
                                 <option value="date" {{ $filter == 'date' ? 'selected' : '' }}>
                                     Pilih Tanggal
                                 </option>
                             </select>
-
                             <input type="text" id="tanggalMutasi" class="form-control form-control-sm"
                                 style="width:140px; {{ $filter == 'date' ? '' : 'display:none;' }}"
                                 placeholder="yyyy-mm-dd" value="{{ $tanggal }}">
-
                         </div>
-
                     </div>
-
                     <div class="card-body p-0">
-
                         <table class="table table-sm table-hover mb-0 w-100">
-
                             <tbody>
                                 @php
                                     $totalMutasi = 0;
                                 @endphp
-
                                 @foreach ($countMutasiPerBlok as $m)
                                     @php
                                         $totalMutasi += $m->total_mutasi;
                                     @endphp
-
                                     <tr>
                                         <td class="ps-3">
                                             {{ $m->lokasi_blok }}
                                         </td>
-
                                         <td class="text-end fw-bold pe-3" style="width:90px;">
                                             {{ $m->total_mutasi }}
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-
                             <tfoot>
                                 <tr class="table-light border-top">
                                     <th class="ps-3">
                                         Total
                                     </th>
-
                                     <th class="text-end pe-3">
                                         {{ $countMutasiPerBlok->sum('total_mutasi') }}
                                     </th>
                                 </tr>
                             </tfoot>
-
                         </table>
-
                     </div>
-
                 </div>
             </div>
-
-
         </div>
-
         {{-- CHART --}}
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
         <script>
             // ================= JENIS KEJAHATAN =================
             new Chart(document.getElementById('chartKejahatan'), {
@@ -1536,118 +1366,82 @@
                 }
             });
         </script>
-
         <script>
             $(function() {
-
                 $("#tanggalMutasi").datepicker({
                     dateFormat: "yy-mm-dd",
                     changeMonth: true,
                     changeYear: true
                 });
-
                 if ($("#filterMutasi").val() === "date") {
                     $("#tanggalMutasi").show();
                 }
-
                 $("#filterMutasi").change(function() {
-
                     let filter = $(this).val();
-
                     if (filter === "") {
                         window.location.href = "{{ route('dashboard') }}";
                     }
-
                     if (filter === "today") {
                         window.location.href = "{{ route('dashboard') }}?filter=today";
                     }
-
                     if (filter === "yesterday") {
                         window.location.href = "{{ route('dashboard') }}?filter=yesterday";
                     }
-
                     if (filter === "date") {
                         $("#tanggalMutasi").show().focus();
                     }
-
                 });
-
                 $("#tanggalMutasi").on("change", function() {
-
                     let tanggal = $(this).val();
-
                     if (tanggal !== "") {
                         window.location.href =
                             "{{ route('dashboard') }}?filter=date&tanggal=" + tanggal;
                     }
-
                 });
-
             });
         </script>
-
         {{-- MOBILE KAMAR TERTUTUP --}}
         <script>
             document.addEventListener('click', function(e) {
-
                 const card = e.target.closest('.stat-card-closed');
-
                 if (!card) return;
-
                 // Hanya aktif di mobile
                 if (window.innerWidth > 575.98) return;
-
                 card.classList.toggle('is-open');
-
             });
         </script>
-
         <script>
             $(function() {
-
                 $("#tanggalMutasi").datepicker({
                     dateFormat: "yy-mm-dd",
                     changeMonth: true,
                     changeYear: true
                 });
-
                 // Jika sebelumnya memilih tanggal
                 if ($("#filterMutasi").val() === "date") {
                     $("#tanggalMutasi").show();
                 }
-
                 $("#filterMutasi").change(function() {
-
                     let filter = $(this).val();
-
                     if (filter === "") {
                         window.location.href = "{{ route('dashboard') }}";
                     }
-
                     if (filter === "today") {
                         window.location.href = "{{ route('dashboard') }}?filter=today";
                     }
-
                     if (filter === "yesterday") {
                         window.location.href = "{{ route('dashboard') }}?filter=yesterday";
                     }
-
                     if (filter === "date") {
                         $("#tanggalMutasi").show().focus();
                     }
-
                 });
-
                 $("#tanggalMutasi").on("change", function() {
-
                     let tanggal = $(this).val();
-
                     if (tanggal !== "") {
                         window.location.href = "{{ route('dashboard') }}?filter=date&tanggal=" + tanggal;
                     }
-
                 });
-
             });
         </script>
     @endsection

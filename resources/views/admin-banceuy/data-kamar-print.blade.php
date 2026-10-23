@@ -384,10 +384,7 @@
 
         }
 
-        /* =========================================================
-        MOBILE DATA HUNIAN KAMAR
-        ========================================================= */
-        @media (max-width: 768px) {
+        ========================MOBILE DATA HUNIAN KAMAR================================@media (max-width: 768px) {
 
             /* ================= PAGE ================= */
 
@@ -983,11 +980,8 @@
                 background: #fff !important;
             }
 
-            /* =========================
-            PRINT GRID
-            ========================= */
 
-            .container-fluid.py-3 {
+            PRINT GRID .container-fluid.py-3 {
                 display: flex !important;
                 flex-wrap: wrap !important;
 
@@ -1004,11 +998,8 @@
                 align-content: flex-start !important;
             }
 
-            /* =========================
-            SEMBUNYIKAN UI
-            ========================= */
 
-            .no-print,
+            SEMBUNYIKAN UI .no-print,
             .btn-all,
             .btn-batal,
             .btn-pindah,
@@ -1020,28 +1011,19 @@
                 display: none !important;
             }
 
-            /* =========================
-            SEMBUNYIKAN SEMUA HEADER CARD
-            ========================= */
 
-            .card-header {
-                display: none !important;
-            }
-
-            /* =========================
-            SEMBUNYIKAN PESAN KAMAR KOSONG
-            ========================= */
-
-            .kamar-card .alert {
+            SEMBUNYIKAN SEMUA HEADER CARD .card-header {
                 display: none !important;
             }
 
 
-            /* =========================
-            CONTAINER BLOK
-            ========================= */
+            SEMBUNYIKAN PESAN KAMAR KOSONG .kamar-card .alert {
+                display: none !important;
+            }
 
-            .blok-card {
+
+
+            CONTAINER BLOK .blok-card {
                 display: contents !important;
             }
 
@@ -1051,11 +1033,8 @@
             }
 
 
-            /* =========================
-            CONTAINER KAMAR
-            ========================= */
 
-            .kamar-card {
+            CONTAINER KAMAR .kamar-card {
                 display: contents !important;
             }
 
@@ -1064,11 +1043,8 @@
                 margin: 0 !important;
             }
 
-            /* =========================
-            HEADER KAMAR TERPILIH
-            ========================= */
 
-            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header {
+            HEADER KAMAR TERPILIH .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header {
                 display: block !important;
 
                 width: 264mm !important;
@@ -1087,90 +1063,60 @@
             }
 
 
-            /* =========================
-            JUDUL KAMAR
-            ========================= */
 
-            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header h5 {
+            JUDUL KAMAR .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header h5 {
                 font-size: 11pt !important;
                 margin: 0 !important;
                 color: #000 !important;
             }
 
 
-            /* =========================
-            SEMBUNYIKAN KAMAR + KAPASITAS
-            ========================= */
 
-            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .text-muted {
+            SEMBUNYIKAN KAMAR+KAPASITAS .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .text-muted {
                 display: none !important;
             }
 
 
-            /* =========================
-            SEMBUNYIKAN BAGIAN KANAN
-            Dipilih + jumlah WBP + tombol
-            ========================= */
 
-            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .d-flex.flex-column.align-items-end {
+            SEMBUNYIKAN BAGIAN KANAN Dipilih+jumlah WBP+tombol .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .d-flex.flex-column.align-items-end {
                 display: none !important;
             }
 
-            /* =========================
-            RUMAH SAKIT & BON
-            DEFAULT HILANG
-            ========================= */
 
-            #section-rs,
+            RUMAH SAKIT & BON DEFAULT HILANG #section-rs,
             #section-bon {
                 display: none !important;
             }
 
 
-            /* =========================
-                TAMPILKAN HANYA JIKA
-                ADA WBP YANG DIPILIH
-                ========================= */
 
-            #section-rs:has(.print-card:not([style*="display: none"])),
+            TAMPILKAN HANYA JIKA ADA WBP YANG DIPILIH #section-rs:has(.print-card:not([style*="display: none"])),
             #section-bon:has(.print-card:not([style*="display: none"])) {
                 display: contents !important;
             }
 
 
-            /* =========================
-            BODY SECTION JADI TRANSPARAN
-            ========================= */
 
-            #section-rs>.card-body,
+            BODY SECTION JADI TRANSPARAN #section-rs>.card-body,
             #section-bon>.card-body {
                 display: contents !important;
             }
 
 
-            /* =========================
-            ROW JADI TRANSPARAN
-            ========================= */
 
-            #section-rs .row.g-3,
+            ROW JADI TRANSPARAN #section-rs .row.g-3,
             #section-bon .row.g-3 {
                 display: contents !important;
             }
 
 
-            /* =========================
-            ROW
-            ========================= */
 
-            .kamar-card .row.g-3 {
+            ROW .kamar-card .row.g-3 {
                 margin: 0 !important;
             }
 
-            /* =========================
-            SETIAP WBP
-            ========================= */
 
-            .print-card {
+            SETIAP WBP .print-card {
                 width: 128mm !important;
                 max-width: 128mm !important;
 
@@ -1183,11 +1129,8 @@
                 page-break-inside: avoid !important;
             }
 
-            /* =========================
-            STEREK
-            ========================= */
 
-            .wbp-item {
+            STEREK .wbp-item {
                 width: 128mm !important;
                 height: 34mm !important;
 
@@ -1210,30 +1153,21 @@
                 border: 1px solid #000 !important;
             }
 
-            /* =========================
-            ISI STEREK
-            ========================= */
 
-            .wbp-item .card-body {
+            ISI STEREK .wbp-item .card-body {
                 padding: 5px 6px !important;
             }
 
-            /* =========================
-            FOTO
-            ========================= */
 
-            .foto-wbp {
+            FOTO .foto-wbp {
                 width: 22mm !important;
                 height: 28mm !important;
 
                 object-fit: cover !important;
             }
 
-            /* =========================
-            NAMA
-            ========================= */
 
-            .nama-wbp {
+            NAMA .nama-wbp {
                 font-size: 10pt !important;
                 font-weight: 700 !important;
                 line-height: 1.15 !important;
@@ -1243,11 +1177,8 @@
                 text-overflow: ellipsis !important;
             }
 
-            /* =========================
-            DATA WBP
-            ========================= */
 
-            .print-only {
+            DATA WBP .print-only {
                 display: block !important;
 
                 margin-top: 3px !important;
@@ -3031,10 +2962,7 @@
             let activeMobileBlock = null;
 
 
-            /* =====================================
-                    CREATE GLOBAL POPUP
-            ===================================== */
-
+            // CREATE GLOBAL POPUP
             function createMobilePopup() {
 
                 if (mobilePopup) return;
@@ -3047,11 +2975,7 @@
                 document.body.appendChild(mobilePopup);
             }
 
-
-            /* =====================================
-                    CLOSE POPUP
-            ===================================== */
-
+            // CLOSE POPUP
             function closeMobilePopup() {
 
                 if (!mobilePopup) return;
@@ -3061,11 +2985,7 @@
                 activeMobileBlock = null;
             }
 
-
-            /* =====================================
-                    OPEN POPUP
-            ===================================== */
-
+            // OPEN POPUP
             function openMobilePopup(item) {
 
                 if (!isMobile()) return;
@@ -3081,11 +3001,7 @@
 
                 mobilePopup.innerHTML = "";
 
-
-                /* =================================
-                        GENERATE ROOM BUTTON
-                ================================= */
-
+                // GENERATE ROOM BUTTON
                 for (let i = 1; i <= total; i++) {
 
                     const button = document.createElement("div");
@@ -3127,20 +3043,14 @@
 
                         if (!card) return;
 
-                        /* =========================
-                                REMOVE OLD HIGHLIGHT
-                        ========================= */
-
+                        // REMOVE OLD HIGHLIGHT
                         if (activeHighlight) {
                             activeHighlight.classList.remove("room-highlight");
                         }
 
                         activeHighlight = card;
 
-                        /* =========================
-                                SCROLL
-                        ========================= */
-
+                        // SCROLL
                         card.scrollIntoView({
                             behavior: "smooth",
                             block: "center"
@@ -3172,11 +3082,7 @@
                 mobilePopup.classList.add("show");
             }
 
-
-            /* =====================================
-                    MOBILE DOCK CLICK
-            ===================================== */
-
+            // MOBILE DOCK CLICK
             quickDock.addEventListener("click", function(e) {
 
                 if (!isMobile()) return;
@@ -3192,11 +3098,7 @@
 
                 const block = item.dataset.block;
 
-
-                /* =================================
-                        SAME BLOCK
-                ================================= */
-
+                // SAME BLOCK
                 if (
                     mobilePopup &&
                     mobilePopup.classList.contains("show") &&
@@ -3210,11 +3112,7 @@
                     return;
                 }
 
-
-                /* =================================
-                        RESET ACTIVE DOCK
-                ================================= */
-
+                // RESET ACTIVE DOCK
                 document.querySelectorAll(
                     "#quickDock .dock-item"
                 ).forEach(function(dock) {
@@ -3223,27 +3121,15 @@
 
                 });
 
-
-                /* =================================
-                        ACTIVE BLOCK
-                ================================= */
-
+                // ACTIVE BLOCK
                 item.classList.add("active");
 
-
-                /* =================================
-                        OPEN POPUP
-                ================================= */
-
+                // OPEN POPUP
                 openMobilePopup(item);
 
             });
 
-
-            /* =====================================
-                    CLICK OUTSIDE
-            ===================================== */
-
+            // CLICK OUTSIDE
             document.addEventListener("click", function(e) {
 
                 if (!isMobile()) return;
@@ -3267,11 +3153,7 @@
 
             });
 
-
-            /* =====================================
-                    RESIZE
-            ===================================== */
-
+            // RESIZE
             window.addEventListener("resize", function() {
 
                 if (!isMobile()) {

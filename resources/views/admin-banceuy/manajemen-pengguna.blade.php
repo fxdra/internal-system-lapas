@@ -266,6 +266,135 @@
             background: #1d4ed8;
         }
 
+        /* ================= DARK MODE MANAJEMEN PENGGUNA ================= */
+        html.app-skin-dark .table thead th {
+            background: #0f172a !important;
+            color: #cbd5e1 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Overlay modal */
+        html.app-skin-dark #customModal.custom-modal {
+            background: rgba(2, 6, 23, 0.78) !important;
+        }
+
+        /* Panel utama modal */
+        html.app-skin-dark #customModal .custom-modal-box {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border: 1px solid #283449 !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        /* Header dan garis pemisah */
+        html.app-skin-dark #customModal .custom-modal-header {
+            background: #0f172a !important;
+            border-bottom-color: #283449 !important;
+        }
+
+        html.app-skin-dark #customModal .custom-modal-header h3 {
+            color: #f1f5f9 !important;
+        }
+
+        html.app-skin-dark #customModal .custom-modal-header small {
+            color: #94a3b8 !important;
+        }
+
+        /* Label form */
+        html.app-skin-dark #customModal .form-group-custom label {
+            color: #cbd5e1 !important;
+        }
+
+        /* Input nama, NIP, dan password */
+        html.app-skin-dark #customModal .form-group-custom input {
+            background: #111c30 !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+            color-scheme: dark;
+        }
+
+        html.app-skin-dark #customModal .form-group-custom input::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1;
+        }
+
+        /* Dropdown role dan status */
+        html.app-skin-dark #customModal .form-group-custom select {
+            background-color: #111c30 !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+            color-scheme: dark;
+        }
+
+        html.app-skin-dark #customModal .form-group-custom select option {
+            background: #111c30 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Fokus input dan dropdown */
+        html.app-skin-dark #customModal .form-group-custom input:focus,
+        html.app-skin-dark #customModal .form-group-custom select:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2) !important;
+        }
+
+        /* Tombol lihat password */
+        html.app-skin-dark #customModal .toggle-password {
+            color: #94a3b8 !important;
+        }
+
+        html.app-skin-dark #customModal .toggle-password:hover {
+            color: #60a5fa !important;
+        }
+
+        /* Keterangan password */
+        html.app-skin-dark #customModal .form-group-custom small {
+            color: #94a3b8 !important;
+        }
+
+        /* Footer modal */
+        html.app-skin-dark #customModal .custom-modal-footer {
+            background: #0f172a !important;
+            border-top-color: #283449 !important;
+        }
+
+        /* Tombol tutup */
+        html.app-skin-dark #customModal .close-modal {
+            background: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
+
+        html.app-skin-dark #customModal .close-modal:hover {
+            background: #334155 !important;
+        }
+
+        /* Tombol batal */
+        html.app-skin-dark #customModal .btn-cancel {
+            background: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
+
+        html.app-skin-dark #customModal .btn-cancel:hover {
+            background: #334155 !important;
+        }
+
+        /* Tombol simpan tetap biru */
+        html.app-skin-dark #customModal .btn-save {
+            background: #2563eb !important;
+            color: #ffffff !important;
+        }
+
+        html.app-skin-dark #customModal .btn-save:hover {
+            background: #1d4ed8 !important;
+        }
+
+        /* Peringatan limit role */
+        html.app-skin-dark #customModal #roleLimitNotice {
+            background: #451a1a !important;
+            color: #fecaca !important;
+            border-color: #7f1d1d !important;
+        }
+
         @media(max-width:576px) {
 
             .custom-modal-box {
@@ -324,7 +453,6 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
-
                             <tr>
                                 <th width="80">No</th>
                                 <th>Nama</th>
@@ -405,7 +533,6 @@
     </div>
 
     <!-- CUSTOM MODAL -->
-
     <div class="custom-modal" id="customModal">
         <div class="custom-modal-box">
             <div class="custom-modal-header">
@@ -477,6 +604,10 @@
 
                         </select>
 
+                        <div id="roleLimitNotice" class="alert alert-warning mt-2 py-2"
+                            style="display: none; font-size: 13px;">
+                        </div>
+
                     </div>
 
                     {{-- Status --}}
@@ -527,6 +658,50 @@
                 $('body').css('overflow', 'auto');
             }
 
+            const roleLimits = @json($roleLimits);
+
+            function checkSelectedRoleLimit() {
+                const role = $('#role').val();
+                const mode = $('#formMode').val();
+                const currentId = $('#id').val();
+                const quota = roleLimits[role];
+
+                $('#roleLimitNotice').hide().removeClass('alert-danger alert-warning');
+
+                if (!quota) {
+                    return;
+                }
+
+                let active = Number(quota.active);
+
+                // Saat edit, akun yang sedang diedit tidak dihitung
+                // jika statusnya aktif dan role-nya tidak berubah.
+                if (mode === 'edit' && currentId) {
+                    const currentUser = $('.btnEdit[data-id="' + currentId + '"]');
+                    const currentRole = currentUser.data('role');
+                    const currentStatus = currentUser.data('status');
+
+                    if (currentRole === role && currentStatus === 'Aktif') {
+                        active--;
+                    }
+                }
+
+                if (active >= Number(quota.limit)) {
+                    $('#roleLimitNotice')
+                        .removeClass('alert-warning')
+                        .addClass('alert-danger')
+                        .html(
+                            '<strong>Limit tercapai!</strong><br>' +
+                            'Role ' + quota.label +
+                            ' sudah mencapai batas maksimal ' + quota.limit +
+                            ' akun aktif. Nonaktifkan akun lain atau pilih role berbeda.'
+                        )
+                        .show();
+                }
+            }
+
+            $('#role').on('change', checkSelectedRoleLimit);
+
             // TAMBAH
             $('#btnTambah').click(function() {
                 $('#modalTitle').html('Tambah Pengguna');
@@ -550,6 +725,7 @@
                     .show();
 
                 openModal();
+                checkSelectedRoleLimit();
 
             });
 
@@ -579,6 +755,7 @@
                     .show();
 
                 openModal();
+                checkSelectedRoleLimit();
 
             });
 

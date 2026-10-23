@@ -30,28 +30,12 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-
 Route::get('/register-backoffice', [AuthController::class, 'index']);
 Route::post('/register-backoffice', [AuthController::class, 'register'])->name('x.store');
 
-
-
 // notifikasi
 Route::get('/bon/latest', [BonWbpController::class, 'latest']);
-
-
-Route::post(
-    '/tracking/upload',
-    [
-        TrackingPhotoController::class,
-        'store'
-    ]
-);
-
-
-
-
-
+Route::post('/tracking/upload', [TrackingPhotoController::class, 'store']);
 
 // Semua route berikut hanya bisa diakses setelah login (token valid)
 // 🔐 PROTECTED
@@ -61,14 +45,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Bon wbp
     Route::post('/wbps/bon', [DataWbpController::class, 'bonWbp']);
 
-
     // close bonWbp
     Route::post('/close-bon/{id}', [BonWbpController::class, 'closeBon']);
 
-
     // tracking
     Route::post('/tracking/store', [BonWbpController::class, 'storeTracking']);
-
 
 
     // LIST APPROVAL
@@ -107,11 +88,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/wbp/upload-foto', [LaporanController::class, 'uploadFotoWbp']);
 
-
     Route::post('/scenario/simulate', [MutasiScenarioController::class, 'simulate']);
     Route::get('/scenario/{id}', [MutasiScenarioController::class, 'result']);
-
-
 
     // ================= PETUGAS =================
     Route::get('/bon', [BonWbpController::class, 'index']);
@@ -120,8 +98,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/bon/{id}/tracking', [BonWbpController::class, 'tracking']);
     Route::post('/bon/{id}/selesai', [KomandanJagaController::class, 'selesai']);
 });
-
-
 
 // Endpoint laporan perpustakaan
 Route::post('/update-pengunjung-status', [LaporanController::class, 'updateStatus']);
@@ -144,9 +120,7 @@ Route::get('/devices', function () {
 });
 
 Route::get('/wbp-pending', [LaporanController::class, 'pending']);
-
 Route::get('/get-kamar', [LaporanController::class, 'kamarGet']);
-
 
 /*
 |--------------------------------------------------------------------------
@@ -165,5 +139,8 @@ Route::prefix('halo-minna')->name('api.halo-minna.')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/me', [HaloMinnaApiController::class, 'me',])->name('me');
         Route::post('/logout', [HaloMinnaApiController::class, 'logout',])->name('logout');
+        Route::get('/program-pembinaan', [HaloMinnaApiController::class, 'programPembinaan',])->name('program-pembinaan');
+        Route::get('/program-pembinaan/diikuti', [HaloMinnaApiController::class, 'programDiikuti',])->name('program-pembinaan.diikuti');
+        Route::get('/program-pembinaan/statistik', [HaloMinnaApiController::class, 'statistikPembinaan',])->name('program-pembinaan.statistik');
     });
 });

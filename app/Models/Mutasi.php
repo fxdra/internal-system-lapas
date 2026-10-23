@@ -13,6 +13,11 @@ class Mutasi extends Model
         'is_hidden' => 'boolean',
     ];
 
+    public function wbp()
+    {
+        return $this->belongsTo(Wbp::class, 'wbp_id');
+    }
+
     public function kamarAsal()
     {
         return $this->belongsTo(Kamar::class, 'kamar_asal_id');

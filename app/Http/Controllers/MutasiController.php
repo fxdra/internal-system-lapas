@@ -244,6 +244,7 @@ class MutasiController extends Controller
 
             // ================= FIX TAMBAHAN =================
             'putusan'           => $req->putusan ?? $wbp->putusan,
+            'putusan_bulan' => $req->putusan_bulan ?? $wbp->putusan_bulan,
             'ekspirasi'         => $req->ekspirasi ?? $wbp->ekspirasi,
 
             'jenis_kejahatan'   => $req->jenis_kejahatan ?? $wbp->jenis_kejahatan,
@@ -658,7 +659,8 @@ class MutasiController extends Controller
         $data = $query
             ->with([
                 'kamarAsal',
-                'kamarTujuan'
+                'kamarTujuan',
+                'wbp',
             ])
             ->orderByDesc('created_at')
             ->get();
@@ -799,6 +801,7 @@ class MutasiController extends Controller
                 'negara'             => $wbp->negara,
                 'agama'              => $wbp->agama,
                 'putusan'            => $wbp->putusan,
+                'putusan_bulan'      => $wbp->putusan_bulan,
                 'ekspirasi'          => $wbp->ekspirasi,
                 'jenis_kejahatan'    => $wbp->jenis_kejahatan,
                 'foto_wbp'           => $wbp->foto_wbp,

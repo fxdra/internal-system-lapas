@@ -97,6 +97,26 @@ class HaloMinnaController extends Controller
             ->with('success', 'Bagian form berhasil disimpan.');
     }
 
+    public function autocomplete(Request $request)
+    {
+        $q = trim((string) $request->query('q', ''));
+
+        if (mb_strlen($q) < 2) {
+            return response()->json([]);
+        }
+
+        $wbps = Wbp::query()
+            ->select(['id', 'nama', 'no_reg_instansi'])
+            ->where(function ($query) use ($q) {
+                $query->where('nama', 'like', "%{$q}%")
+                    ->orWhere('no_reg_instansi', 'like', "%{$q}%");
+            })
+            ->orderBy('nama')
+            ->limit(10)
+            ->get();
+
+        return response()->json($wbps);
+    }
 
     public function generateUlangKode(Request $request, Wbp $wbp)
     {
@@ -140,7 +160,6 @@ class HaloMinnaController extends Controller
             )
             ->with('kode_akses_baru', $kodeBaru);
     }
-
 
     private function aturanBagian(string $bagian): array
     {

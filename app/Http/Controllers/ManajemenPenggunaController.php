@@ -18,13 +18,12 @@ class ManajemenPenggunaController extends Controller
         'admin'       => 2,
         'ka_kplp'     => 1,
         'kplp'        => 2,
-        'registrasi'  => 2,
+        'registrasi'  => 3,
         'binadik'     => 2,
         'giatja'      => 2,
         'klinik'      => 2,
         'kamtib'      => 2,
     ];
-
 
     public function index()
     {
@@ -37,8 +36,53 @@ class ManajemenPenggunaController extends Controller
                 return $user;
             });
 
-        return view('admin-banceuy.manajemen-pengguna', compact('users'));
+        $activeCounts = Admin::where('status', 'Aktif')
+            ->selectRaw('role, COUNT(*) as total')
+            ->groupBy('role')
+            ->pluck('total', 'role');
+
+        $roleLimits = collect(self::ROLE_LIMIT)->map(function ($limit, $role) use ($activeCounts) {
+            $active = (int) ($activeCounts[$role] ?? 0);
+
+            return [
+                'label'   => $this->getRoleLabel($role),
+                'active'  => $active,
+                'limit'   => $limit,
+                'reached' => $active >= $limit,
+            ];
+        });
+
+        $activeCounts = Admin::where('status', 'Aktif')
+            ->selectRaw('role, COUNT(*) as total')
+            ->groupBy('role')
+            ->pluck('total', 'role');
+
+        $roleLimits = collect(self::ROLE_LIMIT)->mapWithKeys(
+            function ($limit, $role) use ($activeCounts) {
+                $active = (int) ($activeCounts[$role] ?? 0);
+
+                return [
+                    $role => [
+                        'label'   => $this->getRoleLabel($role),
+                        'active'  => $active,
+                        'limit'   => $limit,
+                        'reached' => $active >= $limit,
+                    ],
+                ];
+            }
+        );
+
+        return view(
+            'admin-banceuy.manajemen-pengguna',
+            compact('users', 'roleLimits')
+        );
+
+        return view(
+            'admin-banceuy.manajemen-pengguna',
+            compact('users', 'roleLimits')
+        );
     }
+
 
     public function store(Request $request)
     {

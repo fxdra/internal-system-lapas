@@ -1,6 +1,336 @@
 @extends('admin-banceuy.partisi.main')
 
 @section('content')
+
+    <style>
+        /* Seluruh styling dibatasi untuk halaman Halo Minna. */
+        .halo-minna-page {
+            color: #263247;
+        }
+
+        .halo-minna-page .hm-table {
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+
+        .halo-minna-page .hm-table thead th {
+            font-size: .82rem;
+            font-weight: 700;
+            color: #526078;
+            padding: 14px 12px;
+            border-bottom-width: 1px;
+        }
+
+        .halo-minna-page .hm-table tbody td {
+            padding: 13px 12px;
+            font-size: .9rem;
+        }
+
+        .halo-minna-page .hm-pagination-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .halo-minna-page .hm-pagination {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .halo-minna-page .hm-pagination .pagination {
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+
+        .halo-minna-page .hm-card-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .halo-minna-page .hm-card-icon {
+            width: 46px;
+            height: 46px;
+            flex: 0 0 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-size: 1.2rem;
+        }
+
+        .halo-minna-page .hm-profile-icon {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #eaf2ff;
+            color: #2563eb;
+            font-size: 1.1rem;
+        }
+
+        .halo-minna-page .hm-info-box {
+            height: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e8edf4;
+            border-radius: 14px;
+            background: #fafbfd;
+            overflow-wrap: anywhere;
+        }
+
+        .halo-minna-page .hm-access-box {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 16px;
+            background: #f8fafc;
+        }
+
+        .halo-minna-page .hm-access-code {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            overflow-wrap: anywhere;
+        }
+
+        .halo-minna-page .form-label {
+            font-size: .9rem;
+        }
+
+        .halo-minna-page .form-control,
+        .halo-minna-page .form-select {
+            min-height: 43px;
+            border-color: #dfe5ee;
+            border-radius: 10px;
+        }
+
+        .halo-minna-page textarea.form-control {
+            min-height: auto;
+        }
+
+        .halo-minna-page .form-control:focus,
+        .halo-minna-page .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .10);
+        }
+
+        .halo-minna-page .btn {
+            transition: background-color .15s ease, border-color .15s ease;
+        }
+
+        .halo-minna-page .hm-autocomplete-suggestions {
+            position: absolute;
+            z-index: 1050;
+            top: calc(100% - 26px);
+            left: 0;
+            right: 0;
+            max-height: 320px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, .12);
+        }
+
+        .halo-minna-page .hm-autocomplete-item {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            border: 0;
+            border-bottom: 1px solid #eef2f7;
+            background: #fff;
+            color: #263247;
+            text-align: left;
+        }
+
+        .halo-minna-page .hm-autocomplete-item:last-child {
+            border-bottom: 0;
+        }
+
+        .halo-minna-page .hm-autocomplete-item:hover,
+        .halo-minna-page .hm-autocomplete-item:focus {
+            background: #f1f6ff;
+            outline: none;
+        }
+
+        .halo-minna-page .hm-autocomplete-item-name {
+            display: block;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .halo-minna-page .hm-autocomplete-item-reg {
+            display: block;
+            margin-top: 3px;
+            color: #64748b;
+            font-size: .82rem;
+        }
+
+        .halo-minna-page .hm-autocomplete-message {
+            padding: 14px 15px;
+            color: #64748b;
+            font-size: .9rem;
+        }
+
+
+        /* LIGHT THEME - Petunjuk Pengisian */
+        html:not(.app-skin-dark) .halo-minna-page .alert.alert-info {
+            background-color: #eaf4ff !important;
+            color: #24527a !important;
+            border-color: #d5e8fb !important;
+        }
+
+        html:not(.app-skin-dark) .halo-minna-page .alert.alert-info .feather-info {
+            color: #212ddb !important;
+        }
+
+        html:not(.app-skin-dark) .halo-minna-page .alert.alert-info .fw-semibold,
+        html:not(.app-skin-dark) .halo-minna-page .alert.alert-info .small {
+            color: #24527a !important;
+        }
+
+
+        /* ================= DARK THEME HALO MINNA ================= */
+        html.app-skin-dark .table thead th {
+            background: #0f172a !important;
+            color: #cbd5e1 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Icon kalender pada input date saat dark theme */
+        .app-skin-dark input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        html.app-skin-dark .table thead,
+        html.app-skin-dark .table thead tr,
+        html.app-skin-dark .table thead th,
+        html.app-skin-dark .table-light thead th {
+            background-color: #0f172a !important;
+            color: #cbd5e1 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Badge Register F */
+        html.app-skin-dark .halo-minna-page .hm-table .badge {
+            background-color: #283449 !important;
+            color: #cbd5e1 !important;
+        }
+
+        /* Pagination: tombol angka, panah, dan ellipsis */
+        html.app-skin-dark .halo-minna-page .hm-pagination .page-link {
+            background-color: #0f172a !important;
+            color: #cbd5e1 !important;
+            border-color: #283449 !important;
+        }
+
+        /* Halaman aktif */
+        html.app-skin-dark .halo-minna-page .hm-pagination .page-item.active .page-link {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+            border-color: #2563eb !important;
+        }
+
+        /* Hover tombol pagination */
+        html.app-skin-dark .halo-minna-page .hm-pagination .page-link:hover {
+            background-color: #1e293b !important;
+            color: #ffffff !important;
+        }
+
+        /* Tombol pagination nonaktif */
+        html.app-skin-dark .halo-minna-page .hm-pagination .page-item.disabled .page-link {
+            background-color: #111c30 !important;
+            color: #64748b !important;
+            border-color: #283449 !important;
+        }
+
+        /* Box Informasi WBP */
+        html.app-skin-dark .halo-minna-page .hm-info-box {
+            background: #0f172a !important;
+            border-color: #283449 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Label informasi: Nomor Registrasi, Putusan, dan lainnya */
+        html.app-skin-dark .halo-minna-page .hm-info-box .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        /* Nilai informasi WBP */
+        html.app-skin-dark .halo-minna-page .hm-info-box .fw-semibold {
+            color: #f1f5f9 !important;
+        }
+
+        /* Kotak Kode Akses Halo Minna */
+        html.app-skin-dark .halo-minna-page .hm-access-box {
+            background: #0f172a !important;
+            border-color: #283449 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Label Kode Akses */
+        html.app-skin-dark .halo-minna-page .hm-access-box .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        /* Teks Kode Akses */
+        html.app-skin-dark .halo-minna-page .hm-access-code {
+            color: #f1f5f9 !important;
+        }
+
+        /* Tombol Salin Kode */
+        html.app-skin-dark .halo-minna-page .hm-access-box .btn-outline-primary {
+            color: #93c5fd !important;
+            border-color: #3b82f6 !important;
+        }
+
+        html.app-skin-dark .halo-minna-page .hm-access-box .btn-outline-primary:hover {
+            background: #1e3a5f !important;
+            color: #ffffff !important;
+        }
+
+        /* Tombol Generate Ulang */
+        html.app-skin-dark .halo-minna-page .hm-access-box .btn-outline-danger {
+            color: #fca5a5 !important;
+            border-color: #ef4444 !important;
+        }
+
+        html.app-skin-dark .halo-minna-page .hm-access-box .btn-outline-danger:hover {
+            background: #7f1d1d !important;
+            color: #ffffff !important;
+        }
+
+
+        @media (max-width: 575.98px) {
+            .halo-minna-page .card-body {
+                padding: 1rem !important;
+            }
+
+            .halo-minna-page .hm-access-box {
+                align-items: stretch;
+            }
+
+            .halo-minna-page .hm-access-box .btn {
+                width: 100%;
+            }
+
+            .halo-minna-page .hm-pagination-wrap {
+                align-items: flex-start;
+            }
+        }
+    </style>
+
     <div class="container-fluid my-3 halo-minna-page">
 
         {{-- HEADER --}}
@@ -13,17 +343,7 @@
             </div>
 
             @if ($wbpTerpilih)
-                <a href="{{ route(
-                    'halo-minna.index',
-                    array_filter(
-                        [
-                            'search' => $search,
-                            'page' => request('page'),
-                        ],
-                        fn($value) => $value !== null && $value !== '',
-                    ),
-                ) }}"
-                    class="btn btn-light rounded-pill px-4">
+                <a href="{{ route('halo-minna.index') }}" class="btn btn-light rounded-pill px-4">
                     <i class="feather-arrow-left me-1"></i>
                     Kembali ke Daftar
                 </a>
@@ -64,33 +384,28 @@
                         </span>
                     </div>
 
-                    <form method="GET" action="{{ route('halo-minna.index') }}" class="mb-4">
-                        <div class="row g-2 align-items-end">
-                            <div class="col-12 col-md-9">
-                                <label for="searchWbp" class="form-label fw-semibold">
-                                    Cari WBP
-                                </label>
+                    <form method="GET" action="{{ route('halo-minna.index') }}" class="mb-4" id="haloMinnaSearchForm">
+                        <label for="searchWbp" class="form-label fw-semibold">Cari WBP</label>
 
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light">
-                                        <i class="feather-search"></i>
-                                    </span>
-                                    <input type="text" id="searchWbp" name="search" class="form-control"
-                                        placeholder="Nama atau nomor registrasi..." value="{{ $search }}">
-                                </div>
+                        <div class="hm-autocomplete position-relative"
+                            data-autocomplete-url="{{ route('halo-minna.autocomplete') }}"
+                            data-detail-url="{{ route('halo-minna.index') }}">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="feather-search"></i>
+                                </span>
+                                <input type="text" id="searchWbp" name="search" class="form-control"
+                                    placeholder="Ketik nama atau nomor registrasi..." value="{{ $search }}"
+                                    autocomplete="off" aria-autocomplete="list" aria-controls="haloMinnaSuggestions"
+                                    aria-expanded="false">
                             </div>
 
-                            <div class="col-12 col-md-3 d-flex gap-2">
-                                <button type="submit" class="btn btn-primary rounded-pill flex-grow-1">
-                                    Cari
-                                </button>
+                            <div id="haloMinnaSuggestions" class="hm-autocomplete-suggestions d-none" role="listbox"
+                                aria-label="Saran WBP"></div>
 
-                                @if ($search !== '')
-                                    <a href="{{ route('halo-minna.index') }}" class="btn btn-light rounded-pill">
-                                        Reset
-                                    </a>
-                                @endif
-                            </div>
+                            <small class="text-muted d-block mt-2">
+                                Ketik minimal 2 karakter, lalu pilih WBP dari saran yang muncul.
+                            </small>
                         </div>
                     </form>
 
@@ -645,152 +960,133 @@
         @endif
     </div>
 
-    <style>
-        /* Seluruh styling dibatasi untuk halaman Halo Minna. */
-        .halo-minna-page {
-            color: #263247;
-        }
-
-        .halo-minna-page .hm-table {
-            margin-bottom: 0;
-            white-space: nowrap;
-        }
-
-        .halo-minna-page .hm-table thead th {
-            font-size: .82rem;
-            font-weight: 700;
-            color: #526078;
-            padding: 14px 12px;
-            border-bottom-width: 1px;
-        }
-
-        .halo-minna-page .hm-table tbody td {
-            padding: 13px 12px;
-            font-size: .9rem;
-        }
-
-        .halo-minna-page .hm-pagination-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .halo-minna-page .hm-pagination {
-            max-width: 100%;
-            overflow-x: auto;
-        }
-
-        .halo-minna-page .hm-pagination .pagination {
-            margin-bottom: 0;
-            flex-wrap: wrap;
-            gap: 3px;
-        }
-
-        .halo-minna-page .hm-card-heading {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .halo-minna-page .hm-card-icon {
-            width: 46px;
-            height: 46px;
-            flex: 0 0 46px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 14px;
-            font-size: 1.2rem;
-        }
-
-        .halo-minna-page .hm-profile-icon {
-            width: 38px;
-            height: 38px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            background: #eaf2ff;
-            color: #2563eb;
-            font-size: 1.1rem;
-        }
-
-        .halo-minna-page .hm-info-box {
-            height: 100%;
-            padding: 14px 16px;
-            border: 1px solid #e8edf4;
-            border-radius: 14px;
-            background: #fafbfd;
-            overflow-wrap: anywhere;
-        }
-
-        .halo-minna-page .hm-access-box {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 18px;
-            border: 1px dashed #cbd5e1;
-            border-radius: 16px;
-            background: #f8fafc;
-        }
-
-        .halo-minna-page .hm-access-code {
-            font-size: 1.15rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            overflow-wrap: anywhere;
-        }
-
-        .halo-minna-page .form-label {
-            font-size: .9rem;
-        }
-
-        .halo-minna-page .form-control,
-        .halo-minna-page .form-select {
-            min-height: 43px;
-            border-color: #dfe5ee;
-            border-radius: 10px;
-        }
-
-        .halo-minna-page textarea.form-control {
-            min-height: auto;
-        }
-
-        .halo-minna-page .form-control:focus,
-        .halo-minna-page .form-select:focus {
-            border-color: #86b7fe;
-            box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .10);
-        }
-
-        .halo-minna-page .btn {
-            transition: background-color .15s ease, border-color .15s ease;
-        }
-
-        @media (max-width: 575.98px) {
-            .halo-minna-page .card-body {
-                padding: 1rem !important;
-            }
-
-            .halo-minna-page .hm-access-box {
-                align-items: stretch;
-            }
-
-            .halo-minna-page .hm-access-box .btn {
-                width: 100%;
-            }
-
-            .halo-minna-page .hm-pagination-wrap {
-                align-items: flex-start;
-            }
-        }
-    </style>
-
     <script>
+        // Autocomplete pencarian WBP untuk Halo Minna.
+        document.addEventListener('DOMContentLoaded', function() {
+            const wrapper = document.querySelector('.hm-autocomplete');
+            const input = document.getElementById('searchWbp');
+            const suggestions = document.getElementById('haloMinnaSuggestions');
+
+            if (!wrapper || !input || !suggestions) return;
+
+            const autocompleteUrl = wrapper.dataset.autocompleteUrl;
+            const detailUrl = wrapper.dataset.detailUrl;
+            let timer = null;
+            let controller = null;
+            let requestNumber = 0;
+
+            function hideSuggestions() {
+                suggestions.classList.add('d-none');
+                suggestions.replaceChildren();
+                input.setAttribute('aria-expanded', 'false');
+            }
+
+            function showMessage(message) {
+                suggestions.replaceChildren();
+                const item = document.createElement('div');
+                item.className = 'hm-autocomplete-message';
+                item.textContent = message;
+                suggestions.appendChild(item);
+                suggestions.classList.remove('d-none');
+                input.setAttribute('aria-expanded', 'true');
+            }
+
+            function renderResults(items) {
+                suggestions.replaceChildren();
+
+                if (!items.length) {
+                    showMessage('WBP tidak ditemukan.');
+                    return;
+                }
+
+                items.forEach(function(wbp) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'hm-autocomplete-item';
+                    button.setAttribute('role', 'option');
+                    button.dataset.wbpId = wbp.id;
+
+                    const name = document.createElement('span');
+                    name.className = 'hm-autocomplete-item-name';
+                    name.textContent = wbp.nama || '(Nama tidak tersedia)';
+
+                    const reg = document.createElement('span');
+                    reg.className = 'hm-autocomplete-item-reg';
+                    reg.textContent = 'No. Registrasi: ' + (wbp.no_reg_instansi || '-');
+
+                    button.append(name, reg);
+                    suggestions.appendChild(button);
+                });
+
+                suggestions.classList.remove('d-none');
+                input.setAttribute('aria-expanded', 'true');
+            }
+
+            input.addEventListener('input', function() {
+                clearTimeout(timer);
+
+                if (controller) controller.abort();
+
+                const query = input.value.trim();
+                if (query.length < 2) {
+                    hideSuggestions();
+                    return;
+                }
+
+                timer = setTimeout(async function() {
+                    controller = new AbortController();
+                    const thisRequest = ++requestNumber;
+                    showMessage('Mencari WBP...');
+
+                    try {
+                        const url = new URL(autocompleteUrl, window.location.origin);
+                        url.searchParams.set('q', query);
+
+                        const response = await fetch(url.toString(), {
+                            headers: {
+                                'Accept': 'application/json'
+                            },
+                            signal: controller.signal
+                        });
+
+                        if (!response.ok) throw new Error('Gagal mengambil saran WBP.');
+
+                        const data = await response.json();
+                        if (thisRequest !== requestNumber) return;
+
+                        renderResults(data);
+                    } catch (error) {
+                        if (error.name === 'AbortError') return;
+                        showMessage('Saran WBP gagal dimuat. Coba lagi.');
+                    }
+                }, 300);
+            });
+
+            suggestions.addEventListener('click', function(event) {
+                const option = event.target.closest('.hm-autocomplete-item');
+                if (!option) return;
+
+                const wbpId = option.dataset.wbpId;
+                if (!wbpId) return;
+
+                const url = new URL(detailUrl, window.location.origin);
+                url.searchParams.set('wbp_id', wbpId);
+
+                const query = input.value.trim();
+                if (query) url.searchParams.set('search', query);
+
+                window.location.href = url.toString();
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!wrapper.contains(event.target)) hideSuggestions();
+            });
+
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') hideSuggestions();
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const tombolSalin = document.getElementById('btnSalinKodeAkses');
 

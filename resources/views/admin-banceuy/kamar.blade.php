@@ -96,6 +96,137 @@
             transform: rotate(180deg);
         }
 
+        /* DARK MODE - DATA KAMAR */
+        /* BACKGROUND & KARTU KAMAR */
+        html.app-skin-dark .container-fluid {
+            color: #e2e8f0;
+        }
+
+        html.app-skin-dark .main-row {
+            background: #182235 !important;
+            color: #e2e8f0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+        }
+
+        html.app-skin-dark .nama-col {
+            color: #f1f5f9;
+        }
+
+        html.app-skin-dark .sub-info {
+            color: #a8b5c7 !important;
+        }
+
+        html.app-skin-dark .dropdown-header {
+            color: #e2e8f0;
+        }
+
+        html.app-skin-dark .toggle-btn {
+            color: #e2e8f0;
+        }
+
+        /* KOLOM PENCARIAN */
+        html.app-skin-dark #search {
+            background-color: #111c30;
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        html.app-skin-dark #search::placeholder {
+            color: #94a3b8;
+        }
+
+        html.app-skin-dark #search:focus {
+            background-color: #111c30;
+            color: #f8fafc;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 .2rem rgba(96, 165, 250, .15);
+        }
+
+        /* MODAL UBAH STATUS KAMAR */
+        html.app-skin-dark #modalStatus>div {
+            background: #182235 !important;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .3);
+        }
+
+        html.app-skin-dark #modalStatus h5 {
+            color: #f1f5f9;
+        }
+
+        /* MODAL DETAIL KAMAR */
+        html.app-skin-dark #modalDetail>div {
+            background: #182235 !important;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .3);
+        }
+
+        html.app-skin-dark #modalDetail h5,
+        html.app-skin-dark #detailBody,
+        html.app-skin-dark #detailBody p,
+        html.app-skin-dark #detailBody b {
+            color: #e2e8f0;
+        }
+
+        html.app-skin-dark #detailBody hr {
+            border-color: #475569;
+            opacity: 1;
+        }
+
+        /* INPUT DAN SELECT DI MODAL */
+        html.app-skin-dark #modalStatus .form-control,
+        html.app-skin-dark #modalDetail .form-control,
+        html.app-skin-dark #modalStatus select,
+        html.app-skin-dark #modalDetail select {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        html.app-skin-dark #modalStatus select option,
+        html.app-skin-dark #modalDetail select option {
+            background-color: #182235;
+            color: #e2e8f0;
+        }
+
+        /* PAGINATION */
+        html.app-skin-dark .pagination .page-link {
+            background-color: #182235;
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+
+        html.app-skin-dark .pagination .page-link:hover {
+            background-color: #263449;
+            color: #ffffff;
+            border-color: #475569;
+        }
+
+        html.app-skin-dark .pagination .page-item.active .page-link {
+            background-color: #0d6efd;
+            color: #ffffff;
+            border-color: #0d6efd;
+        }
+
+        html.app-skin-dark .pagination .page-item.disabled .page-link {
+            background-color: #111c30;
+            color: #64748b;
+            border-color: #334155;
+        }
+
+        /* STATUS LOADING / DATA KOSONG */
+        html.app-skin-dark #tableWrapper .text-center {
+            color: #cbd5e1;
+        }
+
+        /* AKSESIBILITAS FOKUS */
+        html.app-skin-dark .toggle-btn:focus-visible {
+            outline: 2px solid #60a5fa;
+            outline-offset: 3px;
+        }
+
+
         /* ================= MOBILE DATA KAMAR ================= */
         @media (max-width: 768px) {
 
