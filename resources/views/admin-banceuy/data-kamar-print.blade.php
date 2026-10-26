@@ -31,6 +31,19 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Data Kamar & WBP</title>
 
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('app-skin-dark');
+
+                if (theme === 'app-skin-dark') {
+                    document.documentElement.classList.add('app-skin-dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/css/bsicon.min.css') }}">
@@ -38,10 +51,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        /*=========================================================
-                            FLOATING DOCK
-        =========================================================*/
-
+        /* FLOATING DOCK */
         #quickDock {
             position: fixed;
             left: 50%;
@@ -69,9 +79,67 @@
             display: none;
         }
 
-        /*=========================================================
-                            SECTION FLOATING DOCK
-        =========================================================*/
+        /* Close Floating Dock */
+        #quickDock {
+            transition: padding .2s ease, border-radius .2s ease;
+        }
+
+        #quickDock .dock-toggle {
+            align-self: flex-end;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 26px;
+            margin: -4px -6px -2px 0;
+            padding: 0;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            background: #e2e8f0;
+            color: #334155;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        #quickDock .dock-toggle:hover {
+            background: #0d3b66;
+            color: #fff;
+        }
+
+        #quickDockSections {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #quickDock.is-collapsed {
+            gap: 0;
+            padding: 8px 12px;
+            border-radius: 18px;
+        }
+
+        #quickDock.is-collapsed .dock-toggle {
+            margin: 0;
+        }
+
+        #quickDock.is-collapsed #quickDockSections {
+            display: none;
+        }
+
+        .page-hunian {
+            padding-bottom: 170px;
+            scroll-padding-bottom: 190px;
+        }
+
+        .page-hunian [id^="room-card-"],
+        .page-hunian [id^="room-detail-"],
+        .page-hunian #section-rs,
+        .page-hunian #section-bon {
+            scroll-margin-bottom: 190px;
+        }
+
+        /* SECTION FLOATING DOCK */
         .dock-section {
             display: flex;
             align-items: center;
@@ -88,10 +156,7 @@
             text-transform: uppercase;
         }
 
-
-        /*=========================================================
-                            ITEM FLOATING DOCK
-        =========================================================*/
+        /* ITEM FLOATING DOCK */
         .dock-item {
             position: relative;
             min-width: 52px;
@@ -128,10 +193,7 @@
                 0 12px 25px rgba(13, 59, 102, .30);
         }
 
-        /*=========================================================
-                            ACTIVE FLOATING DOCK
-        =========================================================*/
-
+        /* ACTIVE FLOATING DOCK */
         .dock-item.active {
             background: #0d3b66;
             color: #fff;
@@ -140,10 +202,7 @@
                 0 10px 22px rgba(13, 59, 102, .35);
         }
 
-        /*=========================================================
-                            POPUP FLOATING DOCK
-        =========================================================*/
-
+        /* POPUP FLOATING DOCK */
         .dock-popup {
             position: absolute;
             bottom: 52px;
@@ -200,10 +259,7 @@
             pointer-events: auto;
         }
 
-        /*=========================================================
-                        ROOM BUTTON FLOATING DOCK
-        =========================================================*/
-
+        /* ROOM BUTTON FLOATING DOCK */
         .popup-room {
             width: 42px;
             height: 38px;
@@ -226,10 +282,7 @@
             color: #fff;
         }
 
-        /*=========================================================
-                        CARD HIGHLIGHT FLOATING DOCK
-        =========================================================*/
-
+        /* CARD HIGHLIGHT FLOATING DOCK */
         .kamar-card {
             scroll-margin-top: 20px;
             transition:
@@ -255,10 +308,7 @@
             animation: roomPulse .9s ease;
         }
 
-        /*=========================================================
-                        ANIMATION FLOATING DOCK
-        =========================================================*/
-
+        /* ANIMATION FLOATING DOCK */
         @keyframes roomPulse {
             0% {
                 transform: scale(.96);
@@ -274,9 +324,7 @@
 
         }
 
-        /*=========================================================
-                        RESPONSIVE FLOATING DOCK
-        =========================================================*/
+        /* RESPONSIVE FLOATING DOCK */
         @media (max-width:768px) {
             #quickDock {
                 width: calc(100% - 20px);
@@ -298,12 +346,9 @@
                 text-align: center;
                 margin-bottom: 4px;
             }
-
         }
 
-        /*=========================================================
-                        BREADCRUMB HEADER
-        =========================================================*/
+        /* BREADCRUMB HEADER */
         .breadcrumb {
             background: transparent;
             padding: 0;
@@ -316,7 +361,7 @@
         }
 
         .breadcrumb-item a {
-            color: #0d3b66;
+            color: #0084ff;
             text-decoration: none;
             transition: color .2s;
         }
@@ -382,20 +427,93 @@
                 border-bottom: 1px solid rgba(0, 0, 0, .06);
             }
 
+            .page-hunian .kamar-card .d-flex.flex-column.align-items-end>.d-flex {
+                display: flex !important;
+                justify-content: flex-end !important;
+                align-items: center !important;
+                flex-wrap: wrap;
+                gap: 6px !important;
+                width: 100%;
+            }
+
+            /* Pastikan area kontrol kamar memenuhi lebar header */
+            .page-hunian .kamar-card .d-flex.flex-column.align-items-end {
+                width: 100%;
+                align-items: stretch !important;
+            }
+
+            .page-hunian .kamar-card .card-header .d-flex.flex-column.align-items-end {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                width: 100%;
+                gap: 12px;
+            }
+
+            /* Teks jumlah WBP terpilih */
+            .page-hunian .kamar-card .card-header .d-flex.flex-column.align-items-end>span {
+                margin-bottom: 0 !important;
+                white-space: nowrap;
+                flex: 0 0 auto;
+            }
+
+            /* Badge kapasitas dan tombol */
+            .page-hunian .kamar-card .card-header .d-flex.flex-column.align-items-end>.d-flex {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: flex-end !important;
+                flex-wrap: wrap;
+                width: auto !important;
+                margin-left: auto;
+                gap: 6px !important;
+            }
+
         }
 
-        ========================MOBILE DATA HUNIAN KAMAR================================@media (max-width: 768px) {
+        /* MOBILE VERSION DATA HUNIAN KAMAR */
+        @media (max-width: 768px) {
 
-            /* ================= PAGE ================= */
+            /* Popup mobile dipindahkan sementara ke document.body */
+            body>.dock-popup.mobile-popup-open {
+                position: fixed !important;
+                top: auto !important;
+                left: 50% !important;
+                right: auto !important;
+                bottom: 240px !important;
 
+                width: min(220px, calc(100vw - 20px)) !important;
+                max-width: calc(100vw - 20px) !important;
+                max-height: min(280px, calc(100dvh - 150px)) !important;
+
+                display: grid !important;
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+                gap: 6px !important;
+                padding: 10px !important;
+                box-sizing: border-box !important;
+                overflow-y: auto !important;
+                overscroll-behavior: contain;
+
+                background: #1f2937 !important;
+                border: 1px solid #475569 !important;
+                border-radius: 14px !important;
+                box-shadow: 0 12px 35px rgba(0, 0, 0, .35) !important;
+
+                transform: translate(-50%, 0) !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+                z-index: 100001 !important;
+            }
+
+
+            /* PAGE */
             .page-hunian {
                 padding: 10px !important;
                 padding-bottom: 180px !important;
             }
 
-
-            /* ================= HEADER CARD ================= */
-
+            /* HEADER CARD */
             .page-hunian>.no-print {
                 margin-bottom: 16px !important;
                 border-radius: 8px;
@@ -405,21 +523,16 @@
                 padding: 14px !important;
             }
 
-
-            /* ================= HEADER TOP ================= */
-
+            /* HEADER TOP */
             .page-hunian>.no-print .card-body>.d-flex {
                 display: flex !important;
                 align-items: flex-start !important;
                 justify-content: space-between !important;
-
                 gap: 10px;
                 margin-bottom: 12px !important;
             }
 
-
-            /* ================= TITLE AREA ================= */
-
+            /* TITLE AREA */
             .page-hunian>.no-print .card-body>.d-flex>div:first-child {
                 min-width: 0;
                 flex: 1;
@@ -428,22 +541,16 @@
             .page-hunian>.no-print h4 {
                 font-size: 20px !important;
                 line-height: 1.15;
-
                 margin-bottom: 4px !important;
-
                 word-break: normal;
             }
 
-
-            /* ================= BREADCRUMB ================= */
-
+            /* BREADCRUMB */
             .page-hunian>.no-print .breadcrumb {
                 display: flex;
                 flex-wrap: nowrap;
-
                 font-size: 12px;
                 line-height: 1.3;
-
                 white-space: nowrap;
                 overflow: visible;
             }
@@ -457,27 +564,19 @@
                 text-overflow: unset;
             }
 
-
-            /* ================= HEADER BUTTON AREA ================= */
-
+            /* HEADER BUTTON AREA */
             .page-hunian>.no-print .card-body>.d-flex>.d-flex {
                 flex-shrink: 0;
-
                 display: flex;
                 align-items: flex-start;
-
                 gap: 6px !important;
             }
 
-
-            /* ================= VIEW MODE ================= */
-
+            /* VIEW MODE */
             .page-hunian>.no-print .btn-group .btn {
                 width: 38px;
                 height: 42px;
-
                 padding: 0;
-
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -487,39 +586,30 @@
                 font-size: 13px;
             }
 
-
-            /* ================= PRINT BUTTON ================= */
-
+            /* PRINT BUTTON */
             .page-hunian>.no-print .btn-primary {
                 width: 92px;
                 height: 42px;
-
                 min-width: 92px;
                 min-height: 42px;
-
                 padding: 0 8px;
-
                 display: flex;
                 align-items: center;
                 justify-content: center;
-
                 font-size: 11px;
                 line-height: 1;
                 white-space: nowrap;
             }
 
-            /* ================= SEARCH ================= */
-
+            /* SEARCH */
             .page-hunian>.no-print .row {
                 margin-top: 8px;
-
                 margin-left: 0;
                 margin-right: 0;
             }
 
             .page-hunian>.no-print .row>div {
                 width: 100%;
-
                 padding-left: 0;
                 padding-right: 0;
             }
@@ -527,11 +617,8 @@
             .page-hunian #searchKamar {
                 width: 100%;
                 height: 40px;
-
                 padding: 8px 12px;
-
                 font-size: 13px;
-
                 border-radius: 7px;
             }
 
@@ -552,7 +639,7 @@
                 padding: 10px !important;
             }
 
-            /* ================= KAMAR ================= */
+            /* KAMAR */
             .page-hunian .kamar-card {
                 margin-bottom: 10px !important;
                 border-radius: 8px;
@@ -562,13 +649,21 @@
                 padding: 10px !important;
             }
 
-            .page-hunian .kamar-card>.card-header>.d-flex {
-                gap: 8px;
-                align-items: flex-start !important;
+            /* INFO KAMAR - KIRI */
+            .page-hunian .kamar-card>.card-header>.d-flex>div:first-child {
+                flex: 0 0 auto !important;
+                min-width: 0 !important;
             }
 
+            /* KONTROL KAMAR - KANAN */
+            .page-hunian .kamar-card>.card-header>.d-flex>.d-flex.flex-column.align-items-end {
+                flex: 0 0 auto !important;
+                width: auto !important;
+                min-width: 0 !important;
+                align-items: flex-end !important;
+            }
 
-            /* ================= KAMAR TITLE ================= */
+            /* KAMAR TITLE */
             .page-hunian .kamar-card h5 {
                 font-size: 15px;
                 line-height: 1.2;
@@ -580,29 +675,22 @@
                 line-height: 1.3;
             }
 
-
-            /* ================= KAMAR CONTROL ================= */
+            /* KAMAR CONTROL */
             .page-hunian .kamar-card .d-flex.flex-column.align-items-end {
-
                 width: auto;
                 min-width: 0;
-
                 flex-shrink: 0;
-
                 align-items: flex-start !important;
-
                 gap: 7px;
             }
 
             .page-hunian .kamar-card .d-flex.flex-column.align-items-end>.d-flex {
-
                 width: 100%;
                 flex-wrap: wrap;
                 gap: 6px !important;
             }
 
             .page-hunian .kamar-card .d-flex.flex-column.align-items-end>.d-flex .badge {
-
                 font-size: 11px !important;
                 padding: 6px 9px !important;
             }
@@ -612,7 +700,7 @@
                 padding: 6px 9px;
             }
 
-            /* ================= KAMAR CARD HEADER ================= */
+            /* KAMAR CARD HEADER */
             .page-hunian .kamar-card>.card-header {
                 padding: 10px !important;
             }
@@ -622,10 +710,10 @@
                 gap: 8px;
             }
 
-            /* ================= INFO KAMAR ================= */
+            /* INFO KAMAR */
             .page-hunian .kamar-card>.card-header>.d-flex>div:first-child {
                 min-width: 0;
-                flex: 1;
+                flex: 1 1 auto;
             }
 
             .page-hunian .kamar-card>.card-header h5 {
@@ -640,70 +728,49 @@
                 line-height: 1.3;
             }
 
-            /* ================= CONTROL KAMAR ================= */
+            /* CONTROL KAMAR */
             .page-hunian .kamar-card>.card-header .d-flex.flex-column.align-items-end {
-
-                width: auto;
+                width: 100% !important;
                 min-width: 0;
-
-                flex-shrink: 0;
-
-                align-items: flex-start !important;
-
-                gap: 7px;
+                flex-shrink: 1;
+                align-items: stretch !important;
+                gap: 6px;
             }
 
-            /* ================= DIPILIH ================= */
+            /* DIPILIH */
             .page-hunian .kamar-card>.card-header .d-flex.flex-column.align-items-end>span {
-
                 font-size: 11px !important;
-
                 line-height: 1.2;
-
                 white-space: nowrap;
-
                 margin-bottom: 0 !important;
             }
 
-            /* ================= BUTTON ROW ================= */
+            /* BUTTON ROW */
             .page-hunian .kamar-card>.card-header .d-flex.flex-column.align-items-end>.d-flex {
-
                 width: 100%;
-
                 display: flex;
-
                 flex-wrap: wrap;
-
                 align-items: center;
-
                 gap: 5px !important;
             }
 
-            /* ================= BADGE ================= */
+            /* BADGE */
             .page-hunian .kamar-card>.card-header .badge {
-
                 font-size: 9px !important;
-
                 padding: 5px 7px !important;
-
                 white-space: nowrap;
             }
 
-            /* ================= BUTTON ================= */
+            /* BUTTON */
             .page-hunian .kamar-card>.card-header .btn-sm {
-
                 min-height: 28px;
-
                 padding: 5px 7px !important;
-
                 font-size: 8px !important;
-
                 line-height: 1.1;
-
                 white-space: nowrap;
             }
 
-            /* ================= WBP CARD ================= */
+            /* WBP CARD */
             .page-hunian .wbp-item {
                 border-radius: 8px;
             }
@@ -726,61 +793,70 @@
                 font-size: 10px !important;
             }
 
+            #quickDock .dock-toggle {
+                width: 32px;
+                height: 28px;
+                margin: -3px -3px 0 0;
+            }
+
+            #quickDockSections {
+                width: 100%;
+                gap: 8px;
+            }
+
+            #quickDock.is-collapsed {
+                width: auto;
+                min-width: 48px;
+                left: auto;
+                right: 10px;
+                padding: 7px 9px;
+                border-radius: 16px;
+            }
+
+            #quickDock.is-collapsed .dock-toggle {
+                margin: 0;
+            }
+
             /* FLOATING DOCK MOBILE */
             #quickDock {
                 left: 4px;
                 right: 4px;
                 bottom: 6px;
-
                 width: calc(100% - 8px);
-
                 padding: 10px 8px;
-
                 border-radius: 24px;
-
                 gap: 8px;
-
                 max-height: none;
-
                 overflow: visible;
-
                 box-sizing: border-box;
             }
 
-            /* ================= DOCK SECTION MOBILE ================= */
+            /* DOCK SECTION MOBILE */
             .dock-section {
                 width: 100%;
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 7px;
-
                 margin-left: 0 !important;
             }
 
-
-            /* ================= DOCK TITLE MOBILE ================= */
+            /* DOCK TITLE MOBILE */
             .dock-title {
                 width: 100%;
-
                 margin: 0 0 2px 0;
-
                 text-align: center;
-
                 font-size: 10px;
                 letter-spacing: .3px;
             }
 
-            /* ================= DOCK ITEM MOBILE================= */
+            /* DOCK ITEM MOBILE */
             .dock-item {
                 min-width: 48px;
                 width: 48px;
                 height: 48px;
-
                 padding: 0;
-
                 border-radius: 50%;
-
                 font-size: 12px;
             }
 
@@ -788,38 +864,33 @@
                 font-size: 11px;
             }
 
-            /* ================= DOCK POPUP MOBILE ================= */
-            /* Popup bawaan desktop disembunyikan di mobile */
-            #quickDock .dock-popup {
-                display: none !important;
-            }
-
-
-            /* ================= MOBILE GLOBAL POPUP ================= */
-
-            .mobile-dock-popup {
+            /* POPUP NOMOR KAMAR MOBILE — CENTER */
+            #quickDock .dock-item .dock-popup {
                 position: fixed !important;
 
                 left: 50% !important;
-                bottom: 230px !important;
+                right: auto !important;
+                bottom: 90px !important;
 
-                width: 190px !important;
-                max-width: calc(100vw - 30px) !important;
+                width: 220px !important;
+                width: min(220px, calc(100vw - 16px)) !important;
+                max-width: calc(100vw - 20px) !important;
+                max-height: min(280px, calc(100dvh - 150px)) !important;
 
                 padding: 10px !important;
 
                 display: grid !important;
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+                gap: 6px !important;
 
-                gap: 6px;
+                box-sizing: border-box !important;
+                overflow-y: auto !important;
+                overscroll-behavior: contain;
 
-                border-radius: 16px;
-
-                background: #fff;
-
-                border: 1px solid #dee2e6;
-
-                box-shadow: 0 15px 35px rgba(0, 0, 0, .20);
+                border-radius: 14px !important;
+                background: #1f2937 !important;
+                border: 1px solid #475569 !important;
+                box-shadow: 0 12px 30px rgba(0, 0, 0, .3) !important;
 
                 z-index: 100001 !important;
 
@@ -827,7 +898,8 @@
                 visibility: hidden;
                 pointer-events: none;
 
-                transform: translate(-50%, 10px);
+                /* Posisi awal tetap di tengah */
+                transform: translate(-50%, 8px);
 
                 transition:
                     opacity .18s ease,
@@ -835,66 +907,54 @@
                     visibility .18s ease;
             }
 
-
-            /* ================= MOBILE POPUP SHOW ================= */
-
-            .mobile-dock-popup.show {
+            /* TAMPILKAN POPUP SAAT ITEM AKTIF */
+            #quickDock .dock-item.active .dock-popup {
                 opacity: 1 !important;
                 visibility: visible !important;
                 pointer-events: auto !important;
-
                 transform: translate(-50%, 0) !important;
             }
 
+            /* TOMBOL NOMOR KAMAR */
+            #quickDock .dock-popup .popup-room {
+                width: 100% !important;
+                height: 36px !important;
+                min-width: 0 !important;
 
-            /* ================= MOBILE POPUP ROOM ================= */
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
 
-            .mobile-dock-popup .popup-room {
-                width: 38px;
-                height: 34px;
+                border-radius: 8px !important;
+                background: #334155 !important;
+                color: #f1f5f9 !important;
+                border: 1px solid #475569 !important;
 
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                border-radius: 9px;
-
-                background: #f3f6fa;
-                color: #212529;
-
-                font-size: 11px;
-                font-weight: 700;
-
+                font-size: 12px !important;
+                font-weight: 700 !important;
                 cursor: pointer;
             }
 
-            .mobile-dock-popup .popup-room:active {
-                background: #0d3b66;
-                color: #fff;
+            #quickDock .dock-popup .popup-room:active {
+                background: #0d3b66 !important;
+                color: #fff !important;
+                transform: scale(.96);
             }
 
-            .mobile-dock-popup .popup-room:active {
-                background: #0d3b66;
-                color: #fff;
-
-                transform: scale(.95);
-            }
-
-            /* ================= POPUP ROOM MOBILE================= */
+            /* POPUP ROOM MOBILE */
             .popup-room {
                 width: 38px;
                 height: 34px;
-
                 font-size: 11px;
                 border-radius: 9px;
             }
 
-            /* ================= OUTER DOCK MOBILE================= */
+            /* OUTER DOCK MOBILE */
             .dock-section+.dock-section {
                 margin-top: 2px;
             }
 
-            /* ================= MODAL ================= */
+            /* MODAL */
             #modalPindah .modal-dialog {
                 margin: 10px;
             }
@@ -909,6 +969,314 @@
                 padding: 12px 14px;
             }
 
+            /* MOBILE: ACTION TETAP DI KANAN JUDUL */
+            .page-hunian-header {
+                flex-wrap: wrap !important;
+                align-items: flex-start;
+            }
+
+            .page-hunian-header>.page-hunian-title {
+                flex: 1 1 auto !important;
+            }
+
+            .page-hunian-header .page-hunian-actions {
+                width: auto !important;
+                flex: 0 0 auto;
+                margin-left: auto;
+                justify-content: flex-end;
+            }
+
+            .page-hunian .kamar-card .d-flex.flex-column.align-items-end>.d-flex {
+                justify-content: flex-end !important;
+                width: 100%;
+            }
+
+            .page-hunian .kamar-card .card-header .d-flex.flex-column.align-items-end {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 8px;
+            }
+
+            .page-hunian .kamar-card .card-header .d-flex.flex-column.align-items-end>span {
+                white-space: normal;
+            }
+
+            .page-hunian .kamar-card .card-header .d-flex.flex-column.align-items-end>.d-flex {
+                width: 100% !important;
+                margin-left: 0;
+                justify-content: flex-end !important;
+            }
+
+            #quickDock {
+                position: fixed !important;
+                left: 10px !important;
+                right: 10px !important;
+                bottom: 10px !important;
+
+                width: auto !important;
+                max-width: none !important;
+                box-sizing: border-box !important;
+
+                z-index: 9999 !important;
+            }
+
+            /* TOGGLE */
+            #quickDock .dock-toggle {
+                position: relative;
+                flex: 0 0 36px;
+                width: 36px !important;
+                height: 36px !important;
+                margin: 0 !important;
+                box-sizing: border-box;
+            }
+
+            /* DOCK CLOSED */
+            #quickDock.is-collapsed {
+                left: auto !important;
+                right: 10px !important;
+                bottom: 16px !important;
+
+                width: 48px !important;
+                min-width: 48px !important;
+                max-width: 48px !important;
+
+                padding: 6px !important;
+                border-radius: 16px !important;
+                overflow: hidden !important;
+            }
+
+            /* TOGGLE SAAT CLOSED */
+            #quickDock.is-collapsed .dock-toggle {
+                display: flex !important;
+                flex: 0 0 36px;
+                width: 36px !important;
+                height: 36px !important;
+                margin: 0 !important;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* SEMBUNYIKAN ISI DOCK CLOSED */
+            #quickDock.is-collapsed #quickDockSections {
+                display: none !important;
+            }
+
+            /* FLOATING DOCK MOBILE */
+            #quickDock {
+                position: fixed !important;
+                left: 10px !important;
+                right: 10px !important;
+                bottom: 10px !important;
+                transform: none !important;
+
+                width: auto !important;
+                max-width: none !important;
+                box-sizing: border-box !important;
+
+                padding: 10px 8px !important;
+                gap: 8px !important;
+
+                overflow: visible !important;
+                z-index: 99999 !important;
+            }
+
+            /* TOGGLE */
+            #quickDock .dock-toggle {
+                display: inline-flex !important;
+                flex: 0 0 36px !important;
+                align-self: flex-end !important;
+
+                width: 36px !important;
+                height: 36px !important;
+                margin: 0 !important;
+
+                align-items: center !important;
+                justify-content: center !important;
+                box-sizing: border-box !important;
+            }
+
+            /* ISI DOCK */
+            #quickDockSections {
+                width: 100%;
+                gap: 8px !important;
+            }
+
+            #quickDock .dock-section {
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 7px;
+                margin-left: 0 !important;
+            }
+
+            #quickDock .dock-title {
+                width: 100%;
+                margin: 0 0 2px 0;
+                text-align: center;
+                font-size: 10px;
+                letter-spacing: .3px;
+            }
+
+            #quickDock .dock-item {
+                min-width: 48px;
+                width: 48px;
+                height: 48px;
+                padding: 0;
+                border-radius: 50%;
+                font-size: 12px;
+            }
+
+            #quickDock .dock-item span {
+                font-size: 11px;
+            }
+
+            /* DOCK DITUTUP */
+            #quickDock.is-collapsed {
+                left: auto !important;
+                right: 10px !important;
+                bottom: 16px !important;
+
+                width: 48px !important;
+                min-width: 48px !important;
+                max-width: 48px !important;
+
+                padding: 6px !important;
+                gap: 0 !important;
+                border-radius: 16px !important;
+
+                overflow: visible !important;
+            }
+
+            /* TOGGLE SAAT DITUTUP */
+            #quickDock.is-collapsed .dock-toggle {
+                display: inline-flex !important;
+                flex: 0 0 36px !important;
+
+                width: 36px !important;
+                height: 36px !important;
+                margin: 0 !important;
+
+                align-self: center !important;
+            }
+
+            /* SEMBUNYIKAN ISI SAAT DITUTUP */
+            #quickDock.is-collapsed #quickDockSections {
+                display: none !important;
+            }
+
+            .page-hunian-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+                gap: 16px;
+            }
+
+            .page-hunian-header>.page-hunian-title {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+
+            .page-hunian-header .page-hunian-actions {
+                flex: 0 0 auto;
+                width: auto;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                flex-wrap: nowrap;
+                margin-left: auto;
+            }
+
+            .page-hunian-header .btn-primary {
+                width: auto !important;
+                min-width: 92px !important;
+                white-space: nowrap;
+            }
+
+            /* Header kamar Card View: informasi dan kontrol dipisah */
+            #cardView .kamar-card>.card-header>.d-flex {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 12px !important;
+            }
+
+            #cardView .kamar-card>.card-header>.d-flex>div:first-child {
+                width: 100%;
+                min-width: 0;
+                flex: 1 1 auto;
+                box-sizing: border-box;
+            }
+
+            #cardView .kamar-card>.card-header h5 {
+                overflow-wrap: anywhere;
+                font-size: 15px !important;
+                line-height: 1.35 !important;
+            }
+
+            /* Area jumlah pilihan dan tombol */
+            #cardView .kamar-card .d-flex.flex-column.align-items-end {
+                width: 100% !important;
+                min-width: 0 !important;
+                flex: none !important;
+                align-items: stretch !important;
+                gap: 8px !important;
+            }
+
+            #cardView .kamar-card .d-flex.flex-column.align-items-end>span {
+                white-space: normal !important;
+                overflow-wrap: anywhere;
+                font-size: 12px !important;
+                margin: 0 !important;
+            }
+
+            /* Badge dan tombol boleh turun baris tanpa keluar layar */
+            #cardView .kamar-card .d-flex.flex-column.align-items-end>.d-flex {
+                display: flex !important;
+                width: 100% !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+                gap: 6px !important;
+            }
+
+            #cardView .kamar-card .d-flex.flex-column.align-items-end .badge {
+                flex: 0 0 auto;
+                font-size: 11px !important;
+                padding: 7px 9px !important;
+            }
+
+            #cardView .kamar-card .d-flex.flex-column.align-items-end .btn-sm {
+                flex: 0 1 auto;
+                min-width: 0;
+                min-height: 32px !important;
+                padding: 7px 9px !important;
+                font-size: 11px !important;
+                line-height: 1.2 !important;
+                white-space: normal !important;
+            }
+
+            /* Kartu WBP: foto dan teks tetap proporsional */
+            #cardView .wbp-item .card-body>.d-flex {
+                min-width: 0;
+                gap: 0;
+            }
+
+            #cardView .wbp-item .flex-grow-1 {
+                min-width: 0;
+            }
+
+            #cardView .nama-wbp {
+                overflow-wrap: anywhere;
+            }
+
+            /* Detail View: tabel tetap bisa digeser horizontal jika perlu */
+            #detailView .table-responsive {
+                overflow-x: auto;
+            }
+
+            /* Ruang bawah untuk dock yang mengambang */
+            .page-hunian {
+                padding-bottom: 190px !important;
+            }
         }
 
         /* SEARCH WBP RESULTS */
@@ -969,6 +1337,23 @@
             color: #6c757d;
         }
 
+        /* ================= MOBILE LAYOUT FIX ================= */
+        @media (max-width: 380px) {
+            .page-hunian-header .page-hunian-actions {
+                gap: 6px !important;
+            }
+
+            #cardView .kamar-card .d-flex.flex-column.align-items-end>.d-flex {
+                gap: 5px !important;
+            }
+
+            #cardView .kamar-card .d-flex.flex-column.align-items-end .btn-sm {
+                padding: 6px 7px !important;
+                font-size: 10px !important;
+            }
+        }
+
+
         @media print {
 
             @page {
@@ -981,7 +1366,8 @@
             }
 
 
-            PRINT GRID .container-fluid.py-3 {
+            /* PRINT GRID  */
+            .container-fluid.py-3 {
                 display: flex !important;
                 flex-wrap: wrap !important;
 
@@ -998,8 +1384,8 @@
                 align-content: flex-start !important;
             }
 
-
-            SEMBUNYIKAN UI .no-print,
+            /* SEMBUNYIKAN UI  */
+            .no-print,
             .btn-all,
             .btn-batal,
             .btn-pindah,
@@ -1011,19 +1397,21 @@
                 display: none !important;
             }
 
-
-            SEMBUNYIKAN SEMUA HEADER CARD .card-header {
+            /* SEMBUNYIKAN SEMUA HEADER CARD  */
+            .card-header {
                 display: none !important;
             }
 
 
-            SEMBUNYIKAN PESAN KAMAR KOSONG .kamar-card .alert {
+            /* SEMBUNYIKAN PESAN KAMAR KOSONG  */
+            .kamar-card .alert {
                 display: none !important;
             }
 
 
 
-            CONTAINER BLOK .blok-card {
+            /* CONTAINER BLOK  */
+            .blok-card {
                 display: contents !important;
             }
 
@@ -1032,9 +1420,8 @@
                 margin: 0 !important;
             }
 
-
-
-            CONTAINER KAMAR .kamar-card {
+            /* CONTAINER KAMAR  */
+            .kamar-card {
                 display: contents !important;
             }
 
@@ -1044,7 +1431,8 @@
             }
 
 
-            HEADER KAMAR TERPILIH .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header {
+            /* HEADER KAMAR TERPILIH  */
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header {
                 display: block !important;
 
                 width: 264mm !important;
@@ -1062,61 +1450,55 @@
                 color: #000 !important;
             }
 
-
-
-            JUDUL KAMAR .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header h5 {
+            /* JUDUL KAMAR  */
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header h5 {
                 font-size: 11pt !important;
                 margin: 0 !important;
                 color: #000 !important;
             }
 
-
-
-            SEMBUNYIKAN KAMAR+KAPASITAS .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .text-muted {
+            /* SEMBUNYIKAN KAMAR+KAPASITAS  */
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .text-muted {
                 display: none !important;
             }
 
-
-
-            SEMBUNYIKAN BAGIAN KANAN Dipilih+jumlah WBP+tombol .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .d-flex.flex-column.align-items-end {
+            /* SEMBUNYIKAN BAGIAN KANAN Dipilih+jumlah WBP+tombol */
+            .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header .d-flex.flex-column.align-items-end {
                 display: none !important;
             }
 
-
-            RUMAH SAKIT & BON DEFAULT HILANG #section-rs,
+            /* RUMAH SAKIT & BON DEFAULT HILANG */
+            #section-rs,
             #section-bon {
                 display: none !important;
             }
 
-
-
-            TAMPILKAN HANYA JIKA ADA WBP YANG DIPILIH #section-rs:has(.print-card:not([style*="display: none"])),
+            /* TAMPILKAN HANYA JIKA ADA WBP YANG DIPILIH */
+            #section-rs:has(.print-card:not([style*="display: none"])),
             #section-bon:has(.print-card:not([style*="display: none"])) {
                 display: contents !important;
             }
 
-
-
-            BODY SECTION JADI TRANSPARAN #section-rs>.card-body,
+            /* BODY SECTION JADI TRANSPARAN */
+            #section-rs>.card-body,
             #section-bon>.card-body {
                 display: contents !important;
             }
 
-
-
-            ROW JADI TRANSPARAN #section-rs .row.g-3,
+            /* ROW JADI TRANSPARAN */
+            #section-rs .row.g-3,
             #section-bon .row.g-3 {
                 display: contents !important;
             }
 
-
-
-            ROW .kamar-card .row.g-3 {
+            /* ROW */
+            .kamar-card .row.g-3 {
                 margin: 0 !important;
             }
 
 
-            SETIAP WBP .print-card {
+            /* SETIAP WBP  */
+            .print-card {
                 width: 128mm !important;
                 max-width: 128mm !important;
 
@@ -1129,8 +1511,8 @@
                 page-break-inside: avoid !important;
             }
 
-
-            STEREK .wbp-item {
+            /* STEREK  */
+            .wbp-item {
                 width: 128mm !important;
                 height: 34mm !important;
 
@@ -1147,19 +1529,19 @@
                 margin: 0 !important;
             }
 
-
             .wbp-item.selected {
                 background: #fff !important;
                 border: 1px solid #000 !important;
             }
 
-
-            ISI STEREK .wbp-item .card-body {
+            /* ISI STEREK  */
+            .wbp-item .card-body {
                 padding: 5px 6px !important;
             }
 
 
-            FOTO .foto-wbp {
+            /* FOTO  */
+            .foto-wbp {
                 width: 22mm !important;
                 height: 28mm !important;
 
@@ -1167,7 +1549,8 @@
             }
 
 
-            NAMA .nama-wbp {
+            /* NAMA  */
+            .nama-wbp {
                 font-size: 10pt !important;
                 font-weight: 700 !important;
                 line-height: 1.15 !important;
@@ -1178,7 +1561,8 @@
             }
 
 
-            DATA WBP .print-only {
+            /* DATA WBP  */
+            .print-only {
                 display: block !important;
 
                 margin-top: 3px !important;
@@ -1227,6 +1611,224 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
         }
+
+        /* DARK MODE */
+        @media screen {
+            html.app-skin-dark {
+                color-scheme: dark;
+                --bs-body-color: #e2e8f0;
+                --bs-body-bg: #111827;
+                --bs-border-color: #374151;
+                --bs-secondary-color: #aab4c3;
+                --bs-tertiary-bg: #1f2937;
+                --bs-emphasis-color: #f8fafc;
+                --bs-card-bg: #1f2937;
+            }
+
+            html.app-skin-dark body {
+                background: #111827 !important;
+                color: #e2e8f0 !important;
+            }
+
+            html.app-skin-dark .page-hunian,
+            html.app-skin-dark .container-fluid {
+                color: #e2e8f0;
+            }
+
+            html.app-skin-dark .card,
+            html.app-skin-dark .card-body,
+            html.app-skin-dark .modal-content {
+                background-color: #1f2937;
+                color: #e2e8f0;
+                border-color: #374151;
+            }
+
+            html.app-skin-dark .card-header,
+            html.app-skin-dark .bg-light,
+            html.app-skin-dark .table-light,
+            html.app-skin-dark .list-group-item {
+                background-color: #273449 !important;
+                color: #f1f5f9 !important;
+                border-color: #3b4759 !important;
+            }
+
+            html.app-skin-dark .bg-white,
+            html.app-skin-dark .dropdown-menu {
+                background-color: #1f2937 !important;
+                color: #e2e8f0 !important;
+            }
+
+            html.app-skin-dark .text-dark,
+            html.app-skin-dark .page-hunian-title,
+            html.app-skin-dark h1,
+            html.app-skin-dark h2,
+            html.app-skin-dark h3,
+            html.app-skin-dark h4,
+            html.app-skin-dark h5,
+            html.app-skin-dark h6,
+            html.app-skin-dark label,
+            html.app-skin-dark .form-label {
+                color: #f1f5f9 !important;
+            }
+
+            html.app-skin-dark .text-muted,
+            html.app-skin-dark .small.text-muted {
+                color: #aab4c3 !important;
+            }
+
+            html.app-skin-dark .form-control,
+            html.app-skin-dark .form-select,
+            html.app-skin-dark input,
+            html.app-skin-dark select,
+            html.app-skin-dark textarea {
+                background-color: #111827;
+                color: #e5e7eb;
+                border-color: #4b5563;
+            }
+
+            html.app-skin-dark .form-control::placeholder,
+            html.app-skin-dark input::placeholder,
+            html.app-skin-dark textarea::placeholder {
+                color: #9ca3af;
+            }
+
+            html.app-skin-dark .form-control:focus,
+            html.app-skin-dark .form-select:focus {
+                background-color: #111827;
+                color: #f9fafb;
+                border-color: #60a5fa;
+                box-shadow: 0 0 0 .2rem rgba(96, 165, 250, .2);
+            }
+
+            html.app-skin-dark .table {
+                --bs-table-color: #e2e8f0;
+                --bs-table-bg: #1f2937;
+                --bs-table-border-color: #374151;
+                --bs-table-striped-color: #e2e8f0;
+                --bs-table-striped-bg: #243143;
+                --bs-table-hover-color: #fff;
+                --bs-table-hover-bg: #2d3b50;
+                color: #e2e8f0;
+                border-color: #374151;
+            }
+
+            html.app-skin-dark .table> :not(caption)>*>* {
+                background-color: var(--bs-table-bg);
+                color: var(--bs-table-color);
+                border-bottom-color: var(--bs-table-border-color);
+            }
+
+            html.app-skin-dark .table-light,
+            html.app-skin-dark .table-light>th,
+            html.app-skin-dark .table-light>td,
+            html.app-skin-dark thead.table-light th {
+                --bs-table-bg: #273449;
+                --bs-table-color: #f1f5f9;
+                color: #f1f5f9 !important;
+            }
+
+            html.app-skin-dark .border,
+            html.app-skin-dark .border-top,
+            html.app-skin-dark .border-bottom,
+            html.app-skin-dark hr {
+                border-color: #374151 !important;
+            }
+
+            html.app-skin-dark .modal-header,
+            html.app-skin-dark .modal-footer {
+                border-color: #374151;
+            }
+
+            html.app-skin-dark #quickDock {
+                background: rgba(31, 41, 55, .94);
+                border-color: rgba(148, 163, 184, .25);
+                color: #f1f5f9;
+            }
+
+            html.app-skin-dark #quickDock .dock-title,
+            html.app-skin-dark #quickDock .dock-item,
+            html.app-skin-dark #quickDock .dock-popup {
+                color: #f1f5f9;
+            }
+
+            html.app-skin-dark #quickDock .dock-popup {
+                background-color: #1f2937;
+                border-color: #374151;
+            }
+
+            html.app-skin-dark #quickDock .dock-toggle {
+                background: #334155;
+                color: #e2e8f0;
+                border-color: #475569;
+            }
+
+            html.app-skin-dark #quickDock .dock-toggle:hover {
+                background: #0d3b66;
+                color: #fff;
+                border-color: #60a5fa;
+            }
+
+            /* DARK MODE FLOATING DOCK */
+            html.app-skin-dark #quickDock .dock-item {
+                background: #334155;
+                color: #e2e8f0;
+                border: 1px solid #475569;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+            }
+
+            html.app-skin-dark #quickDock .dock-item:hover,
+            html.app-skin-dark #quickDock .dock-item.active {
+                background: #0d3b66;
+                color: #ffffff;
+                border-color: #3b82f6;
+            }
+
+            /* Popup nomor kamar - desktop */
+            html.app-skin-dark #quickDock .dock-popup .popup-room {
+                background: #334155;
+                color: #e2e8f0;
+                border: 1px solid #475569;
+            }
+
+            html.app-skin-dark #quickDock .dock-popup .popup-room:hover {
+                background: #0d3b66;
+                color: #ffffff;
+                border-color: #60a5fa;
+            }
+
+            /* Popup nomor kamar - mobile */
+            html.app-skin-dark .mobile-dock-popup {
+                background: #1f2937;
+                border-color: #475569;
+            }
+
+            html.app-skin-dark .mobile-dock-popup .popup-room {
+                background: #334155;
+                color: #e2e8f0;
+                border: 1px solid #475569;
+            }
+
+            html.app-skin-dark .mobile-dock-popup .popup-room:active {
+                background: #0d3b66;
+                color: #ffffff;
+                border-color: #60a5fa;
+            }
+
+            html.app-skin-dark .wbp-item.selected,
+            html.app-skin-dark .kamar-card.selected {
+                border-color: #60a5fa !important;
+            }
+
+            html.app-skin-dark .alert-light {
+                background-color: #273449;
+                color: #e2e8f0;
+                border-color: #3b4759;
+            }
+
+            html.app-skin-dark .btn-close {
+                filter: invert(1) grayscale(100%) brightness(200%);
+            }
+        }
     </style>
 </head>
 
@@ -1238,7 +1840,7 @@
 
             <div class="card-body">
 
-                {{-- ================= HEADER ================= --}}
+                {{-- HEADER --}}
                 <div class="d-flex justify-content-between align-items-start mb-3 page-hunian-header">
 
                     {{-- TITLE --}}
@@ -1301,8 +1903,7 @@
 
                 </div>
 
-
-                {{-- ================= SEARCH ================= --}}
+                {{-- SEARCH  --}}
                 <div class="row page-hunian-search">
 
                     <div class="col-lg-4 col-md-6 position-relative">
@@ -1320,9 +1921,7 @@
 
         </div>
 
-        {{-- =======================
-         CARD VIEW
-        ======================= --}}
+        {{-- CARD VIEW --}}
         <div id="cardView">
             @foreach ($grouped as $blok => $kamars)
                 <div id="blok-{{ $blok }}" class="card shadow-sm mb-4 blok-card"
@@ -1369,26 +1968,17 @@
                                                 BLOK {{ $kamar->kode_blok }} - {{ $kamar->lokasi_sel }}
                                             </h5>
 
-
-                                            <div class="text-muted small">
-
-                                                {{ $kamar->lokasi_sel }}
-                                                &nbsp;•&nbsp;
-                                                Kapasitas {{ $kamar->kapasitas }} Orang
-
-                                            </div>
-
                                         </div>
 
-                                        <div class="d-flex flex-column align-items-end">
-
-                                            <span class="fw-bold mb-2">
-                                                Dipilih :
-                                                <span class="selectedCount">0</span>
-                                                Orang
-                                            </span>
+                                        <div class="d-flex align-items-end">
 
                                             <div class="d-flex align-items-center gap-2">
+
+                                                <span class="fw-bold mb-2">
+                                                    Dipilih :
+                                                    <span class="selectedCount">0</span>
+                                                    Orang
+                                                </span>
 
                                                 <span class="badge {{ $kamar->badge_kapasitas }} fs-6 px-3 py-2">
                                                     {{ $kamar->jumlah_wbp }}/{{ $kamar->kapasitas }} WBP
@@ -1543,10 +2133,7 @@
                 </div>
             @endforeach
 
-            {{-- ==========================================================
-                                LUAR TEMBOK
-            ========================================================== --}}
-
+            {{-- LUAR TEMBOK --}}
             <section id="section-rs" class="card shadow-sm mb-4">
 
                 <div class="card-header bg-danger text-white">
@@ -1801,9 +2388,7 @@
             </section>
         </div>
 
-        {{-- =======================
-        DETAIL VIEW
-        ======================= --}}
+        {{-- DETAIL VIEW --}}
         <div id="detailView" style="display:none;">
 
             {{-- ================= DALAM TEMBOK ================= --}}
@@ -2204,66 +2789,75 @@
 
     <div id="quickDock" class="no-print">
 
-        <div class="dock-section">
+        <button type="button" id="dockToggle" class="dock-toggle" aria-expanded="true"
+            aria-controls="quickDockSections" aria-label="Close Floating Dock" title="Close Floating Dock">
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+        </button>
 
-            <div class="dock-title">
-                🏢 Dalam Tembok
-            </div>
+        <div id="quickDockSections">
 
-            @php
-                $inside = [
-                    'A' => 12,
-                    'B' => 12,
-                    'C' => 12,
-                    'D' => 12,
-                    'E' => 9,
-                    'F' => 9,
-                    'G' => 10,
-                    'H' => 12,
-                    'DAPUR' => 1,
-                    'ISOLASI' => 10,
-                ];
-            @endphp
+            <div class="dock-section">
 
-            @foreach ($inside as $blok => $jumlah)
-                <div class="dock-item" data-block="{{ $blok }}" data-room-count="{{ $jumlah }}">
-
-                    @switch($blok)
-                        @case('DAPUR')
-                            <span>Dapur</span>
-                        @break
-
-                        @case('ISOLASI')
-                            <span>Isolasi</span>
-                        @break
-
-                        @default
-                            <span>{{ $blok }}</span>
-                    @endswitch
-
-                    <div class="dock-popup"></div>
-
+                <div class="dock-title">
+                    🏢 Dalam Tembok
                 </div>
-            @endforeach
 
-        </div>
+                @php
+                    $inside = [
+                        'A' => 12,
+                        'B' => 12,
+                        'C' => 12,
+                        'D' => 12,
+                        'E' => 9,
+                        'F' => 9,
+                        'G' => 10,
+                        'H' => 12,
+                        'DAPUR' => 1,
+                        'ISOLASI' => 10,
+                    ];
+                @endphp
 
-        {{-- ================= LUAR TEMBOK ================= --}}
-        <div class="dock-section ms-4">
+                @foreach ($inside as $blok => $jumlah)
+                    <div class="dock-item" data-block="{{ $blok }}" data-room-count="{{ $jumlah }}">
 
-            <div class="dock-title">
-                🌐 Luar Tembok
+                        @switch($blok)
+                            @case('DAPUR')
+                                <span>Dapur</span>
+                            @break
+
+                            @case('ISOLASI')
+                                <span>Isolasi</span>
+                            @break
+
+                            @default
+                                <span>{{ $blok }}</span>
+                        @endswitch
+
+                        <div class="dock-popup"></div>
+
+                    </div>
+                @endforeach
+
             </div>
 
-            <div class="dock-item dock-link" data-target="section-rs">
-                🏥 <span>RS</span>
+            {{-- ================= LUAR TEMBOK ================= --}}
+            <div class="dock-section ms-4">
+
+                <div class="dock-title">
+                    🌐 Luar Tembok
+                </div>
+
+                <div class="dock-item dock-link" data-target="section-rs">
+                    🏥 <span>RS</span>
+                </div>
+
+                <div class="dock-item dock-link" data-target="section-bon">
+                    📄 <span>BON</span>
+                </div>
+
             </div>
 
-            <div class="dock-item dock-link" data-target="section-bon">
-                📄 <span>BON</span>
-            </div>
-
-        </div>
+        </div>{{-- /quickDockSections --}}
 
     </div>
 
@@ -2306,10 +2900,7 @@
                 setView("detail");
             });
 
-            // =========================
             // RESTORE SETELAH RELOAD
-            // =========================
-
             const savedView = sessionStorage.getItem("mutasiViewMode");
 
             if (savedView) {
@@ -2318,7 +2909,6 @@
             }
 
         }
-
 
         // RESTORE POSISI SCROLL
         document.addEventListener("DOMContentLoaded", function() {
@@ -2532,11 +3122,7 @@
                         .getInstance(document.getElementById("modalPindah"))
                         .hide();
 
-                    // =========================
                     // SIMPAN STATE SEBELUM RELOAD
-                    // =========================
-
-                    // Simpan view yang sedang aktif
                     const currentView = detailView.style.display !== "none" ?
                         "detail" :
                         "card";
@@ -2887,12 +3473,11 @@
                     card.classList.add("room-highlight");
 
                     clearTimeout(highlightTimer);
-
+                    // Highlight kamar sementara; status navigasi aktif tetap terlihat.
                     highlightTimer = setTimeout(function() {
                         card.classList.remove("room-highlight");
-                        item.classList.remove("active");
                         activeHighlight = null;
-                    }, 1000);
+                    }, 1400);
                 };
                 popup.appendChild(btn);
             }
@@ -2934,16 +3519,11 @@
                 target.classList.add("section-highlight");
 
                 clearTimeout(sectionTimer);
-
+                // Highlight bagian sementara; status navigasi aktif tetap terlihat.
                 sectionTimer = setTimeout(function() {
-
                     target.classList.remove("section-highlight");
-
-                    item.classList.remove("active");
-
                     activeSection = null;
-
-                }, 1000);
+                }, 1400);
 
             });
 
@@ -2951,217 +3531,150 @@
 
         // FLOATING DOCK MOBILE JS
         (function() {
-
             const quickDock = document.getElementById("quickDock");
-
             if (!quickDock) return;
 
+            const dockToggle = document.getElementById("dockToggle");
             const isMobile = () => window.innerWidth <= 768;
 
             let mobilePopup = null;
             let activeMobileBlock = null;
+            let popupHome = null;
+            let popupNextSibling = null;
 
+            function openMobilePopup(item) {
+                const popup = item.querySelector(".dock-popup");
+                if (!popup) return;
 
-            // CREATE GLOBAL POPUP
-            function createMobilePopup() {
+                // Tutup popup sebelumnya sebelum membuka yang baru.
+                closeMobilePopup();
 
-                if (mobilePopup) return;
+                popupHome = item;
+                popupNextSibling = popup.nextSibling;
+                mobilePopup = popup;
+                activeMobileBlock = item.dataset.block;
 
-                mobilePopup = document.createElement("div");
+                // Lepaskan popup dari ancestor dock agar posisi fixed
+                // benar-benar dihitung terhadap viewport.
+                document.body.appendChild(popup);
 
-                mobilePopup.id = "mobileDockPopup";
-                mobilePopup.className = "mobile-dock-popup";
+                popup.classList.add("mobile-popup-open");
 
-                document.body.appendChild(mobilePopup);
+                // Reset inline position lama jika pernah diubah handler resize.
+                popup.style.removeProperty("left");
+                popup.style.removeProperty("right");
+                popup.style.removeProperty("bottom");
+                popup.style.removeProperty("top");
+                popup.style.removeProperty("transform");
+
+                item.classList.add("active");
             }
 
-            // CLOSE POPUP
             function closeMobilePopup() {
-
                 if (!mobilePopup) return;
 
-                mobilePopup.classList.remove("show");
+                const popup = mobilePopup;
+                const home = popupHome;
+                const nextSibling = popupNextSibling;
 
-                activeMobileBlock = null;
-            }
+                popup.classList.remove("mobile-popup-open");
 
-            // OPEN POPUP
-            function openMobilePopup(item) {
+                // Kembalikan popup ke posisi DOM semula.
+                if (home) {
+                    if (nextSibling && nextSibling.parentNode === home) {
+                        home.insertBefore(popup, nextSibling);
+                    } else {
+                        home.appendChild(popup);
+                    }
 
-                if (!isMobile()) return;
-
-                createMobilePopup();
-
-                const block = item.dataset.block;
-                const total = Number(item.dataset.roomCount);
-
-                if (!block || !total) return;
-
-                activeMobileBlock = block;
-
-                mobilePopup.innerHTML = "";
-
-                // GENERATE ROOM BUTTON
-                for (let i = 1; i <= total; i++) {
-
-                    const button = document.createElement("div");
-
-                    button.className = "popup-room";
-
-                    button.textContent = i;
-
-
-                    button.addEventListener("click", function(e) {
-
-                        e.stopPropagation();
-
-                        const prefix =
-                            detailView.style.display !== "none" ?
-                            "room-detail-" :
-                            "room-card-";
-
-
-                        let targetId;
-
-
-                        if (block === "DAPUR") {
-
-                            targetId = prefix + "DAPUR-1";
-
-                        } else if (block === "ISOLASI") {
-
-                            targetId = prefix + "ISOLASI-" + i;
-
-                        } else {
-
-                            targetId = prefix + block + "-" + i;
-
-                        }
-
-
-                        const card = document.getElementById(targetId);
-
-                        if (!card) return;
-
-                        // REMOVE OLD HIGHLIGHT
-                        if (activeHighlight) {
-                            activeHighlight.classList.remove("room-highlight");
-                        }
-
-                        activeHighlight = card;
-
-                        // SCROLL
-                        card.scrollIntoView({
-                            behavior: "smooth",
-                            block: "center"
-                        });
-
-                        card.classList.add("room-highlight");
-
-                        closeMobilePopup();
-
-
-                        clearTimeout(highlightTimer);
-
-                        highlightTimer = setTimeout(function() {
-
-                            card.classList.remove("room-highlight");
-
-                            item.classList.remove("active");
-
-                            activeHighlight = null;
-
-                        }, 1000);
-
-                    });
-
-
-                    mobilePopup.appendChild(button);
+                    home.classList.remove("active");
                 }
 
-                mobilePopup.classList.add("show");
+                popup.style.removeProperty("left");
+                popup.style.removeProperty("right");
+                popup.style.removeProperty("bottom");
+                popup.style.removeProperty("top");
+                popup.style.removeProperty("transform");
+
+                mobilePopup = null;
+                activeMobileBlock = null;
+                popupHome = null;
+                popupNextSibling = null;
             }
 
-            // MOBILE DOCK CLICK
-            quickDock.addEventListener("click", function(e) {
 
+            if (dockToggle) {
+                dockToggle.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const collapsed = quickDock.classList.toggle("is-collapsed");
+                    dockToggle.setAttribute("aria-expanded", String(!collapsed));
+                    dockToggle.setAttribute("aria-label", collapsed ? "Open Floating Dock" :
+                        "Close Floating Dock");
+                    dockToggle.title = collapsed ? "Open Floating Dock" : "Close Floating Dock";
+                    dockToggle.innerHTML = collapsed ?
+                        '<i class="bi bi-chevron-up" aria-hidden="true"></i>' :
+                        '<i class="bi bi-chevron-down" aria-hidden="true"></i>';
+                    if (mobilePopup) mobilePopup.classList.remove("show");
+                });
+            }
+
+
+            quickDock.addEventListener("click", function(e) {
                 if (!isMobile()) return;
 
-                const item = e.target.closest(
-                    ".dock-item[data-block]"
-                );
-
-                if (!item) return;
+                const item = e.target.closest(".dock-item[data-block]");
+                if (!item || !quickDock.contains(item)) return;
 
                 e.preventDefault();
                 e.stopPropagation();
 
                 const block = item.dataset.block;
 
-                // SAME BLOCK
+                // Klik tombol yang sama akan menutup popup.
                 if (
                     mobilePopup &&
-                    mobilePopup.classList.contains("show") &&
                     activeMobileBlock === block
                 ) {
-
-                    item.classList.remove("active");
-
                     closeMobilePopup();
-
                     return;
                 }
 
-                // RESET ACTIVE DOCK
-                document.querySelectorAll(
-                    "#quickDock .dock-item"
-                ).forEach(function(dock) {
+                // Bersihkan status aktif dock lainnya.
+                quickDock
+                    .querySelectorAll(".dock-item.active")
+                    .forEach(function(dock) {
+                        dock.classList.remove("active");
+                    });
 
-                    dock.classList.remove("active");
-
-                });
-
-                // ACTIVE BLOCK
-                item.classList.add("active");
-
-                // OPEN POPUP
                 openMobilePopup(item);
-
             });
 
-            // CLICK OUTSIDE
             document.addEventListener("click", function(e) {
+                if (!isMobile() || !mobilePopup) return;
 
-                if (!isMobile()) return;
+                // Klik di dalam popup tidak menutup popup.
+                if (mobilePopup.contains(e.target)) return;
 
-                if (!mobilePopup) return;
-
-                if (!mobilePopup.classList.contains("show")) return;
-
-
-                if (mobilePopup.contains(e.target)) {
-                    return;
-                }
-
-
-                if (e.target.closest("#quickDock")) {
-                    return;
-                }
-
+                // Klik tombol dock ditangani oleh listener quickDock.
+                if (e.target.closest("#quickDock")) return;
 
                 closeMobilePopup();
-
             });
 
-            // RESIZE
             window.addEventListener("resize", function() {
-
+                // Tidak perlu menghitung ulang koordinat popup:
+                // posisi horizontal selalu 50% dari viewport.
                 if (!isMobile()) {
                     closeMobilePopup();
                 }
-
             });
 
+            window.addEventListener("orientationchange", function() {
+                if (!isMobile()) {
+                    closeMobilePopup();
+                }
+            });
         })();
     </script>
 

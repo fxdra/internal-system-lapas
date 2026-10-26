@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class HaloMinnaController extends Controller
 {
@@ -81,8 +81,15 @@ class HaloMinnaController extends Controller
                 ]
             );
 
-            // Hanya field dari bagian yang dikirim yang diperbarui.
             $registrasi->fill($validated);
+
+            /** Tanggal pelaksanaan dihitung saat Monitoring SDP & SK disimpan. */
+            if ($bagian === 'sdp_sk') {
+                $registrasi->tgl_pelaksanaan = $this->hitungTanggalPelaksanaan(
+                    $registrasi->tgl_otorisasi_sk?->format('Y-m-d')
+                );
+            }
+
             $registrasi->save();
 
             return $registrasi;
@@ -201,7 +208,6 @@ class HaloMinnaController extends Controller
             ],
 
             'tahap_akhir' => [
-                'tgl_pelaksanaan' => $tanggal,
                 'tgl_pembebasan' => $tanggal,
                 'status_bebas' => [
                     'required',
@@ -260,5 +266,38 @@ class HaloMinnaController extends Controller
         throw new \RuntimeException(
             'Gagal membuat kode akses unik. Silakan coba lagi.'
         );
+    }
+
+    private function hitungTanggalPelaksanaan(?string $tanggalSk): ?string
+    {
+        if (!$tanggalSk) {
+            return null;
+        }
+
+        $tanggalSk = Carbon::parse($tanggalSk)->startOfDay();
+
+        // Jika SK turun pada hari kerja biasa dan bukan hari libur,
+        // pelaksanaan menggunakan tanggal yang sama.
+        $tanggalPelaksanaan = $tanggalSk->copy();
+
+        $hariLibur = function (Carbon $tanggal): bool {
+            return DB::table('kalender_libur')
+                ->whereDate('tanggal', $tanggal->toDateString())
+                ->exists();
+        };
+
+        if ($tanggalPelaksanaan->isWeekend() || $hariLibur($tanggalPelaksanaan)) {
+            $tanggalPelaksanaan->addDay();
+
+            // Lewati weekend, libur nasional, dan cuti bersama.
+            while (
+                $tanggalPelaksanaan->isWeekend()
+                || $hariLibur($tanggalPelaksanaan)
+            ) {
+                $tanggalPelaksanaan->addDay();
+            }
+        }
+
+        return $tanggalPelaksanaan->toDateString();
     }
 }

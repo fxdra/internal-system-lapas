@@ -32,11 +32,22 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withCommands([
         App\Console\Commands\DownloadWbpFoto::class,
         App\Console\Commands\UpdateSelMaksimumStatus::class,
+        App\Console\Commands\Kuota::class,
+        App\Console\Commands\HapusKuota::class,
     ])
 
     ->withSchedule(function ($schedule): void {
         $schedule->command('kamar:update-sel-maksimum')
-            ->dailyAt('00:01');
+            ->dailyAt('00:01')
+            ->timezone('Asia/Jakarta');
+
+        $schedule->command('antrian:kuota')
+            ->dailyAt('00:05')
+            ->timezone('Asia/Jakarta');
+
+        $schedule->command('antrian:hapus-kuota')
+            ->dailyAt('00:05')
+            ->timezone('Asia/Jakarta');
     })
 
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -200,7 +200,7 @@
         }
 
 
-        /* ================= DARK THEME HALO MINNA ================= */
+        /* DARK THEME HALO MINNA */
         html.app-skin-dark .table thead th {
             background: #0f172a !important;
             color: #cbd5e1 !important;
@@ -311,6 +311,33 @@
             color: #ffffff !important;
         }
 
+        /* DARK THEME - DROPDOWN HALO MINNA */
+        html.app-skin-dark .halo-minna-page .form-select {
+            background-color: #111827 !important;
+            color: #e2e8f0 !important;
+            border-color: #374151 !important;
+            color-scheme: dark;
+        }
+
+        /* OPTION DROPDOWN */
+        html.app-skin-dark .halo-minna-page .form-select option {
+            background-color: #1f2937 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* OPTION YANG DIPILIH / HOVER */
+        html.app-skin-dark .halo-minna-page .form-select option:checked {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+        }
+
+        /* FOCUS DROPDOWN */
+        html.app-skin-dark .halo-minna-page .form-select:focus {
+            background-color: #111827 !important;
+            color: #e2e8f0 !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 .2rem rgba(59, 130, 246, .2) !important;
+        }
 
         @media (max-width: 575.98px) {
             .halo-minna-page .card-body {
@@ -847,8 +874,13 @@
                                     Pelaksanaan
                                 </label>
 
-                                <input type="date" name="tgl_pelaksanaan" id="tgl_pelaksanaan" class="form-control"
-                                    value="{{ old('tgl_pelaksanaan', $data?->tgl_pelaksanaan?->format('Y-m-d')) }}">
+                                <input type="date" id="tgl_pelaksanaan" class="form-control"
+                                    value="{{ old('tgl_pelaksanaan', $data?->tgl_pelaksanaan?->format('Y-m-d')) }}"
+                                    readonly>
+
+                                <div class="form-text">
+                                    Tanggal pelaksanaan menyesuaikan hari kerja berdasarkan tanggal SK Turun.
+                                </div>
                             </div>
 
                             <div class="col-12 col-md-6">
