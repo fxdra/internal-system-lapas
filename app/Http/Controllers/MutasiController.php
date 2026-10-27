@@ -815,12 +815,27 @@ class MutasiController extends Controller
                 'alasan'             => 'Mutasi kamar'
             ]);
 
-            // Update data WBP
+
+            // Tentukan apakah kamar tujuan adalah Sel Maksimum.
+            $kamarTujuanSelMaksimum =
+                $kamar->kode_blok === 'B'
+                && in_array($kamar->lokasi_sel, [
+                    'KAMAR 7',
+                    'KAMAR 8',
+                    'KAMAR 9',
+                    'KAMAR 10',
+                    'KAMAR 11',
+                    'KAMAR 12',
+                ], true);
+
+            // Update data WBP.
             $wbp->update([
                 'kamar_id'     => $kamar->id,
                 'lokasi_blok'  => $kamar->lokasi_blok,
                 'lokasi_sel'   => $kamar->lokasi_sel,
-                'status_kamar' => $kamar->status_kamar,
+                'status_kamar' => $kamarTujuanSelMaksimum
+                    ? 'Tertutup'
+                    : $kamar->status_kamar,
             ]);
         }
 

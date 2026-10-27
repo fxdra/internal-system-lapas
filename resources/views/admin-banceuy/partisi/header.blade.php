@@ -45,16 +45,18 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="dropdown nxl-h-item">
                     <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">
-                        <img src="../../../assets/images/avatar/1.png" alt="user-image"
+                        <img src="{{ asset('assets/images/avatar/logo-pemasyarakatan.png') }}" alt="Logo Pemasyarakatan"
                             class="img-fluid user-avtar me-0" />
                     </a>
+
                     <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-user-dropdown">
                         <div class="dropdown-header">
                             <div class="d-flex align-items-center">
-                                <img src="../../../assets/images/avatar/1.png" alt="user-image"
-                                    class="img-fluid user-avtar" />
+                                <img src="{{ asset('assets/images/avatar/logo-pemasyarakatan.png') }}"
+                                    alt="Logo Pemasyarakatan" class="img-fluid user-avtar" />
                                 <div>
                                     <h6 class="text-dark mb-0">{{ auth('admin')->user()->nama }}<span
                                             class="badge bg-soft-success text-success ms-1">PRO</span></h6>

@@ -46,32 +46,18 @@ class KamarController extends Controller
         })
             ->get();
 
-        /*
-    |--------------------------------------------------------------------------
-    | SORT BERDASARKAN KODE BLOK + NOMOR KAMAR
-    |--------------------------------------------------------------------------
-    */
-
+        // SORT BERDASARKAN KODE BLOK + NOMOR KAMAR
         $kamar = $kamar->sort(function ($a, $b) {
 
-            /*
-        |--------------------------------------------------------------------------
-        | SORT KODE BLOK (A, B, C, D, ...)
-        |--------------------------------------------------------------------------
-        */
-
+            //SORT KODE BLOK (A, B, C, D, ...)
             $kode = strcmp($a->kode_blok, $b->kode_blok);
 
             if ($kode !== 0) {
                 return $kode;
             }
 
-            /*
-        |--------------------------------------------------------------------------
-        | SORT NATURAL NOMOR KAMAR
-        |--------------------------------------------------------------------------
-        */
 
+            // SORT NATURAL NOMOR KAMAR
             preg_match('/(\d+)/', $a->lokasi_sel, $ma);
             preg_match('/(\d+)/', $b->lokasi_sel, $mb);
 
@@ -81,23 +67,15 @@ class KamarController extends Controller
             return $aNo <=> $bNo;
         })->values();
 
-        /*
-        |--------------------------------------------------------------------------
-        | SEMUA KAMAR UNTUK DROPDOWN
-        |--------------------------------------------------------------------------
-        */
 
+        // SEMUA KAMAR UNTUK DROPDOWN
         $kamarUntukSelect = Kamar::orderBy('kode_blok')
             ->orderBy('lokasi_sel')
             ->get()
             ->sort(function ($a, $b) {
 
-                /*
-        |--------------------------------------------------------------------------
-        | SORT BERDASARKAN KODE BLOK
-        |--------------------------------------------------------------------------
-        */
 
+                // SORT BERDASARKAN KODE BLOK
                 $kode = strcmp(
                     $a->kode_blok,
                     $b->kode_blok
@@ -107,12 +85,7 @@ class KamarController extends Controller
                     return $kode;
                 }
 
-                /*
-        |--------------------------------------------------------------------------
-        | SORT NATURAL NOMOR KAMAR
-        |--------------------------------------------------------------------------
-        */
-
+                // SORT NATURAL NOMOR KAMAR
                 preg_match(
                     '/(\d+)/',
                     $a->lokasi_sel ?? '',
@@ -137,12 +110,7 @@ class KamarController extends Controller
             })
             ->values();
 
-        /*
-        |--------------------------------------------------------------------------
-        | PAGINATION
-        |--------------------------------------------------------------------------
-        */
-
+        //PAGINATION
         $perPage = 10;
 
         $page = LengthAwarePaginator::resolveCurrentPage();

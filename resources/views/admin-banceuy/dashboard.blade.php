@@ -969,8 +969,13 @@
                 <div class="mini-muted">Monitoring WBP & Kamar</div>
             </div>
             <div class="d-flex gap-2">
-                <a href="{{ url('/admin-banceuy/laporan-data-wbp') }}" class="btn btn-outline-dark btn-sm">👤 WBP</a>
-                <a href="{{ url('/admin-banceuy/laporan-data-kamar') }}" class="btn btn-outline-primary btn-sm">🏠 Kamar</a>
+                <a href="{{ url('/admin-banceuy/laporan-data-wbp') }}" class="btn btn-outline-dark btn-sm">
+                    <i class="bi bi-people-fill me-1"></i> WBP
+                </a>
+
+                <a href="{{ url('/admin-banceuy/laporan-data-kamar') }}" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-house-door-fill me-1"></i> Kamar
+                </a>
             </div>
         </div>
         {{-- ===================== STAT WBP + KAMAR ===================== --}}
@@ -1111,18 +1116,58 @@
                         <div class="operational-list">
                             @forelse($operationalAlerts as $alert)
                                 <div class="operational-item">
-                                    <span
-                                        class="
-                                        operational-indicator
-                                        operational-indicator-{{ $alert['level'] }}
-                                    "></span>
+                                    <span class="operational-indicator operational-indicator-{{ $alert['level'] }}"></span>
+
                                     <div class="operational-content">
                                         <div class="operational-title">
                                             {{ $alert['title'] }}
                                         </div>
+
                                         <div class="operational-message">
                                             {{ $alert['message'] }}
                                         </div>
+
+                                        @if (($alert['type'] ?? '') === 'sel_maksimum')
+                                            <div class="mt-3">
+                                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                                    data-bs-toggle="collapse" data-bs-target="#daftarSelMaksimumPending"
+                                                    aria-expanded="false" aria-controls="daftarSelMaksimumPending">
+                                                    Lihat Daftar WBP
+                                                </button>
+
+                                                <div class="collapse mt-3" id="daftarSelMaksimumPending">
+                                                    <div class="form-check mb-2">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="pilihSemuaSelMaksimum">
+                                                        <label class="form-check-label" for="pilihSemuaSelMaksimum">
+                                                            Pilih semua
+                                                        </label>
+                                                    </div>
+
+                                                    @foreach ($selMaksimumPending as $riwayat)
+                                                        <div class="form-check mb-2">
+                                                            <input type="checkbox"
+                                                                class="form-check-input sel-maksimum-checkbox"
+                                                                id="selMaksimum{{ $riwayat->id }}"
+                                                                value="{{ $riwayat->id }}">
+
+                                                            <label class="form-check-label"
+                                                                for="selMaksimum{{ $riwayat->id }}">
+                                                                {{ $riwayat->wbp->nama ?? 'Nama WBP tidak tersedia' }}
+                                                                — Sel {{ $riwayat->kamar->lokasi_sel ?? '-' }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+
+                                                    <button type="button" class="btn btn-primary btn-sm mt-2"
+                                                        id="btnVerifikasiMassal">
+                                                        Verifikasi WBP Terpilih
+                                                    </button>
+
+                                                    <div id="hasilVerifikasiMassal" class="mt-2 small"></div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             @empty
@@ -1130,6 +1175,7 @@
                                     Tidak ada perhatian operasional saat ini.
                                 </div>
                             @endforelse
+
                         </div>
                     </div>
                 </div>
@@ -1256,7 +1302,11 @@
         <div class="row g-3 mb-4">
             <div class="col-md-12">
                 <div class="card card-dashboard">
-                    <div class="card-header">⚖️ Jenis Kejahatan</div>
+                    <div class="card-header d-flex align-items-center justify-content-start gap-2">
+                        <span>
+                            <i class="bi bi-shield-exclamation"></i> Jenis Kejahatan
+                        </span>
+                    </div>
                     <div class="card-body">
                         <canvas id="chartKejahatan"></canvas>
                     </div>
@@ -1269,7 +1319,9 @@
             <div class="col-md-12">
                 <div class="card card-dashboard h-100">
                     <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
-                        <span>🔄 Perpindahan WBP per Blok</span>
+                        <span>
+                            <i class="bi bi-arrow-left-right me-1"></i> Perpindahan WBP per Blok
+                        </span>
                         <div class="d-flex align-items-center gap-2">
                             <select id="filterMutasi" class="form-select form-select-sm" style="width:160px">
                                 <option value="" {{ empty($filter) ? 'selected' : '' }}>
@@ -1366,6 +1418,7 @@
                 }
             });
         </script>
+
         <script>
             $(function() {
                 $("#tanggalMutasi").datepicker({
@@ -1400,6 +1453,7 @@
                 });
             });
         </script>
+
         {{-- MOBILE KAMAR TERTUTUP --}}
         <script>
             document.addEventListener('click', function(e) {
@@ -1410,6 +1464,7 @@
                 card.classList.toggle('is-open');
             });
         </script>
+
         <script>
             $(function() {
                 $("#tanggalMutasi").datepicker({
@@ -1440,6 +1495,75 @@
                     let tanggal = $(this).val();
                     if (tanggal !== "") {
                         window.location.href = "{{ route('dashboard') }}?filter=date&tanggal=" + tanggal;
+                    }
+                });
+            });
+        </script>
+
+        {{-- VERIFIKASI SEL MAKSIMUM --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const pilihSemua = document.getElementById('pilihSemuaSelMaksimum');
+                const tombol = document.getElementById('btnVerifikasiMassal');
+                const hasil = document.getElementById('hasilVerifikasiMassal');
+
+                if (!pilihSemua || !tombol || !hasil) return;
+
+                const getCheckboxes = () =>
+                    Array.from(document.querySelectorAll('.sel-maksimum-checkbox'));
+
+                pilihSemua.addEventListener('change', function() {
+                    getCheckboxes().forEach(function(checkbox) {
+                        checkbox.checked = pilihSemua.checked;
+                    });
+                });
+
+                tombol.addEventListener('click', async function() {
+                    const ids = getCheckboxes()
+                        .filter(checkbox => checkbox.checked)
+                        .map(checkbox => checkbox.value);
+
+                    if (ids.length === 0) {
+                        hasil.textContent = 'Pilih minimal satu WBP.';
+                        return;
+                    }
+
+                    if (!confirm(`Verifikasi ${ids.length} WBP yang dipilih?`)) {
+                        return;
+                    }
+
+                    tombol.disabled = true;
+                    hasil.textContent = 'Memproses verifikasi...';
+
+                    try {
+                        const response = await fetch(
+                            @json(route('sel-maksimum.verifikasi-massal')), {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector(
+                                        'meta[name="csrf-token"]'
+                                    )?.content ?? ''
+                                },
+                                body: JSON.stringify({
+                                    ids
+                                })
+                            }
+                        );
+
+                        const data = await response.json();
+
+                        if (!response.ok || !data.success) {
+                            throw new Error(data.message || 'Verifikasi gagal.');
+                        }
+
+                        hasil.textContent = data.message;
+                        window.location.reload();
+                    } catch (error) {
+                        hasil.textContent = error.message || 'Terjadi kesalahan.';
+                    } finally {
+                        tombol.disabled = false;
                     }
                 });
             });

@@ -270,9 +270,75 @@ class DataWbpController extends Controller
         ]);
     }
 
+
     public function detail($id)
     {
         $data = Wbp::with('kamar')->findOrFail($id);
+
+        $lokasiSelMaksimum = [
+            'KAMAR 7',
+            'KAMAR 8',
+            'KAMAR 9',
+            'KAMAR 10',
+            'KAMAR 11',
+            'KAMAR 12',
+        ];
+
+        $isSelMaksimum = $data->kamar
+            && $data->kamar->kode_blok === 'B'
+            && in_array(
+                strtoupper(trim((string) $data->kamar->lokasi_sel)),
+                $lokasiSelMaksimum,
+                true
+            );
+
+        $infoIsolasi = [
+            'is_sel_maksimum' => (bool) $isSelMaksimum,
+            'punya_riwayat' => false,
+            'tgl_masuk' => null,
+            'tgl_keluar' => null,
+            'batas_14_hari' => null,
+            'sisa_hari' => null,
+            'masa_tunggu_selesai' => false,
+            'sudah_diverifikasi' => false,
+            'diverifikasi_pada' => null,
+        ];
+
+        if ($isSelMaksimum) {
+            $riwayat = DB::table('wbp_isolasi_histories')
+                ->where('wbp_id', $data->id)
+                ->whereNull('tgl_keluar_isolasi')
+                ->orderByDesc('tgl_masuk_isolasi')
+                ->first();
+
+            if ($riwayat) {
+                $sekarang = now();
+                $batas14Hari = Carbon::parse(
+                    $riwayat->tgl_masuk_isolasi
+                )->addDays(14);
+
+                $masaTungguSelesai = $batas14Hari->lte($sekarang);
+
+                $sisaHari = $masaTungguSelesai
+                    ? 0
+                    : (int) ceil(
+                        $sekarang->diffInSeconds($batas14Hari) / 86400
+                    );
+
+                $infoIsolasi = [
+                    'is_sel_maksimum' => true,
+                    'punya_riwayat' => true,
+                    'tgl_masuk' => $riwayat->tgl_masuk_isolasi,
+                    'tgl_keluar' => $riwayat->tgl_keluar_isolasi,
+                    'batas_14_hari' => $batas14Hari->toDateTimeString(),
+                    'sisa_hari' => $sisaHari,
+                    'masa_tunggu_selesai' => $masaTungguSelesai,
+                    'sudah_diverifikasi' => $riwayat->diverifikasi_pada !== null,
+                    'diverifikasi_pada' => $riwayat->diverifikasi_pada,
+                ];
+            }
+        }
+
         return response()->json([
             'id' => $data->id,
             'nama' => $data->nama,
@@ -281,29 +347,38 @@ class DataWbpController extends Controller
             'sel' => $data->kamar->lokasi_sel ?? '-',
             'total_bulan_remisi' => $data->total_bulan_remisi,
             'total_hari_remisi' => $data->total_hari_remisi,
-            // perkara
+
+            // Perkara
             'pasal' => $data->pasal,
             'putusan' => $data->putusan,
             'putusan_bulan' => $data->putusan_bulan,
-            // pidana subsider
+
+            // Pidana subsider
             'subsider_tahun' => $data->subsider_tahun,
             'subsider_bulan' => $data->subsider_bulan,
             'subsider_hari' => $data->subsider_hari,
-            // denda subsider
+
+            // Denda subsider
             'denda_subsider' => $data->denda_subsider,
-            // ekspirasi
+
+            // Ekspirasi
             'ekspirasi' => $data->ekspirasi,
-            // status WBP
+
+            // Status WBP dan kamar
             'status_wbp' => $data->status_wbp,
-            // status kamar
             'status_kamar' => $data->status_kamar,
             'tanggal' => $data->tanggal,
             'keterangan' => $data->keterangan,
             'jenis_kejahatan' => $data->jenis_kejahatan,
-            // foto wbp
+
+            // Informasi Sel Maksimum
+            'isolasi' => $infoIsolasi,
+
+            // Foto WBP
             'foto_wbp' => $data->foto_wbp,
         ]);
     }
+
 
     public function getBlok()
     {
@@ -945,10 +1020,24 @@ class DataWbpController extends Controller
             'alasan' => 'Mutasi kamar'
         ]);
         // update semua field terkait
+        $kamarTujuanSelMaksimum =
+            $kamar->kode_blok === 'B'
+            && in_array($kamar->lokasi_sel, [
+                'KAMAR 7',
+                'KAMAR 8',
+                'KAMAR 9',
+                'KAMAR 10',
+                'KAMAR 11',
+                'KAMAR 12',
+            ], true);
+
         $wbp->kamar_id     = $kamar->id;
         $wbp->lokasi_blok  = $kamar->lokasi_blok;
         $wbp->lokasi_sel   = $kamar->lokasi_sel;
-        $wbp->status_kamar = $kamar->status_kamar;
+        $wbp->status_kamar = $kamarTujuanSelMaksimum
+            ? 'Tertutup'
+            : $kamar->status_kamar;
+
         $wbp->save();
         return response()->json([
             'success' => true,

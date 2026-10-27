@@ -81,6 +81,7 @@ Route::get('/admin/kunjungan/{id}/detail', [PengunjungController::class, 'detail
 Route::middleware('admin')->group(function () {
     //Dashboard
     Route::get('/admin-banceuy', [AdminController::class, 'index'])->name('dashboard');
+    Route::post('/admin-banceuy/sel-maksimum/verifikasi-massal', [AdminController::class, 'verifikasiMassalSelMaksimum'])->name('sel-maksimum.verifikasi-massal');
     Route::get('/admin/notifications', [AdminController::class, 'getNotifications']);
     Route::get('/logout', [AdminController::class, 'logout']);
     //Data WBP & Data Mutasi

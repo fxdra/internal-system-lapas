@@ -2591,20 +2591,20 @@
                             <div class="wbp-grid">
                 `;
                         $.each(res.data, function(i, w) {
-                            let foto = '';
-                            if (w.has_foto) {
-                                foto = `
+                                let foto = '';
+                                if (w.has_foto) {
+                                    foto = `
                                     <img src="/${w.foto_wbp}" alt="Foto WBP">
                                     `;
-                            } else {
-                                foto = `
+                                } else {
+                                    foto = `
                                     <div class="wbp-card-photo-empty"></div>
                                     `;
-                            }
-                            // ================= STATUS BADGE =================
-                            let statusBadge = '';
-                            if (w.status_kamar === 'Terbuka') {
-                                statusBadge = `
+                                }
+                                // ================= STATUS BADGE =================
+                                let statusBadge = '';
+                                if (w.status_kamar === 'Terbuka') {
+                                    statusBadge = `
                             <span style="
                                 display:inline-block;
                                 padding:5px 10px;
@@ -2617,8 +2617,8 @@
                                 Terbuka
                             </span>
                         `;
-                            } else if (w.status_kamar === 'Tertutup') {
-                                statusBadge = `
+                                } else if (w.status_kamar === 'Tertutup') {
+                                    statusBadge = `
                             <span style="
                                 display:inline-block;
                                 padding:5px 10px;
@@ -2631,27 +2631,27 @@
                                 Tertutup
                             </span>
                         `;
-                            }
-                            // ================= AUDIT BADGE =================
-                            let auditBadge = '';
-                            if (w.duplicate_no_reg) {
-                                auditBadge += `<span class="badge bg-danger">No Reg Duplikat</span>`;
-                            }
-                            if (w.duplicate_nama) {
-                                auditBadge +=
-                                    `<span class="badge bg-warning text-dark">Nama Duplikat</span>`;
-                            }
-                            if (!w.has_foto) {
-                                auditBadge += `<span class="badge bg-secondary">Belum Ada Foto</span>`;
-                            }
-                            if (!w.ekspirasi) {
-                                auditBadge +=
-                                    `<span class="badge bg-info text-dark">Ekspirasi Kosong</span>`;
-                            }
-                            if (w.is_data_complete) {
-                                auditBadge += `<span class="badge bg-success">Data Lengkap</span>`;
-                            }
-                            html += `
+                                }
+                                // ================= AUDIT BADGE =================
+                                let auditBadge = '';
+                                if (w.duplicate_no_reg) {
+                                    auditBadge += `<span class="badge bg-danger">No Reg Duplikat</span>`;
+                                }
+                                if (w.duplicate_nama) {
+                                    auditBadge +=
+                                        `<span class="badge bg-warning text-dark">Nama Duplikat</span>`;
+                                }
+                                if (!w.has_foto) {
+                                    auditBadge += `<span class="badge bg-secondary">Belum Ada Foto</span>`;
+                                }
+                                if (!w.ekspirasi) {
+                                    auditBadge +=
+                                        `<span class="badge bg-info text-dark">Ekspirasi Kosong</span>`;
+                                }
+                                if (w.is_data_complete) {
+                                    auditBadge += `<span class="badge bg-success">Data Lengkap</span>`;
+                                }
+                                html += `
                         <div class="main-row d-flex gap-3 align-items-start shadow-lg">
                             <div class="position-absolute top-0 end-0 m-2 d-flex flex-column align-items-end gap-1">
                                 ${auditBadge}
@@ -2671,10 +2671,14 @@
                                 <div class="d-flex gap-2 action-buttons">
                                     ${
                                         fullAccess
-                                        ? `
-                                                                                                    <button class="action-btn btn-detail" data-id="${w.id}"> Detail </button>
-                                                                                                    <button class="action-btn btn-delete" data-id="${w.id}"> Hapus </button>
-                                                                                                `
+                                            ? `
+                                                <button class="action-btn btn-detail" data-id="${w.id}">
+                                                    Detail
+                                                </button>
+                                                <button class="action-btn btn-delete" data-id="${w.id}">
+                                                    Hapus
+                                                </button>
+                                            `
                                         : ''
                                     }
                                 </div>
@@ -2683,37 +2687,41 @@
                     `;
                         });
                         html += `
-                        </div>
-                        <div class="d-flex justify-content-center mt-4">
-                `;
+                            </div>
+                            <div class="d-flex justify-content-center mt-4">
+                        `;
+
                         if (res.current_page > 1) {
                             html += `
-                        <button
-                            class="btn btn-outline-primary me-2 page-btn"
-                            data-page="${res.current_page - 1}">
-                            Prev
-                        </button>
-                    `;
+                                <button
+                                    class="btn btn-outline-primary me-2 page-btn"
+                                    data-page="${res.current_page - 1}">
+                                    Prev
+                                </button>
+                            `;
                         }
+
                         html += `
-                    <span class="align-self-center">
-                        Halaman ${res.current_page} / ${res.last_page}
-                    </span>
-                `;
+                            <span class="align-self-center">
+                                Halaman ${res.current_page} / ${res.last_page}
+                            </span>
+                        `;
+
                         if (res.current_page < res.last_page) {
                             html += `
-                        <button
-                            class="btn btn-outline-primary ms-2 page-btn"
-                            data-page="${res.current_page + 1}">
-                            Next
-                        </button>
-                    `;
+                                <button
+                                    class="btn btn-outline-primary ms-2 page-btn"
+                                    data-page="${res.current_page + 1}">
+                                    Next
+                                </button>
+                            `;
                         }
+
                         html += `
-                        </div>
-                    </div>
-                </div>
-                `;
+                            </div>
+                            </div>
+                            </div>
+                        `;
                     }
                     $('#tableWrapper').html(html);
                     $('#totalBadge').text(
@@ -2722,11 +2730,12 @@
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
-                    $('#tableWrapper').html(`
-                <div class="alert alert-danger">
-                    Gagal memuat data
-                </div>
-            `);
+                    $('#tableWrapper').html(` <
+                                div class = "alert alert-danger" >
+                                Gagal memuat data
+                                    <
+                                    /div>
+                                `);
                 }
             });
         }
@@ -2819,6 +2828,7 @@
                         year: 'numeric'
                     }).format(date);
                 }
+
                 let subsiderParts = [];
                 if (Number(subsiderTahun) > 0) {
                     subsiderParts.push(`${subsiderTahun} Tahun`);
@@ -2829,123 +2839,169 @@
                 if (Number(subsiderHari) > 0) {
                     subsiderParts.push(`${subsiderHari} Hari`);
                 }
-                let pidanaSubsider = subsiderParts.length ?
-                    subsiderParts.join(' ') :
-                    '-';
+                let pidanaSubsider = subsiderParts.length
+                    ? subsiderParts.join(' ')
+                    : '-';
                 let dendaSubsiderFormatted =
                     dendaSubsider !== null && Number(dendaSubsider) > 0 ?
                     Number(dendaSubsider).toLocaleString('id-ID') :
                     '-';
-                let statusBadge = '';
-                if (status === 'Terbuka') {
-                    statusBadge = `
-                    <span style="
-                        background:#28a745;
-                        color:#fff;
-                        padding:6px 12px;
-                        border-radius:8px;
-                        font-weight:600;
-                    ">
-                        Terbuka
-                    </span>
-                `;
-                } else if (status === 'Tertutup') {
-                    statusBadge = `
-                    <span style="
-                        background:#dc3545;
-                        color:#fff;
-                        padding:6px 12px;
-                        border-radius:8px;
-                        font-weight:600;
-                    ">
-                        Tertutup
-                    </span>
-                `;
-                } else {
-                    statusBadge = `
-                    <span style="
-                        background:#6c757d;
-                        color:#fff;
-                        padding:6px 12px;
-                        border-radius:8px;
-                        font-weight:600;
-                    ">
-                        -
-                    </span>
-                `;
-                }
-                $('#detailBody').html(`
-                <h5 class="fw-bold mb-3">
-                    ${nama}
-                </h5>
-                <div class="detail-location-row">
-                    <p class="fw-bold mb-0">
-                        BLOK ${blok} - ${sel}
-                    </p>
-                    <div class="detail-status">
-                        <b>Status:</b> ${statusBadge}
+
+                    let isolasi = res.isolasi ?? {};
+                    let kartuIsolasi = '';
+
+                    if (isolasi.is_sel_maksimum) {
+                        if (!isolasi.punya_riwayat) {
+                            kartuIsolasi = `
+                                <div class="mt-3 p-3 border rounded-3"
+                                    style="background:rgba(108,117,125,.06);">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fas fa-shield-alt text-secondary"></i>
+                                        <strong>Sel Maksimum</strong>
+                                        <span class="badge bg-secondary ms-auto">
+                                            Riwayat belum tersedia
+                                        </span>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            const tanggalMasuk = isolasi.tgl_masuk
+                                ? formatTanggalIndonesia(isolasi.tgl_masuk)
+                                : '-';
+
+                            const batas14Hari = isolasi.batas_14_hari
+                                ? formatTanggalIndonesia(isolasi.batas_14_hari)
+                                : '-';
+
+                            const statusMasaTunggu = isolasi.masa_tunggu_selesai
+                                ? '<span class="badge bg-success">14 hari terpenuhi</span>'
+                                : `<span class="badge bg-warning text-dark">
+                                    Menunggu ${Number(isolasi.sisa_hari ?? 0)} hari
+                                </span>`;
+
+                            const statusVerifikasi = isolasi.sudah_diverifikasi
+                                ? '<span class="badge bg-success">Terverifikasi</span>'
+                                : '<span class="badge bg-secondary">Belum diverifikasi</span>';
+
+                            kartuIsolasi = `
+                                <div class="mt-3 p-3 border rounded-3"
+                                    style="background:rgba(13,110,253,.04);">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <i class="fas fa-shield-alt text-primary"></i>
+                                        <strong>Sel Maksimum</strong>
+                                        <span class="ms-auto">${statusMasaTunggu}</span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between gap-3 small mb-1">
+                                        <span class="text-muted">Masuk isolasi</span>
+                                        <span class="text-end">${tanggalMasuk}</span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between gap-3 small mb-2">
+                                        <span class="text-muted">Batas 14 hari</span>
+                                        <span class="text-end">${batas14Hari}</span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between gap-3 small">
+                                        <span class="text-muted">Verifikasi petugas</span>
+                                        <span>${statusVerifikasi}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+
+                    let statusBadge = '';
+                    if (status === 'Terbuka') {
+                        statusBadge = `
+                            <span style="background:#28a745; color:#fff; padding:6px 12px; border-radius:8px; font-weight:600;">
+                                Terbuka
+                            </span>
+                        `;
+                    } else if (status === 'Tertutup') {
+                        statusBadge = `
+                            <span style=" background:#dc3545; color:#fff; padding:6px 12px; border-radius:8px; font-weight:600;">
+                                Tertutup
+                            </span>
+                        `;
+                    } else {
+                        statusBadge = `
+                            <span style="background:#6c757d; color:#fff; padding:6px 12px; border-radius:8px; font-weight:600;">
+                                -
+                            </span>
+                        `;
+                    }
+                    $('#detailBody').html(`
+                    <h5 class="fw-bold mb-3">
+                        ${nama}
+                    </h5>
+                    <div class="detail-location-row">
+                        <p class="fw-bold mb-0">
+                            BLOK ${blok} - ${sel}
+                        </p>
+                        <div class="detail-status">
+                            <b>Status:</b> ${statusBadge}
+                        </div>
                     </div>
-                </div>
-                <hr>
-                <div class="detail-info-grid">
-                    <div class="detail-info-item">
-                        <b>No Reg:</b>
-                        <span>${noReg}</span>
-                    </div>
-                    <div class="detail-info-item">
-                        <b>Total Remisi:</b>
-                        <span>${bulanRemisi} Bulan ${hariRemisi} Hari</span>
-                    </div>
-                    <div class="detail-info-item">
-                        <b>Pasal:</b>
-                        <span>${pasal || '-'}</span>
-                    </div>
-                    <div class="detail-info-item">
-                        <b>Pidana:</b>
-                        <span>
-                            ${putusan
-                                ? `${putusan} Tahun ${putusanBulan ? putusanBulan + ' Bulan' : ''}`
-                                : '-'}
-                        </span>
-                    </div>
-                    <div class="detail-info-item">
-                        <b>Pidana Subsider:</b>
-                        <span>${pidanaSubsider}</span>
-                    </div>
-                    <div class="detail-info-item">
-                        <b>Denda Subsider:</b>
-                        <span>
-                            ${dendaSubsiderFormatted !== '-'
-                                ? `Rp ${dendaSubsiderFormatted}`
-                                : '-'}
-                        </span>
-                    </div>
-                    <div class="detail-info-item">
-                        <b>Jenis Kejahatan:</b>
-                        <span>${jenis_kejahatan || '-'}</span>
-                    </div>
-                    <div class="detail-info-item">
-                        <b>Ekspirasi:</b>
-                        <span>${ekspirasi}</span>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <label
-                        class="fw-bold mb-2 d-block">
-                        Tanggal Keterangan
-                    </label>
-                    <div
-                        class="border rounded p-2 bg-light">
-                        ${tanggal}
-                    </div>
-                </div>
-                <div class="mt-3">
+                    ${kartuIsolasi}
+                        <hr>
+                        <div class="detail-info-grid">
+                            <div class="detail-info-item">
+                                <b>No Reg:</b>
+                                <span>${noReg}</span>
+                            </div>
+                            <div class="detail-info-item">
+                                <b>Total Remisi:</b>
+                                <span>${bulanRemisi} Bulan ${hariRemisi} Hari</span>
+                            </div>
+                            <div class="detail-info-item">
+                                <b>Pasal:</b>
+                                <span>${pasal || '-'}</span>
+                            </div>
+                            <div class="detail-info-item">
+                                <b>Pidana:</b>
+                                <span>
+                                    ${putusan
+                                        ? `${putusan} Tahun ${putusanBulan ? putusanBulan + ' Bulan' : ''}`
+                                        : '-'}
+                                </span>
+                            </div>
+                            <div class="detail-info-item">
+                                <b>Pidana Subsider:</b>
+                                <span>${pidanaSubsider}</span>
+                            </div>
+                            <div class="detail-info-item">
+                                <b>Denda Subsider:</b>
+                                <span>
+                                    ${dendaSubsiderFormatted !== '-'
+                                        ? `Rp ${dendaSubsiderFormatted}`
+                                        : '-'}
+                                </span>
+                            </div>
+                            <div class="detail-info-item">
+                                <b>Jenis Kejahatan:</b>
+                                <span>${jenis_kejahatan || '-'}</span>
+                            </div>
+                            <div class="detail-info-item">
+                                <b>Ekspirasi:</b>
+                                <span>${ekspirasi}</span>
+                            </div>
+                        </div>
+                        ${keterangan && keterangan.trim() !== '' ? `
+                    <div class="mt-3" id="detailKeteranganSection">
                         <label class="fw-bold mb-2 d-block">
+                            Tanggal Keterangan
+                        </label>
+                        <div class="border rounded p-2 bg-light">
+                            ${tanggal && tanggal.trim() !== '' ? tanggal : '-'}
+                        </div>
+
+                        <label class="fw-bold mb-2 mt-3 d-block">
                             Keterangan
                         </label>
                         <div class="detail-keterangan-box"
                             style="
-                                min-height:120px;
+                                min-height:80px;
                                 border-radius:12px;
                                 padding:16px;
                                 white-space:pre-wrap;
@@ -2954,43 +3010,41 @@
                                 font-size:15px;
                                 line-height:1.7;
                                 text-align:left;
-                                display:flex;
-                                align-items:flex-start;
-                                justify-content:flex-start;
-                            ">
+                            ">${keterangan}</div>
+                    </div>
+                ` : ''}
+                        <div class="mt-4 text-end d-flex gap-2 justify-content-end">
+                            <button
+                                class="btn btn-primary btn-edit-wbp"
+                                data-id="${res.id ?? ''}"
+                                data-nama="${nama}">
+                                Edit Data WBP
+                            </button>
+                            <button
+                                class="btn btn-info btn-edit-status"
+                                data-id="${res.id ?? ''}"
+                                data-nama="${nama}"
+                                data-status="${res.status_wbp ?? ''}">
+                                Edit Status
+                            </button>
+                            <button
+                                class="btn btn-warning btn-edit-kamar"
+                                data-id="${res.id ?? ''}"
+                                data-nama="${nama}"
+                                data-kamar="${blok} - ${sel}">
+                                Edit Kamar
+                            </button>
+                            <button
+                                class="btn btn-secondary btn-edit-keterangan"
+                                data-id="${res.id ?? ''}"
+                                data-nama="${nama}"
+                                data-tanggal="${res.tanggal ?? ''}"
+                                data-keterangan="${res.keterangan ?? ''}">
+                                Edit Keterangan
+                            </button>
                         </div>
-               <div class="mt-4 text-end d-flex gap-2 justify-content-end">
-                    <button
-                        class="btn btn-primary btn-edit-wbp"
-                        data-id="${res.id ?? ''}"
-                        data-nama="${nama}">
-                        Edit Data WBP
-                    </button>
-                    <button
-                        class="btn btn-info btn-edit-status"
-                        data-id="${res.id ?? ''}"
-                        data-nama="${nama}"
-                        data-status="${res.status_wbp ?? ''}">
-                        Edit Status
-                    </button>
-                    <button
-                        class="btn btn-warning btn-edit-kamar"
-                        data-id="${res.id ?? ''}"
-                        data-nama="${nama}"
-                        data-kamar="${blok} - ${sel}">
-                        Edit Kamar
-                    </button>
-                    <button
-                        class="btn btn-secondary btn-edit-keterangan"
-                        data-id="${res.id ?? ''}"
-                        data-nama="${nama}"
-                        data-tanggal="${res.tanggal ?? ''}"
-                        data-keterangan="${res.keterangan ?? ''}">
-                        Edit Keterangan
-                    </button>
-                </div>
-            `);
-            });
+                    `);
+                });
         });
 
         // ================= OPEN EDIT DATA WBP =================
@@ -3295,10 +3349,10 @@
             $('#modalDetail').fadeOut(200);
             $('#modalEditKamar').fadeIn(200);
             $('#editBody').html(`
-                <div class="text-center p-4">
-                    Loading...
-                </div>
-            `);
+                                                                            <div class="text-center p-4">
+                                                                                Loading...
+                                                                            </div>
+                                                                        `);
             $.get('/admin-banceuy/kamar/all', function(kamarList) {
                 let option = `<option value="">Pilih Kamar Tujuan</option>`;
                 let currentBlok = '';
@@ -3306,14 +3360,14 @@
                     if (currentBlok !== kamar.kode_blok) {
                         currentBlok = kamar.kode_blok;
                         option += `
-                        <optgroup label="BLOK ${currentBlok}">
-                    `;
+                                                                                    <optgroup label="BLOK ${currentBlok}">
+                                                                                `;
                     }
                     option += `
-                    <option value="${kamar.id}">
-                        BLOK ${kamar.kode_blok} - ${kamar.lokasi_sel}
-                    </option>
-                `;
+                                                                                <option value="${kamar.id}">
+                                                                                    BLOK ${kamar.kode_blok} - ${kamar.lokasi_sel}
+                                                                                </option>
+                                                                            `;
                     if (
                         i === kamarList.length - 1 ||
                         kamarList[i + 1].kode_blok !== currentBlok
@@ -3323,30 +3377,30 @@
                 });
                 $('#kamar_id').html(option);
                 $('#editBody').html(`
-                <input type="hidden" id="edit_wbp_id" value="${wbpId}">
-                <div class="mb-3">
-                    <label>Nama WBP</label>
-                    <input type="text" class="form-control" value="${nama ?? ''}" readonly>
-                </div>
-                <div class="mb-3">
-                    <label>Kamar Saat Ini</label>
-                    <input type="text" class="form-control" value="BLOK ${kamarSaatIni ?? ''}" readonly>
-                </div>
-                <div class="mb-3">
-                    <label>Kamar Tujuan</label>
-                    <select id="kamar_tujuan" class="form-control">
-                        ${option}
-                    </select>
-                </div>
-                <div class="d-flex justify-content-center gap-2 mt-3">
-                    <button type="button" class="btn btn-secondary" id="closeEditModal">
-                        Batal
-                    </button>
-                    <button type="button" class="btn btn-success" id="btnSimpanKamar">
-                        Simpan
-                    </button>
-                </div>
-            `);
+                                                                            <input type="hidden" id="edit_wbp_id" value="${wbpId}">
+                                                                            <div class="mb-3">
+                                                                                <label>Nama WBP</label>
+                                                                                <input type="text" class="form-control" value="${nama ?? ''}" readonly>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label>Kamar Saat Ini</label>
+                                                                                <input type="text" class="form-control" value="BLOK ${kamarSaatIni ?? ''}" readonly>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label>Kamar Tujuan</label>
+                                                                                <select id="kamar_tujuan" class="form-control">
+                                                                                    ${option}
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="d-flex justify-content-center gap-2 mt-3">
+                                                                                <button type="button" class="btn btn-secondary" id="closeEditModal">
+                                                                                    Batal
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-success" id="btnSimpanKamar">
+                                                                                    Simpan
+                                                                                </button>
+                                                                            </div>
+                                                                        `);
             });
         });
 
@@ -3384,48 +3438,48 @@
             $('#modalDetail').fadeOut(200);
             $('#modalEditStatus').fadeIn(200);
             $('#statusBody').html(`
-                <input
-                    type="hidden"
-                    id="status_wbp_id"
-                    value="${id}">
-                <div class="mb-3">
-                    <label>Nama WBP</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        value="${nama}"
-                        readonly>
-                </div>
-                <div class="mb-3">
-                    <label>Status WBP</label>
-                    <select
-                        id="status_wbp"
-                        class="form-control">
-                        <option value="AKTIF">AKTIF</option>
-                        <option value="PINDAH UPT">PINDAH UPT</option>
-                        <option value="BON">BON</option>
-                        <option value="SAKIT">SAKIT</option>
-                        <option value="PULANG">PULANG</option>
-                        <option value="MENINGGAL">MENINGGAL</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label>Status Kamar</label>
-                    <select
-                        id="status_kamar"
-                        class="form-control">
-                        <option value="Terbuka">Terbuka</option>
-                        <option value="Tertutup">Tertutup</option>
-                    </select>
-                </div>
-                    <div class="text-end">
-                        <button
-                            class="btn btn-success"
-                            id="btnSimpanStatus">
-                            Simpan
-                        </button>
-                    </div>
-                `);
+                                                                            <input
+                                                                                type="hidden"
+                                                                                id="status_wbp_id"
+                                                                                value="${id}">
+                                                                            <div class="mb-3">
+                                                                                <label>Nama WBP</label>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    class="form-control"
+                                                                                    value="${nama}"
+                                                                                    readonly>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label>Status WBP</label>
+                                                                                <select
+                                                                                    id="status_wbp"
+                                                                                    class="form-control">
+                                                                                    <option value="AKTIF">AKTIF</option>
+                                                                                    <option value="PINDAH UPT">PINDAH UPT</option>
+                                                                                    <option value="BON">BON</option>
+                                                                                    <option value="SAKIT">SAKIT</option>
+                                                                                    <option value="PULANG">PULANG</option>
+                                                                                    <option value="MENINGGAL">MENINGGAL</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label>Status Kamar</label>
+                                                                                <select
+                                                                                    id="status_kamar"
+                                                                                    class="form-control">
+                                                                                    <option value="Terbuka">Terbuka</option>
+                                                                                    <option value="Tertutup">Tertutup</option>
+                                                                                </select>
+                                                                            </div>
+                                                                                <div class="text-end">
+                                                                                    <button
+                                                                                        class="btn btn-success"
+                                                                                        id="btnSimpanStatus">
+                                                                                        Simpan
+                                                                                    </button>
+                                                                                </div>
+                                                                            `);
             $('#status_wbp').val(status);
             $('#status_kamar').val(statusKamar);
         });
@@ -3473,141 +3527,141 @@
                 let tanggal = $(this).data('tanggal') || '';
                 let keterangan = $(this).data('keterangan') || '';
                 $('#keteranganBody').html(`
-                    <input
-                        type="hidden"
-                        id="wbp_id"
-                        value="${id}">
-                    <div class="mb-3">
-                        <label class="form-label">
-                            Nama WBP
-                        </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value="${nama}"
-                            readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">
-                            Tanggal
-                        </label>
-                        <input
-                        type="datetime-local"
-                        id="tanggal"
-                        class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">
-                            Keterangan
-                        </label>
-                        <textarea
-                            id="keterangan"
-                            class="form-control"
-                            rows="5">${keterangan}</textarea>
-                    </div>
-                    <button
-                        id="btnSimpanKeterangan"
-                        class="btn btn-primary w-100">
-                        Simpan
-                    </button>
-                `);
-                $('#modalDetail').fadeOut(200, function() {
-                    $('#modalEditKeterangan').fadeIn(200);
-                });
-            }
-        );
+                                                                                <input
+                                                                                    type="hidden"
+                                                                                    id="wbp_id"
+                                                                                    value="${id}">
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">
+                                                                                        Nama WBP
+                                                                                    </label>
+                                                                                    <input
+                                                                                        type="text"
+                                                                                        class="form-control"
+                                                                                        value="${nama}"
+                                                                                        readonly>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">
+                                                                                        Tanggal
+                                                                                    </label>
+                                                                                    <input
+                                                                                    type="datetime-local"
+                                                                                    id="tanggal"
+                                                                                    class="form-control">
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">
+                                                                                        Keterangan
+                                                                                    </label>
+                                                                                    <textarea
+                                                                                        id="keterangan"
+                                                                                        class="form-control"
+                                                                                        rows="5">${keterangan}</textarea>
+                                                                                </div>
+                                                                                <button
+                                                                                    id="btnSimpanKeterangan"
+                                                                                    class="btn btn-primary w-100">
+                                                                                    Simpan
+                                                                                </button>
+                                                                            `);
+                    $('#modalDetail').fadeOut(200, function() {
+                        $('#modalEditKeterangan').fadeIn(200);
+                    });
+                }
+            );
 
-        $(document).on(
-            'click',
-            '#btnSimpanKeterangan',
-            function() {
-                let btn = $(this);
-                btn.prop('disabled', true);
-                $.ajax({
-                    url: '/admin-banceuy/wbp/update-keterangan',
-                    type: 'POST',
-                    dataType: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        id: $('#wbp_id').val(),
-                        tanggal: $('#tanggal').val(),
-                        keterangan: $('#keterangan').val()
-                    },
-                    success: function(res) {
-                        if (res.success) {
-                            $('#modalEditKeterangan')
-                                .fadeOut(200);
-                            // refresh detail WBP
-                            loadDetailWbp(
-                                $('#wbp_id').val()
-                            );
-                        } else {
-                            alert(
-                                res.message ??
-                                'Gagal menyimpan'
+            $(document).on(
+                'click',
+                '#btnSimpanKeterangan',
+                function() {
+                    let btn = $(this);
+                    btn.prop('disabled', true);
+                    $.ajax({
+                        url: '/admin-banceuy/wbp/update-keterangan',
+                        type: 'POST',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            id: $('#wbp_id').val(),
+                            tanggal: $('#tanggal').val(),
+                            keterangan: $('#keterangan').val()
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                $('#modalEditKeterangan')
+                                    .fadeOut(200);
+                                // refresh detail WBP
+                                loadDetailWbp(
+                                    $('#wbp_id').val()
+                                );
+                            } else {
+                                alert(
+                                    res.message ??
+                                    'Gagal menyimpan'
+                                );
+                            }
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            if (
+                                xhr.responseJSON &&
+                                xhr.responseJSON.errors
+                            ) {
+                                let errors = [];
+                                $.each(
+                                    xhr.responseJSON.errors,
+                                    function(key, value) {
+                                        errors.push(
+                                            value.join('\n')
+                                        );
+                                    }
+                                );
+                                alert(
+                                    errors.join('\n\n')
+                                );
+                            } else {
+                                alert(
+                                    'Terjadi kesalahan server'
+                                );
+                            }
+                        },
+                        complete: function() {
+                            btn.prop(
+                                'disabled',
+                                false
                             );
                         }
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                        if (
-                            xhr.responseJSON &&
-                            xhr.responseJSON.errors
-                        ) {
-                            let errors = [];
-                            $.each(
-                                xhr.responseJSON.errors,
-                                function(key, value) {
-                                    errors.push(
-                                        value.join('\n')
-                                    );
-                                }
-                            );
-                            alert(
-                                errors.join('\n\n')
-                            );
-                        } else {
-                            alert(
-                                'Terjadi kesalahan server'
-                            );
-                        }
-                    },
-                    complete: function() {
-                        btn.prop(
-                            'disabled',
-                            false
-                        );
-                    }
-                });
-            }
-        );
+                    });
+                }
+            );
 
-        // ================= CLOSE KETERANGAN =================
-        $('#closeKeteranganModal').click(function() {
-            $('#modalEditKeterangan').fadeOut(200);
-        });
+            // ================= CLOSE KETERANGAN =================
+            $('#closeKeteranganModal').click(function() {
+                $('#modalEditKeterangan').fadeOut(200);
+            });
 
-        // ================= CLOSE DETAIL =================
-        $('#closeModal').click(function() {
-            $('#modalDetail').fadeOut(200);
-        });
-
-        // ================= CLOSE EDIT =================
-        $(document).on('click', '#closeEditModal', function() {
-            $('#modalEditKamar').fadeOut(200);
-        });
-
-        // ================= CLICK OUTSIDE =================
-        $(window).click(function(e) {
-            if ($(e.target).is('#modalDetail')) {
+            // ================= CLOSE DETAIL =================
+            $('#closeModal').click(function() {
                 $('#modalDetail').fadeOut(200);
-            }
-            if ($(e.target).is('#modalEditKamar')) {
+            });
+
+            // ================= CLOSE EDIT =================
+            $(document).on('click', '#closeEditModal', function() {
                 $('#modalEditKamar').fadeOut(200);
-            }
-        });
+            });
+
+            // ================= CLICK OUTSIDE =================
+            $(window).click(function(e) {
+                if ($(e.target).is('#modalDetail')) {
+                    $('#modalDetail').fadeOut(200);
+                }
+                if ($(e.target).is('#modalEditKamar')) {
+                    $('#modalEditKamar').fadeOut(200);
+                }
+            });
     </script>
     <script>
         $(function() {

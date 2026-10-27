@@ -10,6 +10,8 @@ use App\Models\{Admin, Antrian, Kritik, Pengunjung, Wbp, Kamar, Mutasi};
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Services\KamarService;
+use App\Models\WbpIsolasiHistory;
+
 
 class AdminController extends Controller
 {
@@ -206,9 +208,7 @@ class AdminController extends Controller
         ])->get();
 
         $kamarData = KamarService::buildData($kamarsHunian);
-
         $kamarGrouped = KamarService::buildGrouped($kamarData);
-
         $summaryHunian = KamarService::buildSummary($kamarGrouped);
 
         $summaryBlok = $summaryHunian
@@ -231,11 +231,28 @@ class AdminController extends Controller
             })
             ->values();
 
+        $selMaksimumPending = WbpIsolasiHistory::query()
+            ->with(['wbp', 'kamar'])
+            ->whereNull('tgl_keluar_isolasi')
+            ->whereNull('diverifikasi_pada')
+            ->whereHas('kamar', function ($query) {
+                $query->where('kode_blok', 'B')
+                    ->whereRaw(
+                        'CAST(REGEXP_SUBSTR(lokasi_sel, "[0-9]+") AS UNSIGNED) BETWEEN 7 AND 12'
+                    );
+            })
+            ->whereRaw(
+                'DATE_ADD(tgl_masuk_isolasi, INTERVAL 14 DAY) <= ?',
+                [now()]
+            )
+            ->get();
+
         // ===================== PERHATIAN OPERASIONAL =====================
         $operationalAlerts = KamarService::buildOperationalAlerts(
             $summaryHunian,
             $totalWbpBon,
-            $totalWbpSakit
+            $totalWbpSakit,
+            $selMaksimumPending->count()
         );
 
         // ===================== FILTER =====================
@@ -332,8 +349,10 @@ class AdminController extends Controller
 
             // ===================== FILTER =====================
             'filter',
-            'tanggal'
+            'tanggal',
 
+            // ============ VERIFIKASI SEL MAKSIMUM =============
+            'selMaksimumPending',
         ));
     }
 
@@ -356,6 +375,46 @@ class AdminController extends Controller
         return response()->json([
             'total' => $pengunjungs->count(),
             'pengunjungs' => $pengunjungs
+        ]);
+    }
+
+    public function verifikasiMassalSelMaksimum(Request $request)
+    {
+        $petugasId = Auth::guard('admin')->id();
+
+        if (!$petugasId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sesi petugas tidak ditemukan.',
+            ], 401);
+        }
+
+        $sekarang = now();
+
+        $jumlah = DB::transaction(function () use ($petugasId, $sekarang) {
+            $riwayat = WbpIsolasiHistory::query()
+                ->whereNull('tgl_keluar_isolasi')
+                ->whereNull('diverifikasi_pada')
+                ->whereRaw(
+                    'DATE_ADD(tgl_masuk_isolasi, INTERVAL 14 DAY) <= ?',
+                    [$sekarang]
+                )
+                ->lockForUpdate()
+                ->get();
+
+            foreach ($riwayat as $item) {
+                $item->diverifikasi_pada = $sekarang;
+                $item->diverifikasi_oleh = $petugasId;
+                $item->save();
+            }
+
+            return $riwayat->count();
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => "{$jumlah} WBP berhasil diverifikasi.",
+            'jumlah' => $jumlah,
         ]);
     }
 }

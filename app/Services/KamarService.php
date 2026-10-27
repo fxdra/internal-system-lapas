@@ -8,15 +8,10 @@ class KamarService
 {
 
     private const SPECIAL_ROOM_CAPACITY = [
-
         'C-12' => 7,
-
         'D-12' => 7,
-
         'E-1'  => 7,
-
         'F-1'  => 7,
-
     ];
 
     private const ROOM_RULES = [
@@ -196,12 +191,8 @@ class KamarService
                 : ($data->kode_blok ?? '')
         ));
 
-        /*
-    |--------------------------------------------------------------------------
-    | BLOK HUNIAN A - H
-    |--------------------------------------------------------------------------
-    */
 
+        // BLOK HUNIAN A - H
         if (preg_match('/^[A-H]$/', $kodeBlok)) {
 
             preg_match('/(\d+)$/', $sel, $match);
@@ -228,12 +219,8 @@ class KamarService
             ];
         }
 
-        /*
-    |--------------------------------------------------------------------------
-    | UNIT KHUSUS
-    |--------------------------------------------------------------------------
-    */
 
+        // UNIT KHUSUS
         preg_match('/(\d+)$/', $sel, $match);
 
         $nomorKamar = isset($match[1])
@@ -271,39 +258,24 @@ class KamarService
     {
         $kodeBlok = strtoupper(trim($kodeBlok));
 
-        // =========================
         // KAMAR KHUSUS
-        // =========================
-
         if ($noKamar !== null) {
-
             $key = "{$kodeBlok}-{$noKamar}";
-
             if (isset(self::SPECIAL_ROOM_CAPACITY[$key])) {
                 return self::SPECIAL_ROOM_CAPACITY[$key];
             }
         }
 
-        // =========================
         // BLOK HUNIAN
-        // =========================
-
         if (preg_match('/^[A-H]$/', $kodeBlok)) {
             return 14;
         }
 
-        // =========================
         // UNIT KHUSUS
-        // =========================
-
         return match ($kodeBlok) {
-
             'DAPUR'   => 14,
-
             'ISOLASI' => 1,
-
             'RUMAH SAKIT' => 2,
-
             default => 0,
         };
     }
@@ -512,74 +484,56 @@ class KamarService
     public static function buildOperationalAlerts(
         Collection $summary,
         int $totalWbpBon,
-        int $totalWbpSakit
+        int $totalWbpSakit,
+        int $totalSelMaksimumPending = 0
     ): Collection {
         $alerts = collect();
 
         foreach ($summary as $item) {
-
             if ($item['persen'] < 70) {
                 continue;
             }
-
             $level = match (true) {
-
                 $item['persen'] > 100 => 'danger',
-
                 $item['persen'] >= 95 => 'danger',
-
                 $item['persen'] >= 85 => 'orange',
-
                 default => 'warning',
             };
-
             $priority = match (true) {
-
                 $item['persen'] > 100 => 1,
-
                 $item['persen'] >= 95 => 1,
-
                 $item['persen'] >= 85 => 2,
-
                 default => 3,
             };
-
             $message = $item['over'] > 0
                 ? "Hunian {$item['jumlah_wbp']} dari kapasitas {$item['kapasitas']} WBP · Lebih {$item['over']} WBP"
                 : "Hunian {$item['jumlah_wbp']} dari kapasitas {$item['kapasitas']} WBP · Sisa {$item['sisa']}";
-
             $alerts->push([
-
                 'type' => 'occupancy',
-
                 'level' => $level,
-
                 'title' => "{$item['blok']} {$item['status']}",
-
                 'message' => $message,
-
                 'priority' => $priority,
-
+            ]);
+        }
+        $totalWbpLuarTembok = $totalWbpBon + $totalWbpSakit;
+        if ($totalWbpLuarTembok > 0) {
+            $alerts->push([
+                'type' => 'outside',
+                'level' => 'info',
+                'title' => "{$totalWbpLuarTembok} WBP di Luar Tembok",
+                'message' => "{$totalWbpBon} BON · {$totalWbpSakit} Sakit",
+                'priority' => 4,
             ]);
         }
 
-
-        $totalWbpLuarTembok = $totalWbpBon + $totalWbpSakit;
-
-        if ($totalWbpLuarTembok > 0) {
-
+        if ($totalSelMaksimumPending > 0) {
             $alerts->push([
-
-                'type' => 'outside',
-
-                'level' => 'info',
-
-                'title' => "{$totalWbpLuarTembok} WBP di Luar Tembok",
-
-                'message' => "{$totalWbpBon} BON · {$totalWbpSakit} Sakit",
-
-                'priority' => 4,
-
+                'type' => 'sel_maksimum',
+                'level' => 'warning',
+                'title' => "{$totalSelMaksimumPending} WBP Menunggu Verifikasi Sel Maksimum",
+                'message' => 'WBP telah mencapai masa 14 hari dan memerlukan verifikasi petugas.',
+                'priority' => 2,
             ]);
         }
 

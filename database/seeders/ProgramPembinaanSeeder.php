@@ -14,7 +14,7 @@ class ProgramPembinaanSeeder extends Seeder
         $programs = [
             [
                 'kategori' => 'Kepribadian',
-                'nama_program' => 'Santri',
+                'nama_program' => 'Kerohanian',
             ],
             [
                 'kategori' => 'Kepribadian',

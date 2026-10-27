@@ -30,7 +30,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
     // 🔥 INI YANG PENTING UNTUK COMMAND KUSTOM
     ->withCommands([
-        App\Console\Commands\DownloadWbpFoto::class,
         App\Console\Commands\UpdateSelMaksimumStatus::class,
         App\Console\Commands\Kuota::class,
         App\Console\Commands\HapusKuota::class,

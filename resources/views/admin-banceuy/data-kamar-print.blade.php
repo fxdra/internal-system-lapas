@@ -1,27 +1,20 @@
 @php
-
     $role = Auth::guard('admin')->user()?->role;
-
     $permissions = [
         // Full Access
         'fullAccess' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp']),
-
         // Bidang
         'registrasi' => $role === 'registrasi',
         'binadik' => $role === 'binadik',
         'giatja' => $role === 'giatja',
         'klinik' => $role === 'klinik',
         'kamtib' => $role === 'kamtib',
-
         // Data Hunian
         'dataHunian' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp', 'registrasi', 'binadik']),
-
         // Print Sterek
         'printSterek' => in_array($role, ['superadmin', 'admin', 'kplp', 'ka_kplp', 'registrasi', 'binadik']),
     ];
-
 @endphp
-
 <!DOCTYPE html>
 <html lang="id">
 
@@ -30,26 +23,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Data Kamar & WBP</title>
-
     <script>
         (function() {
             try {
                 var theme = localStorage.getItem('app-skin-dark');
-
                 if (theme === 'app-skin-dark') {
                     document.documentElement.classList.add('app-skin-dark');
                 }
             } catch (e) {}
         })();
     </script>
-
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="{{ asset('assets/vendors/css/bsicon.min.css') }}">
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <style>
         /* FLOATING DOCK */
         #quickDock {
@@ -69,9 +55,7 @@
             border: 1px solid rgba(255, 255, 255, .35);
             box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
             z-index: 99999;
-
             overflow: visible;
-
             scrollbar-width: none;
         }
 
@@ -207,30 +191,21 @@
             position: absolute;
             bottom: 52px;
             left: 50%;
-
             width: 220px;
             padding: 12px;
-
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
-
             border-radius: 16px;
-
             background: rgba(255, 255, 255, .95);
             backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, .45);
-
             box-shadow: 0 15px 35px rgba(0, 0, 0, .18);
-
             z-index: 100000;
-
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-
             transform: translate(-50%, 10px);
-
             transition:
                 opacity .18s ease,
                 transform .18s ease,
@@ -267,10 +242,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
             background: #f3f6fa;
             color: #212529;
-
             font-size: 13px;
             font-weight: 700;
             cursor: pointer;
@@ -304,7 +277,6 @@
             box-shadow:
                 0 0 0 4px rgba(13, 59, 102, .15),
                 0 15px 35px rgba(13, 59, 102, .30);
-
             animation: roomPulse .9s ease;
         }
 
@@ -321,7 +293,6 @@
             100% {
                 transform: scale(1);
             }
-
         }
 
         /* RESPONSIVE FLOATING DOCK */
@@ -400,11 +371,9 @@
         }
 
         .wbp-item.selected {
-
             background: #d1e7dd;
             border: 2px solid #198754;
             box-shadow: 0 0 0 .2rem rgba(25, 135, 84, .15);
-
         }
 
         .page-hunian {
@@ -413,17 +382,13 @@
 
         /* DESKTOP STICKY HEADER */
         @media (min-width: 769px) {
-
             .page-hunian>.no-print {
                 position: sticky;
                 top: 0;
                 z-index: 1000;
-
                 background: rgba(255, 255, 255, .96);
-
                 backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
-
                 border-bottom: 1px solid rgba(0, 0, 0, .06);
             }
 
@@ -468,7 +433,6 @@
                 margin-left: auto;
                 gap: 6px !important;
             }
-
         }
 
         /* MOBILE VERSION DATA HUNIAN KAMAR */
@@ -481,11 +445,9 @@
                 left: 50% !important;
                 right: auto !important;
                 bottom: 240px !important;
-
                 width: min(220px, calc(100vw - 20px)) !important;
                 max-width: calc(100vw - 20px) !important;
                 max-height: min(280px, calc(100dvh - 150px)) !important;
-
                 display: grid !important;
                 grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
                 gap: 6px !important;
@@ -493,19 +455,16 @@
                 box-sizing: border-box !important;
                 overflow-y: auto !important;
                 overscroll-behavior: contain;
-
                 background: #1f2937 !important;
                 border: 1px solid #475569 !important;
                 border-radius: 14px !important;
                 box-shadow: 0 12px 35px rgba(0, 0, 0, .35) !important;
-
                 transform: translate(-50%, 0) !important;
                 opacity: 1 !important;
                 visibility: visible !important;
                 pointer-events: auto !important;
                 z-index: 100001 !important;
             }
-
 
             /* PAGE */
             .page-hunian {
@@ -867,40 +826,30 @@
             /* POPUP NOMOR KAMAR MOBILE — CENTER */
             #quickDock .dock-item .dock-popup {
                 position: fixed !important;
-
                 left: 50% !important;
                 right: auto !important;
                 bottom: 90px !important;
-
                 width: 220px !important;
                 width: min(220px, calc(100vw - 16px)) !important;
                 max-width: calc(100vw - 20px) !important;
                 max-height: min(280px, calc(100dvh - 150px)) !important;
-
                 padding: 10px !important;
-
                 display: grid !important;
                 grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
                 gap: 6px !important;
-
                 box-sizing: border-box !important;
                 overflow-y: auto !important;
                 overscroll-behavior: contain;
-
                 border-radius: 14px !important;
                 background: #1f2937 !important;
                 border: 1px solid #475569 !important;
                 box-shadow: 0 12px 30px rgba(0, 0, 0, .3) !important;
-
                 z-index: 100001 !important;
-
                 opacity: 0;
                 visibility: hidden;
                 pointer-events: none;
-
                 /* Posisi awal tetap di tengah */
                 transform: translate(-50%, 8px);
-
                 transition:
                     opacity .18s ease,
                     transform .18s ease,
@@ -920,16 +869,13 @@
                 width: 100% !important;
                 height: 36px !important;
                 min-width: 0 !important;
-
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 border-radius: 8px !important;
                 background: #334155 !important;
                 color: #f1f5f9 !important;
                 border: 1px solid #475569 !important;
-
                 font-size: 12px !important;
                 font-weight: 700 !important;
                 cursor: pointer;
@@ -1012,11 +958,9 @@
                 left: 10px !important;
                 right: 10px !important;
                 bottom: 10px !important;
-
                 width: auto !important;
                 max-width: none !important;
                 box-sizing: border-box !important;
-
                 z-index: 9999 !important;
             }
 
@@ -1035,11 +979,9 @@
                 left: auto !important;
                 right: 10px !important;
                 bottom: 16px !important;
-
                 width: 48px !important;
                 min-width: 48px !important;
                 max-width: 48px !important;
-
                 padding: 6px !important;
                 border-radius: 16px !important;
                 overflow: hidden !important;
@@ -1068,14 +1010,11 @@
                 right: 10px !important;
                 bottom: 10px !important;
                 transform: none !important;
-
                 width: auto !important;
                 max-width: none !important;
                 box-sizing: border-box !important;
-
                 padding: 10px 8px !important;
                 gap: 8px !important;
-
                 overflow: visible !important;
                 z-index: 99999 !important;
             }
@@ -1085,11 +1024,9 @@
                 display: inline-flex !important;
                 flex: 0 0 36px !important;
                 align-self: flex-end !important;
-
                 width: 36px !important;
                 height: 36px !important;
                 margin: 0 !important;
-
                 align-items: center !important;
                 justify-content: center !important;
                 box-sizing: border-box !important;
@@ -1135,15 +1072,12 @@
                 left: auto !important;
                 right: 10px !important;
                 bottom: 16px !important;
-
                 width: 48px !important;
                 min-width: 48px !important;
                 max-width: 48px !important;
-
                 padding: 6px !important;
                 gap: 0 !important;
                 border-radius: 16px !important;
-
                 overflow: visible !important;
             }
 
@@ -1151,11 +1085,9 @@
             #quickDock.is-collapsed .dock-toggle {
                 display: inline-flex !important;
                 flex: 0 0 36px !important;
-
                 width: 36px !important;
                 height: 36px !important;
                 margin: 0 !important;
-
                 align-self: center !important;
             }
 
@@ -1286,15 +1218,11 @@
             left: 0;
             right: 0;
             z-index: 10000;
-
             display: none;
-
             background: #fff;
             border: 1px solid #dee2e6;
             border-radius: 8px;
-
             box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
-
             max-height: 320px;
             overflow-y: auto;
         }
@@ -1353,9 +1281,7 @@
             }
         }
 
-
         @media print {
-
             @page {
                 size: 297mm 210mm;
                 margin: 12mm;
@@ -1365,21 +1291,16 @@
                 background: #fff !important;
             }
 
-
             /* PRINT GRID  */
             .container-fluid.py-3 {
                 display: flex !important;
                 flex-wrap: wrap !important;
-
                 width: 264mm !important;
                 max-width: 264mm !important;
-
                 column-gap: 8mm !important;
                 row-gap: 8mm !important;
-
                 margin: 0 !important;
                 padding: 0 !important;
-
                 align-items: flex-start !important;
                 align-content: flex-start !important;
             }
@@ -1402,13 +1323,10 @@
                 display: none !important;
             }
 
-
             /* SEMBUNYIKAN PESAN KAMAR KOSONG  */
             .kamar-card .alert {
                 display: none !important;
             }
-
-
 
             /* CONTAINER BLOK  */
             .blok-card {
@@ -1430,22 +1348,16 @@
                 margin: 0 !important;
             }
 
-
             /* HEADER KAMAR TERPILIH  */
             .kamar-card:has(.print-card:not([style*="display: none"]))>.card-header {
                 display: block !important;
-
                 width: 264mm !important;
                 max-width: 264mm !important;
-
                 flex: 0 0 264mm !important;
-
                 margin: 0 0 4mm 0 !important;
                 padding: 0 0 3mm 0 !important;
-
                 border: none !important;
                 border-bottom: 1px solid #000 !important;
-
                 background: #fff !important;
                 color: #000 !important;
             }
@@ -1496,17 +1408,13 @@
                 margin: 0 !important;
             }
 
-
             /* SETIAP WBP  */
             .print-card {
                 width: 128mm !important;
                 max-width: 128mm !important;
-
                 flex: 0 0 128mm !important;
-
                 padding: 0 !important;
                 margin: 0 !important;
-
                 break-inside: avoid !important;
                 page-break-inside: avoid !important;
             }
@@ -1515,17 +1423,12 @@
             .wbp-item {
                 width: 128mm !important;
                 height: 34mm !important;
-
                 box-sizing: border-box !important;
-
                 border: 1px solid #000 !important;
                 border-radius: 0 !important;
                 box-shadow: none !important;
-
                 background: #fff !important;
-
                 overflow: hidden !important;
-
                 margin: 0 !important;
             }
 
@@ -1539,46 +1442,37 @@
                 padding: 5px 6px !important;
             }
 
-
             /* FOTO  */
             .foto-wbp {
                 width: 22mm !important;
                 height: 28mm !important;
-
                 object-fit: cover !important;
             }
-
 
             /* NAMA  */
             .nama-wbp {
                 font-size: 10pt !important;
                 font-weight: 700 !important;
                 line-height: 1.15 !important;
-
                 white-space: nowrap !important;
                 overflow: hidden !important;
                 text-overflow: ellipsis !important;
             }
 
-
             /* DATA WBP  */
             .print-only {
                 display: block !important;
-
                 margin-top: 3px !important;
-
                 font-size: 8pt !important;
                 line-height: 1.2 !important;
             }
 
             .print-only div {
                 margin-bottom: 1px !important;
-
                 white-space: nowrap !important;
                 overflow: hidden !important;
                 text-overflow: ellipsis !important;
             }
-
 
             .print-only strong {
                 display: inline-block !important;
@@ -1833,114 +1727,70 @@
 </head>
 
 <body>
-
     <div class="container-fluid py-3 page-hunian">
-
         <div class="card shadow-sm mb-4 no-print page-hunian-header-card">
-
             <div class="card-body">
-
                 {{-- HEADER --}}
                 <div class="d-flex justify-content-between align-items-start mb-3 page-hunian-header">
-
                     {{-- TITLE --}}
                     <div class="page-hunian-title">
-
                         <h4 class="fw-bold mb-1">
                             DATA HUNIAN KAMAR
                         </h4>
-
                         <nav aria-label="breadcrumb">
-
                             <ol class="breadcrumb mb-0">
-
                                 <li class="breadcrumb-item">
                                     <a href="/admin-banceuy">
                                         Dashboard
                                     </a>
                                 </li>
-
                                 <li class="breadcrumb-item active">
                                     Data Hunian Kamar
                                 </li>
-
                             </ol>
-
                         </nav>
-
                     </div>
-
-
                     {{-- ACTION --}}
                     <div class="d-flex align-items-center gap-2 page-hunian-actions">
-
                         <div class="btn-group" role="group" aria-label="View Mode">
-
                             <button type="button" id="btnCardView" class="btn btn-outline-secondary active"
                                 title="Card View">
-
                                 <i class="bi bi-grid-3x3-gap-fill"></i>
-
                             </button>
-
                             <button type="button" id="btnDetailView" class="btn btn-outline-secondary"
                                 title="Detail View">
-
                                 <i class="bi bi-list-ul"></i>
-
                             </button>
-
                         </div>
-
                         <button type="button" class="btn btn-primary" onclick="printSelected()">
-
                             <i class="bi bi-printer me-1"></i>
                             Print Sterek
-
                         </button>
-
                     </div>
-
                 </div>
-
                 {{-- SEARCH  --}}
                 <div class="row page-hunian-search">
-
                     <div class="col-lg-4 col-md-6 position-relative">
-
                         <input type="text" id="searchKamar" class="form-control"
                             placeholder="Cari Blok / No. Kamar / Nama WBP..." autocomplete="off">
-
                         <div id="searchWbpResults" class="search-wbp-results"></div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
         {{-- CARD VIEW --}}
         <div id="cardView">
             @foreach ($grouped as $blok => $kamars)
                 <div id="blok-{{ $blok }}" class="card shadow-sm mb-4 blok-card"
                     data-block="{{ $blok }}">
-
                     <div class="card-header bg-dark text-white">
-
                         <div class="d-flex justify-content-between align-items-center">
-
                             <h4 class="mb-0">
                                 BLOK {{ $blok }}
                             </h4>
-
                         </div>
-
                     </div>
-
                     <div class="card-body">
-
                         @foreach ($kamars as $kamar)
                             <div id="room-card-{{ $kamar->kode_blok }}-{{ $kamar->no_kamar }}"
                                 class="card border-primary mb-4 kamar-card" data-kamar="{{ $kamar->kamar_id }}"
@@ -1957,43 +1807,31 @@
                                         $kamar->kode_blok .
                                         str_replace('KAMAR ', '', strtoupper($kamar->lokasi_sel)),
                                 ) }}">
-
                                 <div class="card-header bg-light">
-
                                     <div class="d-flex justify-content-between align-items-center">
-
                                         <div>
-
                                             <h5 class="mb-1 fw-bold text-primary">
                                                 BLOK {{ $kamar->kode_blok }} - {{ $kamar->lokasi_sel }}
                                             </h5>
-
                                         </div>
-
                                         <div class="d-flex align-items-end">
-
                                             <div class="d-flex align-items-center gap-2">
-
                                                 <span class="fw-bold mb-2">
                                                     Dipilih :
                                                     <span class="selectedCount">0</span>
                                                     Orang
                                                 </span>
-
                                                 <span class="badge {{ $kamar->badge_kapasitas }} fs-6 px-3 py-2">
                                                     {{ $kamar->jumlah_wbp }}/{{ $kamar->kapasitas }} WBP
                                                 </span>
-
                                                 <button type="button" class="btn btn-success btn-sm btn-all"
                                                     onclick="selectKamar(this)">
                                                     Pilih Semua
                                                 </button>
-
                                                 <button type="button" class="btn btn-secondary btn-sm btn-batal"
                                                     onclick="unselectKamar(this)">
                                                     Batal
                                                 </button>
-
                                                 @if ($permissions['fullAccess'])
                                                     <button type="button"
                                                         class="btn btn-warning btn-sm fw-semibold btn-pindah"
@@ -2003,235 +1841,166 @@
                                                             '{{ ucfirst(strtolower(explode('-', $kamar->kode_blok)[0])) }}',
                                                             '{{ $kamar->lokasi_sel }}'
                                                         )">
-
                                                         <i class="bi bi-arrow-left-right me-1"></i>
                                                         Pindahkan
-
                                                     </button>
                                                 @endif
-
                                             </div>
-
                                         </div>
-
                                     </div>
-
                                 </div>
-
                                 <div class="card-body">
-
                                     @if (count($kamar->wbps))
                                         <div class="row g-3">
-
                                             @foreach ($kamar->wbps as $wbp)
                                                 <div class="col-lg-6 print-card">
-
                                                     <div class="card h-100 position-relative wbp-item">
-
                                                         <div class="position-absolute top-0 end-0 m-2">
-
                                                             <input type="checkbox"
                                                                 class="form-check-input select-box wbp-check d-none"
                                                                 value="{{ $wbp['id'] ?? '' }}">
-
                                                         </div>
-
                                                         <div class="card-body py-2">
-
                                                             <div class="d-flex align-items-center">
-
                                                                 <div class="me-3 flex-shrink-0">
-
                                                                     @if (!empty($wbp['foto_wbp']))
                                                                         <img src="{{ asset($wbp['foto_wbp']) }}"
                                                                             class="foto-wbp" alt="{{ $wbp['nama'] }}">
                                                                     @else
                                                                         <div class="foto-wbp"></div>
                                                                     @endif
-
                                                                 </div>
-
                                                                 <div class="flex-grow-1 overflow-hidden">
-
                                                                     <div class="fw-bold nama-wbp text-uppercase">
                                                                         {{ $wbp['nama'] }}
                                                                     </div>
-
                                                                     {{-- Tampil di layar --}}
                                                                     <div
                                                                         class="screen-only text-muted small text-truncate">
                                                                         {{ $wbp['jenis_kejahatan'] }}
                                                                     </div>
-
                                                                     {{-- Tampil saat print --}}
                                                                     <div class="print-only">
-
                                                                         <div>
                                                                             <strong>No. Reg :</strong>
                                                                             {{ $wbp['no_reg_instansi'] ?? '-' }}
                                                                         </div>
-
                                                                         <div>
                                                                             <strong>Putusan :</strong>
-
                                                                             @php
                                                                                 $tahun = (int) ($wbp['putusan'] ?? 0);
                                                                                 $bulan =
                                                                                     (int) ($wbp['putusan_bulan'] ?? 0);
                                                                             @endphp
-
                                                                             @if ($tahun > 0)
                                                                                 {{ $tahun }} Tahun
                                                                             @endif
-
                                                                             @if ($bulan > 0)
                                                                                 {{ $bulan }} Bulan
                                                                             @endif
-
                                                                             @if ($tahun === 0 && $bulan === 0)
                                                                                 -
                                                                             @endif
                                                                         </div>
-
                                                                         <div>
                                                                             <strong>Pasal :</strong>
                                                                             {{ $wbp['pasal'] ?? '-' }}
                                                                         </div>
-
                                                                         <div>
                                                                             <strong>Ekspirasi :</strong>
                                                                             {{ !empty($wbp['ekspirasi']) ? \Carbon\Carbon::parse($wbp['ekspirasi'])->format('d-m-Y') : '-' }}
                                                                         </div>
-
                                                                     </div>
-
                                                                 </div>
-
                                                             </div>
-
                                                         </div>
-
                                                     </div>
-
                                                 </div>
                                             @endforeach
-
                                         </div>
                                     @else
                                         <div class="alert alert-secondary mb-0">
                                             Tidak ada WBP pada kamar ini
                                         </div>
                                     @endif
-
                                 </div>
-
                             </div>
                         @endforeach
-
                     </div>
-
                 </div>
             @endforeach
-
             {{-- LUAR TEMBOK --}}
             <section id="section-rs" class="card shadow-sm mb-4">
-
                 <div class="card-header bg-danger text-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">
                             RUMAH SAKIT
                         </h4>
-
                         <span class="badge bg-light text-danger">
                             {{ $wbpRs->count() }} WBP
                         </span>
-
                     </div>
-
                 </div>
-
                 <div class="card-body">
-
                     @if ($wbpRs->count())
-
                         <div class="row g-3">
-
                             @foreach ($wbpRs as $wbp)
                                 <div class="col-lg-6 print-card">
-
                                     <div class="card h-100 position-relative wbp-item">
-
                                         <div class="position-absolute top-0 end-0 m-2">
-
                                             <input type="checkbox"
                                                 class="form-check-input select-box wbp-check d-none"
                                                 value="{{ $wbp['id'] ?? '' }}">
-
                                         </div>
-
                                         <div class="card-body py-2">
                                             <div class="d-flex align-items-center">
                                                 <div class="me-3 flex-shrink-0">
-
                                                     @if (!empty($wbp['foto_wbp']))
                                                         <img src="{{ asset($wbp['foto_wbp']) }}" class="foto-wbp"
                                                             alt="{{ $wbp['nama'] }}">
                                                     @else
                                                         <div class="foto-wbp"></div>
                                                     @endif
-
                                                 </div>
-
                                                 <div class="flex-grow-1 overflow-hidden">
                                                     <div class="fw-bold nama-wbp text-uppercase">
                                                         {{ $wbp['nama'] }}
                                                     </div>
-
                                                     <div class="mb-1">
                                                         <span class="badge bg-primary">
                                                             Status : {{ $wbp['status_wbp'] }}
                                                         </span>
                                                     </div>
-
                                                     {{-- Tampil di layar --}}
                                                     <div class="screen-only text-muted small text-truncate">
                                                         {{ $wbp['jenis_kejahatan'] }}
                                                     </div>
-
                                                     {{-- Tampil saat print --}}
                                                     <div class="print-only">
-
                                                         <div>
                                                             <strong>No. Reg :</strong>
                                                             {{ $wbp['no_reg_instansi'] ?? '-' }}
                                                         </div>
-
                                                         <div>
                                                             <strong>Putusan :</strong>
-
                                                             @php
                                                                 $tahun = (int) ($wbp['putusan'] ?? 0);
                                                                 $bulan = (int) ($wbp['putusan_bulan'] ?? 0);
                                                             @endphp
-
                                                             @if ($tahun > 0)
                                                                 {{ $tahun }} Tahun
                                                             @endif
-
                                                             @if ($bulan > 0)
                                                                 {{ $bulan }} Bulan
                                                             @endif
-
                                                             @if ($tahun === 0 && $bulan === 0)
                                                                 -
                                                             @endif
                                                         </div>
-
                                                         <div>
                                                             <strong>Pasal :</strong>
                                                             {{ $wbp['pasal'] ?? '-' }}
                                                         </div>
-
                                                         <div>
                                                             <strong>Ekspirasi :</strong>
                                                             {{ !empty($wbp['ekspirasi']) ? \Carbon\Carbon::parse($wbp['ekspirasi'])->format('d-m-Y') : '-' }}
@@ -2243,192 +2012,132 @@
                                     </div>
                                 </div>
                             @endforeach
-
                         </div>
                     @else
                         <div class="alert alert-secondary mb-0">
                             Tidak ada WBP yang sedang dirawat di Rumah Sakit.
                         </div>
-
                     @endif
-
                 </div>
-
             </section>
-
             <section id="section-bon" class="card shadow-sm mb-4">
-
                 <div class="card-header bg-primary text-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">
                             BON
                         </h4>
-
                         <span class="badge bg-light text-primary">
                             {{ $wbpBon->count() }} WBP
                         </span>
-
                     </div>
-
                 </div>
-
                 <div class="card-body">
-
                     @if ($wbpBon->count())
-
                         <div class="row g-3">
-
                             @foreach ($wbpBon as $wbp)
                                 <div class="col-lg-6 print-card">
-
                                     <div class="card h-100 position-relative wbp-item">
-
                                         <div class="position-absolute top-0 end-0 m-2">
-
                                             <input type="checkbox"
                                                 class="form-check-input select-box wbp-check d-none"
                                                 value="{{ $wbp['id'] ?? '' }}">
-
                                         </div>
-
                                         <div class="card-body py-2">
-
                                             <div class="d-flex align-items-center">
-
                                                 <div class="me-3 flex-shrink-0">
-
                                                     @if (!empty($wbp['foto_wbp']))
                                                         <img src="{{ asset($wbp['foto_wbp']) }}" class="foto-wbp"
                                                             alt="{{ $wbp['nama'] }}">
                                                     @else
                                                         <div class="foto-wbp"></div>
                                                     @endif
-
                                                 </div>
-
                                                 <div class="flex-grow-1 overflow-hidden">
-
                                                     <div class="fw-bold nama-wbp text-uppercase">
                                                         {{ $wbp['nama'] }}
                                                     </div>
-
                                                     <div class="mb-1">
                                                         <span class="badge bg-primary">
                                                             Status : {{ $wbp['status_wbp'] }}
                                                         </span>
                                                     </div>
-
                                                     {{-- Tampil di layar --}}
                                                     <div class="screen-only text-muted small text-truncate">
                                                         {{ $wbp['jenis_kejahatan'] }}
                                                     </div>
-
                                                     {{-- Tampil saat print --}}
                                                     <div class="print-only">
-
                                                         <div>
                                                             <strong>No. Reg :</strong>
                                                             {{ $wbp['no_reg_instansi'] ?? '-' }}
                                                         </div>
-
                                                         <div>
                                                             <strong>Putusan :</strong>
-
                                                             @php
                                                                 $tahun = (int) ($wbp['putusan'] ?? 0);
                                                                 $bulan = (int) ($wbp['putusan_bulan'] ?? 0);
                                                             @endphp
-
                                                             @if ($tahun > 0)
                                                                 {{ $tahun }} Tahun
                                                             @endif
-
                                                             @if ($bulan > 0)
                                                                 {{ $bulan }} Bulan
                                                             @endif
-
                                                             @if ($tahun === 0 && $bulan === 0)
                                                                 -
                                                             @endif
                                                         </div>
-
                                                         <div>
                                                             <strong>Pasal :</strong>
                                                             {{ $wbp['pasal'] ?? '-' }}
                                                         </div>
-
                                                         <div>
                                                             <strong>Ekspirasi :</strong>
                                                             {{ !empty($wbp['ekspirasi']) ? \Carbon\Carbon::parse($wbp['ekspirasi'])->format('d-m-Y') : '-' }}
                                                         </div>
-
                                                     </div>
-
                                                 </div>
-
                                             </div>
-
                                         </div>
-
                                     </div>
-
                                 </div>
                             @endforeach
-
                         </div>
                     @else
                         <div class="alert alert-secondary mb-0">
                             Tidak ada WBP BON.
                         </div>
-
                     @endif
-
                 </div>
-
             </section>
         </div>
-
         {{-- DETAIL VIEW --}}
         <div id="detailView" style="display:none;">
-
             {{-- ================= DALAM TEMBOK ================= --}}
             @foreach ($grouped as $blok => $kamars)
                 @foreach ($kamars as $kamar)
                     <div id="room-detail-{{ $kamar->kode_blok }}-{{ $kamar->no_kamar }}"
                         class="card shadow-sm mb-3 kamar-card" data-kamar="{{ $kamar->kamar_id }}">
-
                         <div class="card-header bg-light">
-
                             <div class="d-flex justify-content-between align-items-start">
-
                                 <div>
-
                                     <h6 class="fw-bold text-primary mb-2">
                                         BLOK {{ $kamar->kode_blok }} - {{ $kamar->lokasi_sel }}
                                     </h6>
-
                                     <div class="d-flex align-items-center gap-2">
-
                                         <span class="fw-semibold">
                                             Dipilih :
                                             <span class="selectedCount">0</span>
                                             Orang
                                         </span>
-
                                         <button type="button" class="btn btn-success btn-sm btn-all"
                                             onclick="selectKamar(this)">
-
                                             Pilih Semua
-
                                         </button>
-
                                         <button type="button" class="btn btn-secondary btn-sm btn-batal"
                                             onclick="unselectKamar(this)">
-
                                             Batal
-
                                         </button>
-
                                         <button type="button" class="btn btn-warning btn-sm fw-semibold btn-pindah"
                                             onclick="bukaModalPindah(
                                             this,
@@ -2436,159 +2145,99 @@
                                             '{{ ucfirst(strtolower(explode('-', $kamar->kode_blok)[0])) }}',
                                             '{{ $kamar->lokasi_sel }}'
                                         )">
-
                                             <i class="bi bi-arrow-left-right me-1"></i>
                                             Pindahkan
-
                                         </button>
-
                                     </div>
-
                                 </div>
-
                                 <span class="badge {{ $kamar->badge_kapasitas }} fs-6 px-3 py-2">
-
                                     {{ $kamar->jumlah_wbp }}/{{ $kamar->kapasitas }} WBP
-
                                 </span>
-
                             </div>
-
                         </div>
-
                         <div class="card-body p-0">
-
                             @if (count($kamar->wbps))
                                 <div class="table-responsive">
-
                                     <table class="table table-sm mb-0 align-middle">
-
                                         <thead class="table-light">
-
                                             <tr>
-
                                                 <th style="width:50px;"></th>
-
                                                 <th style="width:65%;">
                                                     Nama WBP
                                                 </th>
-
                                                 <th>
                                                     Perkara
                                                 </th>
-
                                             </tr>
-
                                         </thead>
-
                                         <tbody>
-
                                             @foreach ($kamar->wbps as $wbp)
                                                 <tr class="wbp-item">
-
                                                     <td class="text-center">
-
                                                         <input type="checkbox"
                                                             class="form-check-input select-box wbp-check"
                                                             value="{{ $wbp['id'] ?? '' }}">
-
                                                     </td>
-
                                                     <td class="fw-semibold">
                                                         {{ $wbp['nama'] }}
                                                     </td>
-
                                                     <td>
                                                         {{ $wbp['jenis_kejahatan'] }}
                                                     </td>
-
                                                 </tr>
                                             @endforeach
-
                                         </tbody>
-
                                     </table>
-
                                 </div>
                             @else
                                 <div class="text-center text-muted py-3">
-
                                     Tidak ada WBP.
-
                                 </div>
                             @endif
-
                         </div>
-
                     </div>
                 @endforeach
             @endforeach
-
             {{-- ================= LUAR TEMBOK ================= --}}
-
             <div id="section-detail-rs">
-
                 <div class="card shadow-sm mb-3">
-
                     <div class="card-header bg-danger text-white">
-
                         <div class="d-flex justify-content-between align-items-center">
-
                             <h6 class="fw-bold mb-0">
                                 RUMAH SAKIT
                             </h6>
-
                             <span class="badge bg-light text-danger">
                                 {{ $wbpRs->count() }} WBP
                             </span>
-
                         </div>
-
                     </div>
-
                     <div class="card-body p-0">
-
                         @if ($wbpRs->count())
-
                             <div class="table-responsive">
-
                                 <table class="table table-sm mb-0 align-middle">
-
                                     <thead class="table-light">
-
                                         <tr>
-
                                             <th style="width:45%;">
                                                 Nama WBP
                                             </th>
-
                                             <th>
                                                 Perkara
                                             </th>
-
                                             <th class="text-center" style="width:160px;">
                                                 Aksi
                                             </th>
-
                                         </tr>
-
                                     </thead>
-
                                     <tbody>
-
                                         @foreach ($wbpRs as $wbp)
                                             <tr>
-
                                                 <td class="fw-semibold">
                                                     {{ $wbp['nama'] }}
                                                 </td>
-
                                                 <td>
                                                     {{ $wbp['jenis_kejahatan'] }}
                                                 </td>
-
                                                 <td class="text-center">
-
                                                     <button type="button" class="btn btn-warning btn-sm fw-semibold"
                                                         onclick="bukaModalPindah(
                                                         this,
@@ -2596,98 +2245,62 @@
                                                         '{{ $wbp['lokasi_blok'] }}',
                                                         '{{ $wbp['lokasi_sel'] }}'
                                                     )">
-
                                                         <i class="bi bi-arrow-left-right me-1"></i>
                                                         Pindahkan
-
                                                     </button>
-
                                                 </td>
-
                                             </tr>
                                         @endforeach
-
                                     </tbody>
-
                                 </table>
-
                             </div>
                         @else
                             <div class="text-center text-muted py-3">
                                 Tidak ada WBP di Rumah Sakit.
                             </div>
-
                         @endif
-
                     </div>
-
                 </div>
-
             </div>
-
             <div id="section-detail-bon">
-
                 <div class="card shadow-sm mb-3">
-
                     <div class="card-header bg-primary text-white">
-
                         <div class="d-flex justify-content-between align-items-center">
-
                             <h6 class="fw-bold mb-0">
                                 BON
                             </h6>
-
                             <span class="badge bg-light text-primary">
                                 {{ $wbpBon->count() }} WBP
                             </span>
-
                         </div>
-
                     </div>
-
                     <div class="card-body p-0">
-
                         @if ($wbpBon->count())
-
                             <div class="table-responsive">
-
                                 <table class="table table-sm mb-0 align-middle">
-
                                     <thead class="table-light">
-
                                         <tr>
-
                                             <th style="width:45%;">
                                                 Nama WBP
                                             </th>
-
                                             <th>
                                                 Perkara
                                             </th>
-
                                             <th class="text-center" style="width:160px;">
                                                 Aksi
                                             </th>
-
                                         </tr>
-
                                     </thead>
-
                                     <tbody>
-
                                         @foreach ($wbpBon as $wbp)
                                             <tr>
-
                                                 <td class="fw-semibold">
                                                     {{ $wbp['nama'] }}
                                                 </td>
-
                                                 <td>
                                                     {{ $wbp['jenis_kejahatan'] }}
                                                 </td>
-
                                                 <td class="text-center">
-
                                                     <button type="button" class="btn btn-warning btn-sm fw-semibold"
                                                         onclick="bukaModalPindah(
                                                 this,
@@ -2695,70 +2308,47 @@
                                                 '{{ $wbp['lokasi_blok'] }}',
                                                 '{{ $wbp['lokasi_sel'] }}'
                                             )">
-
                                                         <i class="bi bi-arrow-left-right me-1"></i>
                                                         Pindahkan
-
                                                     </button>
-
                                                 </td>
-
                                             </tr>
                                         @endforeach
-
                                     </tbody>
-
                                 </table>
-
                             </div>
                         @else
                             <div class="text-center text-muted py-3">
                                 Tidak ada WBP BON.
                             </div>
-
                         @endif
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
     <!-- ================= MODAL PINDAH ================= -->
     <div class="modal fade" id="modalPindah" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-
             <div class="modal-content">
-
                 <div class="modal-header bg-warning">
                     <h5 class="modal-title fw-bold">Pindahkan WBP</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-
                 <div class="modal-body">
-
                     <input type="hidden" id="kamarAsalId">
-
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Kamar Asal</label>
                         <input type="text" id="kamarAsalNama" class="form-control" readonly>
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Jumlah WBP</label>
                         <input type="text" id="jumlahWbp" class="form-control" readonly>
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Kamar Tujuan</label>
-
                         <select id="kamarTujuan" class="form-select">
                             <option value="">-- Pilih Kamar Tujuan --</option>
-
                             @foreach ($grouped as $blok => $kamars)
                                 <optgroup label="📍 BLOK {{ strtoupper(explode('-', $blok)[0]) }}">
                                     @foreach ($kamars as $k)
@@ -2768,40 +2358,28 @@
                                     @endforeach
                                 </optgroup>
                             @endforeach
-
                         </select>
                     </div>
-
                 </div>
-
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-
                     <button type="button" class="btn btn-success" onclick="pindahkanData()">
                         Pindahkan Sekarang
                     </button>
                 </div>
-
             </div>
-
         </div>
     </div>
-
     <div id="quickDock" class="no-print">
-
         <button type="button" id="dockToggle" class="dock-toggle" aria-expanded="true"
             aria-controls="quickDockSections" aria-label="Close Floating Dock" title="Close Floating Dock">
             <i class="bi bi-chevron-down" aria-hidden="true"></i>
         </button>
-
         <div id="quickDockSections">
-
             <div class="dock-section">
-
                 <div class="dock-title">
                     🏢 Dalam Tembok
                 </div>
-
                 @php
                     $inside = [
                         'A' => 12,
@@ -2816,10 +2394,8 @@
                         'ISOLASI' => 10,
                     ];
                 @endphp
-
                 @foreach ($inside as $blok => $jumlah)
                     <div class="dock-item" data-block="{{ $blok }}" data-room-count="{{ $jumlah }}">
-
                         @switch($blok)
                             @case('DAPUR')
                                 <span>Dapur</span>
@@ -2832,109 +2408,72 @@
                             @default
                                 <span>{{ $blok }}</span>
                         @endswitch
-
                         <div class="dock-popup"></div>
-
                     </div>
                 @endforeach
-
             </div>
-
             {{-- ================= LUAR TEMBOK ================= --}}
             <div class="dock-section ms-4">
-
                 <div class="dock-title">
                     🌐 Luar Tembok
                 </div>
-
                 <div class="dock-item dock-link" data-target="section-rs">
                     🏥 <span>RS</span>
                 </div>
-
                 <div class="dock-item dock-link" data-target="section-bon">
                     📄 <span>BON</span>
                 </div>
-
             </div>
-
         </div>{{-- /quickDockSections --}}
-
     </div>
-
     <script>
         // TOGGLE VIEW CARD/DETAILS
         const btnCardView = document.getElementById("btnCardView");
         const btnDetailView = document.getElementById("btnDetailView");
-
         const cardView = document.getElementById("cardView");
         const detailView = document.getElementById("detailView");
-
         if (btnCardView && btnDetailView && cardView && detailView) {
-
             function setView(mode) {
-
                 if (mode === "detail") {
-
                     cardView.style.display = "none";
                     detailView.style.display = "";
-
                     btnDetailView.classList.add("active");
                     btnCardView.classList.remove("active");
-
                 } else {
-
                     cardView.style.display = "";
                     detailView.style.display = "none";
-
                     btnCardView.classList.add("active");
                     btnDetailView.classList.remove("active");
-
                 }
             }
-
             btnCardView.addEventListener("click", function() {
                 setView("card");
             });
-
             btnDetailView.addEventListener("click", function() {
                 setView("detail");
             });
-
             // RESTORE SETELAH RELOAD
             const savedView = sessionStorage.getItem("mutasiViewMode");
-
             if (savedView) {
                 setView(savedView);
                 sessionStorage.removeItem("mutasiViewMode");
             }
-
         }
-
         // RESTORE POSISI SCROLL
         document.addEventListener("DOMContentLoaded", function() {
-
             const savedScroll = sessionStorage.getItem("mutasiScrollY");
-
             if (savedScroll !== null) {
-
                 sessionStorage.removeItem("mutasiScrollY");
-
                 requestAnimationFrame(function() {
-
                     window.scrollTo({
                         top: parseInt(savedScroll, 10),
                         left: 0,
                         behavior: "instant"
                     });
-
                 });
-
             }
-
         });
-
         let currentCard = null;
-
         // UPDATE JUMLAH TERPILIH PER KAMAR
         function updateSelected(card) {
             if (!card) return;
@@ -2944,7 +2483,6 @@
                 counter.textContent = total;
             }
         }
-
         // SELECT ALL
         function selectKamar(button) {
             const card = button.closest(".kamar-card");
@@ -2952,91 +2490,59 @@
                 item.classList.add("selected");
                 item.querySelector(".wbp-check").checked = true;
             });
-
             updateSelected(card);
-
         }
-
         // UNSELECT ALL
         function unselectKamar(button) {
             const card = button.closest(".kamar-card");
             card.querySelectorAll(".wbp-item").forEach(function(item) {
                 item.classList.remove("selected");
                 item.querySelector(".wbp-check").checked = false;
-
             });
-
             updateSelected(card);
-
         }
-
         // PRINT WBP TERPILIH
         function printSelected() {
-
             const checked = document.querySelectorAll(".wbp-check:checked");
-
             if (checked.length === 0) {
                 alert("Pilih minimal satu WBP yang akan dicetak.");
                 return;
             }
-
             // Simpan elemen yang disembunyikan
             const hiddenElements = [];
-
             // 1. Sembunyikan seluruh kartu WBP yang tidak dipilih
             document.querySelectorAll(".print-card").forEach(function(card) {
-
                 const checkbox = card.querySelector(".wbp-check");
-
                 if (!checkbox.checked) {
-
                     card.style.display = "none";
                     hiddenElements.push(card);
-
                 }
-
             });
-
             // 2. Sembunyikan kamar yang tidak memiliki WBP terpilih
             document.querySelectorAll(".kamar-card").forEach(function(kamar) {
-
                 const selected = kamar.querySelectorAll(".wbp-check:checked").length;
-
                 if (selected === 0) {
-
                     kamar.style.display = "none";
                     hiddenElements.push(kamar);
-
                 }
-
             });
-
             // 3. Sembunyikan blok yang tidak memiliki kamar tampil
             document.querySelectorAll(".blok-card").forEach(function(blok) {
-
                 const kamarVisible = [...blok.querySelectorAll(".kamar-card")]
                     .some(k => k.style.display !== "none");
-
                 if (!kamarVisible) {
-
                     blok.style.display = "none";
                     hiddenElements.push(blok);
-
                 }
-
             });
-
             // Cetak
             window.print();
-
             // Kembalikan tampilan semula
             hiddenElements.forEach(function(el) {
                 el.style.display = "";
             });
-
         }
-
-        // OPEN MODAL
+        // OPEN MODAL KAMAR
         function bukaModalPindah(button, idKamar, blok, lokasiSel) {
             currentCard = button.closest(".kamar-card");
             const checked = currentCard.querySelectorAll(".wbp-check:checked");
@@ -3048,109 +2554,80 @@
             document.getElementById("kamarAsalNama").value = "BLOK " + blok + " - " + lokasiSel;
             document.getElementById("jumlahWbp").value = checked.length + " Orang";
             document.getElementById("kamarTujuan").value = "";
-
             new bootstrap.Modal(
                 document.getElementById("modalPindah")
             ).show();
         }
-
         // PINDAHKAN DATA
         async function pindahkanData() {
-
             const kamarAsal = document.getElementById("kamarAsalId").value;
             const kamarTujuan = document.getElementById("kamarTujuan").value;
-
             if (!kamarTujuan) {
                 alert("Pilih kamar tujuan");
                 return;
             }
-
             if (kamarAsal === kamarTujuan) {
                 alert("Kamar tujuan tidak boleh sama");
                 return;
             }
-
             const ids = [];
-
             currentCard.querySelectorAll(".wbp-check:checked")
                 .forEach(i => ids.push(i.value));
-
             if (ids.length === 0) {
                 alert("Pilih minimal satu WBP");
                 return;
             }
-
             const csrf = document
                 .querySelector('meta[name="csrf-token"]')
                 .getAttribute("content");
-
             try {
-
                 const res = await fetch("/admin-banceuy/wbp-kamar-update", {
-
                     method: "POST",
-
                     headers: {
                         "Content-Type": "application/json",
                         "Accept": "application/json",
                         "X-CSRF-TOKEN": csrf,
                         "X-Requested-With": "XMLHttpRequest"
                     },
-
                     body: JSON.stringify({
                         kamar_id: kamarTujuan,
                         wbp_ids: ids
                     })
-
                 });
-
                 if (!res.ok) {
-
                     const txt = await res.text();
                     console.error(txt);
                     alert("HTTP Error " + res.status);
                     return;
-
                 }
-
                 const data = await res.json();
-
                 if (data.success) {
                     alert(data.message);
-
                     bootstrap.Modal
                         .getInstance(document.getElementById("modalPindah"))
                         .hide();
-
                     // SIMPAN STATE SEBELUM RELOAD
                     const currentView = detailView.style.display !== "none" ?
                         "detail" :
                         "card";
-
                     sessionStorage.setItem(
                         "mutasiViewMode",
                         currentView
                     );
-
                     // Simpan posisi scroll
                     sessionStorage.setItem(
                         "mutasiScrollY",
                         window.scrollY
                     );
-
                     location.reload();
-
                 } else {
                     alert(data.message || "Gagal pindah");
                 }
-
             } catch (err) {
                 console.error(err);
                 alert("Server error");
             }
-
         }
-
         // SEARCH BLOK / KAMAR / NAMA WBP
         const searchInput = document.getElementById("searchKamar");
         const searchResults = document.getElementById("searchWbpResults");
@@ -3160,234 +2637,149 @@
                 .toUpperCase()
                 .replace(/[^A-Z0-9]/g, "");
         }
-
         searchInput.addEventListener("input", function() {
-
             const keyword = normalizeSearch(this.value);
-
             // Tutup hasil kalau kosong
             if (keyword === "") {
-
                 searchResults.innerHTML = "";
                 searchResults.classList.remove("show");
-
                 // Tampilkan semua kamar
                 document.querySelectorAll(".kamar-card").forEach(function(card) {
                     card.style.display = "";
                 });
-
                 document.querySelectorAll(".blok-card").forEach(function(blok) {
                     blok.style.display = "";
                 });
-
                 return;
             }
-
             let wbpMatches = [];
-
             // CARI WBP
             document.querySelectorAll(".kamar-card").forEach(function(card) {
-
                 const kamarTarget = normalizeSearch(
                     card.dataset.search
                 );
-
                 const wbpItems = card.querySelectorAll(".wbp-item");
-
                 let kamarCocok = kamarTarget.includes(keyword);
-
                 wbpItems.forEach(function(item) {
-
                     const namaElement = item.querySelector(".nama-wbp");
-
                     if (!namaElement) return;
-
                     const nama = namaElement.textContent.trim();
-
                     const namaTarget = normalizeSearch(nama);
-
                     if (namaTarget.includes(keyword)) {
-
                         wbpMatches.push({
                             nama: nama,
                             item: item,
                             card: card
                         });
-
                     }
-
                 });
-
                 // Tampilkan kamar kalau:
                 // - nama WBP cocok
                 // - atau blok/kamar cocok
-
                 if (kamarCocok || wbpItems.length === 0) {
                     card.style.display = kamarCocok ? "" : "none";
                 } else {
-
                     const adaWbpCocok = Array.from(wbpItems).some(function(item) {
-
                         const namaElement = item.querySelector(".nama-wbp");
-
                         if (!namaElement) return false;
-
                         return normalizeSearch(
                             namaElement.textContent
                         ).includes(keyword);
-
                     });
-
                     card.style.display = adaWbpCocok ? "" : "none";
                 }
-
             });
-
             // TAMPILKAN / SEMBUNYIKAN BLOK
             document.querySelectorAll(".blok-card").forEach(function(blok) {
-
                 const adaKamar = Array.from(
                     blok.querySelectorAll(".kamar-card")
                 ).some(function(room) {
-
                     return room.style.display !== "none";
-
                 });
-
                 blok.style.display = adaKamar ? "" : "none";
-
             });
-
             // HASIL PENCARIAN WBP
             searchResults.innerHTML = "";
-
             if (wbpMatches.length === 0) {
-
                 searchResults.innerHTML = `
             <div class="search-wbp-empty">
                 WBP tidak ditemukan
             </div>
         `;
-
                 searchResults.classList.add("show");
-
                 return;
             }
-
             wbpMatches.forEach(function(match) {
-
                 const result = document.createElement("div");
-
                 result.className = "search-wbp-result";
-
                 const lokasi = match.card.querySelector(
                     ".card-header h5"
                 );
-
                 const lokasiText = lokasi ?
                     lokasi.textContent.trim() :
                     "Kamar tidak diketahui";
-
                 result.innerHTML = `
             <div class="search-wbp-name">
                 ${match.nama}
             </div>
-
             <div class="search-wbp-location">
                 ${lokasiText}
             </div>
         `;
-
                 result.addEventListener("click", function() {
-
                     // SELECT WBP
                     const checkbox = match.item.querySelector(
                         ".wbp-check"
                     );
-
                     if (!checkbox) return;
-
                     checkbox.checked = true;
-
                     match.item.classList.add("selected");
-
                     // Update counter kamar
                     updateSelected(match.card);
-
                     // TUTUP SEARCH
                     searchResults.classList.remove("show");
-
                     // KAMAR DITAMPILKAN
                     match.card.style.display = "";
-
                     const blok = match.card.closest(".blok-card");
-
                     if (blok) {
                         blok.style.display = "";
                     }
-
                     // SCROLL KE WBP
                     setTimeout(function() {
-
                         match.item.scrollIntoView({
                             behavior: "smooth",
                             block: "center"
                         });
-
                         // Highlight
                         match.item.classList.add("room-highlight");
-
                         setTimeout(function() {
-
                             match.item.classList.remove(
                                 "room-highlight"
                             );
-
                         }, 1500);
-
                     }, 50);
-
                 });
-
                 searchResults.appendChild(result);
-
             });
-
             searchResults.classList.add("show");
-
         });
-
         document.addEventListener("click", function(e) {
-
             if (!searchInput.contains(e.target) &&
                 !searchResults.contains(e.target)) {
-
                 searchResults.classList.remove("show");
-
             }
-
         });
-
         // CLICK CARD WBP
         document.querySelectorAll(".wbp-item").forEach(function(card) {
-
             card.addEventListener("click", function(e) {
-
                 // Abaikan klik pada checkbox (kalau masih ada)
                 if (e.target.classList.contains("wbp-check")) return;
-
                 const checkbox = this.querySelector(".wbp-check");
-
                 checkbox.checked = !checkbox.checked;
-
                 this.classList.toggle("selected", checkbox.checked);
-
                 updateSelected(this.closest(".kamar-card"));
-
             });
-
         });
-
         // EVENT CHECKBOX
         document.addEventListener("change", function(e) {
             if (e.target.classList.contains("wbp-check")) {
@@ -3395,19 +2787,13 @@
                 item.classList.toggle("selected", e.target.checked);
                 updateSelected(item.closest(".kamar-card"));
             }
-
         });
-
         // FLOATING DOCK JS
         let activeHighlight = null;
         let highlightTimer = null;
-
         document.querySelectorAll(".dock-item[data-block]").forEach(function(item) {
-
             const popup = item.querySelector(".dock-popup");
-
             if (!popup) return;
-
             const block = item.dataset.block;
             const total = parseInt(item.dataset.roomCount);
             console.log({
@@ -3415,63 +2801,41 @@
                 total,
                 popup
             });
-
             popup.innerHTML = "";
-
             for (let i = 1; i <= total; i++) {
-
                 const btn = document.createElement("div");
-
                 btn.className = "popup-room";
                 btn.textContent = i;
-
                 btn.onclick = function(e) {
                     e.stopPropagation();
                     // Tentukan view yang sedang aktif
                     const prefix = (detailView.style.display !== "none") ?
                         "room-detail-" :
                         "room-card-";
-
                     let target;
-
                     if (block === "DAPUR") {
-
                         target = prefix + "DAPUR-1";
-
                     } else if (block === "ISOLASI") {
-
                         target = prefix + "ISOLASI-" + i;
-
                     } else {
-
                         target = prefix + block + "-" + i;
-
                     }
-
                     const card = document.getElementById(target);
-
                     if (!card) return;
-
                     // Active dock
                     document.querySelectorAll(".dock-item")
                         .forEach(d => d.classList.remove("active"));
-
                     item.classList.add("active");
-
                     // Hapus highlight sebelumnya
                     if (activeHighlight) {
                         activeHighlight.classList.remove("room-highlight");
                     }
-
                     activeHighlight = card;
-
                     card.scrollIntoView({
                         behavior: "smooth",
                         block: "center"
                     });
-
                     card.classList.add("room-highlight");
-
                     clearTimeout(highlightTimer);
                     // Highlight kamar sementara; status navigasi aktif tetap terlihat.
                     highlightTimer = setTimeout(function() {
@@ -3481,62 +2845,44 @@
                 };
                 popup.appendChild(btn);
             }
-
         });
-
         // FLOATING DOCK RS / BON
         let activeSection = null;
         let sectionTimer = null;
-
         document.querySelectorAll(".dock-link").forEach(function(item) {
-
             item.addEventListener("click", function() {
-
                 const target = document.getElementById(
                     item.dataset.target
                 );
-
                 if (!target) return;
-
                 // Active dock
                 document.querySelectorAll(".dock-item")
                     .forEach(i => i.classList.remove("active"));
-
                 item.classList.add("active");
-
                 // Hapus highlight sebelumnya
                 if (activeSection) {
                     activeSection.classList.remove("section-highlight");
                 }
-
                 activeSection = target;
-
                 target.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
                 });
-
                 target.classList.add("section-highlight");
-
                 clearTimeout(sectionTimer);
                 // Highlight bagian sementara; status navigasi aktif tetap terlihat.
                 sectionTimer = setTimeout(function() {
                     target.classList.remove("section-highlight");
                     activeSection = null;
                 }, 1400);
-
             });
-
         });
-
         // FLOATING DOCK MOBILE JS
         (function() {
             const quickDock = document.getElementById("quickDock");
             if (!quickDock) return;
-
             const dockToggle = document.getElementById("dockToggle");
             const isMobile = () => window.innerWidth <= 768;
-
             let mobilePopup = null;
             let activeMobileBlock = null;
             let popupHome = null;
@@ -3545,40 +2891,31 @@
             function openMobilePopup(item) {
                 const popup = item.querySelector(".dock-popup");
                 if (!popup) return;
-
                 // Tutup popup sebelumnya sebelum membuka yang baru.
                 closeMobilePopup();
-
                 popupHome = item;
                 popupNextSibling = popup.nextSibling;
                 mobilePopup = popup;
                 activeMobileBlock = item.dataset.block;
-
                 // Lepaskan popup dari ancestor dock agar posisi fixed
                 // benar-benar dihitung terhadap viewport.
                 document.body.appendChild(popup);
-
                 popup.classList.add("mobile-popup-open");
-
                 // Reset inline position lama jika pernah diubah handler resize.
                 popup.style.removeProperty("left");
                 popup.style.removeProperty("right");
                 popup.style.removeProperty("bottom");
                 popup.style.removeProperty("top");
                 popup.style.removeProperty("transform");
-
                 item.classList.add("active");
             }
 
             function closeMobilePopup() {
                 if (!mobilePopup) return;
-
                 const popup = mobilePopup;
                 const home = popupHome;
                 const nextSibling = popupNextSibling;
-
                 popup.classList.remove("mobile-popup-open");
-
                 // Kembalikan popup ke posisi DOM semula.
                 if (home) {
                     if (nextSibling && nextSibling.parentNode === home) {
@@ -3586,23 +2923,18 @@
                     } else {
                         home.appendChild(popup);
                     }
-
                     home.classList.remove("active");
                 }
-
                 popup.style.removeProperty("left");
                 popup.style.removeProperty("right");
                 popup.style.removeProperty("bottom");
                 popup.style.removeProperty("top");
                 popup.style.removeProperty("transform");
-
                 mobilePopup = null;
                 activeMobileBlock = null;
                 popupHome = null;
                 popupNextSibling = null;
             }
-
-
             if (dockToggle) {
                 dockToggle.addEventListener("click", function(e) {
                     e.preventDefault();
@@ -3618,19 +2950,13 @@
                     if (mobilePopup) mobilePopup.classList.remove("show");
                 });
             }
-
-
             quickDock.addEventListener("click", function(e) {
                 if (!isMobile()) return;
-
                 const item = e.target.closest(".dock-item[data-block]");
                 if (!item || !quickDock.contains(item)) return;
-
                 e.preventDefault();
                 e.stopPropagation();
-
                 const block = item.dataset.block;
-
                 // Klik tombol yang sama akan menutup popup.
                 if (
                     mobilePopup &&
@@ -3639,29 +2965,22 @@
                     closeMobilePopup();
                     return;
                 }
-
                 // Bersihkan status aktif dock lainnya.
                 quickDock
                     .querySelectorAll(".dock-item.active")
                     .forEach(function(dock) {
                         dock.classList.remove("active");
                     });
-
                 openMobilePopup(item);
             });
-
             document.addEventListener("click", function(e) {
                 if (!isMobile() || !mobilePopup) return;
-
                 // Klik di dalam popup tidak menutup popup.
                 if (mobilePopup.contains(e.target)) return;
-
                 // Klik tombol dock ditangani oleh listener quickDock.
                 if (e.target.closest("#quickDock")) return;
-
                 closeMobilePopup();
             });
-
             window.addEventListener("resize", function() {
                 // Tidak perlu menghitung ulang koordinat popup:
                 // posisi horizontal selalu 50% dari viewport.
@@ -3669,7 +2988,6 @@
                     closeMobilePopup();
                 }
             });
-
             window.addEventListener("orientationchange", function() {
                 if (!isMobile()) {
                     closeMobilePopup();
@@ -3677,7 +2995,6 @@
             });
         })();
     </script>
-
 </body>
 
 </html>

@@ -225,7 +225,6 @@
         /* Badge Register F */
         html.app-skin-dark .halo-minna-page .hm-table .badge {
             background-color: #283449 !important;
-            color: #cbd5e1 !important;
         }
 
         /* Pagination: tombol angka, panah, dan ellipsis */

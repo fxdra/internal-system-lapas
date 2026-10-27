@@ -1011,11 +1011,11 @@
                                                     Sangat Aktif
                                                 </span>
                                             @elseif ($item->indikator_keaktifan === 'Kurang Aktif')
-                                                <span class="badge bg-warning-subtle text-warning-emphasis">
+                                                <span class="badge bg-danger-subtle text-danger">
                                                     Kurang Aktif
                                                 </span>
                                             @else
-                                                <span class="badge bg-primary-subtle text-primary">
+                                                <span class="badge bg-warning-subtle" style="color: #e7e413 !important;">
                                                     Aktif
                                                 </span>
                                             @endif
