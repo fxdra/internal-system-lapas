@@ -380,7 +380,9 @@ class AdminController extends Controller
 
     public function verifikasiMassalSelMaksimum(Request $request)
     {
-        $petugasId = Auth::guard('admin')->id();
+        $petugas = Auth::guard('admin')->user();
+        $petugasId = $petugas?->id;
+        $petugasRole = $petugas?->role;
 
         if (!$petugasId) {
             return response()->json([
@@ -391,7 +393,7 @@ class AdminController extends Controller
 
         $sekarang = now();
 
-        $jumlah = DB::transaction(function () use ($petugasId, $sekarang) {
+        $jumlah = DB::transaction(function () use ($petugasId, $petugasRole, $sekarang) {
             $riwayat = WbpIsolasiHistory::query()
                 ->whereNull('tgl_keluar_isolasi')
                 ->whereNull('diverifikasi_pada')
@@ -405,6 +407,7 @@ class AdminController extends Controller
             foreach ($riwayat as $item) {
                 $item->diverifikasi_pada = $sekarang;
                 $item->diverifikasi_oleh = $petugasId;
+                $item->diverifikasi_role = $petugasRole;
                 $item->save();
             }
 

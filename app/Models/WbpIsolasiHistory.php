@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Wbp;
 use App\Models\Kamar;
+use App\Models\Admin;
 
 class WbpIsolasiHistory extends Model
 {
@@ -17,6 +18,7 @@ class WbpIsolasiHistory extends Model
         'tgl_keluar_isolasi',
         'diverifikasi_pada',
         'diverifikasi_oleh',
+        'diverifikasi_role',
     ];
 
     protected $casts = [
@@ -33,5 +35,10 @@ class WbpIsolasiHistory extends Model
     public function kamar()
     {
         return $this->belongsTo(Kamar::class, 'kamar_id');
+    }
+
+    public function petugasVerifikasi()
+    {
+        return $this->belongsTo(Admin::class, 'diverifikasi_oleh');
     }
 }
