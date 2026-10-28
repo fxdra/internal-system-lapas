@@ -1512,6 +1512,325 @@
             border-color: #334155 !important;
         }
 
+        /* ================= DARK MODE - MODAL TAMBAH WBP ================= */
+
+        /* BACKDROP MODAL */
+        html.app-skin-dark #modalTambahWbp {
+            color-scheme: dark;
+        }
+
+        /* CONTAINER MODAL */
+        html.app-skin-dark #modalTambahWbp .custom-modal-content {
+            background: #111827 !important;
+            color: #e2e8f0 !important;
+            border: 1px solid #374151 !important;
+        }
+
+        /* HEADER */
+        html.app-skin-dark #modalTambahWbp .modal-header-custom {
+            background: #1f2937 !important;
+            border-bottom: 1px solid #374151 !important;
+        }
+
+        html.app-skin-dark #modalTambahWbp .modal-header-custom h4 {
+            color: #f1f5f9 !important;
+        }
+
+        /* TOMBOL TUTUP */
+        html.app-skin-dark #modalTambahWbp .close-modal {
+            color: #cbd5e1 !important;
+        }
+
+        html.app-skin-dark #modalTambahWbp .close-modal:hover {
+            color: #ffffff !important;
+        }
+
+        /* BODY */
+        html.app-skin-dark #modalTambahWbp .modal-body-custom {
+            background: #111827 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* JUDUL BAGIAN FORM */
+        html.app-skin-dark #modalTambahWbp .modal-body-custom h6 {
+            color: #f1f5f9 !important;
+        }
+
+        /* LABEL */
+        html.app-skin-dark #modalTambahWbp .form-label {
+            color: #cbd5e1 !important;
+        }
+
+        /* GARIS PEMISAH */
+        html.app-skin-dark #modalTambahWbp .modal-body-custom hr {
+            border-color: #374151 !important;
+            opacity: 1;
+        }
+
+        /* INPUT, DROPDOWN, DAN INPUT FILE */
+        html.app-skin-dark #modalTambahWbp .form-control,
+        html.app-skin-dark #modalTambahWbp .form-select {
+            background-color: #1f2937 !important;
+            color: #f1f5f9 !important;
+            border-color: #475569 !important;
+            color-scheme: dark;
+        }
+
+        /* PLACEHOLDER */
+        html.app-skin-dark #modalTambahWbp .form-control::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1;
+        }
+
+        /* OPTION DROPDOWN */
+        html.app-skin-dark #modalTambahWbp .form-select option {
+            background-color: #1f2937 !important;
+            color: #f1f5f9 !important;
+        }
+
+        /* FOCUS INPUT */
+        html.app-skin-dark #modalTambahWbp .form-control:focus,
+        html.app-skin-dark #modalTambahWbp .form-select:focus {
+            background-color: #1f2937 !important;
+            color: #f1f5f9 !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 .2rem rgba(99, 102, 241, .2) !important;
+        }
+
+        /* TEKS BANTUAN */
+        html.app-skin-dark #modalTambahWbp .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        /* FOOTER */
+        html.app-skin-dark #modalTambahWbp .modal-footer-custom {
+            background: #111827 !important;
+            border-top: 1px solid #374151 !important;
+        }
+
+        /* TOMBOL BATAL */
+        html.app-skin-dark #modalTambahWbp .modal-footer-custom .btn-secondary {
+            background: #475569 !important;
+            color: #f8fafc !important;
+            border-color: #475569 !important;
+        }
+
+        html.app-skin-dark #modalTambahWbp .modal-footer-custom .btn-secondary:hover {
+            background: #64748b !important;
+            border-color: #64748b !important;
+        }
+
+        /* TOMBOL SIMPAN */
+        html.app-skin-dark #modalTambahWbp .modal-footer-custom .btn-primary {
+            background: #3454db !important;
+            color: #ffffff !important;
+            border-color: #3454db !important;
+        }
+
+        html.app-skin-dark #modalTambahWbp .modal-footer-custom .btn-primary:hover {
+            background: #2945c0 !important;
+            border-color: #2945c0 !important;
+        }
+
+
+        /* ================= DARK MODE - MODAL IMPORT EXCEL WBP ================= */
+
+        /* CONTAINER MODAL */
+        html.app-skin-dark #importExcelModal .jq-modal-card {
+            background: #111827 !important;
+            color: #e2e8f0 !important;
+            border-color: #374151 !important;
+        }
+
+        /* HEADER MODAL */
+        html.app-skin-dark #importExcelModal .jq-modal-header {
+            background: #166534 !important;
+            color: #ffffff !important;
+            border-bottom: 1px solid #374151 !important;
+        }
+
+        html.app-skin-dark #importExcelModal .jq-modal-header h5 {
+            color: #ffffff !important;
+        }
+
+        /* TOMBOL TUTUP */
+        html.app-skin-dark #importExcelModal .jq-close {
+            background: #1f2937 !important;
+            color: #f1f5f9 !important;
+            border-color: #475569 !important;
+        }
+
+        html.app-skin-dark #importExcelModal .jq-close:hover {
+            background: #374151 !important;
+            color: #ffffff !important;
+        }
+
+        /* BODY MODAL */
+        html.app-skin-dark #importExcelModal .jq-modal-body {
+            background: #111827 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* AREA UPLOAD */
+        html.app-skin-dark #importExcelModal .upload-box {
+            background: #1f2937 !important;
+            border-color: #475569 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* JUDUL UPLOAD */
+        html.app-skin-dark #importExcelModal .upload-box h5 {
+            color: #f1f5f9 !important;
+        }
+
+        /* FORMAT FILE */
+        html.app-skin-dark #importExcelModal .text-secondary {
+            color: #94a3b8 !important;
+        }
+
+        /* LABEL MODE IMPORT */
+        html.app-skin-dark #importExcelModal .form-label,
+        html.app-skin-dark #importExcelModal .form-check-label,
+        html.app-skin-dark #importExcelModal .form-check-label strong {
+            color: #cbd5e1 !important;
+        }
+
+        /* DESKRIPSI MODE IMPORT */
+        html.app-skin-dark #importExcelModal .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        /* RADIO BUTTON */
+        html.app-skin-dark #importExcelModal .form-check-input {
+            background-color: #111827;
+            border-color: #64748b;
+        }
+
+        html.app-skin-dark #importExcelModal .form-check-input:checked {
+            background-color: #2563eb !important;
+            border-color: #2563eb !important;
+        }
+
+        /* INPUT FILE EXCEL */
+        html.app-skin-dark #importExcelModal input[type="file"] {
+            background: #111827 !important;
+            color: #e2e8f0 !important;
+            border-color: #475569 !important;
+            color-scheme: dark;
+        }
+
+        html.app-skin-dark #importExcelModal input[type="file"]::file-selector-button {
+            background: #374151 !important;
+            color: #f1f5f9 !important;
+            border-right: 1px solid #475569 !important;
+        }
+
+        html.app-skin-dark #importExcelModal input[type="file"]::file-selector-button:hover {
+            background: #475569 !important;
+        }
+
+        /* KARTU PREVIEW DAN DETAIL */
+        html.app-skin-dark #importExcelModal #previewResult,
+        html.app-skin-dark #importExcelModal #importDetailResult {
+            background: #111827 !important;
+            color: #e2e8f0 !important;
+            border-color: #374151 !important;
+        }
+
+        /* HEADER PREVIEW */
+        html.app-skin-dark #importExcelModal #previewResult .card-header {
+            background: #1d4ed8 !important;
+            color: #ffffff !important;
+            border-bottom-color: #374151 !important;
+        }
+
+        /* HEADER DATA TIDAK DITEMUKAN */
+        html.app-skin-dark #importExcelModal #importDetailResult .card-header {
+            background: #854d0e !important;
+            color: #fef3c7 !important;
+            border-bottom-color: #92400e !important;
+        }
+
+        /* BODY KARTU */
+        html.app-skin-dark #importExcelModal .card-body {
+            background: #111827 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* TABEL PREVIEW */
+        html.app-skin-dark #importExcelModal .table {
+            --bs-table-bg: #111827;
+            --bs-table-color: #e2e8f0;
+            --bs-table-border-color: #374151;
+            --bs-table-striped-bg: #1f2937;
+            --bs-table-striped-color: #f1f5f9;
+            color: #e2e8f0 !important;
+        }
+
+        /* HEADER TABEL DATA TIDAK DITEMUKAN */
+        html.app-skin-dark #importExcelModal .table thead.table-light th {
+            background: #1f2937 !important;
+            color: #cbd5e1 !important;
+            border-color: #374151 !important;
+        }
+
+        /* GARIS TABEL */
+        html.app-skin-dark #importExcelModal .table th,
+        html.app-skin-dark #importExcelModal .table td {
+            border-color: #374151 !important;
+        }
+
+        /* TOMBOL PREVIEW DAN IMPORT */
+        html.app-skin-dark #importExcelModal #btnPreviewImport {
+            background: #3454db !important;
+            border-color: #3454db !important;
+            color: #ffffff !important;
+        }
+
+        html.app-skin-dark #importExcelModal #btnPreviewImport:hover {
+            background: #2945c0 !important;
+            border-color: #2945c0 !important;
+        }
+
+        html.app-skin-dark #importExcelModal #btnImportNow {
+            background: #15803d !important;
+            border-color: #15803d !important;
+            color: #ffffff !important;
+        }
+
+        html.app-skin-dark #importExcelModal #btnImportNow:hover {
+            background: #166534 !important;
+            border-color: #166534 !important;
+        }
+
+        /* ================= PAGINATION - DARK MODE ================= */
+
+        html.app-skin-dark .pagination .page-link {
+            background-color: #1f2937 !important;
+            color: #cbd5e1 !important;
+            border-color: #374151 !important;
+        }
+
+        /* HALAMAN AKTIF */
+        html.app-skin-dark .pagination .page-item.active .page-link {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+            border-color: #2563eb !important;
+        }
+
+        /* HOVER */
+        html.app-skin-dark .pagination .page-link:hover {
+            background-color: #334155 !important;
+            color: #ffffff !important;
+            border-color: #475569 !important;
+        }
+
+        /* TOMBOL DISABLED */
+        html.app-skin-dark .pagination .page-item.disabled .page-link {
+            background-color: #111827 !important;
+            color: #64748b !important;
+            border-color: #283449 !important;
+        }
 
         /* Box keterangan - Light Theme */
         .detail-keterangan-box {
@@ -2101,10 +2420,11 @@
             {{-- HEADER --}}
             <div class="jq-modal-header d-flex justify-content-between align-items-center">
                 <h5 class="fw-bold mb-0">
-                    📥 Import Data WBP
+                    <i class="bi bi-cloud-upload me-2"></i> Import Data WBP
                 </h5>
+
                 <button type="button" class="jq-close btn btn-light btn-sm">
-                    ×
+                    <i class="bi bi-x-lg"></i>
                 </button>
             </div>
             {{-- BODY --}}
@@ -2125,7 +2445,7 @@
                         {{-- MODE IMPORT --}}
                         <div class="mb-4 text-start">
                             <label class="form-label fw-bold">
-                                Mode Import
+                                Mode Import:
                             </label>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="import_mode" id="mode_append"
@@ -2591,20 +2911,20 @@
                             <div class="wbp-grid">
                 `;
                         $.each(res.data, function(i, w) {
-                                let foto = '';
-                                if (w.has_foto) {
-                                    foto = `
+                            let foto = '';
+                            if (w.has_foto) {
+                                foto = `
                                     <img src="/${w.foto_wbp}" alt="Foto WBP">
                                     `;
-                                } else {
-                                    foto = `
+                            } else {
+                                foto = `
                                     <div class="wbp-card-photo-empty"></div>
                                     `;
-                                }
-                                // ================= STATUS BADGE =================
-                                let statusBadge = '';
-                                if (w.status_kamar === 'Terbuka') {
-                                    statusBadge = `
+                            }
+                            // ================= STATUS BADGE =================
+                            let statusBadge = '';
+                            if (w.status_kamar === 'Terbuka') {
+                                statusBadge = `
                             <span style="
                                 display:inline-block;
                                 padding:5px 10px;
@@ -2617,8 +2937,8 @@
                                 Terbuka
                             </span>
                         `;
-                                } else if (w.status_kamar === 'Tertutup') {
-                                    statusBadge = `
+                            } else if (w.status_kamar === 'Tertutup') {
+                                statusBadge = `
                             <span style="
                                 display:inline-block;
                                 padding:5px 10px;
@@ -2631,27 +2951,27 @@
                                 Tertutup
                             </span>
                         `;
-                                }
-                                // ================= AUDIT BADGE =================
-                                let auditBadge = '';
-                                if (w.duplicate_no_reg) {
-                                    auditBadge += `<span class="badge bg-danger">No Reg Duplikat</span>`;
-                                }
-                                if (w.duplicate_nama) {
-                                    auditBadge +=
-                                        `<span class="badge bg-warning text-dark">Nama Duplikat</span>`;
-                                }
-                                if (!w.has_foto) {
-                                    auditBadge += `<span class="badge bg-secondary">Belum Ada Foto</span>`;
-                                }
-                                if (!w.ekspirasi) {
-                                    auditBadge +=
-                                        `<span class="badge bg-info text-dark">Ekspirasi Kosong</span>`;
-                                }
-                                if (w.is_data_complete) {
-                                    auditBadge += `<span class="badge bg-success">Data Lengkap</span>`;
-                                }
-                                html += `
+                            }
+                            // ================= AUDIT BADGE =================
+                            let auditBadge = '';
+                            if (w.duplicate_no_reg) {
+                                auditBadge += `<span class="badge bg-danger">No Reg Duplikat</span>`;
+                            }
+                            if (w.duplicate_nama) {
+                                auditBadge +=
+                                    `<span class="badge bg-warning text-dark">Nama Duplikat</span>`;
+                            }
+                            if (!w.has_foto) {
+                                auditBadge += `<span class="badge bg-secondary">Belum Ada Foto</span>`;
+                            }
+                            if (!w.ekspirasi) {
+                                auditBadge +=
+                                    `<span class="badge bg-info text-dark">Ekspirasi Kosong</span>`;
+                            }
+                            if (w.is_data_complete) {
+                                auditBadge += `<span class="badge bg-success">Data Lengkap</span>`;
+                            }
+                            html += `
                         <div class="main-row d-flex gap-3 align-items-start shadow-lg">
                             <div class="position-absolute top-0 end-0 m-2 d-flex flex-column align-items-end gap-1">
                                 ${auditBadge}
@@ -2672,13 +2992,13 @@
                                     ${
                                         fullAccess
                                             ? `
-                                                <button class="action-btn btn-detail" data-id="${w.id}">
-                                                    Detail
-                                                </button>
-                                                <button class="action-btn btn-delete" data-id="${w.id}">
-                                                    Hapus
-                                                </button>
-                                            `
+                                                                                <button class="action-btn btn-detail" data-id="${w.id}">
+                                                                                    Detail
+                                                                                </button>
+                                                                                <button class="action-btn btn-delete" data-id="${w.id}">
+                                                                                    Hapus
+                                                                                </button>
+                                                                            `
                                         : ''
                                     }
                                 </div>
@@ -2839,20 +3159,20 @@
                 if (Number(subsiderHari) > 0) {
                     subsiderParts.push(`${subsiderHari} Hari`);
                 }
-                let pidanaSubsider = subsiderParts.length
-                    ? subsiderParts.join(' ')
-                    : '-';
+                let pidanaSubsider = subsiderParts.length ?
+                    subsiderParts.join(' ') :
+                    '-';
                 let dendaSubsiderFormatted =
                     dendaSubsider !== null && Number(dendaSubsider) > 0 ?
                     Number(dendaSubsider).toLocaleString('id-ID') :
                     '-';
 
-                    let isolasi = res.isolasi ?? {};
-                    let kartuIsolasi = '';
+                let isolasi = res.isolasi ?? {};
+                let kartuIsolasi = '';
 
-                    if (isolasi.is_sel_maksimum) {
-                        if (!isolasi.punya_riwayat) {
-                            kartuIsolasi = `
+                if (isolasi.is_sel_maksimum) {
+                    if (!isolasi.punya_riwayat) {
+                        kartuIsolasi = `
                                 <div class="mt-3 p-3 border rounded-3"
                                     style="background:rgba(108,117,125,.06);">
                                     <div class="d-flex align-items-center gap-2">
@@ -2864,26 +3184,26 @@
                                     </div>
                                 </div>
                             `;
-                        } else {
-                            const tanggalMasuk = isolasi.tgl_masuk
-                                ? formatTanggalIndonesia(isolasi.tgl_masuk)
-                                : '-';
+                    } else {
+                        const tanggalMasuk = isolasi.tgl_masuk ?
+                            formatTanggalIndonesia(isolasi.tgl_masuk) :
+                            '-';
 
-                            const batas14Hari = isolasi.batas_14_hari
-                                ? formatTanggalIndonesia(isolasi.batas_14_hari)
-                                : '-';
+                        const batas14Hari = isolasi.batas_14_hari ?
+                            formatTanggalIndonesia(isolasi.batas_14_hari) :
+                            '-';
 
-                            const statusMasaTunggu = isolasi.masa_tunggu_selesai
-                                ? '<span class="badge bg-success">14 hari terpenuhi</span>'
-                                : `<span class="badge bg-warning text-dark">
+                        const statusMasaTunggu = isolasi.masa_tunggu_selesai ?
+                            '<span class="badge bg-success">14 hari terpenuhi</span>' :
+                            `<span class="badge bg-warning text-dark">
                                     Menunggu ${Number(isolasi.sisa_hari ?? 0)} hari
                                 </span>`;
 
-                            const statusVerifikasi = isolasi.sudah_diverifikasi
-                                ? '<span class="badge bg-success">Terverifikasi</span>'
-                                : '<span class="badge bg-secondary">Belum diverifikasi</span>';
+                        const statusVerifikasi = isolasi.sudah_diverifikasi ?
+                            '<span class="badge bg-success">Terverifikasi</span>' :
+                            '<span class="badge bg-secondary">Belum diverifikasi</span>';
 
-                            kartuIsolasi = `
+                        kartuIsolasi = `
                                 <div class="mt-3 p-3 border rounded-3"
                                     style="background:rgba(13,110,253,.04);">
                                     <div class="d-flex align-items-center gap-2 mb-2">
@@ -2908,30 +3228,30 @@
                                     </div>
                                 </div>
                             `;
-                        }
                     }
+                }
 
-                    let statusBadge = '';
-                    if (status === 'Terbuka') {
-                        statusBadge = `
+                let statusBadge = '';
+                if (status === 'Terbuka') {
+                    statusBadge = `
                             <span style="background:#28a745; color:#fff; padding:6px 12px; border-radius:8px; font-weight:600;">
                                 Terbuka
                             </span>
                         `;
-                    } else if (status === 'Tertutup') {
-                        statusBadge = `
+                } else if (status === 'Tertutup') {
+                    statusBadge = `
                             <span style=" background:#dc3545; color:#fff; padding:6px 12px; border-radius:8px; font-weight:600;">
                                 Tertutup
                             </span>
                         `;
-                    } else {
-                        statusBadge = `
+                } else {
+                    statusBadge = `
                             <span style="background:#6c757d; color:#fff; padding:6px 12px; border-radius:8px; font-weight:600;">
                                 -
                             </span>
                         `;
-                    }
-                    $('#detailBody').html(`
+                }
+                $('#detailBody').html(`
                     <h5 class="fw-bold mb-3">
                         ${nama}
                     </h5>
@@ -2988,31 +3308,31 @@
                             </div>
                         </div>
                         ${keterangan && keterangan.trim() !== '' ? `
-                    <div class="mt-3" id="detailKeteranganSection">
-                        <label class="fw-bold mb-2 d-block">
-                            Tanggal Keterangan
-                        </label>
-                        <div class="border rounded p-2 bg-light">
-                            ${tanggal && tanggal.trim() !== '' ? tanggal : '-'}
-                        </div>
+                                                    <div class="mt-3" id="detailKeteranganSection">
+                                                        <label class="fw-bold mb-2 d-block">
+                                                            Tanggal Keterangan
+                                                        </label>
+                                                        <div class="border rounded p-2 bg-light">
+                                                            ${tanggal && tanggal.trim() !== '' ? tanggal : '-'}
+                                                        </div>
 
-                        <label class="fw-bold mb-2 mt-3 d-block">
-                            Keterangan
-                        </label>
-                        <div class="detail-keterangan-box"
-                            style="
-                                min-height:80px;
-                                border-radius:12px;
-                                padding:16px;
-                                white-space:pre-wrap;
-                                word-break:break-word;
-                                overflow-wrap:break-word;
-                                font-size:15px;
-                                line-height:1.7;
-                                text-align:left;
-                            ">${keterangan}</div>
-                    </div>
-                ` : ''}
+                                                        <label class="fw-bold mb-2 mt-3 d-block">
+                                                            Keterangan
+                                                        </label>
+                                                        <div class="detail-keterangan-box"
+                                                            style="
+                                                                min-height:80px;
+                                                                border-radius:12px;
+                                                                padding:16px;
+                                                                white-space:pre-wrap;
+                                                                word-break:break-word;
+                                                                overflow-wrap:break-word;
+                                                                font-size:15px;
+                                                                line-height:1.7;
+                                                                text-align:left;
+                                                            ">${keterangan}</div>
+                                                    </div>
+                                                ` : ''}
                         <div class="mt-4 text-end d-flex gap-2 justify-content-end">
                             <button
                                 class="btn btn-primary btn-edit-wbp"
@@ -3044,7 +3364,7 @@
                             </button>
                         </div>
                     `);
-                });
+            });
         });
 
         // ================= OPEN EDIT DATA WBP =================
@@ -3565,103 +3885,103 @@
                                                                                     Simpan
                                                                                 </button>
                                                                             `);
-                    $('#modalDetail').fadeOut(200, function() {
-                        $('#modalEditKeterangan').fadeIn(200);
-                    });
-                }
-            );
+                $('#modalDetail').fadeOut(200, function() {
+                    $('#modalEditKeterangan').fadeIn(200);
+                });
+            }
+        );
 
-            $(document).on(
-                'click',
-                '#btnSimpanKeterangan',
-                function() {
-                    let btn = $(this);
-                    btn.prop('disabled', true);
-                    $.ajax({
-                        url: '/admin-banceuy/wbp/update-keterangan',
-                        type: 'POST',
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            id: $('#wbp_id').val(),
-                            tanggal: $('#tanggal').val(),
-                            keterangan: $('#keterangan').val()
-                        },
-                        success: function(res) {
-                            if (res.success) {
-                                $('#modalEditKeterangan')
-                                    .fadeOut(200);
-                                // refresh detail WBP
-                                loadDetailWbp(
-                                    $('#wbp_id').val()
-                                );
-                            } else {
-                                alert(
-                                    res.message ??
-                                    'Gagal menyimpan'
-                                );
-                            }
-                        },
-                        error: function(xhr) {
-                            console.log(xhr.responseText);
-                            if (
-                                xhr.responseJSON &&
-                                xhr.responseJSON.errors
-                            ) {
-                                let errors = [];
-                                $.each(
-                                    xhr.responseJSON.errors,
-                                    function(key, value) {
-                                        errors.push(
-                                            value.join('\n')
-                                        );
-                                    }
-                                );
-                                alert(
-                                    errors.join('\n\n')
-                                );
-                            } else {
-                                alert(
-                                    'Terjadi kesalahan server'
-                                );
-                            }
-                        },
-                        complete: function() {
-                            btn.prop(
-                                'disabled',
-                                false
+        $(document).on(
+            'click',
+            '#btnSimpanKeterangan',
+            function() {
+                let btn = $(this);
+                btn.prop('disabled', true);
+                $.ajax({
+                    url: '/admin-banceuy/wbp/update-keterangan',
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: $('#wbp_id').val(),
+                        tanggal: $('#tanggal').val(),
+                        keterangan: $('#keterangan').val()
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            $('#modalEditKeterangan')
+                                .fadeOut(200);
+                            // refresh detail WBP
+                            loadDetailWbp(
+                                $('#wbp_id').val()
+                            );
+                        } else {
+                            alert(
+                                res.message ??
+                                'Gagal menyimpan'
                             );
                         }
-                    });
-                }
-            );
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        if (
+                            xhr.responseJSON &&
+                            xhr.responseJSON.errors
+                        ) {
+                            let errors = [];
+                            $.each(
+                                xhr.responseJSON.errors,
+                                function(key, value) {
+                                    errors.push(
+                                        value.join('\n')
+                                    );
+                                }
+                            );
+                            alert(
+                                errors.join('\n\n')
+                            );
+                        } else {
+                            alert(
+                                'Terjadi kesalahan server'
+                            );
+                        }
+                    },
+                    complete: function() {
+                        btn.prop(
+                            'disabled',
+                            false
+                        );
+                    }
+                });
+            }
+        );
 
-            // ================= CLOSE KETERANGAN =================
-            $('#closeKeteranganModal').click(function() {
-                $('#modalEditKeterangan').fadeOut(200);
-            });
+        // ================= CLOSE KETERANGAN =================
+        $('#closeKeteranganModal').click(function() {
+            $('#modalEditKeterangan').fadeOut(200);
+        });
 
-            // ================= CLOSE DETAIL =================
-            $('#closeModal').click(function() {
+        // ================= CLOSE DETAIL =================
+        $('#closeModal').click(function() {
+            $('#modalDetail').fadeOut(200);
+        });
+
+        // ================= CLOSE EDIT =================
+        $(document).on('click', '#closeEditModal', function() {
+            $('#modalEditKamar').fadeOut(200);
+        });
+
+        // ================= CLICK OUTSIDE =================
+        $(window).click(function(e) {
+            if ($(e.target).is('#modalDetail')) {
                 $('#modalDetail').fadeOut(200);
-            });
-
-            // ================= CLOSE EDIT =================
-            $(document).on('click', '#closeEditModal', function() {
+            }
+            if ($(e.target).is('#modalEditKamar')) {
                 $('#modalEditKamar').fadeOut(200);
-            });
-
-            // ================= CLICK OUTSIDE =================
-            $(window).click(function(e) {
-                if ($(e.target).is('#modalDetail')) {
-                    $('#modalDetail').fadeOut(200);
-                }
-                if ($(e.target).is('#modalEditKamar')) {
-                    $('#modalEditKamar').fadeOut(200);
-                }
-            });
+            }
+        });
     </script>
     <script>
         $(function() {

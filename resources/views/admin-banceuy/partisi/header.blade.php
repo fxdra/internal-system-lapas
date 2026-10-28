@@ -58,9 +58,11 @@
                                 <img src="{{ asset('assets/images/avatar/logo-pemasyarakatan.png') }}"
                                     alt="Logo Pemasyarakatan" class="img-fluid user-avtar" />
                                 <div>
-                                    <h6 class="text-dark mb-0">{{ auth('admin')->user()->nama }}<span
-                                            class="badge bg-soft-success text-success ms-1">PRO</span></h6>
-                                    <span class="fs-12 fw-medium text-muted">{{ auth('admin')->user()->role }}</span>
+                                    <h6 class="text-dark mb-0">{{ auth('admin')->user()->nama }}
+                                    </h6>
+                                    <span class="fs-12 fw-medium text-muted">
+                                        {{ ucfirst(auth('admin')->user()->role) }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
