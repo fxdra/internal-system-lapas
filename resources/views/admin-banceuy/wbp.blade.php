@@ -399,7 +399,7 @@
             border: none !important;
         }
 
-        .text-muted {
+        .wbp-hidden-text {
             display: none;
         }
 
@@ -2992,13 +2992,13 @@
                                     ${
                                         fullAccess
                                             ? `
-                                                                                <button class="action-btn btn-detail" data-id="${w.id}">
-                                                                                    Detail
-                                                                                </button>
-                                                                                <button class="action-btn btn-delete" data-id="${w.id}">
-                                                                                    Hapus
-                                                                                </button>
-                                                                            `
+                                                    <button class="action-btn btn-detail" data-id="${w.id}">
+                                                        Detail
+                                                    </button>
+                                                    <button class="action-btn btn-delete" data-id="${w.id}">
+                                                        Hapus
+                                                    </button>
+                                                `
                                         : ''
                                     }
                                 </div>
@@ -3308,31 +3308,31 @@
                             </div>
                         </div>
                         ${keterangan && keterangan.trim() !== '' ? `
-                                                    <div class="mt-3" id="detailKeteranganSection">
-                                                        <label class="fw-bold mb-2 d-block">
-                                                            Tanggal Keterangan
-                                                        </label>
-                                                        <div class="border rounded p-2 bg-light">
-                                                            ${tanggal && tanggal.trim() !== '' ? tanggal : '-'}
-                                                        </div>
+                                <div class="mt-3" id="detailKeteranganSection">
+                                    <label class="fw-bold mb-2 d-block">
+                                        Tanggal Keterangan
+                                    </label>
+                                    <div class="border rounded p-2 bg-light">
+                                        ${tanggal && tanggal.trim() !== '' ? tanggal : '-'}
+                                    </div>
 
-                                                        <label class="fw-bold mb-2 mt-3 d-block">
-                                                            Keterangan
-                                                        </label>
-                                                        <div class="detail-keterangan-box"
-                                                            style="
-                                                                min-height:80px;
-                                                                border-radius:12px;
-                                                                padding:16px;
-                                                                white-space:pre-wrap;
-                                                                word-break:break-word;
-                                                                overflow-wrap:break-word;
-                                                                font-size:15px;
-                                                                line-height:1.7;
-                                                                text-align:left;
-                                                            ">${keterangan}</div>
-                                                    </div>
-                                                ` : ''}
+                                    <label class="fw-bold mb-2 mt-3 d-block">
+                                        Keterangan
+                                    </label>
+                                    <div class="detail-keterangan-box"
+                                        style="
+                                            min-height:80px;
+                                            border-radius:12px;
+                                            padding:16px;
+                                            white-space:pre-wrap;
+                                            word-break:break-word;
+                                            overflow-wrap:break-word;
+                                            font-size:15px;
+                                            line-height:1.7;
+                                            text-align:left;
+                                        ">${keterangan}</div>
+                                </div>
+                            ` : ''}
                         <div class="mt-4 text-end d-flex gap-2 justify-content-end">
                             <button
                                 class="btn btn-primary btn-edit-wbp"

@@ -82,7 +82,6 @@
         }
 
         /* WIDTH KOLOM - PROPORSIONAL FIXED */
-
         .col-nama {
             width: 18%;
             min-width: 180px;
@@ -149,10 +148,19 @@
             white-space: nowrap;
         }
 
-        /* =========================
-        MUTASI HIDE
-        ========================= */
+        /* GRAND TOTAL tidak boleh terpotong saat print */
+        .grand-total-mutasi {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+        }
 
+        .grand-total-mutasi .card-header,
+        .grand-total-mutasi .card-body {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+        }
+
+        /* MUTASI HIDE */
         .mutasi-row-hidden {
             opacity: 0.5;
             background-color: #e9ecef !important;
@@ -205,7 +213,7 @@
             }
 
             html.app-skin-dark .breadcrumb-item a {
-                color: #93c5fd;
+                color: #0078ff;
             }
 
             html.app-skin-dark .breadcrumb-item+.breadcrumb-item::before {
@@ -371,11 +379,7 @@
             }
         }
 
-
-        /* =========================
-                PRINT
-        ========================= */
-
+        /* PRINT */
         @media print {
 
             .header-block,
@@ -437,7 +441,6 @@
             }
 
             /* proporsi kolom saat print (FIXED & PROPORTIONAL) */
-
             .col-nama {
                 width: 18%;
             }
@@ -511,10 +514,12 @@
 
                 </div>
 
-                <button onclick="window.print()" class="btn btn-primary">
-                    <i class="fas fa-print me-2"></i>
-                    🖨 Print
-                </button>
+                @unless ($isPrint)
+                    <button type="button" id="btnPrintMutasi" class="btn btn-primary">
+                        <i class="fas fa-print me-2"></i>
+                        Cetak Hasil Filter
+                    </button>
+                @endunless
 
             </div>
 
@@ -840,9 +845,12 @@
                                                 </button>
 
                                                 {{-- EDIT --}}
-                                                <button type="button" class="btn btn-warning btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $row->id }}">
+                                                <button type="button" class="btn btn-warning btn-sm btn-edit-mutasi"
+                                                    data-bs-toggle="modal" data-bs-target="#editModalMutasi"
+                                                    data-update-url="{{ route('mutasi.update', $row->id) }}"
+                                                    data-nama="{{ $row->nama }}"
+                                                    data-kamar-tujuan-id="{{ $row->kamar_tujuan_id }}"
+                                                    data-alasan="{{ $row->alasan }}">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </button>
 
@@ -863,66 +871,6 @@
                                         </td>
 
                                     </tr>
-
-                                    <div class="modal fade" id="editModal{{ $row->id }}" tabindex="-1">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-
-                                                <form action="{{ route('mutasi.update', $row->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">
-                                                            Edit Riwayat Mutasi
-                                                        </h5>
-
-                                                        <button type="button" class="btn-close"
-                                                            data-bs-dismiss="modal">
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="modal-body">
-
-                                                        <div class="mb-3">
-                                                            <label>Nama</label>
-                                                            <input type="text" name="nama" class="form-control"
-                                                                value="{{ $row->nama }}" readonly>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Kamar Tujuan</label>
-                                                            <select name="kamar_tujuan_id" class="form-select"
-                                                                required>
-                                                                @foreach ($kamars as $kamar)
-                                                                    <option value="{{ $kamar->id }}"
-                                                                        {{ $row->kamar_tujuan_id == $kamar->id ? 'selected' : '' }}>
-                                                                        BLOK {{ $kamar->kode_blok ?? '-' }} -
-                                                                        {{ $kamar->lokasi_sel ?? '-' }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label>Keterangan</label>
-                                                            <textarea name="alasan" class="form-control" rows="4">{{ $row->alasan }}</textarea>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">
-                                                            Batal
-                                                        </button>
-                                                        <button type="submit" class="btn btn-primary">
-                                                            Simpan
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -930,10 +878,81 @@
                 </div>
             </div>
         @endforeach
+        @unless ($isPrint)
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 my-3 no-print">
+                <small class="text-muted">
+                    Menampilkan {{ $data->firstItem() ?? 0 }}–{{ $data->lastItem() ?? 0 }}
+                    dari {{ $totalMutasi }} mutasi
+                </small>
+
+                {{ $data->onEachSide(1)->links() }}
+            </div>
+        @endunless
     @endif
 
+    <div class="modal fade no-print" id="editModalMutasi" tabindex="-1" aria-labelledby="editModalMutasiLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="formEditMutasi" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalMutasiLabel">
+                            Edit Riwayat Mutasi
+                        </h5>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Tutup"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="editNamaMutasi" class="form-label">Nama</label>
+                            <input type="text" id="editNamaMutasi" name="nama" class="form-control" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editKamarTujuanMutasi" class="form-label">
+                                Kamar Tujuan
+                            </label>
+
+                            <select id="editKamarTujuanMutasi" name="kamar_tujuan_id" class="form-select" required>
+                                @foreach ($kamars as $kamar)
+                                    <option value="{{ $kamar->id }}">
+                                        BLOK {{ $kamar->kode_blok ?? '-' }} -
+                                        {{ $kamar->lokasi_sel ?? '-' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editAlasanMutasi" class="form-label">
+                                Keterangan
+                            </label>
+
+                            <textarea id="editAlasanMutasi" name="alasan" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     @if (!request('search'))
-        <div class="card">
+        <div class="card grand-total-mutasi">
 
             <div class="card-header">
                 GRAND TOTAL MUTASI WBP
@@ -1125,6 +1144,51 @@
                     );
                 });
         }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('editModalMutasi');
+            const form = document.getElementById('formEditMutasi');
+            const nama = document.getElementById('editNamaMutasi');
+            const kamarTujuan = document.getElementById('editKamarTujuanMutasi');
+            const alasan = document.getElementById('editAlasanMutasi');
+
+            modal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+
+                form.action = button.dataset.updateUrl;
+                nama.value = button.dataset.nama || '';
+                kamarTujuan.value = button.dataset.kamarTujuanId || '';
+                alasan.value = button.dataset.alasan || '';
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const printButton = document.getElementById('btnPrintMutasi');
+
+            if (printButton) {
+                printButton.addEventListener('click', function() {
+                    const params = new URLSearchParams(window.location.search);
+
+                    params.set('print', '1');
+                    params.delete('page');
+
+                    const query = params.toString();
+                    const url = window.location.pathname + (query ? '?' + query : '');
+
+                    window.open(url, '_blank');
+                });
+            }
+
+            @if ($isPrint)
+                window.addEventListener('load', function() {
+                    window.print();
+                });
+            @endif
+        });
     </script>
 </body>
 

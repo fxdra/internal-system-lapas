@@ -568,49 +568,51 @@ class MutasiController extends Controller
         }
     }
 
+
     public function dataMutasi(Request $request)
     {
         $request->validate([
-            'filter'     => 'nullable|in:today,yesterday,3days,7days,1month,custom',
-            'start_date' => 'nullable|date|date_format:Y-m-d',
-            'end_date'   => 'nullable|date|date_format:Y-m-d|after_or_equal:start_date',
-            'search'     => 'nullable|string|max:255',
+            'filter'        => 'nullable|in:today,yesterday,3days,7days,1month,custom',
+            'start_date'    => 'nullable|date|date_format:Y-m-d',
+            'end_date'      => 'nullable|date|date_format:Y-m-d|after_or_equal:start_date',
+            'search'        => 'nullable|string|max:255',
+            'print'         => 'nullable|boolean',
         ]);
+
+        $isPrint = $request->boolean('print');
 
         $filter = $request->get('filter', 'today');
 
         $startDate = null;
-        $endDate   = null;
+        $endDate = null;
 
         switch ($filter) {
-
             case 'today':
                 $startDate = Carbon::today();
-                $endDate   = Carbon::today();
+                $endDate = Carbon::today();
                 break;
 
             case 'yesterday':
                 $startDate = Carbon::yesterday();
-                $endDate   = Carbon::yesterday();
+                $endDate = Carbon::yesterday();
                 break;
 
             case '3days':
                 $startDate = Carbon::today()->subDays(2);
-                $endDate   = Carbon::today();
+                $endDate = Carbon::today();
                 break;
 
             case '7days':
                 $startDate = Carbon::today()->subDays(6);
-                $endDate   = Carbon::today();
+                $endDate = Carbon::today();
                 break;
 
             case '1month':
                 $startDate = Carbon::today()->subMonth();
-                $endDate   = Carbon::today();
+                $endDate = Carbon::today();
                 break;
 
             case 'custom':
-
                 if (
                     !$request->filled('start_date') ||
                     !$request->filled('end_date')
@@ -622,89 +624,89 @@ class MutasiController extends Controller
                 }
 
                 $startDate = Carbon::parse($request->start_date);
-                $endDate   = Carbon::parse($request->end_date);
-
+                $endDate = Carbon::parse($request->end_date);
                 break;
         }
 
         if ($startDate && $endDate) {
-
             $startDate = $startDate->copy()->startOfDay();
-            $endDate   = $endDate->copy()->endOfDay();
+            $endDate = $endDate->copy()->endOfDay();
         }
 
         $query = Mutasi::query();
 
         if ($request->filled('search')) {
-
             $query->where(
-                'nama',
+                'mutasis.nama',
                 'like',
                 '%' . trim($request->search) . '%'
             );
         } elseif ($startDate && $endDate) {
-
-            $query->whereBetween('created_at', [
+            $query->whereBetween('mutasis.created_at', [
                 $startDate,
-                $endDate
+                $endDate,
             ]);
         }
 
         Carbon::setLocale('id');
 
         $date = Carbon::now()->translatedFormat('d F Y');
-
         $kplp = Admin::where('role', 'ka. kplp')->first();
 
-        $data = $query
-            ->with([
-                'kamarAsal',
-                'kamarTujuan',
-                'wbp',
-            ])
-            ->orderByDesc('created_at')
-            ->get();
+        // Total semua hasil filter, bukan hanya halaman aktif.
+        $totalMutasi = (clone $query)->count();
+
+        // Total per kamar dihitung di database.
+        $totalPerKamar = (clone $query)
+            ->select('kamar_asal_id')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('kamar_asal_id')
+            ->pluck('total', 'kamar_asal_id');
+
+        $dataQuery = (clone $query)->with([
+            'kamarAsal',
+            'kamarTujuan',
+            'wbp',
+        ]);
 
         if (!$request->filled('search')) {
-
-            // SORT NATURAL
-            $data = $data->sort(function ($a, $b) {
-
-                $blokA = $a->kamarAsal->kode_blok ?? '';
-                $blokB = $b->kamarAsal->kode_blok ?? '';
-
-                if ($blokA !== $blokB) {
-
-                    return strcmp(
-                        $blokA,
-                        $blokB
-                    );
-                }
-
-                preg_match(
-                    '/(\d+)/',
-                    $a->kamarAsal->lokasi_sel ?? '',
-                    $ma
-                );
-
-                preg_match(
-                    '/(\d+)/',
-                    $b->kamarAsal->lokasi_sel ?? '',
-                    $mb
-                );
-
-                $aNo = (int)($ma[1] ?? 0);
-                $bNo = (int)($mb[1] ?? 0);
-
-                return $aNo <=> $bNo;
-            })->values();
+            // Urutkan kamar langsung di database.
+            $dataQuery
+                ->leftJoin(
+                    'kamars as kamar_asal_sort',
+                    'mutasis.kamar_asal_id',
+                    '=',
+                    'kamar_asal_sort.id'
+                )
+                ->select('mutasis.*')
+                ->orderBy('kamar_asal_sort.kode_blok')
+                ->orderByRaw(
+                    "CAST(SUBSTRING_INDEX(
+                    COALESCE(kamar_asal_sort.lokasi_sel, ''),
+                    ' ',
+                    -1
+                ) AS UNSIGNED) ASC"
+                )
+                ->orderByDesc('mutasis.created_at')
+                ->orderByDesc('mutasis.id');
+        } else {
+            $dataQuery
+                ->orderByDesc('mutasis.created_at')
+                ->orderByDesc('mutasis.id');
         }
 
-        $totalMutasi = $data->count();
+        // Tampilan biasa: 50 data per halaman.
+        // Print: seluruh mutasi hari ini tanpa pagination.
+        $data = $isPrint
+            ? $dataQuery->get()
+            : $dataQuery->paginate(50)->withQueryString();
 
-        // GROUPING
-        $grouped = $data->groupBy(function ($row) {
+        // Grouping hanya dilakukan pada data yang sudah dibatasi.
+        $rowsForGrouping = $isPrint
+            ? $data
+            : $data->getCollection();
 
+        $grouped = $rowsForGrouping->groupBy(function ($row) {
             $blok = $row->kamarAsal->kode_blok ?? null;
 
             if (!$blok) {
@@ -722,46 +724,58 @@ class MutasiController extends Controller
             return "BLOK {$blok} - KAMAR {$nomor}";
         });
 
-        // DATA KAMAR
-        $kamars = Kamar::get()
-            ->sort(function ($a, $b) {
+        // Daftar kamar untuk modal edit.
+        $kamars = Kamar::query()
+            ->orderBy('kode_blok')
+            ->orderByRaw(
+                "CAST(SUBSTRING_INDEX(
+                COALESCE(lokasi_sel, ''),
+                ' ',
+                -1
+            ) AS UNSIGNED) ASC"
+            )
+            ->get();
 
-                if (($a->kode_blok ?? '') !== ($b->kode_blok ?? '')) {
+        // Ambil nama WBP dan kamar tujuan terakhir tanpa query
+        // berulang untuk setiap nama.
+        $wbps = DB::table('mutasis as m')
+            ->select('m.nama')
+            ->selectSub(function ($subquery) {
+                $subquery
+                    ->from('mutasis as latest')
+                    ->select('latest.kamar_tujuan_id')
+                    ->whereColumn('latest.nama', 'm.nama')
+                    ->orderByDesc('latest.created_at')
+                    ->orderByDesc('latest.id')
+                    ->limit(1);
+            }, 'last_kamar_tujuan_id')
+            ->whereNotNull('m.nama')
+            ->where('m.nama', '<>', '')
+            ->groupBy('m.nama')
+            ->orderBy('m.nama')
+            ->get();
 
-                    return strcmp(
-                        $a->kode_blok ?? '',
-                        $b->kode_blok ?? ''
-                    );
-                }
-
-                preg_match('/(\d+)/', $a->lokasi_sel ?? '', $ma);
-                preg_match('/(\d+)/', $b->lokasi_sel ?? '', $mb);
-
-                $aNo = (int)($ma[1] ?? 0);
-                $bNo = (int)($mb[1] ?? 0);
-
-                return $aNo <=> $bNo;
-            })
-            ->values();
-
-        $wbps = Mutasi::with('kamarTujuan')
-            ->select('nama')
-            ->distinct()
-            ->orderBy('nama')
+        $kamarTujuanById = Kamar::query()
+            ->whereIn(
+                'id',
+                $wbps->pluck('last_kamar_tujuan_id')
+                    ->filter()
+                    ->unique()
+            )
             ->get()
-            ->map(function ($item) {
+            ->keyBy('id');
 
-                $last = Mutasi::with('kamarTujuan')
-                    ->where('nama', $item->nama)
-                    ->latest('created_at')
-                    ->first();
+        $wbps = $wbps->map(function ($item) use ($kamarTujuanById) {
+            $lastKamar = $kamarTujuanById->get(
+                $item->last_kamar_tujuan_id
+            );
 
-                return (object) [
-                    'nama'  => $item->nama,
-                    'blok'  => $last?->kamarTujuan?->kode_blok ?? '-',
-                    'kamar' => $last?->kamarTujuan?->lokasi_sel ?? '-',
-                ];
-            });
+            return (object) [
+                'nama'  => $item->nama,
+                'blok'  => $lastKamar?->kode_blok ?? '-',
+                'kamar' => $lastKamar?->lokasi_sel ?? '-',
+            ];
+        });
 
         return view(
             'admin-banceuy.riwayat-mutasi-wbp',
@@ -775,7 +789,9 @@ class MutasiController extends Controller
                 'kplp',
                 'kamars',
                 'wbps',
-                'totalMutasi'
+                'totalMutasi',
+                'totalPerKamar',
+                'isPrint'
             )
         );
     }

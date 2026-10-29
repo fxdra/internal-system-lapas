@@ -9,6 +9,13 @@
         transition: opacity 0.2s ease;
     }
 
+    .footer-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
     .footer-developer-logo:hover {
         opacity: 1;
     }
@@ -40,7 +47,7 @@
 </style>
 
 <footer class="nxl-footer mt-4">
-    <div class="footer-wrapper d-flex flex-wrap justify-content-between align-items-center gap-3 px-4 py-3">
+    <div class="footer-wrapper d-flex flex-wrap align-items-center gap-3 px-4 py-3">
         <div class="text-muted small">
             &copy; {{ date('Y') }} Internal Sistem Lapas Banceuy
         </div>
