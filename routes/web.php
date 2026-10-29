@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{BukuController, AdminController, AntrianController, BeritaController, BulettinController, DataKritikController, DataKunjunganController, DataProfileController, DataWbpController, HomeController, ImportFileController, InformasiLayananController, KegiatanController, KritikController, OcrController, PengunjungController, SettingController, TitipanController, ConverterController, KamarController, HpGasbanController, ManajemenPenggunaController, MutasiController, MutasiScenarioController, ProdukController, PetugasKplpController, RaziaController, RaziaGabunganController, PenerimaanWBPController, PemindahanWBPController, TrackingPhotoController, KomjaController, WbpKlinikController, HaloMinnaController, ProgramPembinaanController};
+use App\Http\Controllers\{BukuController, AdminController, AntrianController, BeritaController, BulettinController, DataKritikController, DataKunjunganController, DataProfileController, DataWbpController, HomeController, ImportFileController, InformasiLayananController, KegiatanController, KritikController, OcrController, PengunjungController, SettingController, TitipanController, ConverterController, KamarController, HpGasbanController, ManajemenPenggunaController, MutasiController, MutasiScenarioController, ProdukController, PetugasKplpController, RaziaController, RaziaGabunganController, PenerimaanWBPController, PemindahanWBPController, TrackingPhotoController, KomjaController, WbpKlinikController, DiagnosisController, HaloMinnaController, ProgramPembinaanController};
 use App\Http\Controllers\Api\LaporanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PengunjungPerpustakaanController;
@@ -105,6 +105,8 @@ Route::middleware('admin')->group(function () {
             Route::get('/wbp/{wbpKlinik}/edit', [WbpKlinikController::class, 'edit'])->name('klinik.wbp.edit');
             Route::put('/wbp/{wbpKlinik}', [WbpKlinikController::class, 'update'])->name('klinik.wbp.update');
             Route::get('/wbp/search', [WbpKlinikController::class, 'search'])->name('klinik.wbp.search');
+            Route::get('/diagnosis', [DiagnosisController::class, 'index'])->name('klinik.diagnosis.index');
+            Route::get('/diagnosis/categories', [DiagnosisController::class, 'searchCategories',])->name('klinik.diagnosis.categories');
         });
     // Program Pembinaan WBP
     Route::middleware('role:superadmin,admin,binadik,giatja')

@@ -205,6 +205,7 @@ class DataWbpController extends Controller
                     return $q->where('status_wbp', 'AKTIF')
                         ->where('status_kamar', 'Tertutup');
                 }
+
                 return $q->where('status_wbp', $request->status);
             }, function ($q) {
                 return $q->where('status_wbp', 'AKTIF');
@@ -214,8 +215,27 @@ class DataWbpController extends Controller
                     $qq->where('nama', 'like', "%{$request->search}%")
                         ->orWhere('no_reg_instansi', 'like', "%{$request->search}%");
                 });
-            })
-            ->orderBy('nama');
+            });
+
+        if ($request->status === 'ISOLASI') {
+            $tanggalMasukIsolasi = Mutasi::query()
+                ->select('mutasis.created_at')
+                ->whereColumn('mutasis.wbp_id', 'wbps.id')
+                ->whereColumn('mutasis.kamar_tujuan_id', 'wbps.kamar_id')
+                ->orderByDesc('mutasis.created_at')
+                ->orderByDesc('mutasis.id')
+                ->limit(1);
+
+            $query->orderByRaw(
+                'CASE WHEN (' . $tanggalMasukIsolasi->toSql() . ') IS NULL THEN 1 ELSE 0 END ASC',
+                $tanggalMasukIsolasi->getBindings()
+            )
+                ->orderByDesc($tanggalMasukIsolasi)
+                ->orderBy('nama');
+        } else {
+            $query->orderBy('nama');
+        }
+
         // ================= AMBIL COLLECTION =================
         $wbps = $query->get();
         // ================= MARK DUPLIKAT =================

@@ -148,18 +148,6 @@
             white-space: nowrap;
         }
 
-        /* GRAND TOTAL tidak boleh terpotong saat print */
-        .grand-total-mutasi {
-            break-inside: avoid !important;
-            page-break-inside: avoid !important;
-        }
-
-        .grand-total-mutasi .card-header,
-        .grand-total-mutasi .card-body {
-            break-inside: avoid !important;
-            page-break-inside: avoid !important;
-        }
-
         /* MUTASI HIDE */
         .mutasi-row-hidden {
             opacity: 0.5;
@@ -481,6 +469,22 @@
                 size: A4 potrait, landscape;
                 margin: 5mm;
             }
+
+            .print-summary-signature {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .print-summary-signature .grand-total-mutasi,
+            .print-summary-signature .signature-block {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .print-summary-signature .signature-block {
+                margin-top: 20px !important;
+            }
+
         }
     </style>
 
@@ -952,53 +956,48 @@
     </div>
 
     @if (!request('search'))
-        <div class="card grand-total-mutasi">
+        <div class="print-summary-signature">
 
-            <div class="card-header">
-                GRAND TOTAL MUTASI WBP
+            <div class="card grand-total-mutasi">
+                <div class="card-header">
+                    GRAND TOTAL MUTASI WBP
+                </div>
+
+                <div class="card-body">
+                    Total Mutasi:
+                    <strong>{{ $totalMutasi }}</strong>
+                </div>
             </div>
 
-            <div class="card-body">
-                Total Mutasi:
-                <strong>{{ $totalMutasi }}</strong>
+            {{-- SIGNATURE --}}
+            <div class="row mt-5 signature-block">
+                <div class="col-6"></div>
+
+                <div class="col-6 text-center">
+                    <div class="fw-semibold">
+                        Bandung, {{ $date }}
+                    </div>
+
+                    <div style="height: 7px;"></div>
+
+                    <div class="fw-semibold">
+                        Mengetahui
+                    </div>
+
+                    <div class="fw-bold">
+                        Ka. KPLP
+                    </div>
+
+                    <div style="height: 70px;"></div>
+
+                    <div class="fw-bold text-decoration-underline">
+                        ANDHIKA SAPUTRA
+                    </div>
+                </div>
             </div>
 
         </div>
     @endif
-
-    @if (!request('search'))
-        {{-- SIGNATURE --}}
-        <div class="row mt-5">
-
-            <div class="col-6"></div>
-
-            <div class="col-6 text-center">
-
-                <div class="fw-semibold">
-                    Bandung, {{ $date }}
-                </div>
-                <div style="height:7px"></div>
-                <div class="fw-semibold">
-                    Mengetahui
-                </div>
-
-                <div class="fw-bold">
-                    Ka. KPLP
-                </div>
-
-                <div style="height:90px;"></div>
-
-                <div class="fw-bold text-decoration-underline">
-                    ANDHIKA SAPUTRA
-                </div>
-
-                <div class="small">
-                </div>
-
-            </div>
-    @endif
-
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
