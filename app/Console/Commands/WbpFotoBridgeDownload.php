@@ -11,7 +11,7 @@ class WbpFotoBridgeDownload extends Command
 
     public function handle()
     {
-        $apiUrl = "https://lapasbanceuykplp.web.id/api/wbp-pending";
+        $apiUrl = "https://lapas-banceuy.web.id/api/wbp-pending";
 
         $data = json_decode(file_get_contents($apiUrl), true);
 
@@ -43,18 +43,16 @@ class WbpFotoBridgeDownload extends Command
                     );
 
                     // kirim balik update ke Laravel API
-                    $updateUrl = "https://lapasbanceuykplp.web.id/api/update-foto"
+                    $updateUrl = "https://lapas-banceuy.web.id/api/update-foto"
                         . "?id=" . $item['id']
                         . "&file=foto_wbp/" . $fileName;
 
                     @file_get_contents($updateUrl);
 
                     $this->info("OK: " . $fileName);
-
                 } else {
                     $this->error("Gagal download: " . $url);
                 }
-
             } catch (\Exception $e) {
                 $this->error($e->getMessage());
             }

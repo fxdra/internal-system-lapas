@@ -54,7 +54,7 @@
 
         <div class="d-flex align-items-center gap-2">
             <span class="text-muted small">Developed by</span>
-            <img src="{{ asset('assets/images/logo/logo-am.png') }}" alt="AM Developer Logo" class="footer-developer-logo">
+            <img src="{{ asset('assets/images/logo/logo-am.png') }}" alt="Developer Logo" class="footer-developer-logo">
         </div>
     </div>
 </footer>

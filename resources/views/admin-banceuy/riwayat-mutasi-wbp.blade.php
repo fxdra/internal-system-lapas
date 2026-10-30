@@ -387,6 +387,11 @@
                 display: none !important;
             }
 
+            /* CARD KAMAR IKUT HILANG JIKA SEMUA MUTASI DI-HIDE */
+            .mutasi-card-hidden {
+                display: none !important;
+            }
+
             .card {
                 border: none !important;
                 box-shadow: none !important;
@@ -1041,50 +1046,58 @@
     </script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.card').forEach(card => {
+                updateMutasiCardVisibility(card);
+            });
+        });
+
+        function updateMutasiCardVisibility(card) {
+            if (!card) return;
+
+            const rows = card.querySelectorAll('.mutasi-row');
+
+            if (rows.length === 0) return;
+
+            const allHidden = Array.from(rows).every(row =>
+                row.classList.contains('mutasi-row-hidden')
+            );
+
+            card.classList.toggle('mutasi-card-hidden', allHidden);
+        }
+
         function toggleHideMutasi(button) {
-
             const row = button.closest('.mutasi-row');
-
             if (!row) {
                 console.error('Row mutasi tidak ditemukan.');
                 return;
             }
-
             const id = row.dataset.id;
-
             if (!id) {
                 console.error('ID mutasi tidak ditemukan.');
                 return;
             }
-
             const url = toggleHideUrl.replace('__ID__', id);
-
             console.log('Toggle Hide URL:', url);
-
             fetch(url, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document
                             .querySelector('meta[name="csrf-token"]')
                             .getAttribute('content'),
-
                         'Accept': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 })
                 .then(async response => {
-
                     const text = await response.text();
-
                     console.log('STATUS:', response.status);
                     console.log('RESPONSE:', text);
-
                     if (!response.ok) {
                         throw new Error(
                             `HTTP ${response.status}: ${text}`
                         );
                     }
-
                     try {
                         return JSON.parse(text);
                     } catch (e) {
@@ -1094,49 +1107,35 @@
                     }
                 })
                 .then(data => {
-
                     console.log('DATA JSON:', data);
-
                     if (!data.success) {
                         throw new Error(
                             data.message || 'Gagal mengubah status.'
                         );
                     }
-
                     row.classList.toggle(
                         'mutasi-row-hidden',
                         data.is_hidden
                     );
-
+                    updateMutasiCardVisibility(row.closest('.card'));
                     const icon = button.querySelector('i');
                     const text = button.querySelector('.hide-text');
-
                     if (data.is_hidden) {
-
                         button.classList.remove('btn-secondary');
                         button.classList.add('btn-success');
-
                         icon.className = 'fas fa-eye';
                         text.textContent = 'Show';
-
                         button.title = 'Tampilkan kembali saat print';
-
                     } else {
-
                         button.classList.remove('btn-success');
                         button.classList.add('btn-secondary');
-
                         icon.className = 'fas fa-eye-slash';
                         text.textContent = 'Hide';
-
                         button.title = 'Sembunyikan dari print';
                     }
-
                 })
                 .catch(error => {
-
                     console.error('ERROR TOGGLE HIDE:', error);
-
                     alert(
                         'Gagal mengubah status Hide/Show.\n\n' +
                         error.message

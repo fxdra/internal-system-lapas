@@ -213,7 +213,6 @@
         <div class="diagnosis-stat mb-4">
             <div class="diagnosis-stat-label mb-1">Data Diagnosis</div>
             <div class="diagnosis-stat-value">{{ number_format($totalDiagnosis, 0, ',', '.') }}</div>
-            <div class="diagnosis-subtitle mt-1">Data tidak dapat ditambah, diedit, atau dihapus dari halaman ini.</div>
         </div>
 
         <div class="diagnosis-table-card">
@@ -283,16 +282,6 @@
                     </tbody>
                 </table>
             </div>
-
-            @if ($diagnoses->hasPages())
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4 border-top">
-                    <small class="text-muted">
-                        Menampilkan {{ $diagnoses->firstItem() }}–{{ $diagnoses->lastItem() }} dari
-                        {{ number_format($diagnoses->total(), 0, ',', '.') }} data hasil.
-                    </small>
-                    <div class="diagnosis-pagination">{{ $diagnoses->links() }}</div>
-                </div>
-            @endif
         </div>
     </div>
 
@@ -367,7 +356,7 @@
 
             input.addEventListener('focus', function() {
                 if (input.value.trim().length < 2) {
-                    showMessage('Ketik minimal 2 karakter untuk mencari kategori.');
+                    showMessage('Ketik minimal 2 karakter.');
                 }
             });
 

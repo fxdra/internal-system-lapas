@@ -2004,15 +2004,15 @@
                                     ${
                                         noRekamMedis
                                         ? `
-                                                                                                                <span class="klinik-rekam-medis">
-                                                                                                                    ${escapeHtml(noRekamMedis)}
-                                                                                                                </span>
-                                                                                                                    `
+                                                                                                                        <span class="klinik-rekam-medis">
+                                                                                                                            ${escapeHtml(noRekamMedis)}
+                                                                                                                        </span>
+                                                                                                                            `
                                     : `
-                                                                                                                <span class="klinik-rekam-kosong">
-                                                                                                                    Belum tersedia
-                                                                                                                </span>
-                                                                                                                    `
+                                                                                                                        <span class="klinik-rekam-kosong">
+                                                                                                                            Belum tersedia
+                                                                                                                        </span>
+                                                                                                                            `
                                     }
                                 </td>
                                 {{-- NIK --}}
@@ -2020,15 +2020,15 @@
                                     ${
                                         nik
                                         ? `
-                                                                                                                <span class="klinik-nik">
-                                                                                                                        ${escapeHtml(nik)}
-                                                                                                                    </span>
-                                                                                                                    `
+                                                                                                                        <span class="klinik-nik">
+                                                                                                                                ${escapeHtml(nik)}
+                                                                                                                            </span>
+                                                                                                                            `
                                                 : `
-                                                                                                                <span class="klinik-nik-kosong">
-                                                                                                                    Belum tersedia
-                                                                                                                </span>
-                                                                                                                    `
+                                                                                                                        <span class="klinik-nik-kosong">
+                                                                                                                            Belum tersedia
+                                                                                                                        </span>
+                                                                                                                            `
                                     }
                                 </td>
                                 {{-- NAMA WBP --}}
@@ -2036,19 +2036,19 @@
                                     ${
                                         item.wbp
                                         ? `
-                                                                                                                <div class="klinik-wbp-name">
-                                                                                                                    ${escapeHtml(namaWbp)}
-                                                                                                                </div>
-                                                                                                                    <span class="klinik-wbp-reg">
-                                                                                                                    No. Reg:
-                                                                                                                        ${escapeHtml(noRegWbp)}
-                                                                                                                    </span>
-                                                                                                                    `
+                                                                                                                        <div class="klinik-wbp-name">
+                                                                                                                            ${escapeHtml(namaWbp)}
+                                                                                                                        </div>
+                                                                                                                            <span class="klinik-wbp-reg">
+                                                                                                                            No. Reg:
+                                                                                                                                ${escapeHtml(noRegWbp)}
+                                                                                                                            </span>
+                                                                                                                            `
                                             : `
-                                                                                                                <span class="text-danger">
-                                                                                                                    Data WBP tidak ditemukan
-                                                                                                                </span>
-                                                                                                                `
+                                                                                                                        <span class="text-danger">
+                                                                                                                            Data WBP tidak ditemukan
+                                                                                                                        </span>
+                                                                                                                        `
                                     }
                                 </td>
                                 {{-- TANGGAL MASUK LAPAS --}}
@@ -2056,15 +2056,15 @@
                                     ${
                                         tanggalMasuk
                                         ? `
-                                                                                                                    <span class="klinik-tanggal-masuk">
-                                                                                                                        ${escapeHtml(tanggalMasuk)}
-                                                                                                                    </span>
-                                                                                                                            `
+                                                                                                                            <span class="klinik-tanggal-masuk">
+                                                                                                                                ${escapeHtml(tanggalMasuk)}
+                                                                                                                            </span>
+                                                                                                                                    `
                                         : `
-                                                                                                                    <span class="klinik-tanggal-kosong">
-                                                                                                                        Belum tersedia
-                                                                                                                    </span>
-                                                                                                                            `
+                                                                                                                            <span class="klinik-tanggal-kosong">
+                                                                                                                                Belum tersedia
+                                                                                                                            </span>
+                                                                                                                                    `
                                     }
                                 </td>
                                 {{-- AKSI --}}
