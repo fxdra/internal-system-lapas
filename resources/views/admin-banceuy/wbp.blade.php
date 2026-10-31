@@ -1111,9 +1111,9 @@
         /* CLOSE */
         #modalEditWbp .btn-close-modal {
             width: 38px;
-            height: 38px;
+            height: 35px;
             display: flex;
-            align-items: center;
+            align-items: baseline;
             justify-content: center;
             padding: 0;
             border: none;
@@ -1266,7 +1266,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 17px 20px;
+            padding: 5px 20px;
             border-bottom: 1px solid #e9ecef;
         }
 
@@ -1510,6 +1510,96 @@
             background-color: #202c40 !important;
             color: #e5e7eb !important;
             border-color: #334155 !important;
+        }
+
+        /* ================= DARK MODE - MODAL KONFIRMASI EDIT WBP ================= */
+
+        /* CARD MODAL */
+        html.app-skin-dark #modalKonfirmasiEditWbp .modal-konfirmasi-wbp {
+            background: #182235 !important;
+            color: #e5e7eb !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .45) !important;
+        }
+
+        /* HEADER */
+        html.app-skin-dark #modalKonfirmasiEditWbp .custom-modal-header {
+            background: #182235 !important;
+            border-bottom-color: #334155 !important;
+        }
+
+        /* JUDUL */
+        html.app-skin-dark #modalKonfirmasiEditWbp .modal-konfirmasi-title {
+            color: #f1f5f9 !important;
+        }
+
+        /* DESKRIPSI */
+        html.app-skin-dark #modalKonfirmasiEditWbp .modal-konfirmasi-text {
+            color: #aab7c8 !important;
+        }
+
+        /* ICON PERINGATAN */
+        html.app-skin-dark #modalKonfirmasiEditWbp .modal-konfirmasi-icon {
+            background: #493a1c !important;
+            color: #fbbf24 !important;
+        }
+
+        /* FOOTER */
+        html.app-skin-dark #modalKonfirmasiEditWbp .modal-konfirmasi-footer {
+            background: #182235 !important;
+            border-top-color: #334155 !important;
+        }
+
+        /* TOMBOL CLOSE */
+        html.app-skin-dark #modalKonfirmasiEditWbp .btn-close-modal {
+            color: #cbd5e1 !important;
+            opacity: 1 !important;
+        }
+
+        html.app-skin-dark #modalKonfirmasiEditWbp .btn-close-modal:hover {
+            color: #ffffff !important;
+            background: #334155 !important;
+        }
+
+        /* TOMBOL BATAL */
+        html.app-skin-dark #modalKonfirmasiEditWbp #batalKonfirmasiEditWbp {
+            background: #475569 !important;
+            border-color: #475569 !important;
+            color: #ffffff !important;
+        }
+
+        /* TOMBOL YA */
+        html.app-skin-dark #modalKonfirmasiEditWbp #lanjutSimpanEditWbp {
+            background: #3454db !important;
+            border-color: #3454db !important;
+            color: #ffffff !important;
+        }
+
+        /* ================= DARK MODE - DATE PICKER EDIT WBP ================= */
+
+        /* INPUT TANGGAL */
+        html.app-skin-dark #modalEditWbp input[type="date"] {
+            color-scheme: dark !important;
+            background-color: #111b2b !important;
+            color: #e5e7eb !important;
+            border-color: #3b4a60 !important;
+        }
+
+        /* IKON KALENDER - PUTIH */
+        html.app-skin-dark #modalEditWbp input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: brightness(0) invert(1) !important;
+            opacity: 1 !important;
+            cursor: pointer;
+        }
+
+        /* WARNA TEKS TANGGAL */
+        html.app-skin-dark #modalEditWbp input[type="date"]::-webkit-datetime-edit {
+            color: #e5e7eb !important;
+        }
+
+        /* WARNA TEKS PLACEHOLDER TANGGAL */
+        html.app-skin-dark #modalEditWbp input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+            color: #e5e7eb !important;
         }
 
         /* ================= DARK MODE - MODAL TAMBAH WBP ================= */
@@ -2340,7 +2430,7 @@
         <div class="custom-modal-content modal-konfirmasi-wbp">
             <div class="custom-modal-header">
                 <h5 class="fw-bold mb-0">
-                    Konfirmasi Perubahan
+                    Konfirmasi Perubahan?
                 </h5>
                 <button type="button" class="btn-close-modal" id="closeModalKonfirmasiEditWbp">
                     &times;
@@ -2992,13 +3082,13 @@
                                     ${
                                         fullAccess
                                             ? `
-                                                    <button class="action-btn btn-detail" data-id="${w.id}">
-                                                        Detail
-                                                    </button>
-                                                    <button class="action-btn btn-delete" data-id="${w.id}">
-                                                        Hapus
-                                                    </button>
-                                                `
+                                                                                                <button class="action-btn btn-detail" data-id="${w.id}">
+                                                                                                    Detail
+                                                                                                </button>
+                                                                                                <button class="action-btn btn-delete" data-id="${w.id}">
+                                                                                                    Hapus
+                                                                                                </button>
+                                                                                            `
                                         : ''
                                     }
                                 </div>
@@ -3308,31 +3398,31 @@
                             </div>
                         </div>
                         ${keterangan && keterangan.trim() !== '' ? `
-                                <div class="mt-3" id="detailKeteranganSection">
-                                    <label class="fw-bold mb-2 d-block">
-                                        Tanggal Keterangan
-                                    </label>
-                                    <div class="border rounded p-2 bg-light">
-                                        ${tanggal && tanggal.trim() !== '' ? tanggal : '-'}
-                                    </div>
+                                                                            <div class="mt-3" id="detailKeteranganSection">
+                                                                                <label class="fw-bold mb-2 d-block">
+                                                                                    Tanggal Keterangan
+                                                                                </label>
+                                                                                <div class="border rounded p-2 bg-light">
+                                                                                    ${tanggal && tanggal.trim() !== '' ? tanggal : '-'}
+                                                                                </div>
 
-                                    <label class="fw-bold mb-2 mt-3 d-block">
-                                        Keterangan
-                                    </label>
-                                    <div class="detail-keterangan-box"
-                                        style="
-                                            min-height:80px;
-                                            border-radius:12px;
-                                            padding:16px;
-                                            white-space:pre-wrap;
-                                            word-break:break-word;
-                                            overflow-wrap:break-word;
-                                            font-size:15px;
-                                            line-height:1.7;
-                                            text-align:left;
-                                        ">${keterangan}</div>
-                                </div>
-                            ` : ''}
+                                                                                <label class="fw-bold mb-2 mt-3 d-block">
+                                                                                    Keterangan
+                                                                                </label>
+                                                                                <div class="detail-keterangan-box"
+                                                                                    style="
+                                                                                        min-height:80px;
+                                                                                        border-radius:12px;
+                                                                                        padding:16px;
+                                                                                        white-space:pre-wrap;
+                                                                                        word-break:break-word;
+                                                                                        overflow-wrap:break-word;
+                                                                                        font-size:15px;
+                                                                                        line-height:1.7;
+                                                                                        text-align:left;
+                                                                                    ">${keterangan}</div>
+                                                                            </div>
+                                                                        ` : ''}
                         <div class="mt-4 text-end d-flex gap-2 justify-content-end">
                             <button
                                 class="btn btn-primary btn-edit-wbp"

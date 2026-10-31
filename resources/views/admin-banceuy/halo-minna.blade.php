@@ -530,7 +530,7 @@
                     <div class="hm-pagination-wrap">
                         <div class="small text-muted">
                             Menampilkan
-                            <strong>{{ $wbps->firstItem() ?? 0 }}–{{ $wbps->lastItem() ?? 0 }}</strong>
+                            <strong>{{ $wbps->lastItem() ?? 0 }}</strong>
                             dari <strong>{{ number_format($wbps->total()) }}</strong> WBP
                         </div>
 

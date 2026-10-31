@@ -905,7 +905,7 @@
                                 <span class="pp-pagination-label">Data WBP</span>
                                 <span>
                                     Menampilkan
-                                    <strong>{{ $wbps->firstItem() ?? 0 }}–{{ $wbps->lastItem() ?? 0 }}</strong>
+                                    <strong>{{ $wbps->lastItem() ?? 0 }}</strong>
                                     dari <strong>{{ number_format($wbps->total()) }}</strong> WBP
                                 </span>
                             </div>
@@ -1178,14 +1178,12 @@
                             </tbody>
                         </table>
                     </div>
-
-
                     <div class="pp-pagination-wrap pp-pagination-clean">
                         <div class="pp-pagination-info">
                             <span class="pp-pagination-label">Riwayat Keikutsertaan</span>
                             <span>
                                 Menampilkan
-                                <strong>{{ $riwayat->firstItem() ?? 0 }}–{{ $riwayat->lastItem() ?? 0 }}</strong>
+                                <strong>{{ $riwayat->lastItem() ?? 0 }}</strong>
                                 dari <strong>{{ number_format($riwayat->total()) }}</strong> data
                             </span>
                         </div>
