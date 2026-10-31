@@ -6,6 +6,7 @@ use App\Models\SimproinWbp;
 use App\Models\Wbp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use App\Services\HaloMinnaAccessCodeService;
 use RuntimeException;
 
 class GenerateHaloMinnaAccessCodes extends Command
@@ -32,35 +33,40 @@ class GenerateHaloMinnaAccessCodes extends Command
         Wbp::where('status_wbp', 'AKTIF')
             ->chunkById(200, function ($wbps) {
                 foreach ($wbps as $wbp) {
-                    DB::transaction(function () use ($wbp) {
-                        $registrasi = SimproinWbp::firstOrNew([
-                            'wbp_id' => $wbp->id,
-                        ]);
 
-                        $recordBaru = !$registrasi->exists;
+                    // Ambil kondisi registrasi sebelum diproses.
+                    $registrasiSebelum = SimproinWbp::where(
+                        'wbp_id',
+                        $wbp->id
+                    )->first();
 
-                        if ($recordBaru) {
-                            $registrasi->register_f = 'Tidak';
-                            $registrasi->jenis_usulan = 'Belum Usul';
-                            $registrasi->status_bebas = 'Belum Bebas';
-                            $registrasi->status_aktif = 'Aktif';
-                        }
+                    $recordBaru = !$registrasiSebelum;
+                    $kodeSebelumnya = $registrasiSebelum?->kode_akses;
 
-                        // Jangan mengganti kode yang sudah ada.
-                        if (blank($registrasi->kode_akses)) {
-                            $registrasi->kode_akses = $this->generateKodeAkses();
-                            $this->kodeDitambahkan++;
-                        }
+                    // Serahkan proses pembuatan kode ke service.
+                    $registrasi = app(HaloMinnaAccessCodeService::class)
+                        ->ensureForWbp($wbp);
 
-                        if ($recordBaru) {
-                            $registrasi->save();
-                            $this->dibuat++;
-                        } elseif ($registrasi->isDirty()) {
-                            $registrasi->save();
-                        } else {
-                            $this->dilewati++;
-                        }
-                    });
+                    // WBP nonaktif tidak diproses.
+                    if (!$registrasi) {
+                        $this->dilewati++;
+                        continue;
+                    }
+
+                    // Hitung record baru.
+                    if ($recordBaru) {
+                        $this->dibuat++;
+                    }
+
+                    // Hitung kode akses yang baru dibuat.
+                    if (blank($kodeSebelumnya) && filled($registrasi->kode_akses)) {
+                        $this->kodeDitambahkan++;
+                    }
+
+                    // Record lama dengan kode akses yang sudah tersedia.
+                    if (!$recordBaru && filled($kodeSebelumnya)) {
+                        $this->dilewati++;
+                    }
                 }
             });
 

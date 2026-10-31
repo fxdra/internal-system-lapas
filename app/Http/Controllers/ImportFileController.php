@@ -10,6 +10,7 @@ use App\Helpers\WbpHelper;
 use App\Models\Kamar;
 use App\Services\KamarService;
 use Illuminate\Support\Facades\Log;
+use App\Services\HaloMinnaAccessCodeService;
 
 class ImportFileController extends Controller
 {
@@ -457,20 +458,22 @@ class ImportFileController extends Controller
             'foto_wbp' => $foto_wbp,
         ];
 
-
         // APPEND
         if ($mode === 'append') {
 
-            $exists = Wbp::where(
+            $existing = Wbp::where(
                 'no_reg_instansi',
                 $no_reg
-            )->exists();
+            )->first();
 
-            if ($exists) {
+            if ($existing) {
+                // Tetap lengkapi kode akses jika WBP aktif belum memilikinya.
+                app(HaloMinnaAccessCodeService::class)->ensureForWbp($existing);
+
                 return 'skipped';
             }
 
-            Wbp::create(
+            $wbp = Wbp::create(
                 array_merge(
                     [
                         'no_reg_instansi' => $no_reg,
@@ -479,9 +482,10 @@ class ImportFileController extends Controller
                 )
             );
 
+            app(HaloMinnaAccessCodeService::class)->ensureForWbp($wbp);
+
             return 'inserted';
         }
-
 
         // UPDATE
         if ($mode === 'update') {
@@ -498,6 +502,10 @@ class ImportFileController extends Controller
             $existing->update(
                 $masterData
             );
+
+            $existing->refresh();
+
+            app(HaloMinnaAccessCodeService::class)->ensureForWbp($existing);
 
             return 'updated';
         }

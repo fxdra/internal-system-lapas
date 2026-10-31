@@ -16,6 +16,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use App\Models\WbpKlinik;
+use App\Services\HaloMinnaAccessCodeService;
 
 class DataWbpController extends Controller
 {
@@ -729,6 +730,9 @@ class DataWbpController extends Controller
                 'wbp_id'          => $wbp->id,
                 'no_rekam_medis'  => null,
             ]);
+            // Generate kode akses Halo Minna jika WBP berstatus AKTIF.
+            app(HaloMinnaAccessCodeService::class)->ensureForWbp($wbp);
+
             DB::commit();
             return redirect()
                 ->back()
@@ -1076,6 +1080,10 @@ class DataWbpController extends Controller
         $wbp->status_wbp = $request->status_wbp;
         $wbp->status_kamar = $request->status_kamar;
         $wbp->save();
+
+        // Jika status berubah menjadi AKTIF, pastikan kode akses tersedia.
+        app(HaloMinnaAccessCodeService::class)->ensureForWbp($wbp);
+
         $countIsolasi = Wbp::where('status_wbp', 'AKTIF')
             ->where('status_kamar', 'Tertutup')
             ->count();
