@@ -7,53 +7,90 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+<p align="center">
+  <strong>An Integrated Digital Information and Correctional Management Platform</strong>
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  A web-based platform designed to support public services, administrative operations, and inmate management at Lapas Banceuy.
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Lapas Banceuy Internal System is an integrated web application developed to support the digital transformation of correctional services and internal institutional operations at Lapas Banceuy.
 
-## Learning Laravel
+The platform combines public-facing information and service features with an internal management system, providing staff with centralized access to operational data and administrative workflows.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Built with Laravel, the application focuses on improving operational efficiency, data accessibility, administrative accuracy, and service delivery.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Key Features
 
-## Laravel Sponsors
+1. Public Information & Services
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Institutional profile and information.
+- News, activities, and announcements.
+- Visitor registration and queue management.
+- Visitor item deposit registration.
+- Public feedback and suggestions.
+- Library information and services.
+- Bulletin and publication management.
 
-### Premium Partners
+2. Inmate Management
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Inmate data management.
+- Inmate registration and records.
+- Inmate profile and documentation.
+- Room and cell assignment.
+- Inmate status management.
+- Data import and export.
 
-## Contributing
+3. Room & Facility Management
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Block and room management.
+- Room occupancy monitoring.
+- Cell status management.
+- Room assignment and updates.
+- Room reports and printable documentation.
 
-## Code of Conduct
+4. KPLP Operational Management
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Inmate movement and transfer management.
+- Mutation history and tracking.
+- Operational reporting.
+- Role-based access control.
+- Centralized operational data management.
 
-## Security Vulnerabilities
+5. Healthcare & Rehabilitation Support
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Inmate healthcare records.
+- Medical data management.
+- Medication and diagnosis references.
+- Rehabilitation and development program management.
+
+6. Administrative Management
+
+- User and administrator management.
+- Role-based permissions.
+- Dashboard and reporting.
+- Data validation and management.
+- Operational notifications.
+
+## Installation
+
+Prerequisites
+- PHP
+- Composer
+- MySQL or MariaDB
+- Node.js and NPM
+- A compatible PHP development environment
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is intended for institutional use by Lapas Banceuy.
+
+Unauthorized distribution, modification, or use of institutional data is subject to applicable institutional policies and regulations.
+
+<p align="center">
+  <strong>Lapas Banceuy Internal System</strong><br>
+  Digital Transformation · Operational Efficiency · Integrated Services
+</p>
