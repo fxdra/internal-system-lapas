@@ -677,31 +677,30 @@
                     <div>
                         <div class="fw-semibold mb-1">Petunjuk pengisian</div>
                         <div class="small">
-                            Simpan perubahan di masing-masing kartu setelah selesai mengisi.
+                            Isi seluruh bagian formulir, kemudian klik Simpan Seluruh Data.
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- KARTU 1: IDENTITAS & REGISTRASI --}}
-            <div class="card border-0 shadow-sm rounded-4 mb-4">
-                <div class="card-body p-4">
-                    <div class="hm-card-heading mb-4">
-                        <div class="hm-card-icon bg-primary-subtle text-primary">
-                            <i class="feather-clipboard"></i>
-                        </div>
-                        <div>
-                            <h5 class="fw-bold mb-1">1. Identitas & Registrasi</h5>
-                            <small class="text-muted">Status register dan jenis usulan integrasi.</small>
-                        </div>
-                    </div>
+            <form method="POST" action="{{ route('halo-minna.simpan', ['wbp' => $wbpTerpilih->id]) }}">
+                @csrf
 
-                    <form method="POST"
-                        action="{{ route('halo-minna.simpan', ['wbp' => $wbpTerpilih->id, 'bagian' => 'identitas']) }}">
-                        @csrf
+                <input type="hidden" name="search" value="{{ $search }}">
+                <input type="hidden" name="page" value="{{ request('page') }}">
 
-                        <input type="hidden" name="search" value="{{ $search }}">
-                        <input type="hidden" name="page" value="{{ request('page') }}">
+                {{-- KARTU 1: IDENTITAS & REGISTRASI --}}
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <div class="hm-card-heading mb-4">
+                            <div class="hm-card-icon bg-primary-subtle text-primary">
+                                <i class="feather-clipboard"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">1. Identitas & Registrasi</h5>
+                                <small class="text-muted">Status register dan jenis usulan integrasi.</small>
+                            </div>
+                        </div>
 
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
@@ -736,46 +735,31 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4">
-                                <i class="feather-save me-1"></i>
-                                Simpan Data
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            {{-- KARTU 2: BERKAS & LITMAS --}}
-            <div class="card border-0 shadow-sm rounded-4 mb-4">
-                <div class="card-body p-4">
-                    <div class="hm-card-heading mb-4">
-                        <div class="hm-card-icon bg-info-subtle text-info">
-                            <i class="feather-folder"></i>
-                        </div>
-                        <div>
-                            <h5 class="fw-bold mb-1">2. Alur Berkas & Litmas</h5>
-                            <small class="text-muted">Pengambilan berkas sampai dengan Sidang TPP.</small>
-                        </div>
                     </div>
+                </div>
 
-                    <form method="POST"
-                        action="{{ route('halo-minna.simpan', ['wbp' => $wbpTerpilih->id, 'bagian' => 'berkas']) }}">
-                        @csrf
-
-                        <input type="hidden" name="search" value="{{ $search }}">
-                        <input type="hidden" name="page" value="{{ request('page') }}">
+                {{-- KARTU 2: BERKAS & LITMAS --}}
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <div class="hm-card-heading mb-4">
+                            <div class="hm-card-icon bg-info-subtle text-info">
+                                <i class="feather-folder"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">2. Alur Berkas & Litmas</h5>
+                                <small class="text-muted">Pengambilan berkas sampai dengan Sidang TPP.</small>
+                            </div>
+                        </div>
 
                         <div class="row g-3">
                             @foreach ([
-            'tgl_pengambilan_berkas' => 'Pengambilan Berkas',
-            'tgl_pengembalian_berkas' => 'Pengembalian Berkas',
-            'tgl_permintaan_litmas' => 'Permintaan Litmas',
-            'tgl_litmas_bapas' => 'Litmas Bapas',
-            'tgl_hasil_litmas' => 'Hasil Litmas',
-            'tgl_sidang_tpp' => 'Sidang TPP',
-        ] as $field => $label)
+                                        'tgl_pengambilan_berkas' => 'Pengambilan Berkas',
+                                        'tgl_pengembalian_berkas' => 'Pengembalian Berkas',
+                                        'tgl_permintaan_litmas' => 'Permintaan Litmas',
+                                        'tgl_litmas_bapas' => 'Litmas Bapas',
+                                        'tgl_hasil_litmas' => 'Hasil Litmas',
+                                        'tgl_sidang_tpp' => 'Sidang TPP',
+                                    ] as $field => $label)
                                 <div class="col-12 col-md-6">
                                     <label for="{{ $field }}" class="form-label fw-semibold">
                                         {{ $label }}
@@ -787,44 +771,29 @@
                                 </div>
                             @endforeach
                         </div>
-
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4">
-                                <i class="feather-save me-1"></i>
-                                Simpan Data
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            {{-- KARTU 3: SDP & SK --}}
-            <div class="card border-0 shadow-sm rounded-4 mb-4">
-                <div class="card-body p-4">
-                    <div class="hm-card-heading mb-4">
-                        <div class="hm-card-icon bg-warning-subtle text-warning">
-                            <i class="feather-file-text"></i>
-                        </div>
-                        <div>
-                            <h5 class="fw-bold mb-1">3. Monitoring SDP & SK</h5>
-                            <small class="text-muted">Monitoring proses verifikasi hingga otorisasi SK.</small>
-                        </div>
                     </div>
+                </div>
 
-                    <form method="POST"
-                        action="{{ route('halo-minna.simpan', ['wbp' => $wbpTerpilih->id, 'bagian' => 'sdp_sk']) }}">
-                        @csrf
-
-                        <input type="hidden" name="search" value="{{ $search }}">
-                        <input type="hidden" name="page" value="{{ request('page') }}">
+                {{-- KARTU 3: SDP & SK --}}
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <div class="hm-card-heading mb-4">
+                            <div class="hm-card-icon bg-warning-subtle text-warning">
+                                <i class="feather-file-text"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">3. Monitoring SDP & SK</h5>
+                                <small class="text-muted">Monitoring proses verifikasi hingga otorisasi SK.</small>
+                            </div>
+                        </div>
 
                         <div class="row g-3">
                             @foreach ([
-            'tgl_input_sdp' => 'Input SDP',
-            'tgl_verifikasi_ditjen' => 'Verifikasi Ditjen',
-            'tgl_persetujuan_menteri' => 'Persetujuan Menteri',
-            'tgl_otorisasi_sk' => 'Otorisasi SK',
-        ] as $field => $label)
+                                        'tgl_input_sdp' => 'Input SDP',
+                                        'tgl_verifikasi_ditjen' => 'Verifikasi Ditjen',
+                                        'tgl_persetujuan_menteri' => 'Persetujuan Menteri',
+                                        'tgl_otorisasi_sk' => 'Otorisasi SK',
+                                    ] as $field => $label)
                                 <div class="col-12 col-md-6">
                                     <label for="{{ $field }}" class="form-label fw-semibold">
                                         {{ $label }}
@@ -836,36 +805,21 @@
                                 </div>
                             @endforeach
                         </div>
-
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4">
-                                <i class="feather-save me-1"></i>
-                                Simpan Data
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            {{-- KARTU 4: TAHAP AKHIR --}}
-            <div class="card border-0 shadow-sm rounded-4 mb-4">
-                <div class="card-body p-4">
-                    <div class="hm-card-heading mb-4">
-                        <div class="hm-card-icon bg-success-subtle text-success">
-                            <i class="feather-check-circle"></i>
-                        </div>
-                        <div>
-                            <h5 class="fw-bold mb-1">4. Tahap Akhir</h5>
-                            <small class="text-muted">Pelaksanaan program dan status pembebasan WBP.</small>
-                        </div>
                     </div>
+                </div>
 
-                    <form method="POST"
-                        action="{{ route('halo-minna.simpan', ['wbp' => $wbpTerpilih->id, 'bagian' => 'tahap_akhir']) }}">
-                        @csrf
-
-                        <input type="hidden" name="search" value="{{ $search }}">
-                        <input type="hidden" name="page" value="{{ request('page') }}">
+                {{-- KARTU 4: TAHAP AKHIR --}}
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <div class="hm-card-heading mb-4">
+                            <div class="hm-card-icon bg-success-subtle text-success">
+                                <i class="feather-check-circle"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">4. Tahap Akhir</h5>
+                                <small class="text-muted">Pelaksanaan program dan status pembebasan WBP.</small>
+                            </div>
+                        </div>
 
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
@@ -906,36 +860,21 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4">
-                                <i class="feather-save me-1"></i>
-                                Simpan Data
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            {{-- KARTU 5: PENJAMIN --}}
-            <div class="card border-0 shadow-sm rounded-4 mb-4">
-                <div class="card-body p-4">
-                    <div class="hm-card-heading mb-4">
-                        <div class="hm-card-icon bg-secondary-subtle text-secondary">
-                            <i class="feather-users"></i>
-                        </div>
-                        <div>
-                            <h5 class="fw-bold mb-1">5. Data Penjamin</h5>
-                            <small class="text-muted">Informasi penjamin atau keluarga WBP.</small>
-                        </div>
                     </div>
+                </div>
 
-                    <form method="POST"
-                        action="{{ route('halo-minna.simpan', ['wbp' => $wbpTerpilih->id, 'bagian' => 'penjamin']) }}">
-                        @csrf
-
-                        <input type="hidden" name="search" value="{{ $search }}">
-                        <input type="hidden" name="page" value="{{ request('page') }}">
+                {{-- KARTU 5: PENJAMIN --}}
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <div class="hm-card-heading mb-4">
+                            <div class="hm-card-icon bg-secondary-subtle text-secondary">
+                                <i class="feather-users"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">5. Data Penjamin</h5>
+                                <small class="text-muted">Informasi penjamin atau keluarga WBP.</small>
+                            </div>
+                        </div>
 
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
@@ -978,16 +917,15 @@
                                     placeholder="Masukkan alamat lengkap penjamin">{{ old('alamat_penjamin', $data?->alamat_penjamin) }}</textarea>
                             </div>
                         </div>
-
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4">
-                                <i class="feather-save me-1"></i>
-                                Simpan Data
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+                <div class="d-flex justify-content-end mb-4">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        <i class="feather-save me-1"></i>
+                        Simpan Seluruh Data
+                    </button>
+                </div>
+            </form>
         @endif
     </div>
 

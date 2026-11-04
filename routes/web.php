@@ -124,7 +124,7 @@ Route::middleware('admin')->group(function () {
         ->controller(HaloMinnaController::class)
         ->group(function () {
             Route::get('/', 'index')->name('index');
-            Route::post('/{wbp}/simpan/{bagian}', 'simpanBagian')->name('simpan');
+            Route::post('/{wbp}/simpan', 'simpanSemua')->name('simpan');
             Route::post('/{wbp}/generate-ulang-kode', 'generateUlangKode')->name('generate-ulang-kode');
             Route::get('/autocomplete', 'autocomplete')->name('autocomplete');
         });

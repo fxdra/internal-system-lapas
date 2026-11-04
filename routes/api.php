@@ -122,25 +122,17 @@ Route::get('/devices', function () {
 Route::get('/wbp-pending', [LaporanController::class, 'pending']);
 Route::get('/get-kamar', [LaporanController::class, 'kamarGet']);
 
-/*
-|--------------------------------------------------------------------------
-| API HALO MINNA
-|--------------------------------------------------------------------------
-*/
-
+// API HALO MINNA
 Route::prefix('halo-minna')->name('api.halo-minna.')->group(function () {
 
-    // Login menggunakan kode akses keluarga WBP.
-    Route::post('/login', [HaloMinnaApiController::class, 'login',])
-        ->middleware('throttle:10,1')
-        ->name('login');
+    Route::post('/login', [HaloMinnaApiController::class, 'login'])->middleware('throttle:10,1')->name('login');
 
-    // Endpoint yang memerlukan token Sanctum.
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/me', [HaloMinnaApiController::class, 'me',])->name('me');
-        Route::post('/logout', [HaloMinnaApiController::class, 'logout',])->name('logout');
-        Route::get('/program-pembinaan', [HaloMinnaApiController::class, 'programPembinaan',])->name('program-pembinaan');
-        Route::get('/program-pembinaan/diikuti', [HaloMinnaApiController::class, 'programDiikuti',])->name('program-pembinaan.diikuti');
-        Route::get('/program-pembinaan/statistik', [HaloMinnaApiController::class, 'statistikPembinaan',])->name('program-pembinaan.statistik');
+        Route::get('/me', [HaloMinnaApiController::class, 'me'])->name('me');
+        Route::post('/logout', [HaloMinnaApiController::class, 'logout'])->name('logout');
+        Route::get('/program-pembinaan', [HaloMinnaApiController::class, 'programPembinaan'])->name('program-pembinaan');
+        Route::get('/program-pembinaan/diikuti', [HaloMinnaApiController::class, 'programDiikuti'])->name('program-pembinaan.diikuti');
+        Route::get('/program-pembinaan/statistik', [HaloMinnaApiController::class, 'statistikPembinaan'])->name('program-pembinaan.statistik');
+        Route::get('/program-integrasi/statistik', [HaloMinnaApiController::class, 'statistikProgramIntegrasi'])->name('program-integrasi.statistik');
     });
 });

@@ -7,7 +7,6 @@ use App\Models\Wbp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
 
 class HaloMinnaController extends Controller
@@ -55,20 +54,11 @@ class HaloMinnaController extends Controller
         ));
     }
 
-    public function simpanBagian(
-        Request $request,
-        Wbp $wbp,
-        string $bagian
-    ) {
-        $aturan = $this->aturanBagian($bagian);
+    public function simpanSemua(Request $request, Wbp $wbp)
+    {
+        $validated = $request->validate($this->aturanSemua());
 
-        $validated = $request->validate($aturan);
-
-        $registrasi = DB::transaction(function () use (
-            $wbp,
-            $bagian,
-            $validated
-        ) {
+        DB::transaction(function () use ($wbp, $validated) {
             // Ambil registrasi yang sudah ada atau buat yang baru.
             $registrasi = SimproinWbp::firstOrCreate(
                 ['wbp_id' => $wbp->id],
@@ -81,18 +71,15 @@ class HaloMinnaController extends Controller
                 ]
             );
 
+            // Simpan seluruh data dari lima bagian form.
             $registrasi->fill($validated);
 
-            /** Tanggal pelaksanaan dihitung saat Monitoring SDP & SK disimpan. */
-            if ($bagian === 'sdp_sk') {
-                $registrasi->tgl_pelaksanaan = $this->hitungTanggalPelaksanaan(
-                    $registrasi->tgl_otorisasi_sk?->format('Y-m-d')
-                );
-            }
+            // Hitung tanggal pelaksanaan berdasarkan tanggal otorisasi SK.
+            $registrasi->tgl_pelaksanaan = $this->hitungTanggalPelaksanaan(
+                $registrasi->tgl_otorisasi_sk?->format('Y-m-d')
+            );
 
             $registrasi->save();
-
-            return $registrasi;
         });
 
         return redirect()
@@ -101,7 +88,7 @@ class HaloMinnaController extends Controller
                 'search' => $request->input('search'),
                 'page' => $request->input('page'),
             ], fn($value) => $value !== null && $value !== ''))
-            ->with('success', 'Bagian form berhasil disimpan.');
+            ->with('success', 'Seluruh data Halo Minna berhasil disimpan.');
     }
 
     public function autocomplete(Request $request)
@@ -168,83 +155,79 @@ class HaloMinnaController extends Controller
             ->with('kode_akses_baru', $kodeBaru);
     }
 
-    private function aturanBagian(string $bagian): array
+    private function aturanSemua(): array
     {
         $tanggal = ['nullable', 'date'];
 
-        return match ($bagian) {
-            'identitas' => [
-                'register_f' => [
-                    'required',
-                    Rule::in(['Ya', 'Tidak']),
-                ],
-                'jenis_usulan' => [
-                    'required',
-                    Rule::in([
-                        'Asimilasi',
-                        'Cuti Bersyarat',
-                        'Cuti Mengunjungi Keluarga',
-                        'Cuti Menjelang Bebas',
-                        'Pembebasan Bersyarat',
-                        'Belum Usul',
-                    ]),
-                ],
+        return [
+            // IDENTITAS
+            'register_f' => [
+                'required',
+                Rule::in(['Ya', 'Tidak']),
             ],
 
-            'berkas' => [
-                'tgl_pengambilan_berkas' => $tanggal,
-                'tgl_pengembalian_berkas' => $tanggal,
-                'tgl_permintaan_litmas' => $tanggal,
-                'tgl_litmas_bapas' => $tanggal,
-                'tgl_hasil_litmas' => $tanggal,
-                'tgl_sidang_tpp' => $tanggal,
+            'jenis_usulan' => [
+                'required',
+                Rule::in([
+                    'Asimilasi',
+                    'Cuti Bersyarat',
+                    'Cuti Mengunjungi Keluarga',
+                    'Cuti Menjelang Bebas',
+                    'Pembebasan Bersyarat',
+                    'Belum Usul',
+                ]),
             ],
 
-            'sdp_sk' => [
-                'tgl_input_sdp' => $tanggal,
-                'tgl_verifikasi_ditjen' => $tanggal,
-                'tgl_persetujuan_menteri' => $tanggal,
-                'tgl_otorisasi_sk' => $tanggal,
+            // BERKAS
+            'tgl_pengambilan_berkas' => $tanggal,
+            'tgl_pengembalian_berkas' => $tanggal,
+            'tgl_permintaan_litmas' => $tanggal,
+            'tgl_litmas_bapas' => $tanggal,
+            'tgl_hasil_litmas' => $tanggal,
+            'tgl_sidang_tpp' => $tanggal,
+
+            // MONITORING SDP & SK
+            'tgl_input_sdp' => $tanggal,
+            'tgl_verifikasi_ditjen' => $tanggal,
+            'tgl_persetujuan_menteri' => $tanggal,
+            'tgl_otorisasi_sk' => $tanggal,
+
+            // TAHAP AKHIR
+            'tgl_pembebasan' => $tanggal,
+
+            'status_bebas' => [
+                'required',
+                Rule::in([
+                    'Belum Bebas',
+                    'Sudah Bebas',
+                    'Batal',
+                ]),
             ],
 
-            'tahap_akhir' => [
-                'tgl_pembebasan' => $tanggal,
-                'status_bebas' => [
-                    'required',
-                    Rule::in([
-                        'Belum Bebas',
-                        'Sudah Bebas',
-                        'Batal',
-                    ]),
-                ],
+            // PENJAMIN
+            'nama_penjamin' => [
+                'nullable',
+                'string',
+                'max:255',
             ],
 
-            'penjamin' => [
-                'nama_penjamin' => [
-                    'nullable',
-                    'string',
-                    'max:255',
-                ],
-                'hubungan_penjamin' => [
-                    'nullable',
-                    'string',
-                    'max:100',
-                ],
-                'no_hp_penjamin' => [
-                    'nullable',
-                    'string',
-                    'max:20',
-                ],
-                'alamat_penjamin' => [
-                    'nullable',
-                    'string',
-                ],
+            'hubungan_penjamin' => [
+                'nullable',
+                'string',
+                'max:100',
             ],
 
-            default => throw ValidationException::withMessages([
-                'bagian' => 'Bagian form tidak valid.',
-            ]),
-        };
+            'no_hp_penjamin' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+
+            'alamat_penjamin' => [
+                'nullable',
+                'string',
+            ],
+        ];
     }
 
     private function generateKodeAkses(): string

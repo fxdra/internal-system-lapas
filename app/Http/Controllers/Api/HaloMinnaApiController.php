@@ -237,6 +237,102 @@ class HaloMinnaApiController extends Controller
         ]);
     }
 
+    public function statistikProgramIntegrasi(Request $request): JsonResponse
+    {
+        // Validasi akun WBP yang sedang mengakses API.
+        $user = $request->user();
+
+        $user->load('wbp');
+
+        if (
+            !$user->wbp ||
+            $user->wbp->status_wbp !== 'AKTIF' ||
+            $user->status_aktif !== 'Aktif'
+        ) {
+            $user->currentAccessToken()?->delete();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Akun atau data WBP tidak aktif.',
+            ], 403);
+        }
+
+        // Daftar tahapan yang ditampilkan di aplikasi Flutter.
+        $tahapan = [
+            'Pengambilan Berkas' => 'tgl_pengambilan_berkas',
+            'Pengembalian Berkas' => 'tgl_pengembalian_berkas',
+            'Permintaan Litmas' => 'tgl_permintaan_litmas',
+            'Litmas Bapas' => 'tgl_litmas_bapas',
+            'Hasil Litmas' => 'tgl_hasil_litmas',
+            'Sidang TPP' => 'tgl_sidang_tpp',
+            'Otorisasi SK' => 'tgl_otorisasi_sk',
+            'Pelaksanaan' => 'tgl_pelaksanaan',
+            'Selesai' => 'tgl_pembebasan',
+        ];
+
+        // Inisialisasi jumlah setiap tahapan.
+        $statistik = collect($tahapan)->mapWithKeys(
+            fn($kolom, $nama) => [$nama => 0]
+        );
+
+        // Ambil registrasi WBP aktif dan bukan register F.
+        $registrasi = SimproinWbp::query()
+            ->where('register_f', 'Tidak')
+            ->whereHas('wbp', function ($query) {
+                $query->where('status_wbp', 'AKTIF');
+            })
+            ->get(array_merge(
+                ['id', 'wbp_id'],
+                array_values($tahapan)
+            ));
+
+        foreach ($registrasi as $item) {
+            $tahapanTerakhir = null;
+            $tanggalTerakhir = null;
+
+            foreach ($tahapan as $nama => $kolom) {
+                $tanggal = $item->{$kolom};
+
+                if (blank($tanggal)) {
+                    continue;
+                }
+
+                $tanggal = Carbon::parse($tanggal)->toDateString();
+
+                if (
+                    $tanggalTerakhir === null ||
+                    $tanggal >= $tanggalTerakhir
+                ) {
+                    $tanggalTerakhir = $tanggal;
+                    $tahapanTerakhir = $nama;
+                }
+            }
+
+            // WBP tanpa tanggal tahapan tidak dihitung.
+            if ($tahapanTerakhir !== null) {
+                $statistik->put(
+                    $tahapanTerakhir,
+                    $statistik->get($tahapanTerakhir, 0) + 1
+                );
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Statistik program integrasi berhasil diambil.',
+            'data' => [
+                'total_wbp' => $statistik->sum(),
+
+                'per_tahapan' => $statistik->map(
+                    fn($jumlah, $nama) => [
+                        'tahapan' => $nama,
+                        'jumlah_wbp' => $jumlah,
+                    ]
+                )->values(),
+            ],
+        ]);
+    }
+
     private function profilWbp(SimproinWbp $user): array
     {
         $wbp = $user->wbp;
