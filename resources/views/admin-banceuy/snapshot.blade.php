@@ -293,6 +293,12 @@
             .signature-space {
                 height: 35px !important;
             }
+
+            .card-perhitungan-mutasi {
+                border: none !important;
+                box-shadow: none !important;
+                outline: none !important;
+            }
         }
     </style>
 
@@ -660,7 +666,7 @@
             @endforeach
         </div>
 
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-4 card-perhitungan-mutasi">
             <div class="card-header bg-primary text-white">
                 Perhitungan Data Mutasi
             </div>
