@@ -970,7 +970,7 @@
 
                 <div class="card-body">
                     Total Mutasi:
-                    <strong>{{ $totalMutasi }}</strong>
+                    <strong>{{ $grandTotalMutasi }}</strong>
                 </div>
             </div>
 

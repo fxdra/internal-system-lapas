@@ -656,6 +656,11 @@ class MutasiController extends Controller
         // Total semua hasil filter, bukan hanya halaman aktif.
         $totalMutasi = (clone $query)->count();
 
+        // Grand Total hanya menghitung mutasi yang tidak di-Hide.
+        $grandTotalMutasi = (clone $query)
+            ->where('mutasis.is_hidden', 0)
+            ->count();
+
         // Total per kamar dihitung di database.
         $totalPerKamar = (clone $query)
             ->select('kamar_asal_id')
@@ -790,6 +795,7 @@ class MutasiController extends Controller
                 'kamars',
                 'wbps',
                 'totalMutasi',
+                'grandTotalMutasi',
                 'totalPerKamar',
                 'isPrint'
             )

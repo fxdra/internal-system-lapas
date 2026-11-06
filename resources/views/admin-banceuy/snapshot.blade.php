@@ -133,7 +133,7 @@
             }
 
             .card-header {
-                width: 96% !important;
+                width: 90% !important;
                 margin: 0 auto 4px auto !important;
                 padding: 0 !important;
                 background: none !important;
@@ -168,7 +168,7 @@
 
             table {
                 display: table !important;
-                width: 96% !important;
+                width: 90% !important;
                 margin: 0 auto !important;
                 table-layout: fixed !important;
                 border-collapse: collapse !important;
@@ -283,7 +283,7 @@
 
             /* SIGNATURE */
             .signature-box {
-                width: 170px !important;
+                width: 320px !important;
                 margin-left: auto !important;
                 margin-top: 10px !important;
                 text-align: center !important;
@@ -421,17 +421,78 @@
             color: #e2e8f0;
         }
 
-        /* Tetap gunakan tampilan terang saat dicetak */
+
+        /* FORCE LIGHT MODE SAAT PRINT */
         @media print {
+
+            html,
+            html.app-skin-dark,
             html.app-skin-dark body {
+                color-scheme: light !important;
                 background: #fff !important;
                 color: #000 !important;
             }
 
             html.app-skin-dark .card,
-            html.app-skin-dark .card-body,
+            html.app-skin-dark .card-header,
+            html.app-skin-dark .card-body {
+                background: #fff !important;
+                color: #000 !important;
+                border-color: #555 !important;
+            }
+
+            /* RESET WARNA CSS VARIABLES BOOTSTRAP */
             html.app-skin-dark .table {
+                --bs-table-color: #000;
+                --bs-table-bg: #fff;
+                --bs-table-border-color: #555;
+                --bs-table-striped-bg: #f2f2f2;
+                --bs-table-striped-color: #000;
+                --bs-table-hover-bg: #f2f2f2;
+                --bs-table-hover-color: #000;
+
+                background: #fff !important;
+                color: #000 !important;
+                border-color: #555 !important;
+            }
+
+            /* HEADER TABEL */
+            html.app-skin-dark .table-light,
+            html.app-skin-dark .table-dark,
+            html.app-skin-dark thead,
+            html.app-skin-dark tfoot {
+                --bs-table-color: #000;
+                --bs-table-bg: #efefef;
+                --bs-table-border-color: #555;
+
+                background: #efefef !important;
+                color: #000 !important;
+            }
+
+            /* SEL TABEL */
+            html.app-skin-dark .table> :not(caption)>*>* {
+                background-color: #fff !important;
+                color: #000 !important;
+                border-color: #555 !important;
+                box-shadow: none !important;
+            }
+
+            html.app-skin-dark .table thead th,
+            html.app-skin-dark .table tfoot th,
+            html.app-skin-dark .table tfoot td {
+                background: #efefef !important;
+                color: #000 !important;
+            }
+
+            /* TEKS DAN BADGE */
+            html.app-skin-dark .badge,
+            html.app-skin-dark .text-white,
+            html.app-skin-dark .signature-box {
                 background: transparent !important;
+                color: #000 !important;
+            }
+
+            html.app-skin-dark .card-header * {
                 color: #000 !important;
             }
         }
@@ -585,7 +646,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr class="table-dark fw-bold">
-                                        <td>JUMLAH</td>
+                                        <td>JML</td>
                                         <td>{{ $items->sum('sebelum') }}</td>
                                         <td>{{ $items->sum('masuk') }}</td>
                                         <td>{{ $items->sum('keluar') }}</td>
@@ -598,7 +659,7 @@
                 </div>
             @endforeach
         </div>
-        {{-- GRAND TOTAL --}}
+
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-primary text-white">
                 Perhitungan Data Mutasi
@@ -620,6 +681,7 @@
                 </table>
             </div>
         </div>
+        {{-- GRAND TOTAL --}}
         <div class="card shadow-sm mb-4 card-x">
             <div class="card-header bg-success text-white">
                 GRAND TOTAL WBP
